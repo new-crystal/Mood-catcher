@@ -15,7 +15,6 @@ const LoginForm = () => {
   const onSubmit = async (data) => {
     await new Promise((r) => setTimeout(r, 1000));
     dispatch(__login);
-    //navigate("/");
   };
 
   return (
