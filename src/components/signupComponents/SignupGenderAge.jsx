@@ -10,25 +10,44 @@ import { FormControl } from "@material-ui/core";
 import { Select } from "@material-ui/core";
 import { useDispatch } from "react-redux";
 import { __detail } from "../../redux/modules/loginSlice";
+import { useForm } from "react-hook-form";
+import { __checkNickname } from "../../redux/modules/loginSlice";
+//mport male from "../../../public/image/mail.png";
+//import female from "../../../public/";
 
 const SignupGenderAge = () => {
   const dispatch = useDispatch();
   const [show, setShow] = useState(true);
   const [age, setAge] = useState();
   const [gender, setGender] = useState("");
+  const {
+    register,
+    setError,
+    getValues,
+    formState: { errors, isDirty, isSubmitting },
+    handleSubmit,
+  } = useForm();
 
+  //나이값 담기
   const onChangeHandler = (e) => {
     setAge(e.target.value);
   };
 
+  //성별 담기
   const onClickGenderHandler = (key) => {
     setGender(key.target.outerText);
     setShow(false);
   };
-
+  //성별, 나이, 닉네임 보내주기
   const onClickOKBtnHandler = () => {
-    console.log(age, gender);
-    dispatch(__detail({ age, gender }));
+    const nickname = getValues("nickname");
+    dispatch(__detail({ age, gender, nickname }));
+  };
+  //닉네임 중복확인
+  const onClickCheckBtnHandler = (e) => {
+    e.preventDefault();
+    const value = getValues("nickname");
+    dispatch(__checkNickname(value));
   };
 
   const images = [
@@ -158,7 +177,42 @@ const SignupGenderAge = () => {
           </>
         ) : (
           <>
-            <h1>Age</h1>
+            <form>
+              <div>
+                <TextBox>
+                  <h4>Nickname</h4>
+                  {errors.nickname && <p>{errors.nickname.message}</p>}
+                </TextBox>
+                <input
+                  name="nickname"
+                  aria-invalid={
+                    !isDirty ? undefined : errors.nickname ? "true" : "false"
+                  }
+                  {...register("nickname", {
+                    required: "닉네임은 필수 입력입니다.",
+                    minLength: {
+                      value: 2,
+                      message: "닉네임을 2자 이상 작성해주세요",
+                    },
+                    maxLength: {
+                      value: 16,
+                      message: "닉네임을 16자 이하로 작성해주세요",
+                    },
+                    pattern: {
+                      value: /^(?=.*[a-z0-9가-힣])[a-z0-9가-힣]{2,16}$/,
+                      message:
+                        "닉네임은 영문 대소문자, 글자 단위 한글, 숫자만 가능합니다.",
+                    },
+                  })}
+                />
+              </div>
+              <ConfirmBtn onClick={(e) => onClickCheckBtnHandler(e)}>
+                중복확인
+              </ConfirmBtn>
+            </form>
+            <AgeBox>
+              <h1>Age</h1>
+            </AgeBox>
             <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>
               <InputLabel
                 id="demo-simple-select-standard-label"
@@ -174,7 +228,6 @@ const SignupGenderAge = () => {
                 label="Age"
                 className="age"
               >
-                <MenuItem value=""></MenuItem>
                 <MenuItem value={"10대"}>10대 미만</MenuItem>
                 <MenuItem value={"10대"}>10대</MenuItem>
                 <MenuItem value={"20대"}>20대</MenuItem>
@@ -205,11 +258,53 @@ const Container = styleds.div`
     width: 300px;
     margin-top: 100px;
   }
+  
+  form {
+    display : flex;
+  }
+
+  input {
+    background-color: #e6e5ea;
+    border: 0px;
+    border-radius: 7px;
+    height: 40px;
+    width: 250px;
+  }
+
+`;
+const TextBox = styleds.div`
+  display: flex;
+
+  h4 {
+    color: #2d273f;
+  }
+
+  p {
+    color: #c60000;
+    font-size: 10px;
+    margin-top: 30px;
+    margin-left: 20px;
+  }
+`;
+const ConfirmBtn = styleds.button`
+  background-color: #7b758b;
+  color : white;
+  border: 0px;
+  border-radius: 10px;
+  width: 150px;
+  height: 45px;
+  margin: 60px 10px;
 `;
 const SignUpHeader = styleds.div`
   width: 428px;
   height: 60px;
   background-color: #a396c9;
+  color: white;
+`;
+const AgeBox = styleds.div`
+  width: 326px;
+  height: 50px;
+  background-color: #A396C9;
   color: white;
 `;
 const OkBtn = styleds.button`

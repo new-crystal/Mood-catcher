@@ -8,12 +8,38 @@ export const __login = createAsyncThunk("LOGIN", async (payload, thunkAPI) => {
   return response.data;
 });
 
-//성별과 나이
+//닉네임중복체크
+export const __checkNickname = createAsyncThunk(
+  "CHECKNICKNAME",
+  async (payload, thunkAPI) => {
+    try {
+      const response = await api.get(`/auth?${payload}`);
+      return response.data.result;
+    } catch (err) {
+      return alert("중복된 닉네임이 있습니다.");
+    }
+  }
+);
+
+//성별과 닉네임 나이
 export const __detail = createAsyncThunk(
   "DETAIL",
   async (payload, thunkAPI) => {
     const response = await api.post("/auth/detail", payload);
     return response.data;
+  }
+);
+
+//소셜 로그인
+export const __socialLogin = createAsyncThunk(
+  "SOCIALLOGIN",
+  async (payload, thunkAPI) => {
+    try {
+      const response = await api.post("/auth/kakao", payload);
+      thunkAPI.fulfillWithValue(response.data);
+    } catch (err) {
+      thunkAPI.rejectWithValue(err);
+    }
   }
 );
 
@@ -23,6 +49,7 @@ const initialState = {
     detail: "",
     result: false,
   },
+  social: null,
   loading: false,
 };
 
@@ -48,6 +75,18 @@ const loginSlice = createSlice({
       //성별과 나이
       .addCase(__detail.fulfilled, (state, action) => {
         state.user.detail = action.payload;
+      })
+      //소셜로그인
+      .addCase(__socialLogin.fulfilled, (state, action) => {
+        state.social = action.payload.message;
+        alert("무드캐처로 입장하셨습니다!");
+      })
+      //닉네임 중복확인
+      .addCase(__checkNickname.fulfilled, (state, action) => {
+        state.checkEmail = action.payload;
+      })
+      .addCase(__checkNickname.rejected, (state, action) => {
+        alert("중복된 닉네임이 있습니다.");
       }),
 });
 

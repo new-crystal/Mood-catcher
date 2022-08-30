@@ -19,7 +19,7 @@ const SigupForm = () => {
     handleSubmit,
   } = useForm();
 
-  //중복확인 눌렀을 때
+  //이메일 중복확인 눌렀을 때
   const onClickCheckBtnHandler = () => {
     const value = getValues("email");
     dispatch(__checkEmail(value));
@@ -43,11 +43,10 @@ const SigupForm = () => {
       const email = getValues("email");
       const password = pwpwpw;
       const confirmPw = pwpwpw;
-      const nickname = getValues("nickname");
       if (!confirm) {
         alert("이메일 중복확인을 해주세요!");
       } else {
-        dispatch(__signUp({ email, password, confirmPw, nickname }));
+        dispatch(__signUp({ email, password, confirmPw }));
       }
     } else {
       setError(
@@ -140,34 +139,7 @@ const SigupForm = () => {
           })}
         />
       </div>
-      <div>
-        <TextBox>
-          <h4>닉네임</h4>
-          {errors.nickname && <p>{errors.nickname.message}</p>}
-        </TextBox>
-        <input
-          name="nickname"
-          aria-invalid={
-            !isDirty ? undefined : errors.nickname ? "true" : "false"
-          }
-          {...register("nickname", {
-            required: "닉네임은 필수 입력입니다.",
-            minLength: {
-              value: 2,
-              message: "닉네임을 2자 이상 작성해주세요",
-            },
-            maxLength: {
-              value: 16,
-              message: "닉네임을 16자 이하로 작성해주세요",
-            },
-            pattern: {
-              value: /^(?=.*[a-z0-9가-힣])[a-z0-9가-힣]{2,16}$/,
-              message:
-                "닉네임은 영문 대소문자, 글자 단위 한글, 숫자만 가능합니다.",
-            },
-          })}
-        />
-      </div>
+
       <OkBtn type="submit" disabled={isSubmitting}>
         OK
       </OkBtn>
