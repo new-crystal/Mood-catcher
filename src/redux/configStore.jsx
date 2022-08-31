@@ -1,12 +1,10 @@
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import thunk from "redux-thunk";
 import loginReducer from "./modules/loginSlice";
-import signupReducer from "./modules/signupSlice";
 const middlewares = [thunk];
 // 리듀서 통합
 const rootReducer = combineReducers({
   login: loginReducer,
-  signup: signupReducer,
 });
 // 스토어 연결
 const store = configureStore({
