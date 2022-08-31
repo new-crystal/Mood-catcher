@@ -4,8 +4,26 @@ import Loader from "../shared/Loader";
 import Header from "../elem/Header";
 import NavigationBar from "../elem/NavigationBar";
 import { useNavigate } from "react-router-dom";
+const junsu = "./images/junsu.PNG";
+
 const Upload = (props) => {
   const navigate = useNavigate();
+
+  const fileInput = useRef(null);
+
+  const [attachment, setAttachment] = useState("");
+
+  const selectImg = (e) => {
+    const reader = new FileReader();
+    const theFile = fileInput.current.files[0];
+    reader.readAsDataURL(theFile);
+    reader.onloadend = (finishiedEvent) => {
+      const {
+        currentTarget: { result },
+      } = finishiedEvent;
+      setAttachment(result);
+    };
+  };
 
   return (
     <Fragment>
@@ -32,8 +50,28 @@ const Upload = (props) => {
               </JustifyAlign>
             </Wrap>
             <StUploadBox>
+              <StimgButton>
+                <button>
+                  <label htmlFor="file-input">파일선택</label>
+                </button>
+              </StimgButton>
               <StImageBox>
-                <span>사진을 추가해주세요.</span>
+                <input
+                  id="file-input"
+                  type="file"
+                  accept="img/*"
+                  name="image"
+                  ref={fileInput}
+                  onChange={selectImg}
+                  style={{ display: "none" }}
+                />
+                <div className="ImgDiv">
+                  <img
+                    src={attachment ? attachment : junsu}
+                    alt=""
+                    className="default"
+                  />
+                </div>
               </StImageBox>
               <StText>제목</StText>
               <StTitleInput>
@@ -64,7 +102,7 @@ const LoaderWrap = styled.div`
 
 const Container = styled.div`
   display: flex;
-  height: 926px;
+  height: 984px;
   background-color: orange;
   flex-direction: column;
   bottom: 110px;
@@ -83,6 +121,7 @@ const Grid = styled.div`
   margin: 0 auto;
   background-color: royalblue;
   margin-top: 40px;
+  margin-bottom: 500px;
 `;
 
 const Wrap = styled.div`
@@ -120,7 +159,7 @@ const StUploadBox = styled.div`
   display: flex;
   flex-direction: column;
   width: 390px;
-  height: 700px;
+  /* height: 700px; */
   border: 3px solid #c4c2ca;
   border-radius: 20px;
   background-color: transparent;
@@ -133,9 +172,56 @@ const StImageBox = styled.div`
   border-radius: 15px;
   background-color: #e6e5ea;
   text-align: center;
-  line-height: 300px;
+  /* line-height: 300px; */
   & > span {
     opacity: 0.4;
+  }
+  .ImgDiv {
+    width: 100%;
+    height: 300px;
+    /* margin-top: 15px;
+    margin-bottom: 30px; */
+    border-radius: 16px;
+    /* margin-left: 35px; */
+    display: flex;
+    justify-content: center;
+    overflow: hidden;
+    img.default {
+      flex: 1 1 auto;
+      /* min-height: 400px;
+      width: 100%; */
+    }
+    /* background: url(${(props) => props.imgurl}); */
+  }
+`;
+
+const StimgButton = styled.div`
+  margin: 23px 20px 0;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  flex-flow: row;
+  gap: 10px;
+  color: darkgray;
+  border-radius: 15px;
+  width: 350px;
+  & > button {
+    width: 350px;
+    height: 36px;
+    font-size: 14px;
+    border: 2px solid white;
+    border-radius: 15px;
+    background-color: transparent;
+    color: white;
+    cursor: pointer;
+    transition: all 0.5s;
+    &:hover {
+      background-color: #666666;
+    }
+    & > label {
+      display: inline-block;
+      width: 320px;
+    }
   }
 `;
 
