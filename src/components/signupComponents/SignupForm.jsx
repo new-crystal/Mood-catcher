@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { useForm } from "react-hook-form";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { __checkEmail, __signUp } from "../../redux/modules/signUpSlice";
 import { useState } from "react";
 import crypto from "crypto-js";
@@ -8,6 +8,7 @@ import crypto from "crypto-js";
 
 const SigupForm = () => {
   const [confirm, setConfirm] = useState(false);
+  //const checkEmail = useSelector((state) => state.signUp.checkEmail);
   //const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -21,13 +22,21 @@ const SigupForm = () => {
 
   //이메일 중복확인 눌렀을 때
   const onClickCheckBtnHandler = () => {
-    const value = getValues("email");
-    dispatch(__checkEmail(value));
+    const email = getValues("email");
+    dispatch(__checkEmail(email));
     setConfirm(true);
   };
 
   //회원가입 버튼을 눌렀을 때
   const onValid = async (data) => {
+    if (!confirm) {
+      setError(
+        "email",
+        { message: "이메일 중복확인을 해주세요" },
+        { shouldFocus: true }
+      );
+    }
+
     const key = getValues("password");
     const secretKey = "12345678901234567890123456789012";
     const iv = "abcdefghijklmnop";
@@ -37,17 +46,15 @@ const SigupForm = () => {
       mode: crypto.mode.CBC,
     });
     const pwpwpw = cipher.key.words[0];
+
     if (data.password === data.pwConfirm) {
       await new Promise((r) => setTimeout(r, 300));
       //navigate("/");
       const email = getValues("email");
       const password = pwpwpw;
       const confirmPw = pwpwpw;
-      if (!confirm) {
-        alert("이메일 중복확인을 해주세요!");
-      } else {
-        dispatch(__signUp({ email, password, confirmPw }));
-      }
+      console.log(email, password, confirmPw);
+      dispatch(__signUp({ email, password, confirmPw }));
     } else {
       setError(
         "pwConfirm",

@@ -12,12 +12,12 @@ import { useDispatch } from "react-redux";
 import { __detail } from "../../redux/modules/loginSlice";
 import { useForm } from "react-hook-form";
 import { __checkNickname } from "../../redux/modules/loginSlice";
-//mport male from "../../../public/image/mail.png";
-//import female from "../../../public/";
+import male from "../../image/male.png";
+import female from "../../image/female.png";
 
 const SignupGenderAge = () => {
   const dispatch = useDispatch();
-  const [show, setShow] = useState(true);
+  const [show, setShow] = useState(false);
   const [age, setAge] = useState();
   const [gender, setGender] = useState("");
   const {
@@ -36,7 +36,7 @@ const SignupGenderAge = () => {
   //성별 담기
   const onClickGenderHandler = (key) => {
     setGender(key.target.outerText);
-    setShow(false);
+    setShow(true);
   };
   //성별, 나이, 닉네임 보내주기
   const onClickOKBtnHandler = () => {
@@ -52,12 +52,12 @@ const SignupGenderAge = () => {
 
   const images = [
     {
-      url: "https://cloudfront-ap-northeast-1.images.arcpublishing.com/chosun/2TKUKXYMQF7ASZEUJLG7L4GM4I.jpg",
+      url: `${male}`,
       title: "Male",
       width: "50%",
     },
     {
-      url: "https://cloudfront-ap-northeast-1.images.arcpublishing.com/chosun/2TKUKXYMQF7ASZEUJLG7L4GM4I.jpg",
+      url: `${female}`,
       title: "Female",
       width: "50%",
     },
@@ -180,7 +180,7 @@ const SignupGenderAge = () => {
             <form>
               <div>
                 <TextBox>
-                  <h4>Nickname</h4>
+                  <h1>Nickname</h1>
                   {errors.nickname && <p>{errors.nickname.message}</p>}
                 </TextBox>
                 <input
@@ -293,7 +293,7 @@ const ConfirmBtn = styleds.button`
   border-radius: 10px;
   width: 150px;
   height: 45px;
-  margin: 60px 10px;
+  margin: 80px 10px;
 `;
 const SignUpHeader = styleds.div`
   width: 428px;

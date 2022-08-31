@@ -4,7 +4,7 @@ import SignupForm from "./components/signupComponents/SignupForm";
 function App() {
   return (
     <div className="App">
-      <SignupGenderAge />
+      <SignupForm />
     </div>
   );
 }

@@ -1,10 +1,6 @@
 import { api } from "../../shared/api";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
-const initialState = {
-  checkEmail: null,
-  is_signup: null,
-};
 //회원가입
 export const __signUp = createAsyncThunk(
   "SIGNUP",
@@ -24,12 +20,17 @@ export const __checkEmail = createAsyncThunk(
   async (payload, thunkAPI) => {
     try {
       const response = await api.get(`/auth?${payload}`);
-      return response.data.result;
+      return true;
     } catch (err) {
       return alert("중복된 이메일이 있습니다.");
     }
   }
 );
+
+const initialState = {
+  checkEmail: false,
+  is_signup: null,
+};
 
 //리듀서
 const signUpSlice = createSlice({
