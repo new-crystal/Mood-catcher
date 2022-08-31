@@ -15,29 +15,39 @@ export const __writePost = createAsyncThunk(
 export const __getMusinsa = createAsyncThunk(
   "post/getMusinsa",
   async (data, thunkAPI) => {
-    const response = await api.post(`/api/musinsa/:keyword`);
-
-    return response.data;
+    console.log(data);
+    try {
+      const response = await api.get(`/api/musinsa/${data}`);
+      return response.data;
+    } catch (error) {
+      const errorMsg = JSON.parse(error.request.response);
+      alert(errorMsg.msg);
+    }
   }
 );
 
 const uploadSlice = createSlice({
   name: "upload",
   initialState: {
-    postList: [],
-    itemList: [],
+    post: {},
+    items: [],
   },
-  reducers: {},
+  reducers: {
+    regPost: (state, action) => {
+      state.post = action.payload;
+      console.log(state.post);
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(__writePost.fulfilled, (state, action) => {
         state.postList.unshift(action.payload.post);
       })
       .addCase(__getMusinsa.fulfilled, (state, action) => {
-        state.itemList = action.payload.items;
+        state.items = action.payload.items;
       });
   },
 });
 
-export const {} = uploadSlice.actions;
+export const { regPost } = uploadSlice.actions;
 export default uploadSlice.reducer;

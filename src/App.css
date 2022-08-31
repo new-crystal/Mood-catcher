@@ -15,3 +15,11 @@
   font-family: "Noto Sans KR";
   src: url("shared/font/Noto_Sans_KR/NotoSansKR-Regular.otf");
 }
+@font-face {
+  font-family: "Roboto";
+  src: url("shared/font/Roboto/Roboto-Black.ttf");
+}
+@font-face {
+  font-family: "Unna";
+  src: url("shared/font/Unna/Unna-Regular.ttf");
+}

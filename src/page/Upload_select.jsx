@@ -1,17 +1,64 @@
-import React, { Fragment, Suspense } from "react";
+import React, { Fragment, Suspense, useRef, useState } from "react";
 import styled from "styled-components";
 import Loader from "../shared/Loader";
 import Header from "../elem/Header";
 import NavigationBar from "../elem/NavigationBar";
 import { useNavigate } from "react-router-dom";
 import Slider from "react-slick";
+import { useSelector, useDispatch } from "react-redux";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import "../shared/style/myBeer.css";
 
+import { __getMusinsa, __writePost } from "../redux/modules/uploadSlice";
+
 const Search = "./images/search.png";
 
 const Upload = (props) => {
+  const dispatch = useDispatch();
+  const [searchTogle, setSearchTogle] = useState(false);
+  const [search, setSearch] = useState("");
+  const [attachment, setAttachment] = useState("");
+
+  const post = useSelector((state) => state.upload.post);
+  console.log(post);
+  for (let key of post.keys()) {
+    console.log(key);
+  }
+  for (let value of post.values()) {
+    console.log(value);
+  }
+  const postImg = post.get("imgFile");
+  console.log(postImg);
+
+  React.useEffect(() => {
+    if (searchTogle === false) {
+      const reader = new FileReader();
+      const theFile = postImg;
+      reader.readAsDataURL(theFile);
+      reader.onloadend = (finishiedEvent) => {
+        const {
+          currentTarget: { result },
+        } = finishiedEvent;
+        setAttachment(result);
+      };
+    } else {
+      setAttachment("");
+    }
+  }, [searchTogle]);
+
+  React.useEffect(() => {
+    const reader = new FileReader();
+    const theFile = postImg;
+    reader.readAsDataURL(theFile);
+    reader.onloadend = (finishiedEvent) => {
+      const {
+        currentTarget: { result },
+      } = finishiedEvent;
+      setAttachment(result);
+    };
+  }, []);
+
   const navigate = useNavigate();
 
   const settings = {
@@ -40,6 +87,7 @@ const Upload = (props) => {
                 <UploadText>내 아이템</UploadText>
                 <NextButton
                   onClick={() => {
+                    dispatch(__getMusinsa(search));
                     navigate("/");
                   }}
                 >
@@ -48,26 +96,74 @@ const Upload = (props) => {
               </JustifyAlign>
             </Wrap>
             <StUploadBox>
-              <StImageBox></StImageBox>
+              <StImageBox className={searchTogle}>
+                <div className="ImgDiv">
+                  <img
+                    src={attachment}
+                    alt=""
+                    className={searchTogle.toString()}
+                  />
+                </div>
+              </StImageBox>
               <SliderContainer>
                 <StyledSlider {...settings}>
-                  <StMusinsaItemBox>asdasdasdasd</StMusinsaItemBox>
+                  <StMusinsaItemBox className={searchTogle}>
+                    asdasdasdasd
+                  </StMusinsaItemBox>
                   <Test>aa</Test>
-                  <StMusinsaItemBox>asdasdasdasd</StMusinsaItemBox>
+                  <StMusinsaItemBox className={searchTogle}>
+                    asdasdasdasd
+                  </StMusinsaItemBox>
                   <Test>aa</Test>
-                  <StMusinsaItemBox>asdasdasdasd</StMusinsaItemBox>
+                  <StMusinsaItemBox className={searchTogle}>
+                    asdasdasdasd
+                  </StMusinsaItemBox>
                   <Test>aa</Test>
-                  <StMusinsaItemBox>asdasdasdasd</StMusinsaItemBox>
+                  <StMusinsaItemBox className={searchTogle}>
+                    asdasdasdasd
+                  </StMusinsaItemBox>
                   <Test>aa</Test>
-                  <StMusinsaItemBox>asdasdasdasd</StMusinsaItemBox>
+                  <StMusinsaItemBox className={searchTogle}>
+                    asdasdasdasd
+                  </StMusinsaItemBox>
                   <Test>aa</Test>
-                  <StMusinsaItemBox>asdasdasdasd</StMusinsaItemBox>
+                  <StMusinsaItemBox className={searchTogle}>
+                    asdasdasdasd
+                  </StMusinsaItemBox>
                 </StyledSlider>
               </SliderContainer>
               <StSearchInput>
-                <input type="text"></input>
+                <input
+                  type="text"
+                  onClick={() => {
+                    setSearchTogle((togle) => !togle);
+                  }}
+                  onChange={(e) => {
+                    setSearch(e.target.value);
+                  }}
+                  onKeyPress={(e) => {
+                    if (e.key === "Enter") {
+                      e.preventDefault();
+                      console.log(search);
+                      dispatch(__getMusinsa(search));
+                      setSearch("");
+                    }
+                  }}
+                ></input>
                 <ButtonWrap>
-                  <ImageWrap style={{ backgroundImage: `url(${Search})` }} />
+                  <ImageWrap
+                    style={{ backgroundImage: `url(${Search})` }}
+                    onClick={(e) => {
+                      if (search === "") {
+                        window.alert("검색 키워드를 입력해주세요!");
+                        setSearch("");
+                      } else {
+                        e.preventDefault();
+                        dispatch(__getMusinsa(search));
+                        setSearch("");
+                      }
+                    }}
+                  />
                 </ButtonWrap>
               </StSearchInput>
             </StUploadBox>
@@ -86,6 +182,11 @@ const SliderContainer = styled.div`
   width: 350px;
   overflow: hidden;
   margin-left: 20px;
+  &.true {
+    display: none;
+    margin: 0;
+  }
+  transition: 0.5s;
 `;
 
 const StyledSlider = styled(Slider)`
@@ -99,15 +200,19 @@ const StMusinsaItemBox = styled.div`
   background-color: #e6e5ea;
   border-radius: 15px;
 
-  color: #e6e5ea;
+  color: transparent;
   font-size: 20px;
   outline: none;
   padding: 0;
   text-align: center;
   cursor: pointer;
+  &.true {
+    height: 0;
+  }
+  transition: 0.5s;
 `;
 const Test = styled.div`
-  color: royalblue;
+  color: transparent;
 `;
 
 const LoaderWrap = styled.div`
@@ -193,6 +298,25 @@ const StImageBox = styled.div`
   & > span {
     opacity: 0.4;
   }
+  &.true {
+    height: 0;
+  }
+  .ImgDiv {
+    width: 100%;
+    height: 300px;
+    border-radius: 16px;
+    display: flex;
+    justify-content: center;
+    overflow: hidden;
+    img {
+      flex: 1 1 auto;
+    }
+    img.true {
+      display: none;
+    }
+  }
+
+  transition: display 0.5s, height 0.5s;
 `;
 
 const StSearchInput = styled.div`

@@ -4,12 +4,18 @@ import Loader from "../shared/Loader";
 import Header from "../elem/Header";
 import NavigationBar from "../elem/NavigationBar";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+
+import { regPost } from "../redux/modules/uploadSlice";
+
 const junsu = "./images/junsu.PNG";
 
 const Upload = (props) => {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
-
   const fileInput = useRef(null);
+  const title_ref = React.useRef(null);
+  const content_ref = React.useRef(null);
 
   const [attachment, setAttachment] = useState("");
 
@@ -23,6 +29,29 @@ const Upload = (props) => {
       } = finishiedEvent;
       setAttachment(result);
     };
+  };
+
+  const writePost = () => {
+    if (fileInput.current.files[0] === undefined) {
+      alert("사진을 넣어주세요!");
+      navigate("/upload");
+    } else {
+      const post = new FormData();
+      console.log(fileInput.current.files[0]);
+      post.append("imgFile", fileInput.current.files[0]);
+      post.append("title", title_ref.current.value);
+      post.append("content", content_ref.current.value);
+
+      dispatch(regPost(post));
+      for (let key of post.keys()) {
+        console.log(key);
+      }
+      // FormData의 value 확인
+      for (let value of post.values()) {
+        console.log(value);
+      }
+      navigate("/upload_select");
+    }
   };
 
   return (
@@ -40,13 +69,7 @@ const Upload = (props) => {
             <Wrap>
               <JustifyAlign>
                 <UploadText>작성하기</UploadText>
-                <NextButton
-                  onClick={() => {
-                    navigate("/upload_select");
-                  }}
-                >
-                  다음
-                </NextButton>
+                <NextButton onClick={writePost}>다음</NextButton>
               </JustifyAlign>
             </Wrap>
             <StUploadBox>
@@ -75,11 +98,11 @@ const Upload = (props) => {
               </StImageBox>
               <StText>제목</StText>
               <StTitleInput>
-                <input></input>
+                <input ref={title_ref} />
               </StTitleInput>
               <StText>내용</StText>
               <StContentInput>
-                <input></input>
+                <input ref={content_ref} />
               </StContentInput>
             </StUploadBox>
           </Grid>
@@ -172,26 +195,19 @@ const StImageBox = styled.div`
   border-radius: 15px;
   background-color: #e6e5ea;
   text-align: center;
-  /* line-height: 300px; */
   & > span {
     opacity: 0.4;
   }
   .ImgDiv {
     width: 100%;
     height: 300px;
-    /* margin-top: 15px;
-    margin-bottom: 30px; */
     border-radius: 16px;
-    /* margin-left: 35px; */
     display: flex;
     justify-content: center;
     overflow: hidden;
     img.default {
       flex: 1 1 auto;
-      /* min-height: 400px;
-      width: 100%; */
     }
-    /* background: url(${(props) => props.imgurl}); */
   }
 `;
 

@@ -34,10 +34,16 @@ const Header = () => {
 
 export default Header;
 
+// const HeaderBox = styled.div`
+//   width: 428px;
+//   z-index: 10;
+//   background-color: #a396c9;
+// `;
+
 const HeaderBox = styled.div`
   width: 428px;
   z-index: 10;
-  background-color: #a396c9;
+  background: linear-gradient(#a396c9, white);
 `;
 
 const GoBack = styled.div`
@@ -52,7 +58,7 @@ const GoBack = styled.div`
 
 const HeaderLogo = styled.div`
   background-color: yellow;
-  font-family: "GmarketSansM";
+  font-family: "Unna";
   position: absolute;
   top: 12px;
   left: 50%;
@@ -60,6 +66,5 @@ const HeaderLogo = styled.div`
   margin-top: 2px;
   font-size: 30px;
   color: #333333;
-  font-weight: bold;
   cursor: pointer;
 `;
