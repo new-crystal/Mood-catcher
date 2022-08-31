@@ -4,7 +4,7 @@ import { api } from "../../shared/api";
 // 로그인
 export const __login = createAsyncThunk("LOGIN", async (payload, thunkAPI) => {
   const response = await api.post("/auth/login", payload);
-  sessionStorage.setItem("token", response.data.userStatus.token);
+  //sessionStorage.setItem("token", response.data.userStatus.token);
   return response.data;
 });
 
@@ -35,7 +35,7 @@ export const __socialLogin = createAsyncThunk(
   "SOCIALLOGIN",
   async (payload, thunkAPI) => {
     try {
-      const response = await api.post("/auth/kakao", payload);
+      const response = await api.post("/auth/kakao");
       thunkAPI.fulfillWithValue(response.data);
     } catch (err) {
       thunkAPI.rejectWithValue(err);
@@ -72,7 +72,7 @@ const loginSlice = createSlice({
         state.loading = false;
         alert("이메일이나 비밀번호를 다시 확인해주세요.");
       })
-      //성별과 나이
+      //성별과 나이 닉네임
       .addCase(__detail.fulfilled, (state, action) => {
         state.user.detail = action.payload;
       })

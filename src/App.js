@@ -1,10 +1,9 @@
-import LoginForm from "./components/loginComponents/LoginForm";
-import SignupGenderAge from "./components/signupComponents/SignupGenderAge";
-import SignupForm from "./components/signupComponents/SignupForm";
+import Router from "./shared/Router";
+
 function App() {
   return (
     <div className="App">
-      <SignupGenderAge />
+      <Router />
     </div>
   );
 }

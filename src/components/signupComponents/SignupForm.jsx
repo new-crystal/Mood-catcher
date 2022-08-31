@@ -1,15 +1,14 @@
 import styled from "styled-components";
 import { useForm } from "react-hook-form";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { __checkEmail, __signUp } from "../../redux/modules/signUpSlice";
 import { useState } from "react";
 import crypto from "crypto-js";
-//import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const SigupForm = () => {
   const [confirm, setConfirm] = useState(false);
-  //const checkEmail = useSelector((state) => state.signUp.checkEmail);
-  //const navigate = useNavigate();
+  const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const {
@@ -35,32 +34,33 @@ const SigupForm = () => {
         { message: "이메일 중복확인을 해주세요" },
         { shouldFocus: true }
       );
-    }
-
-    const key = getValues("password");
-    const secretKey = "12345678901234567890123456789012";
-    const iv = "abcdefghijklmnop";
-    const cipher = crypto.AES.encrypt(key, crypto.enc.Utf8.parse(secretKey), {
-      iv: crypto.enc.Utf8.parse(iv),
-      padding: crypto.pad.Pkcs7,
-      mode: crypto.mode.CBC,
-    });
-    const pwpwpw = cipher.key.words[0];
-
-    if (data.password === data.confirmPw) {
-      await new Promise((r) => setTimeout(r, 300));
-      //navigate("/");
-      const email = getValues("email");
-      const password = pwpwpw;
-      const confirmPw = pwpwpw;
-      console.log(email, password, confirmPw);
-      dispatch(__signUp({ email, password, confirmPw }));
     } else {
-      setError(
-        "confirmPw",
-        { message: "비밀번호가 일치하지 않습니다." },
-        { shouldFocus: true }
-      );
+      ///비밀번호 암호화
+      const key = getValues("password");
+      const secretKey = "12345678901234567890123456789012";
+      const iv = "abcdefghijklmnop";
+      const cipher = crypto.AES.encrypt(key, crypto.enc.Utf8.parse(secretKey), {
+        iv: crypto.enc.Utf8.parse(iv),
+        padding: crypto.pad.Pkcs7,
+        mode: crypto.mode.CBC,
+      });
+      const pwpwpw = cipher.key.words[0];
+
+      if (data.password === data.confirmPw) {
+        await new Promise((r) => setTimeout(r, 300));
+        navigate("/login");
+        const email = getValues("email");
+        const password = pwpwpw;
+        const confirmPw = pwpwpw;
+
+        dispatch(__signUp({ email, password, confirmPw }));
+      } else {
+        setError(
+          "confirmPw",
+          { message: "비밀번호가 일치하지 않습니다." },
+          { shouldFocus: true }
+        );
+      }
     }
   };
 

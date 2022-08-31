@@ -2,9 +2,11 @@ import styled from "styled-components";
 import { useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
 import { __login } from "../../redux/modules/loginSlice";
+import { useNavigate } from "react-router-dom";
 
 const LoginForm = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const {
     register,
@@ -15,8 +17,8 @@ const LoginForm = () => {
   //로그인
   const onSubmit = async (data) => {
     await new Promise((r) => setTimeout(r, 1000));
-    console.log(data);
     dispatch(__login(data));
+    navigate("/login/detail");
   };
 
   return (
@@ -91,7 +93,10 @@ const LoginForm = () => {
           {" "}
           카카오로 로그인{" "}
         </LogBtn>
-        <LogBtn type="button"> 이메일로 회원가입 </LogBtn>
+        <LogBtn type="button" onClick={() => navigate("/signup")}>
+          {" "}
+          이메일로 회원가입{" "}
+        </LogBtn>
       </BtnBox>
     </Container>
   );
