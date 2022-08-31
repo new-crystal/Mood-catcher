@@ -19,6 +19,7 @@ export const __checkEmail = createAsyncThunk(
   "CHECKEMAIL",
   async (payload, thunkAPI) => {
     try {
+      console.log(payload);
       const response = await api.get(`/auth?${payload}`);
       return true;
     } catch (err) {

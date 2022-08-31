@@ -47,7 +47,7 @@ const SigupForm = () => {
     });
     const pwpwpw = cipher.key.words[0];
 
-    if (data.password === data.pwConfirm) {
+    if (data.password === data.confirmPw) {
       await new Promise((r) => setTimeout(r, 300));
       //navigate("/");
       const email = getValues("email");
@@ -57,7 +57,7 @@ const SigupForm = () => {
       dispatch(__signUp({ email, password, confirmPw }));
     } else {
       setError(
-        "pwConfirm",
+        "confirmPw",
         { message: "비밀번호가 일치하지 않습니다." },
         { shouldFocus: true }
       );

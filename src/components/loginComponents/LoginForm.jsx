@@ -12,9 +12,11 @@ const LoginForm = () => {
     handleSubmit,
   } = useForm();
 
+  //로그인
   const onSubmit = async (data) => {
     await new Promise((r) => setTimeout(r, 1000));
-    dispatch(__login);
+    console.log(data);
+    dispatch(__login(data));
   };
 
   return (

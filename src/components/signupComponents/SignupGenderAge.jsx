@@ -19,6 +19,7 @@ const SignupGenderAge = () => {
   const dispatch = useDispatch();
   const [show, setShow] = useState(false);
   const [age, setAge] = useState();
+  const [confirmNickname, setConfirmNickname] = useState(false);
   const [gender, setGender] = useState("");
   const {
     register,
@@ -36,18 +37,30 @@ const SignupGenderAge = () => {
   //성별 담기
   const onClickGenderHandler = (key) => {
     setGender(key.target.outerText);
-    setShow(true);
-  };
-  //성별, 나이, 닉네임 보내주기
-  const onClickOKBtnHandler = () => {
     const nickname = getValues("nickname");
     dispatch(__detail({ age, gender, nickname }));
   };
+
+  //성별, 나이, 닉네임 보내주기
+  const onClickOKBtnHandler = () => {
+    if (!confirmNickname) {
+      setError(
+        "nickname",
+        { message: "닉네임 중복확인을 해주세요" },
+        { shouldFocus: true }
+      );
+    } else {
+      setShow(true);
+    }
+  };
+
   //닉네임 중복확인
   const onClickCheckBtnHandler = (e) => {
     e.preventDefault();
     const value = getValues("nickname");
+    console.log(value);
     dispatch(__checkNickname(value));
+    setConfirmNickname(true);
   };
 
   const images = [
@@ -184,6 +197,7 @@ const SignupGenderAge = () => {
                   {errors.nickname && <p>{errors.nickname.message}</p>}
                 </TextBox>
                 <input
+                  type="text"
                   name="nickname"
                   aria-invalid={
                     !isDirty ? undefined : errors.nickname ? "true" : "false"
