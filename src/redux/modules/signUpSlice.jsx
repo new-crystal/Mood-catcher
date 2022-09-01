@@ -31,6 +31,8 @@ export const __checkEmail = createAsyncThunk(
   }
 );
 
+//회원 탈퇴
+
 const initialState = {
   checkEmail: false,
   is_signup: null,
