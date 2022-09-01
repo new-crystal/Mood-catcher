@@ -14,6 +14,8 @@ const EditProfileForm = () => {
     preview_URL:
       "https://cdn.discordapp.com/attachments/1014169130045292625/1014194232250077264/Artboard_1.png",
   });
+
+  //react-hook-form사용
   const {
     register,
     isDirty,
@@ -128,7 +130,6 @@ const EditProfileForm = () => {
                   autoWidth
                   label="Age"
                 >
-                  <MenuItem value={"null"}>밝히고 싶지 않음</MenuItem>
                   <MenuItem value={"남자"}>Male</MenuItem>
                   <MenuItem value={"여자"}>Female</MenuItem>
                 </Select>
@@ -189,6 +190,12 @@ const Container = styled.div`
     margin-left: 20px;
     margin-bottom: 40px;
     background-color: #e6e5ea;
+  }
+  p {
+    color: #c60000;
+    font-size: 10px;
+    margin-top: -30px;
+    margin-left: 20px;
   }
 `;
 
