@@ -30,11 +30,15 @@ const uploadSlice = createSlice({
   name: "upload",
   initialState: {
     post: {},
-    items: [],
+    formdata: {},
   },
   reducers: {
+    regFormdata: (state, action) => {
+      state.formdata = action.payload;
+      console.log(state.formdata);
+    },
     regPost: (state, action) => {
-      state.post = action.payload;
+      state.post = { ...state.post, ...action.payload };
       console.log(state.post);
     },
   },
@@ -49,5 +53,5 @@ const uploadSlice = createSlice({
   },
 });
 
-export const { regPost } = uploadSlice.actions;
+export const { regFormdata, regPost } = uploadSlice.actions;
 export default uploadSlice.reducer;

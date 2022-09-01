@@ -9,6 +9,7 @@ import { useSelector, useDispatch } from "react-redux";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import "../shared/style/myBeer.css";
+import EachMusinsa from "../components/uploadCompnents/EachMusinsa";
 
 import { __getMusinsa, __writePost } from "../redux/modules/uploadSlice";
 
@@ -87,7 +88,7 @@ const Upload = (props) => {
                 <UploadText>내 아이템</UploadText>
                 <NextButton
                   onClick={() => {
-                    dispatch(__getMusinsa(search));
+                    dispatch(__writePost(search));
                     navigate("/");
                   }}
                 >
@@ -166,6 +167,11 @@ const Upload = (props) => {
                   />
                 </ButtonWrap>
               </StSearchInput>
+              <List>
+                {searchTogle?.map((item, idx) => (
+                  <EachMusinsa page={"beerList"} key={idx} item={item} />
+                ))}
+              </List>
             </StUploadBox>
           </Grid>
         </Container>
@@ -176,6 +182,13 @@ const Upload = (props) => {
 };
 
 export default Upload;
+
+const List = styled.div`
+  width: 312px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+`;
 
 const SliderContainer = styled.div`
   margin: 0 6px;
