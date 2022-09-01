@@ -301,11 +301,13 @@ const Container = styleds.div`
     margin-left: 25px;
     margin-bottom : 20px;
   }
+
   form {
     width:480px;
     display: flex;
     flex-direction: row;
   }
+
   input {
     background-color: #e6e5ea;
     border: 0px;

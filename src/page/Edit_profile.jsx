@@ -1,4 +1,4 @@
-import EditProfileForm from "../components/profileCompnents/EditProfileForm";
+import EditProfileForm from "../components/profileComponents/EditProfileForm"
 
 const Edit_profile = () => {
   return <EditProfileForm />;

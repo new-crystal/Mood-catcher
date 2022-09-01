@@ -183,9 +183,11 @@ const SigupForm = () => {
 const Container = styled.form`
   width: 428px;
   height: 926px;
+
   .email {
     width: 270px;
   }
+
   input {
     background-color: #e6e5ea;
     border: 0px;
