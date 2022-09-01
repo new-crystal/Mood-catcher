@@ -23,7 +23,7 @@ const SigupForm = () => {
     getValues,
     formState: { errors, isDirty, isSubmitting },
     handleSubmit,
-  } = useForm();
+  } = useForm({ criteriaMode: "all", mode: "onChange" });
 
   //이메일 인풋 값 받아오기
   const email = getValues("email");
@@ -76,7 +76,9 @@ const SigupForm = () => {
         const password = toString(pwpwpw);
         const confirmPw = toString(pwpwpw);
 
-        dispatch(__signUp({ email, password, confirmPw }));
+        dispatch(__signUp({ email, password, confirmPw })).then(
+          navigate("/login")
+        );
       } else {
         setError(
           "confirmPw",

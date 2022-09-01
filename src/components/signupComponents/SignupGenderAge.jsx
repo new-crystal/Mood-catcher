@@ -22,7 +22,7 @@ import Artboard from "../../image/Artboard.png";
 const SignupGenderAge = () => {
   const dispatch = useDispatch();
   const [show, setShow] = useState(false);
-  const [age, setAge] = useState();
+  const [age, setAge] = useState("");
   const [gender, setGender] = useState("");
   const {
     register,
@@ -82,12 +82,12 @@ const SignupGenderAge = () => {
   const images = [
     {
       url: `${male}`,
-      title: "Male",
+      title: "남자",
       width: "50%",
     },
     {
       url: `${female}`,
-      title: "Female",
+      title: "여자",
       width: "50%",
     },
   ];
@@ -206,7 +206,7 @@ const SignupGenderAge = () => {
           </>
         ) : (
           <>
-            <form>
+            <form method="post">
               <div>
                 <Img></Img>
                 <InputBox>

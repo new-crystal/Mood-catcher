@@ -17,7 +17,7 @@ export const __checkNickname = createAsyncThunk(
   "CHECKNICKNAME",
   async (payload, thunkAPI) => {
     try {
-      const response = await api.get(`/auth/checkNickname?${payload}`);
+      const response = await api.get(`/auth/checkNickname?nickname=${payload}`);
       if (response.data.status === 200) {
         return true;
       }
@@ -28,7 +28,7 @@ export const __checkNickname = createAsyncThunk(
   }
 );
 
-//성별과 닉네임 나이
+//성별 닉네임 나이
 export const __detail = createAsyncThunk(
   "DETAIL",
   async (payload, thunkAPI) => {
@@ -51,6 +51,19 @@ export const __socialLogin = createAsyncThunk(
   }
 );
 
+//프로필 수정
+export const __editProfile = createAsyncThunk(
+  "EDITPROFILE",
+  async (payload, thunkAPI) => {
+    try {
+      const response = await api.put("/user", payload);
+      return thunkAPI.fulfillWithValue(response.data.userStatus);
+    } catch (err) {
+      thunkAPI.rejectWithValue(err);
+    }
+  }
+);
+
 const initialState = {
   user: {
     nickname: null,
@@ -60,6 +73,7 @@ const initialState = {
   checkNickname: false,
   social: null,
   loading: false,
+  changeUser: null,
 };
 
 const loginSlice = createSlice({
@@ -100,6 +114,13 @@ const loginSlice = createSlice({
       })
       .addCase(__checkNickname.rejected, (state, action) => {
         state.checkEmail = action.payload;
+      })
+      //프로필 수정
+      .addCase(__editProfile.fulfilled, (state, action) => {
+        state.changeUser = action.payload;
+      })
+      .addCase(__editProfile.rejected, (state, action) => {
+        state.changeUser = action.payload;
       }),
 });
 

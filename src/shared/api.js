@@ -7,8 +7,8 @@ export const api = axios.create({
   },
 });
 
-api.interceptors.request.use(function (config) {
-  const token = sessionStorage.getItem("token");
-  config.headers.common["Authorization"] = `Bearer ${token}`;
-  return config;
-});
+// api.interceptors.request.use(function (config) {
+//   const token = sessionStorage.getItem("token");
+//   config.headers.common["Authorization"] = `Bearer ${token}`;
+//   return config;
+// });

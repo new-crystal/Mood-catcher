@@ -3,6 +3,7 @@ import { useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
 import { __login, __socialLogin } from "../../redux/modules/loginSlice";
 import { useNavigate } from "react-router-dom";
+import crypto from "crypto-js";
 
 const LoginForm = () => {
   const dispatch = useDispatch();
@@ -13,7 +14,7 @@ const LoginForm = () => {
     formState: { errors, isDirty, isSubmitting },
     handleSubmit,
     getValues,
-  } = useForm();
+  } = useForm({ criteriaMode: "all", mode: "onChange" });
 
   //로그인
   const onSubmit = async (data) => {
@@ -33,8 +34,7 @@ const LoginForm = () => {
     const email = getValues("email");
     const password = toString(pwpwpw);
 
-    dispatch(__login({ email, password }));
-    navigate("/login/detail");
+    dispatch(__login({ email, password })).then(navigate("/login/detail"));
   };
   //소셜로그인 버튼
   const onClickKakao = () => {
