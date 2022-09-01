@@ -49,6 +49,7 @@ const EditProfileForm = () => {
       });
     };
   };
+
   //이미지, 닉네임, 성별, 나이 전송하기
   const onSubmit = () => {
     const nickname = getValues("nickname");
