@@ -1,68 +1,89 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-<<<<<<< HEAD
-
-// axios 기본 세팅
-import { api } from "../../shared/api";
-
-// 로그인
-// js : 이것은 참고용도입니다. 수정가능!
-export const __login = createAsyncThunk(
-  "log/LOGIN_LOG",
-  async (payload, thunkAPI) => {
-    const response = await api.post("/user/login", payload);
-    // 토큰 localstorge 저장하기
-    localStorage.setItem("token", response.data.token);
-    // 로그인 상태 값 {true / false}
-=======
 import { api } from "../../shared/api";
 
 // 로그인
 export const __login = createAsyncThunk("LOGIN", async (payload, thunkAPI) => {
-  const response = await api.post("/auth/login", payload);
-  sessionStorage.setItem("token", response.data.userStatus.token);
-  return response.data;
+  try {
+    const response = await api.post("/auth/login", payload);
+    //sessionStorage.setItem("token", response.data.userStatus.token);
+    return response.data;
+  } catch (err) {
+    console.log(err);
+  }
 });
 
-//성별과 나이
+//닉네임중복체크
+export const __checkNickname = createAsyncThunk(
+  "CHECKNICKNAME",
+  async (payload, thunkAPI) => {
+    try {
+      const response = await api.get(`/auth/checkNickname?nickname=${payload}`);
+      if (response.data.status === 200) {
+        return true;
+      }
+    } catch (err) {
+      alert("중복된 닉네임이 있습니다.");
+      return false;
+    }
+  }
+);
+
+//성별 닉네임 나이
 export const __detail = createAsyncThunk(
   "DETAIL",
   async (payload, thunkAPI) => {
     const response = await api.post("/auth/detail", payload);
->>>>>>> 137432a (#3 add sign up login)
     return response.data;
   }
 );
 
-<<<<<<< HEAD
-// js : 이것은 참고용도입니다. 수정가능!
-const loginSlice = createSlice({
-  name: "login",
-  initialState: {},
-  reducers: {},
-  //
-  extraReducers: (builder) => {
-    builder
-      //로그인
-      .addCase(__login.fulfilled, (state, action) => {});
-  },
-});
+//소셜 로그인
+export const __socialLogin = createAsyncThunk(
+  "SOCIALLOGIN",
+  async (payload, thunkAPI) => {
+    try {
+      const response = await api.get("/auth/kakao");
+      thunkAPI.fulfillWithValue(response.data);
+    } catch (err) {
+      console.log(err);
+      //hunkAPI.rejectWithValue(err);
+    }
+  }
+);
 
-// // reducer dispatch하기 위해 export 하기
-export const {} = loginSlice.actions;
-=======
+//프로필 수정
+export const __editProfile = createAsyncThunk(
+  "EDITPROFILE",
+  async (payload, thunkAPI) => {
+    try {
+      const response = await api.put("/user", payload);
+      return thunkAPI.fulfillWithValue(response.data.userStatus);
+    } catch (err) {
+      thunkAPI.rejectWithValue(err);
+    }
+  }
+);
+
 const initialState = {
   user: {
-    nickname: "",
-    detail: "",
-    result: false,
+    nickname: null,
+    detail: null,
+    result: null,
   },
+  checkNickname: false,
+  social: null,
   loading: false,
+  changeUser: null,
 };
 
 const loginSlice = createSlice({
   name: "login",
   initialState,
-  reducers: {},
+  reducers: {
+    changeNickname: (state) => {
+      state.checkNickname = false;
+    },
+  },
   extraReducers: (builder) =>
     builder
       //로그인
@@ -78,13 +99,31 @@ const loginSlice = createSlice({
         state.loading = false;
         alert("이메일이나 비밀번호를 다시 확인해주세요.");
       })
-      //성별과 나이
+      //성별과 나이 닉네임
       .addCase(__detail.fulfilled, (state, action) => {
         state.user.detail = action.payload;
+      })
+      //소셜로그인
+      .addCase(__socialLogin.fulfilled, (state, action) => {
+        state.social = action.payload.message;
+        alert("무드캐처로 입장하셨습니다!");
+      })
+      //닉네임 중복확인
+      .addCase(__checkNickname.fulfilled, (state, action) => {
+        state.checkEmail = action.payload;
+      })
+      .addCase(__checkNickname.rejected, (state, action) => {
+        state.checkEmail = action.payload;
+      })
+      //프로필 수정
+      .addCase(__editProfile.fulfilled, (state, action) => {
+        state.changeUser = action.payload;
+      })
+      .addCase(__editProfile.rejected, (state, action) => {
+        state.changeUser = action.payload;
       }),
 });
 
 // // reducer dispatch하기 위해 export 하기
-export const loginActions = loginSlice.actions;
->>>>>>> 137432a (#3 add sign up login)
+export const { changeNickname } = loginSlice.actions;
 export default loginSlice.reducer;

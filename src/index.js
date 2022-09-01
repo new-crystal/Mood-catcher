@@ -1,22 +1,19 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-<<<<<<< HEAD
-import App from "./App";
-
-const root = ReactDOM.createRoot(document.getElementById("root"));
-root.render(<App />);
-=======
+import { BrowserRouter } from "react-router-dom";
 import { Provider } from "react-redux";
-import App from "./App";
 import store from "./redux/configStore";
+import App from "./App";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <Provider store={store}>
-    <App />
+    <BrowserRouter>
+      <App />
+    </BrowserRouter>
   </Provider>
 );
->>>>>>> 137432a (#3 add sign up login)
+
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))

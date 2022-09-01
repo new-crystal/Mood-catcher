@@ -1,63 +1,91 @@
-<<<<<<< HEAD
-import React from "react";
-=======
 import styled from "styled-components";
 import { useForm } from "react-hook-form";
-import { useDispatch } from "react-redux";
-import { __checkEmail, __signUp } from "../../redux/modules/signUpSlice";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  __checkEmail,
+  __signUp,
+  changeEmail,
+} from "../../redux/modules/signUpSlice";
 import { useState } from "react";
 import crypto from "crypto-js";
-//import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const SigupForm = () => {
-  const [confirm, setConfirm] = useState(false);
-  //const navigate = useNavigate();
+  const navigate = useNavigate();
   const dispatch = useDispatch();
 
+  const checkEmail = useSelector((state) => state.signup.checkEmail);
+
+  //react-hook-form에서 불러오기
   const {
     register,
     setError,
     getValues,
     formState: { errors, isDirty, isSubmitting },
     handleSubmit,
-  } = useForm();
+  } = useForm({ criteriaMode: "all", mode: "onChange" });
 
-  //중복확인 눌렀을 때
+  //이메일 인풋 값 받아오기
+  const email = getValues("email");
+
+  //이메일 중복확인 눌렀을 때
   const onClickCheckBtnHandler = () => {
-    const value = getValues("email");
-    dispatch(__checkEmail(value));
-    setConfirm(true);
+    //이메일을 빈값에서 중복확인을 눌렀을 경우
+    if (email !== "") {
+      dispatch(__checkEmail(email));
+    } else {
+      setError(
+        "email",
+        { message: "이메일을 입력 후 중복확인을 눌러주세요" },
+        { shouldFocus: true }
+      );
+    }
+  };
+
+  //중복확인 후 이메일을 수정했을 때
+  const onChangeEmail = () => {
+    dispatch(changeEmail());
   };
 
   //회원가입 버튼을 눌렀을 때
   const onValid = async (data) => {
-    const key = getValues("password");
-    const secretKey = "12345678901234567890123456789012";
-    const iv = "abcdefghijklmnop";
-    const cipher = crypto.AES.encrypt(key, crypto.enc.Utf8.parse(secretKey), {
-      iv: crypto.enc.Utf8.parse(iv),
-      padding: crypto.pad.Pkcs7,
-      mode: crypto.mode.CBC,
-    });
-    const pwpwpw = cipher.key.words[0];
-    if (data.password === data.pwConfirm) {
-      await new Promise((r) => setTimeout(r, 300));
-      //navigate("/");
-      const email = getValues("email");
-      const password = pwpwpw;
-      const confirmPw = pwpwpw;
-      const nickname = getValues("nickname");
-      if (!confirm) {
-        alert("이메일 중복확인을 해주세요!");
-      } else {
-        dispatch(__signUp({ email, password, confirmPw, nickname }));
-      }
-    } else {
+    //이메일 중복확인을 안 했을 때 돌려보내기
+    if (checkEmail) {
       setError(
-        "pwConfirm",
-        { message: "비밀번호가 일치하지 않습니다." },
+        "email",
+        { message: "이메일 중복확인을 해주세요" },
         { shouldFocus: true }
       );
+    } else {
+      ///비밀번호 암호화
+      const key = getValues("password");
+      const secretKey = "12345678901234567890123456789012";
+      const iv = "abcdefghijklmnop";
+      const cipher = crypto.AES.encrypt(key, crypto.enc.Utf8.parse(secretKey), {
+        iv: crypto.enc.Utf8.parse(iv),
+        padding: crypto.pad.Pkcs7,
+        mode: crypto.mode.CBC,
+      });
+      const pwpwpw = cipher.key.words[0];
+
+      //비밀번호 값과 비밀번호 확인 값이 같을 때만
+      if (data.password === data.confirmPw) {
+        await new Promise((r) => setTimeout(r, 300));
+        navigate("/login");
+
+        const password = toString(pwpwpw);
+        const confirmPw = toString(pwpwpw);
+
+        dispatch(__signUp({ email, password, confirmPw })).then(
+          navigate("/login")
+        );
+      } else {
+        setError(
+          "confirmPw",
+          { message: "비밀번호가 일치하지 않습니다." },
+          { shouldFocus: true }
+        );
+      }
     }
   };
 
@@ -75,6 +103,7 @@ const SigupForm = () => {
           {errors.email && <p>{errors.email.message}</p>}
         </TextBox>
         <input
+          onChange={onChangeEmail}
           className="email"
           name="email"
           type="email"
@@ -143,34 +172,7 @@ const SigupForm = () => {
           })}
         />
       </div>
-      <div>
-        <TextBox>
-          <h4>닉네임</h4>
-          {errors.nickname && <p>{errors.nickname.message}</p>}
-        </TextBox>
-        <input
-          name="nickname"
-          aria-invalid={
-            !isDirty ? undefined : errors.nickname ? "true" : "false"
-          }
-          {...register("nickname", {
-            required: "닉네임은 필수 입력입니다.",
-            minLength: {
-              value: 2,
-              message: "닉네임을 2자 이상 작성해주세요",
-            },
-            maxLength: {
-              value: 16,
-              message: "닉네임을 16자 이하로 작성해주세요",
-            },
-            pattern: {
-              value: /^(?=.*[a-z0-9가-힣])[a-z0-9가-힣]{2,16}$/,
-              message:
-                "닉네임은 영문 대소문자, 글자 단위 한글, 숫자만 가능합니다.",
-            },
-          })}
-        />
-      </div>
+
       <OkBtn type="submit" disabled={isSubmitting}>
         OK
       </OkBtn>
@@ -181,18 +183,23 @@ const SigupForm = () => {
 const Container = styled.form`
   width: 428px;
   height: 926px;
-
   .email {
     width: 270px;
   }
-
   input {
     background-color: #e6e5ea;
     border: 0px;
     border-radius: 7px;
     height: 40px;
     width: 387px;
+    background-color: #e6e5ea;
   }
+`;
+
+const CheckMail = styled.div`
+  border-radius: 7px;
+  height: 40px;
+  width: 387px;
 `;
 
 const ConfirmBtn = styled.button`
@@ -203,6 +210,7 @@ const ConfirmBtn = styled.button`
   color: white;
   border-radius: 7px;
   margin-left: 20px;
+  cursor: pointer;
 `;
 
 const SignUpHeader = styled.div`
@@ -218,11 +226,9 @@ const SignUpBox = styled.div`
 `;
 const TextBox = styled.div`
   display: flex;
-
   h4 {
     color: #2d273f;
   }
-
   p {
     color: #c60000;
     font-size: 10px;
@@ -238,7 +244,7 @@ const OkBtn = styled.button`
   width: 150px;
   height: 40px;
   margin: 100px auto;
+  cursor: pointer;
 `;
 
 export default SigupForm;
->>>>>>> 137432a (#3 add sign up login)

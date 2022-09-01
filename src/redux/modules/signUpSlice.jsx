@@ -1,18 +1,12 @@
 import { api } from "../../shared/api";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { userApi } from "../../shared/api";
 
-const initialState = {
-  checkEmail: null,
-  is_signup: null,
-};
 //회원가입
 export const __signUp = createAsyncThunk(
   "SIGNUP",
   async (payload, thunkAPI) => {
     try {
       const response = await api.post("/auth/signup", payload);
-      console.log(payload);
       return response.data;
     } catch (err) {
       return thunkAPI.rejectWithValue(err);
@@ -25,34 +19,51 @@ export const __checkEmail = createAsyncThunk(
   "CHECKEMAIL",
   async (payload, thunkAPI) => {
     try {
-      const response = await api.get(`/auth/${payload}`);
-      return response.data.result;
+      const response = await api.get(`/auth/checkEmail?email=${payload}`);
+      if (response.data.status === 200) {
+        return true;
+      }
     } catch (err) {
-      return alert("중복된 이메일이 있습니다.");
+      alert("중복된 이메일이 있습니다.");
+      console.log(err);
+      return false;
     }
   }
 );
+
+//회원 탈퇴
+
+const initialState = {
+  checkEmail: false,
+  is_signup: null,
+};
 
 //리듀서
 const signUpSlice = createSlice({
   name: "signUp",
   initialState,
-  reducers: {},
+  reducers: {
+    changeEmail: (state) => {
+      state.checkEmail = false;
+    },
+  },
   extraReducers: (builder) =>
     builder
+      //회원가입
       .addCase(__signUp.fulfilled, (state, action) => {
         state.is_signup = action.payload;
       })
       .addCase(__signUp.rejected, (state, action) => {
         alert("무드캐처 회원가입에 실패하셨습니다");
       })
+      //이메일 중복체크
       .addCase(__checkEmail.fulfilled, (state, action) => {
         state.checkEmail = action.payload;
       })
       .addCase(__checkEmail.rejected, (state, action) => {
-        alert("중복된 이메일이 있습니다.");
+        state.checkEmail = action.payload;
       }),
 });
 
-export const signupActions = signUpSlice.actions;
+export const { changeEmail } = signUpSlice.actions;
 export default signUpSlice.reducer;

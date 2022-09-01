@@ -8,38 +8,86 @@ import { InputLabel } from "@material-ui/core";
 import { MenuItem } from "@material-ui/core";
 import { FormControl } from "@material-ui/core";
 import { Select } from "@material-ui/core";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { __detail } from "../../redux/modules/loginSlice";
+import { useForm } from "react-hook-form";
+import {
+  __checkNickname,
+  changeNickname,
+} from "../../redux/modules/loginSlice";
+import male from "../../image/5man.png";
+import female from "../../image/girl5.png";
+import Artboard from "../../image/Artboard.png";
 
 const SignupGenderAge = () => {
   const dispatch = useDispatch();
-  const [show, setShow] = useState(true);
-  const [age, setAge] = useState();
+  const [show, setShow] = useState(false);
+  const [age, setAge] = useState("");
   const [gender, setGender] = useState("");
+  const {
+    register,
+    setError,
+    getValues,
+    formState: { errors, isDirty },
+  } = useForm();
+  const checkNickname = useSelector((state) => state.login.checkNickname);
 
+  //닉네임 인풋 값 받아오기
+  const nickname = getValues("nickname");
+
+  //나이값 담기
   const onChangeHandler = (e) => {
     setAge(e.target.value);
   };
 
-  const onClickGenderHandler = (key) => {
-    setGender(key.target.outerText);
-    setShow(false);
+  //닉네임 중복확인
+  const onClickCheckBtnHandler = (e) => {
+    e.preventDefault();
+    if (nickname !== "") {
+      dispatch(__checkNickname(nickname));
+    } else {
+      setError(
+        "nickname",
+        { message: "닉네임을 입력 후 중복확인을 눌러주세요" },
+        { shouldFocus: true }
+      );
+    }
   };
 
+  //중복확인 이후 닉네임이 변할 때
+  const onChangeNickname = () => {
+    dispatch(changeNickname());
+  };
+
+  //성별 페이지로 넘어가기
   const onClickOKBtnHandler = () => {
-    console.log(age, gender);
-    dispatch(__detail({ age, gender }));
+    if (!checkNickname) {
+      setError(
+        "nickname",
+        { message: "닉네임 중복확인을 해주세요" },
+        { shouldFocus: true }
+      );
+    } else {
+      setShow(true);
+    }
+  };
+
+  //성별, 나이, 닉네임 보내기
+  const onClickGenderHandler = (key) => {
+    setGender(key.target.outerText);
+    const nickname = getValues("nickname");
+    dispatch(__detail({ age, gender, nickname }));
   };
 
   const images = [
     {
-      url: "https://cloudfront-ap-northeast-1.images.arcpublishing.com/chosun/2TKUKXYMQF7ASZEUJLG7L4GM4I.jpg",
-      title: "Male",
+      url: `${male}`,
+      title: "남자",
       width: "50%",
     },
     {
-      url: "https://cloudfront-ap-northeast-1.images.arcpublishing.com/chosun/2TKUKXYMQF7ASZEUJLG7L4GM4I.jpg",
-      title: "Female",
+      url: `${female}`,
+      title: "여자",
       width: "50%",
     },
   ];
@@ -158,7 +206,51 @@ const SignupGenderAge = () => {
           </>
         ) : (
           <>
-            <h1>Age</h1>
+            <form method="post">
+              <div>
+                <Img></Img>
+                <InputBox>
+                  <TextBox>
+                    {errors.nickname && <p>{errors.nickname.message}</p>}
+                  </TextBox>
+                  <input
+                    onChange={onChangeNickname}
+                    type="text"
+                    placeholder="닉네임을 입력해주세요"
+                    name="nickname"
+                    aria-invalid={
+                      !isDirty ? undefined : errors.nickname ? "true" : "false"
+                    }
+                    {...register("nickname", {
+                      required: "닉네임은 필수 입력입니다.",
+                      minLength: {
+                        value: 2,
+                        message: "닉네임을 2자 이상 작성해주세요",
+                      },
+                      maxLength: {
+                        value: 16,
+                        message: "닉네임을 16자 이하로 작성해주세요",
+                      },
+                      pattern: {
+                        value: /^(?=.*[a-z0-9가-힣])[a-z0-9가-힣]{2,16}$/,
+                        message:
+                          "닉네임은 영문 대소문자, 글자 단위 한글, 숫자만 가능합니다.",
+                      },
+                    })}
+                  />
+                  <ConfirmBtn onClick={(e) => onClickCheckBtnHandler(e)}>
+                    중복확인
+                  </ConfirmBtn>
+                </InputBox>
+              </div>
+            </form>
+            <FootBox>
+              <Foot></Foot>
+              <Foot></Foot>
+            </FootBox>
+            <AgeBox>
+              <h1>Age</h1>
+            </AgeBox>
             <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>
               <InputLabel
                 id="demo-simple-select-standard-label"
@@ -174,7 +266,6 @@ const SignupGenderAge = () => {
                 label="Age"
                 className="age"
               >
-                <MenuItem value=""></MenuItem>
                 <MenuItem value={"10대"}>10대 미만</MenuItem>
                 <MenuItem value={"10대"}>10대</MenuItem>
                 <MenuItem value={"20대"}>20대</MenuItem>
@@ -183,7 +274,11 @@ const SignupGenderAge = () => {
                 <MenuItem value={"50대"}>50대 이상</MenuItem>
               </Select>
             </FormControl>
-            <OkBtn onClick={() => onClickOKBtnHandler()}>OK</OkBtn>
+            <FootBox>
+              <Foot></Foot>
+              <OkBtn onClick={() => onClickOKBtnHandler()}>OK</OkBtn>
+              <Foot></Foot>
+            </FootBox>
           </>
         )}
       </div>
@@ -194,23 +289,85 @@ const SignupGenderAge = () => {
 const Container = styleds.div`
   width: 428px;
   height: 926px;
-  div{
+  div {
     text-align: center;
   }
-  
   .label {
-    margin-top: 80px;
+    margin: 9px 30px;
   }
   .age {
-    width: 300px;
-    margin-top: 100px;
+    width: 280px;
+    margin-top: 25px;
+    margin-left: 25px;
+    margin-bottom : 20px;
   }
+  form {
+    width:480px;
+    display: flex;
+    flex-direction: row;
+  }
+  input {
+    background-color: #e6e5ea;
+    border: 0px;
+    border-radius: 7px;
+    height: 35px;
+    width: 210px;
+  }
+`;
+
+const Img = styleds.div`
+  margin-top : 60px;
+  width: 480px;
+  height: 130px;
+  background-position: center;
+  background-size: cover;
+  background-image: url(${Artboard});
+`;
+
+const InputBox = styleds.div`
+  margin-top: -35px;
+`;
+
+const TextBox = styleds.div`
+  display: flex;
+  h4 {
+    color: #2d273f;
+  }
+  p {
+    color: #c60000;
+    font-size: 10px;
+    margin-top: 0px;
+    margin-left: 90px;
+  }
+`;
+const ConfirmBtn = styleds.button`
+  background-color: #7b758b;
+  color : white;
+  border: 0px;
+  border-radius: 10px;
+  width: 80px;
+  height: 40px;
+  margin: 0px 10px;
 `;
 const SignUpHeader = styleds.div`
   width: 428px;
   height: 60px;
   background-color: #a396c9;
   color: white;
+`;
+const AgeBox = styleds.div`
+  width: 300px;
+  height: 40px;
+  background-color: #A396C9;
+  color: white;
+  margin : 0px 75px;
+  border-radius: 5px;
+`;
+const FootBox = styleds.div`
+  width: 300px;
+  display : flex;
+  justify-content: space-between;
+  margin : 10px 75px;
 `;
 const OkBtn = styleds.button`
   background-color: #7b758b;
@@ -219,7 +376,12 @@ const OkBtn = styleds.button`
   border-radius: 10px;
   width: 150px;
   height: 40px;
-  margin: 100px auto;
+  margin: 0px auto;
+`;
+const Foot = styleds.div`
+  width: 25px;
+  height:40px;
+  background-color: #a396c9;
 `;
 
 export default SignupGenderAge;
