@@ -36,12 +36,19 @@ const Upload = (props) => {
   };
 
   const writePost = () => {
+    const title_r = title_ref.current.value;
+
     setPost({
       ...post,
-      title: title_ref.current.value,
+      title: title_r,
+    });
+    setPost({
+      ...post,
       content: content_ref.current.value,
     });
+    console.log(post);
     dispatch(regPost(post));
+
     if (fileInput.current.files[0] === undefined) {
       alert("사진을 넣어주세요!");
       navigate("/upload");

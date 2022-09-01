@@ -22,14 +22,16 @@ const Upload = (props) => {
   const [attachment, setAttachment] = useState("");
 
   const post = useSelector((state) => state.upload.post);
+  const formdata = useSelector((state) => state.upload.formdata);
+
   console.log(post);
-  for (let key of post.keys()) {
-    console.log(key);
-  }
-  for (let value of post.values()) {
-    console.log(value);
-  }
-  const postImg = post.get("imgFile");
+  // for (let key of post.keys()) {
+  //   console.log(key);
+  // }
+  // for (let value of post.values()) {
+  //   console.log(value);
+  // }
+  const postImg = formdata.get("imgFile");
   console.log(postImg);
 
   React.useEffect(() => {
@@ -88,7 +90,7 @@ const Upload = (props) => {
                 <UploadText>내 아이템</UploadText>
                 <NextButton
                   onClick={() => {
-                    dispatch(__writePost(search));
+                    dispatch(__writePost(formdata));
                     navigate("/");
                   }}
                 >
@@ -146,7 +148,7 @@ const Upload = (props) => {
                     if (e.key === "Enter") {
                       e.preventDefault();
                       console.log(search);
-                      dispatch(__getMusinsa(search));
+                      dispatch(__getMusinsa("나이키 신발"));
                       setSearch("");
                     }
                   }}
@@ -167,11 +169,11 @@ const Upload = (props) => {
                   />
                 </ButtonWrap>
               </StSearchInput>
-              <List>
+              {/* <List>
                 {searchTogle?.map((item, idx) => (
                   <EachMusinsa page={"beerList"} key={idx} item={item} />
                 ))}
-              </List>
+              </List> */}
             </StUploadBox>
           </Grid>
         </Container>

@@ -29,7 +29,7 @@ export const __getMusinsa = createAsyncThunk(
 const uploadSlice = createSlice({
   name: "upload",
   initialState: {
-    post: {},
+    post: { title: "", content: "" },
     formdata: {},
   },
   reducers: {
@@ -38,7 +38,7 @@ const uploadSlice = createSlice({
       console.log(state.formdata);
     },
     regPost: (state, action) => {
-      state.post = { ...state.post, ...action.payload };
+      state.post = action.payload;
       console.log(state.post);
     },
   },
