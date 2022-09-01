@@ -91,9 +91,6 @@ const SigupForm = () => {
 
   return (
     <Container onSubmit={handleSubmit(onValid)}>
-      <SignUpHeader>
-        <h1>Mood catcher</h1>
-      </SignUpHeader>
       <SignUpBox>
         <h1>Sign Up</h1>
       </SignUpBox>

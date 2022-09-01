@@ -69,9 +69,6 @@ const EditProfileForm = () => {
 
   return (
     <Container>
-      <MyPageHeader>
-        <h1>Mood catcher</h1>
-      </MyPageHeader>
       <ProfileBox>
         <h3>프로필 설정</h3>
       </ProfileBox>

@@ -1,9 +1,9 @@
+import React, { Fragment, useState, Suspense } from "react";
 import styleds from "styled-components";
 import { styled } from "@material-ui/core";
 import { Box } from "@material-ui/core";
 import { ButtonBase } from "@material-ui/core";
 import { Typography } from "@material-ui/core";
-import { useState } from "react";
 import { InputLabel } from "@material-ui/core";
 import { MenuItem } from "@material-ui/core";
 import { FormControl } from "@material-ui/core";
@@ -18,6 +18,9 @@ import {
 import male from "../../image/5man.png";
 import female from "../../image/girl5.png";
 import Artboard from "../../image/Artboard.png";
+
+import Header from "../../elem/Header";
+import Loader from "../../shared/Loader";
 
 const SignupGenderAge = () => {
   const dispatch = useDispatch();
@@ -157,138 +160,164 @@ const SignupGenderAge = () => {
   }));
 
   return (
-    <Container>
-      <SignUpHeader>
-        <h1>Mood catcher</h1>
-      </SignUpHeader>
-      <div>
-        {show ? (
-          <>
-            <h1>Gender</h1>
-            <Box
-              sx={{
-                display: "flex",
-                flexWrap: "wrap",
-                minWidth: 300,
-                width: "100%",
-              }}
-            >
-              {images.map((image) => (
-                <ImageButton
-                  key={image.title}
-                  onClick={(key) => onClickGenderHandler(key)}
-                  focusRipple
-                  style={{
-                    width: image.width,
-                  }}
-                >
-                  <ImageSrc style={{ backgroundImage: `url(${image.url})` }} />
-                  <ImageBackdrop className="MuiImageBackdrop-root" />
-                  <Image>
-                    <Typography
-                      component="span"
-                      variant="subtitle1"
-                      color="inherit"
-                      sx={{
-                        position: "relative",
-                        p: 4,
-                        pt: 2,
-                        pb: (theme) => `calc(${theme.spacing(1)} + 6px)`,
-                      }}
+    <Fragment>
+      <Suspense
+        fallback={
+          <LoaderWrap>
+            <Loader />
+          </LoaderWrap>
+        }
+      >
+        <Header />
+        <Container>
+          <Grid>
+            <div>
+              {show ? (
+                <>
+                  <h1>Gender</h1>
+                  <Box
+                    sx={{
+                      display: "flex",
+                      flexWrap: "wrap",
+                      minWidth: 300,
+                      width: "100%",
+                    }}
+                  >
+                    {images.map((image) => (
+                      <ImageButton
+                        key={image.title}
+                        onClick={(key) => onClickGenderHandler(key)}
+                        focusRipple
+                        style={{
+                          width: image.width,
+                        }}
+                      >
+                        <ImageSrc
+                          style={{ backgroundImage: `url(${image.url})` }}
+                        />
+                        <ImageBackdrop className="MuiImageBackdrop-root" />
+                        <Image>
+                          <Typography
+                            component="span"
+                            variant="subtitle1"
+                            color="inherit"
+                            sx={{
+                              position: "relative",
+                              p: 4,
+                              pt: 2,
+                              pb: (theme) => `calc(${theme.spacing(1)} + 6px)`,
+                            }}
+                          >
+                            {image.title}
+                            <ImageMarked className="MuiImageMarked-root" />
+                          </Typography>
+                        </Image>
+                      </ImageButton>
+                    ))}
+                  </Box>
+                </>
+              ) : (
+                <>
+                  <form method="post">
+                    <div>
+                      <Img></Img>
+                      <InputBox>
+                        <TextBox>
+                          {errors.nickname && <p>{errors.nickname.message}</p>}
+                        </TextBox>
+                        <input
+                          onChange={onChangeNickname}
+                          type="text"
+                          placeholder="닉네임을 입력해주세요"
+                          name="nickname"
+                          aria-invalid={
+                            !isDirty
+                              ? undefined
+                              : errors.nickname
+                              ? "true"
+                              : "false"
+                          }
+                          {...register("nickname", {
+                            required: "닉네임은 필수 입력입니다.",
+                            minLength: {
+                              value: 2,
+                              message: "닉네임을 2자 이상 작성해주세요",
+                            },
+                            maxLength: {
+                              value: 16,
+                              message: "닉네임을 16자 이하로 작성해주세요",
+                            },
+                            pattern: {
+                              value: /^(?=.*[a-z0-9가-힣])[a-z0-9가-힣]{2,16}$/,
+                              message:
+                                "닉네임은 영문 대소문자, 글자 단위 한글, 숫자만 가능합니다.",
+                            },
+                          })}
+                        />
+                        <ConfirmBtn onClick={(e) => onClickCheckBtnHandler(e)}>
+                          중복확인
+                        </ConfirmBtn>
+                      </InputBox>
+                    </div>
+                  </form>
+                  <FootBox>
+                    <Foot></Foot>
+                    <Foot></Foot>
+                  </FootBox>
+                  <AgeBox>
+                    <h1>Age</h1>
+                  </AgeBox>
+                  <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>
+                    <InputLabel
+                      id="demo-simple-select-standard-label"
+                      className="label"
                     >
-                      {image.title}
-                      <ImageMarked className="MuiImageMarked-root" />
-                    </Typography>
-                  </Image>
-                </ImageButton>
-              ))}
-            </Box>
-          </>
-        ) : (
-          <>
-            <form method="post">
-              <div>
-                <Img></Img>
-                <InputBox>
-                  <TextBox>
-                    {errors.nickname && <p>{errors.nickname.message}</p>}
-                  </TextBox>
-                  <input
-                    onChange={onChangeNickname}
-                    type="text"
-                    placeholder="닉네임을 입력해주세요"
-                    name="nickname"
-                    aria-invalid={
-                      !isDirty ? undefined : errors.nickname ? "true" : "false"
-                    }
-                    {...register("nickname", {
-                      required: "닉네임은 필수 입력입니다.",
-                      minLength: {
-                        value: 2,
-                        message: "닉네임을 2자 이상 작성해주세요",
-                      },
-                      maxLength: {
-                        value: 16,
-                        message: "닉네임을 16자 이하로 작성해주세요",
-                      },
-                      pattern: {
-                        value: /^(?=.*[a-z0-9가-힣])[a-z0-9가-힣]{2,16}$/,
-                        message:
-                          "닉네임은 영문 대소문자, 글자 단위 한글, 숫자만 가능합니다.",
-                      },
-                    })}
-                  />
-                  <ConfirmBtn onClick={(e) => onClickCheckBtnHandler(e)}>
-                    중복확인
-                  </ConfirmBtn>
-                </InputBox>
-              </div>
-            </form>
-            <FootBox>
-              <Foot></Foot>
-              <Foot></Foot>
-            </FootBox>
-            <AgeBox>
-              <h1>Age</h1>
-            </AgeBox>
-            <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>
-              <InputLabel
-                id="demo-simple-select-standard-label"
-                className="label"
-              >
-                Age
-              </InputLabel>
-              <Select
-                labelId="demo-simple-select-standard-label"
-                id="demo-simple-select-standard"
-                value={age}
-                onChange={onChangeHandler}
-                label="Age"
-                className="age"
-              >
-                <MenuItem value={"10대"}>10대 미만</MenuItem>
-                <MenuItem value={"10대"}>10대</MenuItem>
-                <MenuItem value={"20대"}>20대</MenuItem>
-                <MenuItem value={"30대"}>30대</MenuItem>
-                <MenuItem value={"40대"}>40대</MenuItem>
-                <MenuItem value={"50대"}>50대 이상</MenuItem>
-              </Select>
-            </FormControl>
-            <FootBox>
-              <Foot></Foot>
-              <OkBtn onClick={() => onClickOKBtnHandler()}>OK</OkBtn>
-              <Foot></Foot>
-            </FootBox>
-          </>
-        )}
-      </div>
-    </Container>
+                      Age
+                    </InputLabel>
+                    <Select
+                      labelId="demo-simple-select-standard-label"
+                      id="demo-simple-select-standard"
+                      value={age}
+                      onChange={onChangeHandler}
+                      label="Age"
+                      className="age"
+                    >
+                      <MenuItem value={"10대"}>10대 미만</MenuItem>
+                      <MenuItem value={"10대"}>10대</MenuItem>
+                      <MenuItem value={"20대"}>20대</MenuItem>
+                      <MenuItem value={"30대"}>30대</MenuItem>
+                      <MenuItem value={"40대"}>40대</MenuItem>
+                      <MenuItem value={"50대"}>50대 이상</MenuItem>
+                    </Select>
+                  </FormControl>
+                  <FootBox>
+                    <Foot></Foot>
+                    <OkBtn onClick={() => onClickOKBtnHandler()}>OK</OkBtn>
+                    <Foot></Foot>
+                  </FootBox>
+                </>
+              )}
+            </div>
+          </Grid>
+        </Container>
+      </Suspense>
+    </Fragment>
   );
 };
 
+const LoaderWrap = styleds.div`
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin-top: -100px;
+  margin-left: -100px;
+`;
+
 const Container = styleds.div`
-  width: 428px;
-  height: 926px;
+  display: flex;
+  height: 984px;
+  flex-direction: column;
+  bottom: 110px;
   div {
     text-align: center;
   }
@@ -303,7 +332,7 @@ const Container = styleds.div`
   }
 
   form {
-    width:480px;
+    width:428px;
     display: flex;
     flex-direction: row;
   }
@@ -317,9 +346,18 @@ const Container = styleds.div`
   }
 `;
 
+const Grid = styleds.div`
+  //width: 100%;
+  width: 428px;
+  margin: 0 auto;
+  // background-color: royalblue;
+  margin-top: 60px;
+  margin-bottom: 500px;
+`;
+
 const Img = styleds.div`
   margin-top : 60px;
-  width: 480px;
+  width: 428px;
   height: 130px;
   background-position: center;
   background-size: cover;
@@ -362,14 +400,14 @@ const AgeBox = styleds.div`
   height: 40px;
   background-color: #A396C9;
   color: white;
-  margin : 0px 75px;
+  margin : 0px 55px;
   border-radius: 5px;
 `;
 const FootBox = styleds.div`
   width: 300px;
   display : flex;
   justify-content: space-between;
-  margin : 10px 75px;
+  margin : 10px 55px;
 `;
 const OkBtn = styleds.button`
   background-color: #7b758b;
