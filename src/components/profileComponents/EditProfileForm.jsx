@@ -1,6 +1,23 @@
 import styled from "styled-components";
+import { useRef, useState } from "react";
 
 const EditProfileForm = () => {
+  const [attachment, setAttachment] = useState(null);
+  const fileInput = useRef();
+
+  //이미지 미리보기
+  const selectImg = (e) => {
+    const reader = new FileReader();
+    const theFile = fileInput.current.files[0];
+    reader.readAsDataURL(theFile);
+    reader.onloadend = (finishiedEvent) => {
+      const {
+        currentTarget: { result },
+      } = finishiedEvent;
+      setAttachment(result);
+    };
+  };
+
   return (
     <Container>
       <MyPageHeader>
@@ -9,7 +26,17 @@ const EditProfileForm = () => {
       <ProfileBox>
         <h3>프로필 설정</h3>
       </ProfileBox>
-      <Img></Img>
+      <Img
+        src={
+          attachment
+            ? attachment
+            : "https://mblogthumb-phinf.pstatic.net/MjAyMDA2MTBfMTY1/MDAxNTkxNzQ2ODcyOTI2.Yw5WjjU3IuItPtqbegrIBJr3TSDMd_OPhQ2Nw-0-0ksg.8WgVjtB0fy0RCv0XhhUOOWt90Kz_394Zzb6xPjG6I8gg.PNG.lamute/user.png?type=w800"
+        }
+        alt="업로드할 이미지"
+      />
+      <form encType="multipart/form-data">
+        <input type="file" name="image" ref={fileInput} onChange={selectImg} />
+      </form>
       <ChangeProfile>프로필 사진 변경하기</ChangeProfile>
     </Container>
   );
