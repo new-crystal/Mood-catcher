@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
-import { __login } from "../../redux/modules/loginSlice";
+import { __login, __socialLogin } from "../../redux/modules/loginSlice";
 import { useNavigate } from "react-router-dom";
 
 const LoginForm = () => {
@@ -12,13 +12,33 @@ const LoginForm = () => {
     register,
     formState: { errors, isDirty, isSubmitting },
     handleSubmit,
+    getValues,
   } = useForm();
 
   //로그인
   const onSubmit = async (data) => {
     await new Promise((r) => setTimeout(r, 1000));
-    dispatch(__login(data));
+
+    //비밀번호 암호화
+    const key = getValues("password");
+    const secretKey = "12345678901234567890123456789012";
+    const iv = "abcdefghijklmnop";
+    const cipher = crypto.AES.encrypt(key, crypto.enc.Utf8.parse(secretKey), {
+      iv: crypto.enc.Utf8.parse(iv),
+      padding: crypto.pad.Pkcs7,
+      mode: crypto.mode.CBC,
+    });
+    const pwpwpw = cipher.key.words[0];
+
+    const email = getValues("email");
+    const password = toString(pwpwpw);
+
+    dispatch(__login({ email, password }));
     navigate("/login/detail");
+  };
+  //소셜로그인 버튼
+  const onClickKakao = () => {
+    dispatch(__socialLogin());
   };
 
   return (
@@ -83,19 +103,16 @@ const LoginForm = () => {
           {errors.password && <ErrorMsg>{errors.password.message}</ErrorMsg>}
         </div>
         <LogInBtn type="submit" disabled={isSubmitting}>
-          {" "}
-          로그인{" "}
+          로그인
         </LogInBtn>
       </LogBox>
       <BtnBox>
         <p>무드캐쳐가 처음이신가요?</p>
-        <LogBtn kakao type="button">
-          {" "}
-          카카오로 로그인{" "}
+        <LogBtn kakao>
+          <a href="http://3.34.190.2/api/auth/kakao">카카오 로그인</a>
         </LogBtn>
         <LogBtn type="button" onClick={() => navigate("/signup")}>
-          {" "}
-          이메일로 회원가입{" "}
+          <p>이메일로 회원가입</p>
         </LogBtn>
       </BtnBox>
     </Container>
@@ -143,6 +160,7 @@ const LogInBtn = styled.button`
   margin-right: 30px;
   border: 0px;
   border-radius: 20px;
+  cursor: pointer;
 `;
 
 const LogBox = styled.form`
@@ -156,13 +174,17 @@ const BtnBox = styled.div`
   text-align: center;
 `;
 
-const LogBtn = styled.button`
+const LogBtn = styled.div`
   width: 280px;
   height: 50px;
   border-radius: 20px;
   border: 0px;
   margin: 10px auto;
   background: ${(props) => (props.kakao ? "#F4E769" : "#C4C2CA")};
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 `;
 
 export default LoginForm;

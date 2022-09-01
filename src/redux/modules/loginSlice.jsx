@@ -3,9 +3,13 @@ import { api } from "../../shared/api";
 
 // 로그인
 export const __login = createAsyncThunk("LOGIN", async (payload, thunkAPI) => {
-  const response = await api.post("/auth/login", payload);
-  //sessionStorage.setItem("token", response.data.userStatus.token);
-  return response.data;
+  try {
+    const response = await api.post("/auth/login", payload);
+    //sessionStorage.setItem("token", response.data.userStatus.token);
+    return response.data;
+  } catch (err) {
+    console.log(err);
+  }
 });
 
 //닉네임중복체크
@@ -13,10 +17,13 @@ export const __checkNickname = createAsyncThunk(
   "CHECKNICKNAME",
   async (payload, thunkAPI) => {
     try {
-      const response = await api.get(`/auth?${payload}`);
-      return response.data.result;
+      const response = await api.get(`/auth/checkNickname?${payload}`);
+      if (response.data.status === 200) {
+        return true;
+      }
     } catch (err) {
-      return alert("중복된 닉네임이 있습니다.");
+      alert("중복된 닉네임이 있습니다.");
+      return false;
     }
   }
 );
@@ -35,20 +42,22 @@ export const __socialLogin = createAsyncThunk(
   "SOCIALLOGIN",
   async (payload, thunkAPI) => {
     try {
-      const response = await api.post("/auth/kakao");
+      const response = await api.get("/auth/kakao");
       thunkAPI.fulfillWithValue(response.data);
     } catch (err) {
-      thunkAPI.rejectWithValue(err);
+      console.log(err);
+      //hunkAPI.rejectWithValue(err);
     }
   }
 );
 
 const initialState = {
   user: {
-    nickname: "",
-    detail: "",
-    result: false,
+    nickname: null,
+    detail: null,
+    result: null,
   },
+  checkNickname: false,
   social: null,
   loading: false,
 };
@@ -56,7 +65,11 @@ const initialState = {
 const loginSlice = createSlice({
   name: "login",
   initialState,
-  reducers: {},
+  reducers: {
+    changeNickname: (state) => {
+      state.checkNickname = false;
+    },
+  },
   extraReducers: (builder) =>
     builder
       //로그인
@@ -86,10 +99,10 @@ const loginSlice = createSlice({
         state.checkEmail = action.payload;
       })
       .addCase(__checkNickname.rejected, (state, action) => {
-        alert("중복된 닉네임이 있습니다.");
+        state.checkEmail = action.payload;
       }),
 });
 
 // // reducer dispatch하기 위해 export 하기
-export const loginActions = loginSlice.actions;
+export const { changeNickname } = loginSlice.actions;
 export default loginSlice.reducer;

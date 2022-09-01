@@ -8,10 +8,13 @@ import { InputLabel } from "@material-ui/core";
 import { MenuItem } from "@material-ui/core";
 import { FormControl } from "@material-ui/core";
 import { Select } from "@material-ui/core";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { __detail } from "../../redux/modules/loginSlice";
 import { useForm } from "react-hook-form";
-import { __checkNickname } from "../../redux/modules/loginSlice";
+import {
+  __checkNickname,
+  changeNickname,
+} from "../../redux/modules/loginSlice";
 import male from "../../image/5man.png";
 import female from "../../image/girl5.png";
 import Artboard from "../../image/Artboard.png";
@@ -20,31 +23,45 @@ const SignupGenderAge = () => {
   const dispatch = useDispatch();
   const [show, setShow] = useState(false);
   const [age, setAge] = useState();
-  const [confirmNickname, setConfirmNickname] = useState(false);
   const [gender, setGender] = useState("");
   const {
     register,
     setError,
     getValues,
-    formState: { errors, isDirty, isSubmitting },
-    handleSubmit,
+    formState: { errors, isDirty },
   } = useForm();
+  const checkNickname = useSelector((state) => state.login.checkNickname);
+
+  //닉네임 인풋 값 받아오기
+  const nickname = getValues("nickname");
 
   //나이값 담기
   const onChangeHandler = (e) => {
     setAge(e.target.value);
   };
 
-  //성별 담기
-  const onClickGenderHandler = (key) => {
-    setGender(key.target.outerText);
-    const nickname = getValues("nickname");
-    dispatch(__detail({ age, gender, nickname }));
+  //닉네임 중복확인
+  const onClickCheckBtnHandler = (e) => {
+    e.preventDefault();
+    if (nickname !== "") {
+      dispatch(__checkNickname(nickname));
+    } else {
+      setError(
+        "nickname",
+        { message: "닉네임을 입력 후 중복확인을 눌러주세요" },
+        { shouldFocus: true }
+      );
+    }
   };
 
-  //성별, 나이, 닉네임 보내주기
+  //중복확인 이후 닉네임이 변할 때
+  const onChangeNickname = () => {
+    dispatch(changeNickname());
+  };
+
+  //성별 페이지로 넘어가기
   const onClickOKBtnHandler = () => {
-    if (!confirmNickname) {
+    if (!checkNickname) {
       setError(
         "nickname",
         { message: "닉네임 중복확인을 해주세요" },
@@ -55,13 +72,11 @@ const SignupGenderAge = () => {
     }
   };
 
-  //닉네임 중복확인
-  const onClickCheckBtnHandler = (e) => {
-    e.preventDefault();
-    const value = getValues("nickname");
-    console.log(value);
-    dispatch(__checkNickname(value));
-    setConfirmNickname(true);
+  //성별, 나이, 닉네임 보내기
+  const onClickGenderHandler = (key) => {
+    setGender(key.target.outerText);
+    const nickname = getValues("nickname");
+    dispatch(__detail({ age, gender, nickname }));
   };
 
   const images = [
@@ -194,11 +209,12 @@ const SignupGenderAge = () => {
             <form>
               <div>
                 <Img></Img>
-                <TextBox>
-                  {errors.nickname && <p>{errors.nickname.message}</p>}
-                </TextBox>
                 <InputBox>
+                  <TextBox>
+                    {errors.nickname && <p>{errors.nickname.message}</p>}
+                  </TextBox>
                   <input
+                    onChange={onChangeNickname}
                     type="text"
                     placeholder="닉네임을 입력해주세요"
                     name="nickname"
@@ -281,7 +297,7 @@ const Container = styleds.div`
     margin: 9px 30px;
   }
   .age {
-    width: 260px;
+    width: 280px;
     margin-top: 25px;
     margin-left: 25px;
     margin-bottom : 20px;

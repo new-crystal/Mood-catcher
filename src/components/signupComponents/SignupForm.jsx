@@ -1,16 +1,22 @@
 import styled from "styled-components";
 import { useForm } from "react-hook-form";
-import { useDispatch } from "react-redux";
-import { __checkEmail, __signUp } from "../../redux/modules/signUpSlice";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  __checkEmail,
+  __signUp,
+  changeEmail,
+} from "../../redux/modules/signUpSlice";
 import { useState } from "react";
 import crypto from "crypto-js";
 import { useNavigate } from "react-router-dom";
 
 const SigupForm = () => {
-  const [confirm, setConfirm] = useState(false);
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
+  const checkEmail = useSelector((state) => state.signup.checkEmail);
+
+  //react-hook-form에서 불러오기
   const {
     register,
     setError,
@@ -19,16 +25,32 @@ const SigupForm = () => {
     handleSubmit,
   } = useForm();
 
+  //이메일 인풋 값 받아오기
+  const email = getValues("email");
+
   //이메일 중복확인 눌렀을 때
   const onClickCheckBtnHandler = () => {
-    const email = getValues("email");
-    dispatch(__checkEmail(email));
-    setConfirm(true);
+    //이메일을 빈값에서 중복확인을 눌렀을 경우
+    if (email !== "") {
+      dispatch(__checkEmail(email));
+    } else {
+      setError(
+        "email",
+        { message: "이메일을 입력 후 중복확인을 눌러주세요" },
+        { shouldFocus: true }
+      );
+    }
+  };
+
+  //중복확인 후 이메일을 수정했을 때
+  const onChangeEmail = () => {
+    dispatch(changeEmail());
   };
 
   //회원가입 버튼을 눌렀을 때
   const onValid = async (data) => {
-    if (!confirm) {
+    //이메일 중복확인을 안 했을 때 돌려보내기
+    if (checkEmail) {
       setError(
         "email",
         { message: "이메일 중복확인을 해주세요" },
@@ -46,12 +68,13 @@ const SigupForm = () => {
       });
       const pwpwpw = cipher.key.words[0];
 
+      //비밀번호 값과 비밀번호 확인 값이 같을 때만
       if (data.password === data.confirmPw) {
         await new Promise((r) => setTimeout(r, 300));
         navigate("/login");
-        const email = getValues("email");
-        const password = pwpwpw;
-        const confirmPw = pwpwpw;
+
+        const password = toString(pwpwpw);
+        const confirmPw = toString(pwpwpw);
 
         dispatch(__signUp({ email, password, confirmPw }));
       } else {
@@ -78,6 +101,7 @@ const SigupForm = () => {
           {errors.email && <p>{errors.email.message}</p>}
         </TextBox>
         <input
+          onChange={onChangeEmail}
           className="email"
           name="email"
           type="email"
@@ -168,7 +192,14 @@ const Container = styled.form`
     border-radius: 7px;
     height: 40px;
     width: 387px;
+    background-color: #e6e5ea;
   }
+`;
+
+const CheckMail = styled.div`
+  border-radius: 7px;
+  height: 40px;
+  width: 387px;
 `;
 
 const ConfirmBtn = styled.button`
@@ -179,6 +210,7 @@ const ConfirmBtn = styled.button`
   color: white;
   border-radius: 7px;
   margin-left: 20px;
+  cursor: pointer;
 `;
 
 const SignUpHeader = styled.div`
@@ -214,6 +246,7 @@ const OkBtn = styled.button`
   width: 150px;
   height: 40px;
   margin: 100px auto;
+  cursor: pointer;
 `;
 
 export default SigupForm;
