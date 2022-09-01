@@ -16,12 +16,15 @@ export const __login = createAsyncThunk("LOGIN", async (payload, thunkAPI) => {
 export const __checkNickname = createAsyncThunk(
   "CHECKNICKNAME",
   async (payload, thunkAPI) => {
+    console.log(payload);
     try {
       const response = await api.get(`/auth/checkNickname?nickname=${payload}`);
+      console.log(response.data);
       if (response.data.status === 200) {
         return true;
       }
     } catch (err) {
+      console.log(err);
       alert("중복된 닉네임이 있습니다.");
       return false;
     }
@@ -58,6 +61,19 @@ export const __editProfile = createAsyncThunk(
     try {
       const response = await api.put("/user", payload);
       return thunkAPI.fulfillWithValue(response.data.userStatus);
+    } catch (err) {
+      thunkAPI.rejectWithValue(err);
+    }
+  }
+);
+
+//회원탈퇴
+export const __delUser = createAsyncThunk(
+  "DELUSER",
+  async (payload, thunkAPI) => {
+    try {
+      const response = await api.delete("/user/signout");
+      return alert("무드캡처를 퇴장하셨습니다.");
     } catch (err) {
       thunkAPI.rejectWithValue(err);
     }
@@ -121,7 +137,9 @@ const loginSlice = createSlice({
       })
       .addCase(__editProfile.rejected, (state, action) => {
         state.changeUser = action.payload;
-      }),
+      })
+      //회원탈퇴
+      .addCase(__delUser.fulfilled, (state, action) => {}),
 });
 
 // // reducer dispatch하기 위해 export 하기

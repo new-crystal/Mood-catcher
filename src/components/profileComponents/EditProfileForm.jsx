@@ -3,7 +3,7 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { FormControl, InputLabel, Select, MenuItem } from "@material-ui/core";
 import { useDispatch } from "react-redux";
-import { __editProfile } from "../../redux/modules/loginSlice";
+import { __delUser, __editProfile } from "../../redux/modules/loginSlice";
 
 const EditProfileForm = () => {
   const dispatch = useDispatch();
@@ -67,6 +67,12 @@ const EditProfileForm = () => {
     }
   };
 
+  //회원탍퇴
+  const onClickDelBtn = () => {
+    window.confirm("정말 회원탈퇴를 하시겠습니까?");
+    dispatch(__delUser);
+  };
+
   return (
     <Container>
       <MyPageHeader>
@@ -90,7 +96,7 @@ const EditProfileForm = () => {
       <form onSubmit={handleSubmit(onSubmit)}>
         <input
           type="text"
-          placeholder="닉네임을 입력해주세요"
+          placeholder="새로운 닉네임을 입력해주세요"
           name="nickname"
           aria-invalid={
             !isDirty ? undefined : errors.nickname ? "true" : "false"
@@ -113,7 +119,7 @@ const EditProfileForm = () => {
           })}
         />
         {errors.nickname && <p>{errors.nickname.message}</p>}
-
+        <CheckBtn>닉네임 중복확인하기</CheckBtn>
         <GenderAgeBox>
           <div>
             <div>
@@ -171,7 +177,7 @@ const EditProfileForm = () => {
       </ProfileBox>
       <LogOut>
         <button>로그아웃</button>
-        <button>계정탈퇴</button>
+        <button onClick={() => onClickDelBtn()}>계정탈퇴</button>
       </LogOut>
     </Container>
   );
@@ -180,12 +186,13 @@ const EditProfileForm = () => {
 const Container = styled.div`
   width: 428px;
   height: 926px;
+
   input {
     background-color: #e6e5ea;
     border: 0px;
     border-radius: 7px;
     height: 40px;
-    width: 387px;
+    width: 250px;
     margin-left: 20px;
     margin-bottom: 40px;
     background-color: #e6e5ea;
@@ -239,7 +246,14 @@ const GenderAgeBox = styled.div`
     width: 200px;
   }
 `;
-
+const CheckBtn = styled.button`
+  background-color: #7b758b;
+  color: white;
+  border: 0px;
+  border-radius: 5px;
+  height: 40px;
+  width: 50px;
+`;
 const LogOut = styled.div`
   flex-direction: row;
   button {

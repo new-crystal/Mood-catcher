@@ -34,6 +34,7 @@ const SignupGenderAge = () => {
 
   //닉네임 인풋 값 받아오기
   const nickname = getValues("nickname");
+  console.log(nickname);
 
   //나이값 담기
   const onChangeHandler = (e) => {

@@ -6,10 +6,10 @@ export default function Login() {
   return (
     <LoginWrap>
       <Container>
-        <Link to={"/upload"}>
-          <div>업로드</div>
-          <LoginForm />
-        </Link>
+        {/* <Link to={"/upload"}>
+          <div>업로드</div> */}
+        <LoginForm />
+        {/* </Link> */}
       </Container>
     </LoginWrap>
   );
