@@ -1,6 +1,6 @@
-import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
+import LoginForm from "../components/loginComponents/LoginForm";
 
 export default function Login() {
   return (
@@ -8,6 +8,7 @@ export default function Login() {
       <Container>
         <Link to={"/upload"}>
           <div>업로드</div>
+          <LoginForm />
         </Link>
       </Container>
     </LoginWrap>

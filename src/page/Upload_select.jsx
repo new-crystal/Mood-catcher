@@ -366,3 +366,4 @@ const ImageWrap = styled.div`
   background-size: cover;
   cursor: pointer;
 `;
+

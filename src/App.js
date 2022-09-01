@@ -7,6 +7,11 @@ import "./App.css";
 const Upload = lazy(() => import("./page/Upload"));
 const Upload_select = lazy(() => import("./page/Upload_select"));
 const Login = lazy(() => import("./page/Login"));
+const Signup = lazy(() => import("./page/Signup"));
+const Edit_profile = lazy(() => import("./page/Edit_profile"));
+const SignupGenderAge = lazy(() =>
+  import("./components/signupComponents/SignupGenderAge")
+);
 
 function App() {
   return (
@@ -19,9 +24,13 @@ function App() {
         }
       >
         <Routes>
+          <Route path="/signup" element={<Signup />} />
           <Route path="/" element={<Login />} />
           <Route path="/upload" element={<Upload />} />
           <Route path="/upload_select" element={<Upload_select />} />
+          <Route path="/edit_profile" element={<Edit_profile />} />
+          <Route path="/login/detail" element={<SignupGenderAge />} />
+          <Route path="*" element={<Login />} />
         </Routes>
       </Suspense>
       <GlobalStyle />
