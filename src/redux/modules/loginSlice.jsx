@@ -97,7 +97,8 @@ const loginSlice = createSlice({
   name: "login",
   initialState,
   reducers: {
-    changeNickname: (state) => {
+    //닉네임이 바뀔 때마다 state 변경
+    changeNickname: (state, payload) => {
       state.checkNickname = false;
     },
   },

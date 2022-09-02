@@ -35,8 +35,9 @@ const SignupGenderAge = () => {
     getValues,
     formState: { errors, isDirty },
   } = useForm({ criteriaMode: "all", mode: "onChange" });
+
   const checkNickname = useSelector((state) => state.login.checkNickname);
-  console.log(checkNickname);
+
   //닉네임 인풋 값 받아오기
   const nickname = getValues("nickname");
 
@@ -44,6 +45,8 @@ const SignupGenderAge = () => {
   const onChangeHandler = (e) => {
     setAge(e.target.value);
   };
+
+  //닉네임 중복확인을 눌렀을 때
   useEffect(() => {
     if (checkNickname === true) {
       setError("nickname", { message: "사용 가능한 닉네임입니다." });
@@ -240,7 +243,6 @@ const SignupGenderAge = () => {
                           {errors.nickname && <p>{errors.nickname.message}</p>}
                         </TextBox>
                         <input
-                          onChange={onChangeNickname}
                           type="text"
                           placeholder="닉네임을 입력해주세요"
                           name="nickname"
@@ -252,6 +254,7 @@ const SignupGenderAge = () => {
                               : "false"
                           }
                           {...register("nickname", {
+                            onChange: () => onChangeNickname(),
                             required: "닉네임은 필수 입력입니다.",
                             minLength: {
                               value: 2,

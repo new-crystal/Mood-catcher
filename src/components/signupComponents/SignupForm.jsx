@@ -27,15 +27,18 @@ const SigupForm = () => {
 
   //이메일 인풋 값 받아오기
   const email = getValues("email");
-  console.log(email);
-  console.log(checkEmail);
 
   //email 중복확인 성공했을 때 메시지 띄워주기
   useEffect(() => {
     if (checkEmail === true) {
       setError("email", { message: "사용 가능한 이메일입니다." });
     }
-  }, [checkEmail, email]);
+  }, [checkEmail]);
+
+  //이메일이 바뀐 값 디스패치하기
+  const onChangeEmail = () => {
+    dispatch(changeEmail());
+  };
 
   //이메일 중복확인 눌렀을 때
   const onClickCheckBtnHandler = () => {
@@ -55,11 +58,6 @@ const SigupForm = () => {
         { shouldFocus: true }
       );
     }
-  };
-
-  //중복확인 후 이메일을 수정했을 때
-  const onChangeEmail = () => {
-    let checkEmail = false;
   };
 
   //회원가입 버튼을 눌렀을 때
@@ -115,12 +113,13 @@ const SigupForm = () => {
           {errors.email && <p>{errors.email.message}</p>}
         </TextBox>
         <input
-          onChange={() => onChangeEmail()}
+          //onChange={() => onChangeEmail()}
           className="email"
           name="email"
           type="email"
           aria-invalid={!isDirty ? undefined : errors.email ? "true" : "false"}
           {...register("email", {
+            onChange: () => onChangeEmail(),
             required: "이메일은 필수 입력입니다.",
             minLength: {
               value: 8,

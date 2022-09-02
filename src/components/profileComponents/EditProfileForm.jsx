@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { FormControl, InputLabel, Select, MenuItem } from "@material-ui/core";
 import { useDispatch, useSelector } from "react-redux";
@@ -7,6 +7,7 @@ import {
   __delUser,
   __editProfile,
   __checkNickname,
+  changeNickname,
 } from "../../redux/modules/loginSlice";
 
 const EditProfileForm = () => {
@@ -31,6 +32,12 @@ const EditProfileForm = () => {
   } = useForm({ criteriaMode: "all", mode: "onChange" });
 
   let inputRef;
+  //닉네임 중복확인을 눌렀을 때
+  useEffect(() => {
+    if (checkNickname === true) {
+      setError("nickname", { message: "사용 가능한 닉네임입니다." });
+    }
+  }, [checkNickname]);
 
   //수정된 성별 담기
   const handleChange = (event) => {
@@ -62,7 +69,7 @@ const EditProfileForm = () => {
   const onClickCheckBtnHandler = (e) => {
     e.preventDefault();
     const nickname = getValues("nickname");
-    if (errors.nickname === undefined) {
+    if (nickname !== "" && errors.nickname === undefined) {
       dispatch(__checkNickname(nickname));
       if (checkNickname === false) {
         setError(
@@ -78,6 +85,11 @@ const EditProfileForm = () => {
         { shouldFocus: true }
       );
     }
+  };
+
+  //중복확인 이후 닉네임이 변할 때
+  const onChangeNickname = () => {
+    dispatch(changeNickname());
   };
 
   //수정된 프로필 이미지, 닉네임, 성별, 나이 전송하기
@@ -128,6 +140,7 @@ const EditProfileForm = () => {
             !isDirty ? undefined : errors.nickname ? "true" : "false"
           }
           {...register("nickname", {
+            onChange: () => onChangeNickname(),
             required: "닉네임은 필수 입력입니다.",
             minLength: {
               value: 2,

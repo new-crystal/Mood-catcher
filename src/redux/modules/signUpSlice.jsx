@@ -33,7 +33,6 @@ export const __checkEmail = createAsyncThunk(
 );
 
 //회원 탈퇴
-
 const initialState = {
   checkEmail: false,
   is_signup: null,
@@ -43,7 +42,12 @@ const initialState = {
 const signUpSlice = createSlice({
   name: "signUp",
   initialState,
-  reducers: {},
+  reducers: {
+    //email이 바뀔 때마다 state 변경
+    changeEmail: (state, payload) => {
+      state.checkEmail = false;
+    },
+  },
   extraReducers: (builder) =>
     builder
       //회원가입
