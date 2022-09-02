@@ -3,26 +3,30 @@ import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import "../shared/style/TestHeader.css";
 
-const myBeer = "/images/mybeer.png";
+const home = "/images/home.png";
+const search = "/images/search.png";
+const add_circle = "/images/add_circle.png";
+const star = "/images/star.png";
+const person = "/images/person.png";
 
 const NavigationBar = (props) => {
   return (
     <Fragment>
       <NavBox>
         <SearchWrap>
-          <ImageWrap style={{ backgroundImage: `url(${myBeer})` }} />
+          <ImageWrap style={{ backgroundImage: `url(${home})` }} />
         </SearchWrap>
         <SearchWrap>
-          <ImageWrap style={{ backgroundImage: `url(${myBeer})` }} />
+          <ImageWrap style={{ backgroundImage: `url(${search})` }} />
         </SearchWrap>
         <SearchWrap>
-          <ImageWrap style={{ backgroundImage: `url(${myBeer})` }} />
+          <ImageWrap style={{ backgroundImage: `url(${add_circle})` }} />
         </SearchWrap>
         <SearchWrap>
-          <ImageWrap style={{ backgroundImage: `url(${myBeer})` }} />
+          <ImageWrap style={{ backgroundImage: `url(${star})` }} />
         </SearchWrap>
         <SearchWrap>
-          <ImageWrap style={{ backgroundImage: `url(${myBeer})` }} />
+          <ImageWrap style={{ backgroundImage: `url(${person})` }} />
         </SearchWrap>
       </NavBox>
     </Fragment>
