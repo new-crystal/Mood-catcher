@@ -18,7 +18,9 @@ export const __checkNickname = createAsyncThunk(
   async (payload, thunkAPI) => {
     console.log(payload);
     try {
-      const response = await api.get(`/auth/checkNickname?nickname=${payload}`);
+      const response = await api.get(
+        `/auth/checkNickname?nickname=${encodeURI(payload)}`
+      );
       console.log(response.data);
       if (response.data.status === 200) {
         return true;

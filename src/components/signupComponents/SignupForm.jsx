@@ -6,6 +6,7 @@ import {
   __signUp,
   changeEmail,
 } from "../../redux/modules/signUpSlice";
+import { useState } from "react";
 import crypto from "crypto-js";
 import { useNavigate } from "react-router-dom";
 
@@ -30,20 +31,20 @@ const SigupForm = () => {
   //이메일 중복확인 눌렀을 때
   const onClickCheckBtnHandler = () => {
     //이메일을 빈값에서 중복확인을 눌렀을 경우
-    if (email !== "" && errors.email === undefined) {
-      dispatch(__checkEmail(email))
-        .then(setError("email", { message: "사용 가능한 이메일 입니다." }))
-        .catch(
+    if (email !== undefined && errors.email === undefined) {
+      dispatch(__checkEmail(email)).then(
+        setError("email", { message: "사용 가능한 이메일입니다" }).catch(
           setError(
             "email",
-            { message: "중복된 이메일입니다." },
+            { message: "중복 된 이메일입니다" },
             { shouldFocus: true }
           )
-        );
+        )
+      );
     } else {
       setError(
         "email",
-        { message: "이메일을 입력 후 중복확인을 눌러주세요" },
+        { message: "이메일을 확인하시고 중복확인을 눌러주세요" },
         { shouldFocus: true }
       );
     }
@@ -98,9 +99,6 @@ const SigupForm = () => {
 
   return (
     <Container onSubmit={handleSubmit(onValid)}>
-      <SignUpHeader>
-        <h1>Mood catcher</h1>
-      </SignUpHeader>
       <SignUpBox>
         <h1>Sign Up</h1>
       </SignUpBox>
@@ -190,11 +188,9 @@ const SigupForm = () => {
 const Container = styled.form`
   width: 428px;
   height: 926px;
-
   .email {
     width: 270px;
   }
-
   input {
     background-color: #e6e5ea;
     border: 0px;
@@ -252,7 +248,7 @@ const OkBtn = styled.button`
   border-radius: 10px;
   width: 150px;
   height: 40px;
-  margin: 100px auto;
+  margin: 70px auto;
   cursor: pointer;
 `;
 

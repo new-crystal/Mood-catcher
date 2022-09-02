@@ -57,22 +57,30 @@ const EditProfileForm = () => {
     };
   };
 
-  //프로필 수정사항 제출하기
+  //닉네임 중복확인하기
   const onClickCheckBtnHandler = (e) => {
     e.preventDefault();
     const nickname = getValues("nickname");
-    if (nickname !== "") {
-      dispatch(__checkNickname(nickname));
+    if (nickname !== undefined && errors.nickname === undefined) {
+      dispatch(__checkNickname(nickname))
+        .then(setError("nickname", { message: "사용가능 한 닉네임입니다." }))
+        .catch(
+          setError(
+            "nickname",
+            { message: "중복된 닉네임입니다" },
+            { shouldFocus: true }
+          )
+        );
     } else {
       setError(
         "nickname",
-        { message: "닉네임을 입력 후 중복확인을 눌러주세요" },
+        { message: "닉네임을 확인하시고 중복확인을 눌러주세요" },
         { shouldFocus: true }
       );
     }
   };
 
-  //이미지, 닉네임, 성별, 나이 전송하기
+  //수정된 프로필 이미지, 닉네임, 성별, 나이 전송하기
   const onSubmit = () => {
     const nickname = getValues("nickname");
     if (image.image_file && nickname && gender && age) {
@@ -95,9 +103,6 @@ const EditProfileForm = () => {
 
   return (
     <Container>
-      <MyPageHeader>
-        <h1>Mood catcher</h1>
-      </MyPageHeader>
       <ProfileBox>
         <h3>프로필 설정</h3>
       </ProfileBox>
@@ -208,6 +213,9 @@ const EditProfileForm = () => {
 const Container = styled.div`
   width: 428px;
   height: 926px;
+  form {
+    margin-top: 30px;
+  }
 
   input {
     background-color: #e6e5ea;
@@ -222,8 +230,8 @@ const Container = styled.div`
   p {
     color: #c60000;
     font-size: 10px;
-    margin-top: -30px;
-    margin-left: 20px;
+    margin-top: -20px;
+    margin-left: -190px;
   }
 `;
 
@@ -255,7 +263,7 @@ const ChangeProfile = styled.button`
   background-color: white;
   border: 0px;
   color: #7b758b;
-  margin: 20px 150px;
+  margin-top: -20px;
 `;
 const GenderAgeBox = styled.div`
   display: flex;
