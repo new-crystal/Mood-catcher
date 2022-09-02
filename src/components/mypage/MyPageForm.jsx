@@ -1,46 +1,63 @@
-import { useSelector } from "react-redux";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 import cat from "../../image/냥5.png";
+import { __getMyPage } from "../../redux/modules/uploadSlice";
+import ClosetForm from "./ClosetForm";
 
 const MyPageForm = () => {
   const postList = useSelector((state) => state);
+  const dispatch = useDispatch();
+  const [show, setShow] = useState(false);
+
+  useEffect(() => {
+    dispatch(__getMyPage());
+  }, []);
 
   return (
-    <Container>
-      <MyPageHeader>
-        <h1>My Page</h1>
-      </MyPageHeader>
-      <Img url="https://cdn.discordapp.com/attachments/1014169130045292625/1014194232250077264/Artboard_1.png"></Img>
-      <ProfileBox>
-        <GradeIcon></GradeIcon>
-        <h4>수수</h4>
-      </ProfileBox>
-      <MyPageBox>
-        <MoodBox>
-          <MoodHeader>Mood Point</MoodHeader>
-          <MoodBody>
-            <h1>10</h1>
-          </MoodBody>
-          <MoodHeader>Catch Grade</MoodHeader>
-          <MoodBody>
-            <GradeImg></GradeImg>
-            <GradeText>
-              <h6>양복</h6>
-              <Progress></Progress>
-            </GradeText>
-          </MoodBody>
-        </MoodBox>
-        <PostImg></PostImg>
-      </MyPageBox>
-      <MoodHeader>My Closet</MoodHeader>
-      <ClosetList>
-        <Closet></Closet>
-        <Closet></Closet>
-        <Closet></Closet>
-        <Closet></Closet>
-        <Closet></Closet>
-      </ClosetList>
-    </Container>
+    <>
+      {show ? (
+        <ClosetForm />
+      ) : (
+        <Container>
+          <MyPageHeader>
+            <h1>My Page</h1>
+          </MyPageHeader>
+          <Img url="https://cdn.discordapp.com/attachments/1014169130045292625/1014194232250077264/Artboard_1.png"></Img>
+          <ProfileBox>
+            <GradeIcon></GradeIcon>
+            <h4>수수</h4>
+          </ProfileBox>
+          <MyPageBox>
+            <MoodBox>
+              <MoodHeader>Mood Point</MoodHeader>
+              <MoodBody>
+                <h1>10</h1>
+              </MoodBody>
+              <MoodHeader>Catch Grade</MoodHeader>
+              <MoodBody>
+                <GradeImg></GradeImg>
+                <GradeText>
+                  <h6>양복</h6>
+                  <Progress>
+                    <HighLight></HighLight>
+                  </Progress>
+                </GradeText>
+              </MoodBody>
+            </MoodBox>
+            <PostImg></PostImg>
+          </MyPageBox>
+          <MoodHeader>My Closet</MoodHeader>
+          <ClosetList>
+            <Closet></Closet>
+            <Closet></Closet>
+            <Closet></Closet>
+            <Closet></Closet>
+            <Closet onClick={() => setShow(true)}></Closet>
+          </ClosetList>
+        </Container>
+      )}
+    </>
   );
 };
 const Container = styled.div`
@@ -69,6 +86,7 @@ const ProfileBox = styled.div`
   align-items: center;
   justify-content: center;
   flex-direction: row;
+  margin-top: -20px;
 `;
 const GradeIcon = styled.div`
   width: 50px;
@@ -127,6 +145,11 @@ const Progress = styled.div`
   border-radius: 10px;
   background-color: #7b758b;
   margin-top: -10px;
+`;
+const HighLight = styled.div`
+  background-color: white;
+  height: 13px;
+  width: 35px;
 `;
 const PostImg = styled.div`
   width: 180px;

@@ -39,12 +39,28 @@ export const __getMyPage = createAsyncThunk(
   }
 );
 
+//closet 페이지 정보 가져오기
+export const __getCloset = createAsyncThunk(
+  "GET/CLOSET",
+  async (payload, thunkAPI) => {
+    try {
+      const response = await api.get(
+        `/user/mycloset/?${payload.userId}=&page=${payload.page}&count=${payload.count}`
+      );
+      return response.data;
+    } catch (err) {
+      thunkAPI.rejectWithValue(err);
+    }
+  }
+);
+
 const uploadSlice = createSlice({
   name: "upload",
   initialState: {
     post: { title: "", content: "" },
     formdata: {},
-    myList: {},
+    myList: [],
+    closetList: [],
   },
   reducers: {
     regFormdata: (state, action) => {
@@ -67,6 +83,16 @@ const uploadSlice = createSlice({
       //mypage 정보 가져오기
       .addCase(__getMyPage.fulfilled, (state, action) => {
         state.myList = action.payload;
+      })
+      .addCase(__getMyPage.rejected, (state, action) => {
+        state.myList = action.payload;
+      })
+      //옷장 정보 가져오기
+      .addCase(__getCloset.fulfilled, (state, action) => {
+        state.closetList = action.payload;
+      })
+      .addCase(__getCloset.rejected, (state, action) => {
+        state.closetList = action.payload;
       });
   },
 });
