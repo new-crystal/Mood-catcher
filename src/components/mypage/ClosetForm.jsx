@@ -8,7 +8,7 @@ const ClosetForm = () => {
   const dispatch = useDispatch();
   const closetList = useSelector((state) => state);
 
-  //userId, page, count 보내주기
+  //userId, page, count 보내주기!!
   useEffect(() => {
     dispatch(__getCloset());
   }, []);
