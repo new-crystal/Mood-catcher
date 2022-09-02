@@ -47,7 +47,7 @@ const HeaderBox = styled.div`
 `;
 
 const GoBack = styled.div`
-  background-color: green;
+  /* background-color: green; */
   display: inline-block;
   width: 40px;
   height: 40px;
@@ -57,7 +57,7 @@ const GoBack = styled.div`
 `;
 
 const HeaderLogo = styled.div`
-  background-color: yellow;
+  /* background-color: yellow; */
   font-family: "Unna";
   position: absolute;
   top: 12px;
