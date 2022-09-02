@@ -18,9 +18,11 @@ export const __signUp = createAsyncThunk(
 export const __checkEmail = createAsyncThunk(
   "CHECKEMAIL",
   async (payload, thunkAPI) => {
+    console.log(payload);
     try {
       const response = await api.get(`/auth/checkEmail?email=${payload}`);
-      if (response.data.status === 200) {
+      console.log(response);
+      if (response.status === 200) {
         return true;
       }
     } catch (err) {
@@ -41,11 +43,7 @@ const initialState = {
 const signUpSlice = createSlice({
   name: "signUp",
   initialState,
-  reducers: {
-    changeEmail: (state) => {
-      state.checkEmail = false;
-    },
-  },
+  reducers: {},
   extraReducers: (builder) =>
     builder
       //회원가입

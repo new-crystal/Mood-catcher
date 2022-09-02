@@ -6,9 +6,9 @@ import {
   __signUp,
   changeEmail,
 } from "../../redux/modules/signUpSlice";
-import { useState } from "react";
 import crypto from "crypto-js";
 import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
 
 const SigupForm = () => {
   const navigate = useNavigate();
@@ -27,24 +27,31 @@ const SigupForm = () => {
 
   //이메일 인풋 값 받아오기
   const email = getValues("email");
+  console.log(email);
+  console.log(checkEmail);
+
+  //email 중복확인 성공했을 때 메시지 띄워주기
+  useEffect(() => {
+    if (checkEmail === true) {
+      setError("email", { message: "사용 가능한 이메일입니다." });
+    }
+  }, [checkEmail, email]);
 
   //이메일 중복확인 눌렀을 때
   const onClickCheckBtnHandler = () => {
-    //이메일을 빈값에서 중복확인을 눌렀을 경우
-    if (email !== undefined && errors.email === undefined) {
-      dispatch(__checkEmail(email)).then(
-        setError("email", { message: "사용 가능한 이메일입니다" }).catch(
-          setError(
-            "email",
-            { message: "중복 된 이메일입니다" },
-            { shouldFocus: true }
-          )
-        )
-      );
+    if (email !== "" && errors.email === undefined) {
+      dispatch(__checkEmail(email));
+      if (checkEmail === false) {
+        setError(
+          "email",
+          { message: "중복된 이메일입니다." },
+          { shouldFocus: true }
+        );
+      }
     } else {
       setError(
         "email",
-        { message: "이메일을 확인하시고 중복확인을 눌러주세요" },
+        { message: "이메일을 확인하고 중복확인을 해주세요." },
         { shouldFocus: true }
       );
     }
@@ -52,13 +59,13 @@ const SigupForm = () => {
 
   //중복확인 후 이메일을 수정했을 때
   const onChangeEmail = () => {
-    dispatch(changeEmail());
+    let checkEmail = false;
   };
 
   //회원가입 버튼을 눌렀을 때
   const onValid = async (data) => {
     //이메일 중복확인을 안 했을 때 돌려보내기
-    if (checkEmail) {
+    if (checkEmail === false) {
       setError(
         "email",
         { message: "이메일 중복확인을 해주세요" },
@@ -108,7 +115,7 @@ const SigupForm = () => {
           {errors.email && <p>{errors.email.message}</p>}
         </TextBox>
         <input
-          onChange={onChangeEmail}
+          onChange={() => onChangeEmail()}
           className="email"
           name="email"
           type="email"

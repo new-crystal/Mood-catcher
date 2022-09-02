@@ -1,13 +1,15 @@
-import React, { Fragment, useState, Suspense } from "react";
+import React, { Fragment, useState, Suspense, useEffect } from "react";
 import styleds from "styled-components";
-import { styled } from "@material-ui/core";
-import { Box } from "@material-ui/core";
-import { ButtonBase } from "@material-ui/core";
-import { Typography } from "@material-ui/core";
-import { InputLabel } from "@material-ui/core";
-import { MenuItem } from "@material-ui/core";
-import { FormControl } from "@material-ui/core";
-import { Select } from "@material-ui/core";
+import {
+  styled,
+  Box,
+  ButtonBase,
+  Typography,
+  InputLabel,
+  MenuItem,
+  FormControl,
+  Select,
+} from "@material-ui/core";
 import { useDispatch, useSelector } from "react-redux";
 import { __detail } from "../../redux/modules/loginSlice";
 import { useForm } from "react-hook-form";
@@ -34,7 +36,7 @@ const SignupGenderAge = () => {
     formState: { errors, isDirty },
   } = useForm({ criteriaMode: "all", mode: "onChange" });
   const checkNickname = useSelector((state) => state.login.checkNickname);
-
+  console.log(checkNickname);
   //닉네임 인풋 값 받아오기
   const nickname = getValues("nickname");
 
@@ -42,24 +44,28 @@ const SignupGenderAge = () => {
   const onChangeHandler = (e) => {
     setAge(e.target.value);
   };
+  useEffect(() => {
+    if (checkNickname === true) {
+      setError("nickname", { message: "사용 가능한 닉네임입니다." });
+    }
+  }, [checkNickname]);
 
   //닉네임 중복확인
   const onClickCheckBtnHandler = (e) => {
     e.preventDefault();
-    if (nickname !== undefined && errors.nickname === undefined) {
-      dispatch(__checkNickname(nickname))
-        .then(setError("nickname", { message: "사용 가능한 닉네임입니다" }))
-        .catch(
-          setError(
-            "nickname",
-            { message: "중복 된 이메일입니다." },
-            { shouldFocus: true }
-          )
+    if (nickname !== "" && errors.nickname === undefined) {
+      dispatch(__checkNickname(nickname));
+      if (checkNickname === false) {
+        setError(
+          "nickname",
+          { message: "중복된 닉네임입니다." },
+          { shouldFocus: true }
         );
+      }
     } else {
       setError(
         "nickname",
-        { message: "닉네임을 확인하시고 중복확인을 눌러주세요" },
+        { message: "닉네임을 확인하고 중복확인을 해주세요." },
         { shouldFocus: true }
       );
     }

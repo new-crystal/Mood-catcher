@@ -21,8 +21,8 @@ export const __checkNickname = createAsyncThunk(
       const response = await api.get(
         `/auth/checkNickname?nickname=${encodeURI(payload)}`
       );
-      console.log(response.data);
-      if (response.data.status === 200) {
+      console.log(response);
+      if (response.status === 200) {
         return true;
       }
     } catch (err) {
@@ -127,10 +127,10 @@ const loginSlice = createSlice({
       })
       //닉네임 중복확인
       .addCase(__checkNickname.fulfilled, (state, action) => {
-        state.checkEmail = action.payload;
+        state.checkNickname = action.payload;
       })
       .addCase(__checkNickname.rejected, (state, action) => {
-        state.checkEmail = action.payload;
+        state.checkNickname = action.payload;
       })
       //프로필 수정
       .addCase(__editProfile.fulfilled, (state, action) => {
