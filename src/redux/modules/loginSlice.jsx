@@ -25,7 +25,6 @@ export const __checkNickname = createAsyncThunk(
       }
     } catch (err) {
       console.log(err);
-      alert("중복된 닉네임이 있습니다.");
       return false;
     }
   }

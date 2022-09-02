@@ -6,7 +6,6 @@ import {
   __signUp,
   changeEmail,
 } from "../../redux/modules/signUpSlice";
-import { useState } from "react";
 import crypto from "crypto-js";
 import { useNavigate } from "react-router-dom";
 
@@ -31,8 +30,16 @@ const SigupForm = () => {
   //이메일 중복확인 눌렀을 때
   const onClickCheckBtnHandler = () => {
     //이메일을 빈값에서 중복확인을 눌렀을 경우
-    if (email !== "") {
-      dispatch(__checkEmail(email));
+    if (email !== "" && errors.email === undefined) {
+      dispatch(__checkEmail(email))
+        .then(setError("email", { message: "사용 가능한 이메일 입니다." }))
+        .catch(
+          setError(
+            "email",
+            { message: "중복된 이메일입니다." },
+            { shouldFocus: true }
+          )
+        );
     } else {
       setError(
         "email",

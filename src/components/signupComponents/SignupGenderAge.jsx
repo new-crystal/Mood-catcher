@@ -44,8 +44,16 @@ const SignupGenderAge = () => {
   //닉네임 중복확인
   const onClickCheckBtnHandler = (e) => {
     e.preventDefault();
-    if (nickname !== "") {
-      dispatch(__checkNickname(nickname));
+    if (nickname !== "" && errors.nickname === undefined) {
+      dispatch(__checkNickname(nickname)).then(
+        setError("nickname", { message: "사용 가능한 닉네임입니다." }).catch(
+          setError(
+            "nickname",
+            { message: "중복된 닉네임입니다." },
+            { shouldFocus: true }
+          )
+        )
+      );
     } else {
       setError(
         "nickname",

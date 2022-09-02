@@ -3,7 +3,11 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { FormControl, InputLabel, Select, MenuItem } from "@material-ui/core";
 import { useDispatch } from "react-redux";
-import { __delUser, __editProfile } from "../../redux/modules/loginSlice";
+import {
+  __delUser,
+  __editProfile,
+  __checkNickname,
+} from "../../redux/modules/loginSlice";
 
 const EditProfileForm = () => {
   const dispatch = useDispatch();
@@ -22,6 +26,7 @@ const EditProfileForm = () => {
     handleSubmit,
     formState: { isSubmitting, errors },
     getValues,
+    setError,
   } = useForm({ criteriaMode: "all", mode: "onChange" });
 
   let inputRef;
@@ -50,6 +55,21 @@ const EditProfileForm = () => {
         preview_URL: fileReader.result,
       });
     };
+  };
+
+  //프로필 수정사항 제출하기
+  const onClickCheckBtnHandler = (e) => {
+    e.preventDefault();
+    const nickname = getValues("nickname");
+    if (nickname !== "") {
+      dispatch(__checkNickname(nickname));
+    } else {
+      setError(
+        "nickname",
+        { message: "닉네임을 입력 후 중복확인을 눌러주세요" },
+        { shouldFocus: true }
+      );
+    }
   };
 
   //이미지, 닉네임, 성별, 나이 전송하기
@@ -94,6 +114,7 @@ const EditProfileForm = () => {
         프로필 사진 변경하기
       </ChangeProfile>
       <form onSubmit={handleSubmit(onSubmit)}>
+        {errors.nickname && <p>{errors.nickname.message}</p>}
         <input
           type="text"
           placeholder="새로운 닉네임을 입력해주세요"
@@ -118,8 +139,9 @@ const EditProfileForm = () => {
             },
           })}
         />
-        {errors.nickname && <p>{errors.nickname.message}</p>}
-        <CheckBtn>닉네임 중복확인하기</CheckBtn>
+        <CheckBtn onClick={(e) => onClickCheckBtnHandler(e)}>
+          중복 확인
+        </CheckBtn>
         <GenderAgeBox>
           <div>
             <div>
@@ -252,7 +274,8 @@ const CheckBtn = styled.button`
   border: 0px;
   border-radius: 5px;
   height: 40px;
-  width: 50px;
+  width: 80px;
+  margin-left: 20px;
 `;
 const LogOut = styled.div`
   flex-direction: row;
