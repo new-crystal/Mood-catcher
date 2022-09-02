@@ -1,11 +1,17 @@
 import styled from "styled-components";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { FormControl, InputLabel, Select, MenuItem } from "@material-ui/core";
-import { useDispatch } from "react-redux";
-import { __editProfile } from "../../redux/modules/loginSlice";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  __delUser,
+  __editProfile,
+  __checkNickname,
+  changeNickname,
+} from "../../redux/modules/loginSlice";
 
 const EditProfileForm = () => {
+  const checkNickname = useSelector((state) => state.login.checkNickname);
   const dispatch = useDispatch();
   const [gender, setGender] = useState("");
   const [age, setAge] = useState("");
@@ -22,9 +28,16 @@ const EditProfileForm = () => {
     handleSubmit,
     formState: { isSubmitting, errors },
     getValues,
+    setError,
   } = useForm({ criteriaMode: "all", mode: "onChange" });
 
   let inputRef;
+  //닉네임 중복확인을 눌렀을 때
+  useEffect(() => {
+    if (checkNickname === true) {
+      setError("nickname", { message: "사용 가능한 닉네임입니다." });
+    }
+  }, [checkNickname]);
 
   //수정된 성별 담기
   const handleChange = (event) => {
@@ -52,7 +65,34 @@ const EditProfileForm = () => {
     };
   };
 
-  //이미지, 닉네임, 성별, 나이 전송하기
+  //닉네임 중복확인하기
+  const onClickCheckBtnHandler = (e) => {
+    e.preventDefault();
+    const nickname = getValues("nickname");
+    if (nickname !== "" && errors.nickname === undefined) {
+      dispatch(__checkNickname(nickname));
+      if (checkNickname === false) {
+        setError(
+          "nickname",
+          { message: "중복된 닉네임입니다." },
+          { shouldFocus: true }
+        );
+      }
+    } else {
+      setError(
+        "nickname",
+        { message: "닉네임을 확인하고 중복확인을 해주세요." },
+        { shouldFocus: true }
+      );
+    }
+  };
+
+  //중복확인 이후 닉네임이 변할 때
+  const onChangeNickname = () => {
+    dispatch(changeNickname());
+  };
+
+  //수정된 프로필 이미지, 닉네임, 성별, 나이 전송하기
   const onSubmit = () => {
     const nickname = getValues("nickname");
     if (image.image_file && nickname && gender && age) {
@@ -65,6 +105,12 @@ const EditProfileForm = () => {
     } else {
       alert("수정할 프로필을 모두 입력해주세요!");
     }
+  };
+
+  //회원탍퇴
+  const onClickDelBtn = () => {
+    window.confirm("정말 회원탈퇴를 하시겠습니까?");
+    dispatch(__delUser);
   };
 
   return (
@@ -85,14 +131,16 @@ const EditProfileForm = () => {
         프로필 사진 변경하기
       </ChangeProfile>
       <form onSubmit={handleSubmit(onSubmit)}>
+        {errors.nickname && <p>{errors.nickname.message}</p>}
         <input
           type="text"
-          placeholder="닉네임을 입력해주세요"
+          placeholder="새로운 닉네임을 입력해주세요"
           name="nickname"
           aria-invalid={
             !isDirty ? undefined : errors.nickname ? "true" : "false"
           }
           {...register("nickname", {
+            onChange: () => onChangeNickname(),
             required: "닉네임은 필수 입력입니다.",
             minLength: {
               value: 2,
@@ -109,8 +157,9 @@ const EditProfileForm = () => {
             },
           })}
         />
-        {errors.nickname && <p>{errors.nickname.message}</p>}
-
+        <CheckBtn onClick={(e) => onClickCheckBtnHandler(e)}>
+          중복 확인
+        </CheckBtn>
         <GenderAgeBox>
           <div>
             <div>
@@ -168,7 +217,7 @@ const EditProfileForm = () => {
       </ProfileBox>
       <LogOut>
         <button>로그아웃</button>
-        <button>계정탈퇴</button>
+        <button onClick={() => onClickDelBtn()}>계정탈퇴</button>
       </LogOut>
     </Container>
   );
@@ -177,12 +226,16 @@ const EditProfileForm = () => {
 const Container = styled.div`
   width: 428px;
   height: 926px;
+  form {
+    margin-top: 30px;
+  }
+
   input {
     background-color: #e6e5ea;
     border: 0px;
     border-radius: 7px;
     height: 40px;
-    width: 387px;
+    width: 250px;
     margin-left: 20px;
     margin-bottom: 40px;
     background-color: #e6e5ea;
@@ -190,8 +243,8 @@ const Container = styled.div`
   p {
     color: #c60000;
     font-size: 10px;
-    margin-top: -30px;
-    margin-left: 20px;
+    margin-top: -20px;
+    margin-left: -190px;
   }
 `;
 
@@ -223,7 +276,7 @@ const ChangeProfile = styled.button`
   background-color: white;
   border: 0px;
   color: #7b758b;
-  margin: 20px 150px;
+  margin-top: -20px;
 `;
 const GenderAgeBox = styled.div`
   display: flex;
@@ -236,7 +289,15 @@ const GenderAgeBox = styled.div`
     width: 200px;
   }
 `;
-
+const CheckBtn = styled.button`
+  background-color: #7b758b;
+  color: white;
+  border: 0px;
+  border-radius: 5px;
+  height: 40px;
+  width: 80px;
+  margin-left: 20px;
+`;
 const LogOut = styled.div`
   flex-direction: row;
   button {
