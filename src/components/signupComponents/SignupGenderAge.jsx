@@ -1,13 +1,16 @@
-import React, { Fragment, useState, Suspense } from "react";
+
+import React, { Fragment, useState, Suspense, useEffect } from "react";
 import styleds from "styled-components";
-import { styled } from "@material-ui/core";
-import { Box } from "@material-ui/core";
-import { ButtonBase } from "@material-ui/core";
-import { Typography } from "@material-ui/core";
-import { InputLabel } from "@material-ui/core";
-import { MenuItem } from "@material-ui/core";
-import { FormControl } from "@material-ui/core";
-import { Select } from "@material-ui/core";
+import {
+  styled,
+  Box,
+  ButtonBase,
+  Typography,
+  InputLabel,
+  MenuItem,
+  FormControl,
+  Select,
+} from "@material-ui/core";
 import { useDispatch, useSelector } from "react-redux";
 import { __detail } from "../../redux/modules/loginSlice";
 import { useForm } from "react-hook-form";
@@ -32,7 +35,8 @@ const SignupGenderAge = () => {
     setError,
     getValues,
     formState: { errors, isDirty },
-  } = useForm();
+  } = useForm({ criteriaMode: "all", mode: "onChange" });
+
   const checkNickname = useSelector((state) => state.login.checkNickname);
 
   //닉네임 인풋 값 받아오기
@@ -43,15 +47,29 @@ const SignupGenderAge = () => {
     setAge(e.target.value);
   };
 
+  //닉네임 중복확인을 눌렀을 때
+  useEffect(() => {
+    if (checkNickname === true) {
+      setError("nickname", { message: "사용 가능한 닉네임입니다." });
+    }
+  }, [checkNickname]);
+
   //닉네임 중복확인
   const onClickCheckBtnHandler = (e) => {
     e.preventDefault();
-    if (nickname !== "") {
+    if (nickname !== "" && errors.nickname === undefined) {
       dispatch(__checkNickname(nickname));
+      if (checkNickname === false) {
+        setError(
+          "nickname",
+          { message: "중복된 닉네임입니다." },
+          { shouldFocus: true }
+        );
+      }
     } else {
       setError(
         "nickname",
-        { message: "닉네임을 입력 후 중복확인을 눌러주세요" },
+        { message: "닉네임을 확인하고 중복확인을 해주세요." },
         { shouldFocus: true }
       );
     }
@@ -226,7 +244,6 @@ const SignupGenderAge = () => {
                           {errors.nickname && <p>{errors.nickname.message}</p>}
                         </TextBox>
                         <input
-                          onChange={onChangeNickname}
                           type="text"
                           placeholder="닉네임을 입력해주세요"
                           name="nickname"
@@ -238,6 +255,7 @@ const SignupGenderAge = () => {
                               : "false"
                           }
                           {...register("nickname", {
+                            onChange: () => onChangeNickname(),
                             required: "닉네임은 필수 입력입니다.",
                             minLength: {
                               value: 2,
@@ -330,13 +348,11 @@ const Container = styleds.div`
     margin-left: 25px;
     margin-bottom : 20px;
   }
-
   form {
     width:428px;
     display: flex;
     flex-direction: row;
   }
-
   input {
     background-color: #e6e5ea;
     border: 0px;

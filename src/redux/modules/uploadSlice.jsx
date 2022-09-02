@@ -26,11 +26,25 @@ export const __getMusinsa = createAsyncThunk(
   }
 );
 
+//mypage 정보 가져오기
+export const __getMyPage = createAsyncThunk(
+  "GET/MYPAGE",
+  async (payload, thunkAPI) => {
+    try {
+      const response = await api.get(`/user/${payload}`);
+      return response.data;
+    } catch (err) {
+      thunkAPI.rejectWithValue(err);
+    }
+  }
+);
+
 const uploadSlice = createSlice({
   name: "upload",
   initialState: {
     post: { title: "", content: "" },
     formdata: {},
+    myList: {},
   },
   reducers: {
     regFormdata: (state, action) => {
@@ -49,6 +63,10 @@ const uploadSlice = createSlice({
       })
       .addCase(__getMusinsa.fulfilled, (state, action) => {
         state.items = action.payload.items;
+      })
+      //mypage 정보 가져오기
+      .addCase(__getMyPage.fulfilled, (state, action) => {
+        state.myList = action.payload;
       });
   },
 });

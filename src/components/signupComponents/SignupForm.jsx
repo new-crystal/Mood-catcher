@@ -6,9 +6,9 @@ import {
   __signUp,
   changeEmail,
 } from "../../redux/modules/signUpSlice";
-import { useState } from "react";
 import crypto from "crypto-js";
 import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
 
 const SigupForm = () => {
   const navigate = useNavigate();
@@ -28,29 +28,42 @@ const SigupForm = () => {
   //이메일 인풋 값 받아오기
   const email = getValues("email");
 
+  //email 중복확인 성공했을 때 메시지 띄워주기
+  useEffect(() => {
+    if (checkEmail === true) {
+      setError("email", { message: "사용 가능한 이메일입니다." });
+    }
+  }, [checkEmail]);
+
+  //이메일이 바뀐 값 디스패치하기
+  const onChangeEmail = () => {
+    dispatch(changeEmail());
+  };
+
   //이메일 중복확인 눌렀을 때
   const onClickCheckBtnHandler = () => {
-    //이메일을 빈값에서 중복확인을 눌렀을 경우
-    if (email !== "") {
+    if (email !== "" && errors.email === undefined) {
       dispatch(__checkEmail(email));
+      if (checkEmail === false) {
+        setError(
+          "email",
+          { message: "중복된 이메일입니다." },
+          { shouldFocus: true }
+        );
+      }
     } else {
       setError(
         "email",
-        { message: "이메일을 입력 후 중복확인을 눌러주세요" },
+        { message: "이메일을 확인하고 중복확인을 해주세요." },
         { shouldFocus: true }
       );
     }
   };
 
-  //중복확인 후 이메일을 수정했을 때
-  const onChangeEmail = () => {
-    dispatch(changeEmail());
-  };
-
   //회원가입 버튼을 눌렀을 때
   const onValid = async (data) => {
     //이메일 중복확인을 안 했을 때 돌려보내기
-    if (checkEmail) {
+    if (checkEmail === false) {
       setError(
         "email",
         { message: "이메일 중복확인을 해주세요" },
@@ -100,12 +113,13 @@ const SigupForm = () => {
           {errors.email && <p>{errors.email.message}</p>}
         </TextBox>
         <input
-          onChange={onChangeEmail}
+          //onChange={() => onChangeEmail()}
           className="email"
           name="email"
           type="email"
           aria-invalid={!isDirty ? undefined : errors.email ? "true" : "false"}
           {...register("email", {
+            onChange: () => onChangeEmail(),
             required: "이메일은 필수 입력입니다.",
             minLength: {
               value: 8,
@@ -180,11 +194,9 @@ const SigupForm = () => {
 const Container = styled.form`
   width: 428px;
   height: 926px;
-
   .email {
     width: 270px;
   }
-
   input {
     background-color: #e6e5ea;
     border: 0px;
@@ -242,7 +254,7 @@ const OkBtn = styled.button`
   border-radius: 10px;
   width: 150px;
   height: 40px;
-  margin: 100px auto;
+  margin: 70px auto;
   cursor: pointer;
 `;
 

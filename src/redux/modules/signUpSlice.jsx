@@ -20,11 +20,10 @@ export const __checkEmail = createAsyncThunk(
   async (payload, thunkAPI) => {
     try {
       const response = await api.get(`/auth/checkEmail?email=${payload}`);
-      if (response.data.status === 200) {
+      if (response.status === 200) {
         return true;
       }
     } catch (err) {
-      alert("중복된 이메일이 있습니다.");
       console.log(err);
       return false;
     }
@@ -32,7 +31,6 @@ export const __checkEmail = createAsyncThunk(
 );
 
 //회원 탈퇴
-
 const initialState = {
   checkEmail: false,
   is_signup: null,
@@ -43,7 +41,8 @@ const signUpSlice = createSlice({
   name: "signUp",
   initialState,
   reducers: {
-    changeEmail: (state) => {
+    //email이 바뀔 때마다 state 변경
+    changeEmail: (state, payload) => {
       state.checkEmail = false;
     },
   },

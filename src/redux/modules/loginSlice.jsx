@@ -16,13 +16,17 @@ export const __login = createAsyncThunk("LOGIN", async (payload, thunkAPI) => {
 export const __checkNickname = createAsyncThunk(
   "CHECKNICKNAME",
   async (payload, thunkAPI) => {
+    console.log(payload);
     try {
-      const response = await api.get(`/auth/checkNickname?nickname=${payload}`);
-      if (response.data.status === 200) {
+      const response = await api.get(
+        `/auth/checkNickname?nickname=${encodeURI(payload)}`
+      );
+      console.log(response);
+      if (response.status === 200) {
         return true;
       }
     } catch (err) {
-      alert("중복된 닉네임이 있습니다.");
+      console.log(err);
       return false;
     }
   }
@@ -64,6 +68,19 @@ export const __editProfile = createAsyncThunk(
   }
 );
 
+//회원탈퇴
+export const __delUser = createAsyncThunk(
+  "DELUSER",
+  async (payload, thunkAPI) => {
+    try {
+      const response = await api.delete("/user/signout");
+      return alert("무드캡처를 퇴장하셨습니다.");
+    } catch (err) {
+      thunkAPI.rejectWithValue(err);
+    }
+  }
+);
+
 const initialState = {
   user: {
     nickname: null,
@@ -80,7 +97,8 @@ const loginSlice = createSlice({
   name: "login",
   initialState,
   reducers: {
-    changeNickname: (state) => {
+    //닉네임이 바뀔 때마다 state 변경
+    changeNickname: (state, payload) => {
       state.checkNickname = false;
     },
   },
@@ -110,10 +128,10 @@ const loginSlice = createSlice({
       })
       //닉네임 중복확인
       .addCase(__checkNickname.fulfilled, (state, action) => {
-        state.checkEmail = action.payload;
+        state.checkNickname = action.payload;
       })
       .addCase(__checkNickname.rejected, (state, action) => {
-        state.checkEmail = action.payload;
+        state.checkNickname = action.payload;
       })
       //프로필 수정
       .addCase(__editProfile.fulfilled, (state, action) => {
@@ -121,7 +139,9 @@ const loginSlice = createSlice({
       })
       .addCase(__editProfile.rejected, (state, action) => {
         state.changeUser = action.payload;
-      }),
+      })
+      //회원탈퇴
+      .addCase(__delUser.fulfilled, (state, action) => {}),
 });
 
 // // reducer dispatch하기 위해 export 하기

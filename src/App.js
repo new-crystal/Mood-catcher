@@ -13,6 +13,7 @@ const Main = lazy(() => import("./page/Main"));
 const Edit_profile = lazy(() => import("./page/Edit_profile"));
 const Upload = lazy(() => import("./page/Upload"));
 const Upload_select = lazy(() => import("./page/Upload_select"));
+const MyPage = lazy(() => import("./page/Mypage"));
 
 function App() {
   return (
@@ -32,6 +33,10 @@ function App() {
           <Route path="/edit_profile" element={<Edit_profile />} />
           <Route path="/upload" element={<Upload />} />
           <Route path="/upload_select" element={<Upload_select />} />
+          <Route path="/edit_profile" element={<Edit_profile />} />
+          <Route path="/login/detail" element={<SignupGenderAge />} />
+          <Route path="/mypage/:userId" element={<MyPage />} />
+
           <Route path="*" element={<Login />} />
         </Routes>
       </Suspense>
