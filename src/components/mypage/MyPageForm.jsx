@@ -138,8 +138,13 @@ const PostImg = styled.div`
 const ClosetList = styled.div`
   width: 400px;
   height: 230px;
+  display: flexbox;
   overflow-x: scroll;
   overflow-y: hidden;
+
+  ::-webkit-scrollbar {
+    display: none;
+  }
 `;
 const Closet = styled.div`
   width: 160px;
