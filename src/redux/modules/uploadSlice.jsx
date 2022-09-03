@@ -54,6 +54,19 @@ export const __getCloset = createAsyncThunk(
   }
 );
 
+//대표 게시물 지정하기
+export const __representative = createAsyncThunk(
+  "PATCH/REPRESENTATIVE",
+  async (payload, thunkAPI) => {
+    try {
+      const response = await api.patch(`/posts/${payload}`);
+      return response.data;
+    } catch (err) {
+      thunkAPI.rejectWithValue(err);
+    }
+  }
+);
+
 const uploadSlice = createSlice({
   name: "upload",
   initialState: {
@@ -61,6 +74,7 @@ const uploadSlice = createSlice({
     formdata: {},
     myList: [],
     closetList: [],
+    representative: { postId: "" },
   },
   reducers: {
     regFormdata: (state, action) => {
@@ -93,6 +107,13 @@ const uploadSlice = createSlice({
       })
       .addCase(__getCloset.rejected, (state, action) => {
         state.closetList = action.payload;
+      })
+      //대표 게시물 지정하기
+      .addCase(__representative.fulfilled, (state, action) => {
+        state.representative.postId = action.payload;
+      })
+      .addCase(__representative.rejected, (state, action) => {
+        state.representative.postId = action.payload;
       });
   },
 });

@@ -3,12 +3,15 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import cat from "../../image/냥5.png";
+import question from "../../image/question.png";
 import { __getMyPage } from "../../redux/modules/uploadSlice";
 import ClosetForm from "./ClosetForm";
+import GradeList from "./GradeList";
 
 const MyPageForm = () => {
   const dispatch = useDispatch();
-  const navigie = useNavigate();
+  const navigate = useNavigate();
+  const [gradeList, setGradeList] = useState(false);
   const postList = useSelector((state) => state);
 
   //임시
@@ -20,43 +23,59 @@ const MyPageForm = () => {
   }, []);
 
   return (
-    <Container>
-      <MyPageHeader>
-        <h1>My Page</h1>
-      </MyPageHeader>
-      <Img url="https://cdn.discordapp.com/attachments/1014169130045292625/1014194232250077264/Artboard_1.png"></Img>
-      <ProfileBox>
-        <GradeIcon></GradeIcon>
-        <h4>수수</h4>
-      </ProfileBox>
-      <MyPageBox>
-        <MoodBox>
-          <MoodHeader>Mood Point</MoodHeader>
-          <MoodBody>
-            <h1>10</h1>
-          </MoodBody>
-          <MoodHeader>Catch Grade</MoodHeader>
-          <MoodBody>
-            <GradeImg></GradeImg>
-            <GradeText>
-              <h6>양복</h6>
-              <Progress>
-                <HighLight></HighLight>
-              </Progress>
-            </GradeText>
-          </MoodBody>
-        </MoodBox>
-        <PostImg></PostImg>
-      </MyPageBox>
-      <MoodHeader>My Closet</MoodHeader>
-      <ClosetList>
-        <Closet></Closet>
-        <Closet></Closet>
-        <Closet></Closet>
-        <Closet></Closet>
-        <Closet onClick={() => navigie(`/closet/${userId}`)}></Closet>
-      </ClosetList>
-    </Container>
+    <>
+      {gradeList ? (
+        <GradeList setGradeList={setGradeList} />
+      ) : (
+        <Container>
+          <MyPageHeader>
+            <h1>My Page</h1>
+          </MyPageHeader>
+          <Img url="https://cdn.discordapp.com/attachments/1014169130045292625/1014194232250077264/Artboard_1.png"></Img>
+          <ProfileBox>
+            <GradeIcon></GradeIcon>
+            <h4>수수</h4>
+          </ProfileBox>
+          <MyPageBox>
+            <MoodBox>
+              <MoodHeader>Mood Point</MoodHeader>
+              <MoodBody>
+                <h1>10</h1>
+              </MoodBody>
+              <MoodHeader>Catch Grade</MoodHeader>
+              <MoodBody>
+                <GradeImg></GradeImg>
+                <GradeText>
+                  <GradeQuestion>
+                    <h6>양복</h6>
+                    <Question onClick={() => setGradeList(true)}></Question>
+                  </GradeQuestion>
+                  <Progress>
+                    <HighLight></HighLight>
+                  </Progress>
+                </GradeText>
+              </MoodBody>
+            </MoodBox>
+            <PostImg url="https://img.danawa.com/prod_img/500000/946/645/img/2645946_1.jpg?shrink=330:330&_v=20160728145124"></PostImg>
+          </MyPageBox>
+          <MoodHeader>My Closet</MoodHeader>
+          <ClosetList>
+            <Closet url="http://img4.tmon.kr/cdn4/deals/2022/01/24/7863616202/front_0af52_cxazv.jpg"></Closet>
+            <Closet url="http://img4.tmon.kr/cdn4/deals/2022/01/24/7863616202/front_0af52_cxazv.jpg"></Closet>
+            <Closet url="http://img4.tmon.kr/cdn4/deals/2022/01/24/7863616202/front_0af52_cxazv.jpg"></Closet>
+            <Closet url="http://img4.tmon.kr/cdn4/deals/2022/01/24/7863616202/front_0af52_cxazv.jpg"></Closet>
+            <Closet url="http://img4.tmon.kr/cdn4/deals/2022/01/24/7863616202/front_0af52_cxazv.jpg"></Closet>
+            <Closet
+              url="https://contents.lotteon.com/itemimage/LD/55/34/08/11/4_/0/LD553408114_0_5.jpg/dims/resizef/720X720"
+              onClick={() => navigate(`/closet/${userId}`)}
+            ></Closet>
+          </ClosetList>
+          <ProfileEditBtn onClick={() => navigate("/edit_profile")}>
+            내 프로필 수정하기
+          </ProfileEditBtn>
+        </Container>
+      )}
+    </>
   );
 };
 const Container = styled.div`
@@ -138,6 +157,20 @@ const GradeText = styled.div`
   justify-content: center;
   flex-direction: column;
 `;
+const GradeQuestion = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: row;
+`;
+const Question = styled.div`
+  width: 10px;
+  height: 10px;
+  background-position: center;
+  background-size: cover;
+  background-image: url(${question});
+`;
+
 const Progress = styled.div`
   width: 70px;
   height: 15px;
@@ -155,7 +188,7 @@ const PostImg = styled.div`
   height: 260px;
   background-position: center;
   background-size: cover;
-  background-image: url(${cat});
+  background-image: url(${(props) => props.url});
 `;
 const ClosetList = styled.div`
   width: 400px;
@@ -174,6 +207,16 @@ const Closet = styled.div`
   margin: 10px;
   background-position: center;
   background-size: cover;
-  background-image: url(${cat});
+  background-image: url(${(props) => props.url});
+`;
+
+const ProfileEditBtn = styled.button`
+  width: 135px;
+  height: 20px;
+  background-color: white;
+  color: #7b758b;
+  font-size: 16px;
+  border: 0px;
+  margin-left: 100px;
 `;
 export default MyPageForm;

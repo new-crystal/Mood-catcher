@@ -113,7 +113,6 @@ const SigupForm = () => {
           {errors.email && <p>{errors.email.message}</p>}
         </TextBox>
         <input
-          //onChange={() => onChangeEmail()}
           className="email"
           name="email"
           type="email"

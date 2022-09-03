@@ -1,4 +1,3 @@
-
 import React, { Fragment, useState, Suspense, useEffect } from "react";
 import styleds from "styled-components";
 import {
@@ -266,7 +265,8 @@ const SignupGenderAge = () => {
                               message: "닉네임을 16자 이하로 작성해주세요",
                             },
                             pattern: {
-                              value: /^(?=.*[a-z0-9가-힣])[a-z0-9가-힣]{2,16}$/,
+                              value:
+                                /^(?=.*[a-zA-Z0-9가-힣])[a-zA-Z0-9가-힣]{2,16}$/,
                               message:
                                 "닉네임은 영문 대소문자, 글자 단위 한글, 숫자만 가능합니다.",
                             },
