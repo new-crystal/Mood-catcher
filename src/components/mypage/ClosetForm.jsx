@@ -6,6 +6,7 @@ import { __getCloset } from "../../redux/modules/uploadSlice";
 
 const ClosetForm = () => {
   const dispatch = useDispatch();
+  //closetList 받아와서 뿌려주기!!
   const closetList = useSelector((state) => state);
 
   //userId, page, count 보내주기!!

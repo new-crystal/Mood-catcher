@@ -1,63 +1,62 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import cat from "../../image/냥5.png";
 import { __getMyPage } from "../../redux/modules/uploadSlice";
 import ClosetForm from "./ClosetForm";
 
 const MyPageForm = () => {
-  const postList = useSelector((state) => state);
   const dispatch = useDispatch();
-  const [show, setShow] = useState(false);
+  const navigie = useNavigate();
+  const postList = useSelector((state) => state);
 
+  //임시
+  let userId = 1;
+
+  //userId 보내주기!!
   useEffect(() => {
     dispatch(__getMyPage());
   }, []);
 
   return (
-    <>
-      {show ? (
-        <ClosetForm />
-      ) : (
-        <Container>
-          <MyPageHeader>
-            <h1>My Page</h1>
-          </MyPageHeader>
-          <Img url="https://cdn.discordapp.com/attachments/1014169130045292625/1014194232250077264/Artboard_1.png"></Img>
-          <ProfileBox>
-            <GradeIcon></GradeIcon>
-            <h4>수수</h4>
-          </ProfileBox>
-          <MyPageBox>
-            <MoodBox>
-              <MoodHeader>Mood Point</MoodHeader>
-              <MoodBody>
-                <h1>10</h1>
-              </MoodBody>
-              <MoodHeader>Catch Grade</MoodHeader>
-              <MoodBody>
-                <GradeImg></GradeImg>
-                <GradeText>
-                  <h6>양복</h6>
-                  <Progress>
-                    <HighLight></HighLight>
-                  </Progress>
-                </GradeText>
-              </MoodBody>
-            </MoodBox>
-            <PostImg></PostImg>
-          </MyPageBox>
-          <MoodHeader>My Closet</MoodHeader>
-          <ClosetList>
-            <Closet></Closet>
-            <Closet></Closet>
-            <Closet></Closet>
-            <Closet></Closet>
-            <Closet onClick={() => setShow(true)}></Closet>
-          </ClosetList>
-        </Container>
-      )}
-    </>
+    <Container>
+      <MyPageHeader>
+        <h1>My Page</h1>
+      </MyPageHeader>
+      <Img url="https://cdn.discordapp.com/attachments/1014169130045292625/1014194232250077264/Artboard_1.png"></Img>
+      <ProfileBox>
+        <GradeIcon></GradeIcon>
+        <h4>수수</h4>
+      </ProfileBox>
+      <MyPageBox>
+        <MoodBox>
+          <MoodHeader>Mood Point</MoodHeader>
+          <MoodBody>
+            <h1>10</h1>
+          </MoodBody>
+          <MoodHeader>Catch Grade</MoodHeader>
+          <MoodBody>
+            <GradeImg></GradeImg>
+            <GradeText>
+              <h6>양복</h6>
+              <Progress>
+                <HighLight></HighLight>
+              </Progress>
+            </GradeText>
+          </MoodBody>
+        </MoodBox>
+        <PostImg></PostImg>
+      </MyPageBox>
+      <MoodHeader>My Closet</MoodHeader>
+      <ClosetList>
+        <Closet></Closet>
+        <Closet></Closet>
+        <Closet></Closet>
+        <Closet></Closet>
+        <Closet onClick={() => navigie(`/closet/${userId}`)}></Closet>
+      </ClosetList>
+    </Container>
   );
 };
 const Container = styled.div`

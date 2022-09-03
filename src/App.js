@@ -14,6 +14,7 @@ const Edit_profile = lazy(() => import("./page/Edit_profile"));
 const Upload = lazy(() => import("./page/Upload"));
 const Upload_select = lazy(() => import("./page/Upload_select"));
 const MyPage = lazy(() => import("./page/Mypage"));
+const Closet = lazy(() => import("./page/Closet"));
 
 function App() {
   return (
@@ -36,7 +37,7 @@ function App() {
           <Route path="/edit_profile" element={<Edit_profile />} />
           <Route path="/login/detail" element={<SignupGenderAge />} />
           <Route path="/mypage/:userId" element={<MyPage />} />
-
+          <Route path="/closet/:userId" element={<Closet />} />
           <Route path="*" element={<Login />} />
         </Routes>
       </Suspense>
