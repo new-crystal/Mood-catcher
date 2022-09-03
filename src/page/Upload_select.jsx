@@ -24,7 +24,7 @@ const Upload = (props) => {
   const post = useSelector((state) => state.upload.post);
   const formdata = useSelector((state) => state.upload.formdata);
 
-  console.log(post);
+  // console.log(post);
   // for (let key of post.keys()) {
   //   console.log(key);
   // }
@@ -32,7 +32,7 @@ const Upload = (props) => {
   //   console.log(value);
   // }
   const postImg = formdata.get("imgFile");
-  console.log(postImg);
+  // console.log(postImg);
 
   React.useEffect(() => {
     if (searchTogle === false) {
@@ -85,19 +85,17 @@ const Upload = (props) => {
         <Header />
         <Container>
           <Grid>
-            <Wrap>
-              <JustifyAlign>
-                <UploadText>내 아이템</UploadText>
-                <NextButton
-                  onClick={() => {
-                    dispatch(__writePost(formdata));
-                    navigate("/");
-                  }}
-                >
-                  완료
-                </NextButton>
-              </JustifyAlign>
-            </Wrap>
+            <JustifyAlign>
+              <UploadText>내 아이템</UploadText>
+              <NextButton
+                onClick={() => {
+                  dispatch(__writePost(formdata));
+                  navigate("/");
+                }}
+              >
+                완료
+              </NextButton>
+            </JustifyAlign>
             <StUploadBox>
               <StImageBox className={searchTogle}>
                 <div className="ImgDiv">
@@ -147,7 +145,7 @@ const Upload = (props) => {
                   onKeyPress={(e) => {
                     if (e.key === "Enter") {
                       e.preventDefault();
-                      console.log(search);
+                      // console.log(search);
                       dispatch(__getMusinsa("나이키 신발"));
                       setSearch("");
                     }
@@ -185,11 +183,103 @@ const Upload = (props) => {
 
 export default Upload;
 
-const List = styled.div`
-  width: 312px;
+const LoaderWrap = styled.div`
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin-top: -100px;
+  margin-left: -100px;
+`;
+
+const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+  /* height: 926px;
+  background-color: orange; */
+  bottom: 110px;
+  & > span {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 1;
+    overflow: auto;
+    text-align: left;
+  }
+`;
+
+const Grid = styled.div`
   margin: 0 auto;
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  margin-top: 40px;
+  margin-bottom: 57px;
+  width: 428px;
+  background: linear-gradient(#a396c9, #c8c6d0);
+  /* background-color: royalblue; */
+`;
+
+const JustifyAlign = styled.div`
+  display: flex;
+  margin: 56px auto 0;
+  width: 366px;
+  justify-content: space-between;
+  align-items: center;
+  /* background-color: yellowgreen; */
+`;
+
+const UploadText = styled.span`
+  margin: 0 73px 0 144px;
+  font-size: 20px;
+  font-weight: bold;
+  color: #7b758b;
+`;
+
+const NextButton = styled.button`
+  text-align: center;
+  color: white;
+  font-size: 16px;
+  font-weight: bold;
+  line-height: 20px;
+  width: 70px;
+  height: 30px;
+  background-color: #7b758b;
+  border-radius: 10px;
+  border: none;
+  box-shadow: 5px 5px 4px #877f92;
+`;
+
+const StUploadBox = styled.div`
+  display: flex;
+  margin: 12px auto;
+  flex-direction: column;
+  width: 390px;
+  min-height: 700px;
+  border: 3px solid #c4c2ca;
+  border-radius: 20px;
+  background-color: #ffffff;
+  box-shadow: 5px 5px 4px #877f92;
+`;
+
+const StImageBox = styled.div`
+  margin: 23px 20px 9px;
+  width: 350px;
+  height: 300px;
+  border-radius: 15px;
+  &.true {
+    height: 0;
+  }
+  .ImgDiv {
+    width: 100%;
+    height: 300px;
+    border-radius: 16px;
+    display: flex;
+    justify-content: center;
+    overflow: hidden;
+    img {
+      flex: 1 1 auto;
+    }
+    img.true {
+      display: none;
+    }
+  }
+  transition: display 0.5s, height 0.5s;
 `;
 
 const SliderContainer = styled.div`
@@ -230,140 +320,42 @@ const Test = styled.div`
   color: transparent;
 `;
 
-const LoaderWrap = styled.div`
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  margin-top: -100px;
-  margin-left: -100px;
-`;
-
-const Container = styled.div`
-  display: flex;
-  height: 926px;
-  background-color: orange;
-  flex-direction: column;
-  bottom: 110px;
-  & > span {
-    display: -webkit-box;
-    -webkit-box-orient: vertical;
-    -webkit-line-clamp: 1;
-    overflow: auto;
-    text-align: left;
-  }
-`;
-
-const Grid = styled.div`
-  //width: 100%;
-  width: 428px;
-  margin: 0 auto;
-  background-color: royalblue;
-  margin-top: 40px;
-`;
-
-const Wrap = styled.div`
-  width: 366px;
-  margin: 56px auto 0;
-  background-color: aqua;
-`;
-
-const JustifyAlign = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background-color: yellowgreen;
-`;
-
-const UploadText = styled.span`
-  margin: 0 73px 0 144px;
-  font-size: 20px;
-`;
-
-const NextButton = styled.button`
-  text-align: center;
-  color: white;
-  font-size: 16px;
-  font-weight: bold;
-  line-height: 20px;
-  width: 70px;
-  height: 30px;
-  background-color: #7b758b;
-  border-radius: 10px;
-`;
-
-const StUploadBox = styled.div`
-  margin: 12px auto;
-  display: flex;
-  flex-direction: column;
-  width: 390px;
-  height: 700px;
-  border: 3px solid #c4c2ca;
-  border-radius: 20px;
-  background-color: transparent;
-`;
-
-const StImageBox = styled.div`
-  margin: 23px 20px 9px;
-  width: 350px;
-  height: 300px;
-  border-radius: 15px;
-  background-color: #e6e5ea;
-  text-align: center;
-  line-height: 300px;
-  & > span {
-    opacity: 0.4;
-  }
-  &.true {
-    height: 0;
-  }
-  .ImgDiv {
-    width: 100%;
-    height: 300px;
-    border-radius: 16px;
-    display: flex;
-    justify-content: center;
-    overflow: hidden;
-    img {
-      flex: 1 1 auto;
-    }
-    img.true {
-      display: none;
-    }
-  }
-
-  transition: display 0.5s, height 0.5s;
-`;
-
 const StSearchInput = styled.div`
-  width: 350px;
   margin: 10px 20px;
+  width: 350px;
   background: #e6e5ea;
   border-radius: 18px;
   outline: none;
   & > input {
+    margin-left: 20px;
+    margin-top: 3px;
     width: 250px;
-    height: 50px;
+    height: 47px;
     border: none;
     outline: none;
     background: #e6e5ea;
-    margin-left: 20px;
     outline: none;
     font-size: 30px;
   }
 `;
 
 const ButtonWrap = styled.div`
-  display: inline-block;
+  display: block;
   float: right;
-  margin-right: 8px;
 `;
 
 const ImageWrap = styled.div`
-  display: inline-block;
   margin: 6px;
+  margin-right: 8px;
   width: 40px;
   height: 40px;
   background-size: cover;
   cursor: pointer;
 `;
 
+// const List = styled.div`
+//   width: 312px;
+//   margin: 0 auto;
+//   display: grid;
+//   grid-template-columns: repeat(2, 1fr);
+// `;
