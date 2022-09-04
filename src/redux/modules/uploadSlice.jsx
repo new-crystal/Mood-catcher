@@ -15,14 +15,10 @@ export const __writePost = createAsyncThunk(
 export const __getMusinsa = createAsyncThunk(
   "post/getMusinsa",
   async (data, thunkAPI) => {
-    console.log(data);
-    try {
-      const response = await api.get(`/api/musinsa/${data}`);
-      return response.data;
-    } catch (error) {
-      const errorMsg = JSON.parse(error.request.response);
-      alert(errorMsg.msg);
-    }
+    // console.log(data);
+
+    const response = await api.get(`/api/musinsa/${data}`);
+    return response.data;
   }
 );
 
@@ -30,12 +26,17 @@ export const __getMusinsa = createAsyncThunk(
 export const __getMyPage = createAsyncThunk(
   "GET/MYPAGE",
   async (payload, thunkAPI) => {
-    try {
-      const response = await api.get(`/user/${payload}`);
-      return response.data;
-    } catch (err) {
-      thunkAPI.rejectWithValue(err);
-    }
+    const response = await api.get(`/user/${payload}`);
+    return response.data;
+  }
+);
+
+//대표 게시물 조회
+export const __getMyRep = createAsyncThunk(
+  "GET/MYREP",
+  async (payload, thunkAPI) => {
+    const response = await api.get(`/posts/rep/${payload}`);
+    return response.data;
   }
 );
 
@@ -92,11 +93,11 @@ const uploadSlice = createSlice({
   reducers: {
     regFormdata: (state, action) => {
       state.formdata = action.payload;
-      console.log(state.formdata);
+      // console.log(state.formdata);
     },
     regPost: (state, action) => {
       state.post = action.payload;
-      console.log(state.post);
+      // console.log(state.post);
     },
   },
   extraReducers: (builder) => {
@@ -107,7 +108,6 @@ const uploadSlice = createSlice({
       .addCase(__getMusinsa.fulfilled, (state, action) => {
         state.items = action.payload.items;
       })
-      //mypage 정보 가져오기
       .addCase(__getMyPage.fulfilled, (state, action) => {
         state.myList = action.payload;
       })
@@ -134,6 +134,9 @@ const uploadSlice = createSlice({
       })
       .addCase(__getRepPost.rejected, (state, action) => {
         state.representative = action.payload;
+      })
+      .addCase(__getMyRep.fulfilled, (state, action) => {
+        state.myRepPost = action.payload;
       });
   },
 });

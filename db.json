@@ -1,0 +1,19 @@
+{
+  "user": {
+    "message": "fail",
+    "error": "all tokens are expired"
+  },
+  "auth": [
+    {
+      "id": "login",
+      "content": "render",
+      "test": {
+        "postId": 1
+      }
+    },
+    {
+      "id": "checkNickname",
+      "test": "test"
+    }
+  ]
+}

@@ -4,12 +4,13 @@ import { Routes, Route } from "react-router-dom";
 import Loader from "./shared/Loader";
 import "./App.css";
 
+// 코드 스플리팅을 위한 lazy설정
+const Main = lazy(() => import("./page/Main"));
 const Login = lazy(() => import("./page/Login"));
 const SignupGenderAge = lazy(() =>
   import("./components/signupComponents/SignupGenderAge")
 );
 const Signup = lazy(() => import("./page/Signup"));
-const Main = lazy(() => import("./page/Main"));
 const Edit_profile = lazy(() => import("./page/Edit_profile"));
 const Upload = lazy(() => import("./page/Upload"));
 const Upload_select = lazy(() => import("./page/Upload_select"));
@@ -20,6 +21,7 @@ const Search = lazy(() => import("./page/Search"));
 function App() {
   return (
     <Fragment>
+      {/* Suspense이용 최적화 및 Loading중에는 Loader가 작동*/}
       <Suspense
         fallback={
           <LoaderWrap>
@@ -28,14 +30,13 @@ function App() {
         }
       >
         <Routes>
-          <Route path="/" element={<Login />} />
+          <Route path="/" element={<Main />} />
+          <Route path="/login" element={<Login />} />
           <Route path="/login/detail" element={<SignupGenderAge />} />
           <Route path="/signup" element={<Signup />} />
-          <Route path="/main" element={<Main />} />
           <Route path="/edit_profile" element={<Edit_profile />} />
           <Route path="/upload" element={<Upload />} />
           <Route path="/upload_select" element={<Upload_select />} />
-          <Route path="/edit_profile" element={<Edit_profile />} />
           <Route path="/login/detail" element={<SignupGenderAge />} />
           <Route path="/mypage/:userId" element={<MyPage />} />
           <Route path="/closet/:userId" element={<Closet />} />
