@@ -1,12 +1,11 @@
-# This workflows will upload a Python Package using Twine when a release is created
-# For more information see: https://help.github.com/en/actions/language-and-framework-guides/using-python-with-github-actions#publishing-to-package-registries
+# master-deploy-work.yml
+name: main
 
-# Actions 작업명
-name: React build
-
-# 이벤트 바인딩 : master 브랜치에 push 이벤트 발생 시 실행
 on:
   push:
+    branches:
+      - main # master 브랜치에서 push 이벤트가 일어났을 때 실행
+  pull_request:
     branches:
       - main
 
@@ -14,35 +13,32 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout source code. # 레포지토리 체크아웃
+      - name: Checkout source code
         uses: actions/checkout@main
 
-      - name: Generate Environment Variables File for Production # Github Repository Secrets를 통해 변수 파일을 생성
-        run: |
-          echo "REACT_APP_ENDPOINT=$REACT_APP_SERVER" >> .env.production
-        env:
-          REACT_APP_SERVER: ${{ secrets.REACT_APP_SERVER }}
-
-      - name: Cache node modules # node modules 캐싱
-        uses: actions/cache@v1
+      # 실행 속도를 빠르게 하기 위해 설치된 Node 모듈을 캐시하도록 설정합니다.
+      - name: Cache node modules
+        uses: actions/cache@v2
         with:
-          path: node_modules
-          key: ${{ runner.OS }}-yarn-${{ hashFiles('**/yarn.lock') }}
+          path: ~/.npm
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
-            ${{ runner.OS }}-yarn-
+            ${{ runner.os }}-node-
 
-      - name: Install Dependencies # 의존 파일 설치
-        run: yarn install
+      - name: Install Dependencies
+        run: yarn
 
-      - name: Build # React Build
+      - name: Build
         run: yarn build
+        env:
+          CI: ""
 
-      - name: Deploy # S3에 배포하기
+      - name: Deploy
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_IAM_MANAGER_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_IAM_MANAGER_SECRET_ACCESS_KEY }}
         run: |
           aws s3 cp \
-            --recursive \
-            --region ap-northeast-2 \
-            build s3://mood-catcher
+          --recursive \
+          --region ap-northeast-2 \
+          build s3://mood-catcher
