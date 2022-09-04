@@ -1,70 +1,69 @@
-# Getting Started with Create React App
+# ****✨****무드캐쳐 (mood catcher)
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+- **무드 캐쳐를 꿈꾸는 모든 일반인들을 위한 커뮤니티 사이트.**
+- 패션 커뮤니티, 옷의 후기 및 리뷰 취합,
 
-## Available Scripts
+# ****📆 프로젝트 기간****
 
-In the project directory, you can run:
+- 2022/08/26 ~ 2022/10/07
 
-### `yarn start`
+# 1. 팀 소개
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+- React, Node.js 기반
+- 개발인원: 7명
+    1. Front-end: 박준수, 신수정
+    2. Back-end: 조권영, 황수민, 이수범
+    3. Designer: 김유나
+    4. PM: 김승빈
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+# 2. 프로젝트 설명
 
-### `yarn test`
+- 개발언어 : JavaScript
+- 배포환경 :
+- 패키지매니저 :
+- 협업 툴 : git / notion / figma
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+# 3. 사용한 라이브러리(패키지)
 
-### `yarn build`
+```jsx
+		
+    "@material-ui/core": "^4.12.4", //셀렉트 박스, 인풋, 버튼 css 관련 
+    "@reduxjs/toolkit": "^1.8.5", // 데이터 전역상태관리, 미들웨어
+    "@testing-library/jest-dom": "^5.14.1", // 테스트
+    "@testing-library/react": "^13.0.0", // 테스트
+    "@testing-library/user-event": "^13.2.1", // 테스트
+    "axios": "^0.27.2", // 서버통신
+    "cross-env": "^7.0.3", // 환경변수 관리
+    "crypto-js": "^4.1.1", // 비밀번호 암호화
+    "react": "^18.2.0", // 리액트
+    "react-dom": "^18.2.0", // 리액트
+    "react-hook-form": "^7.34.2", // formData 관리, input 유효성 검사, 리렌더링이 적어짐
+    "react-redux": "^8.0.2", // 데이터 전역 상태관리
+    "react-router-dom": "^6.3.0", // 페이지 관련
+    "react-scripts": "5.0.1", // 리액트
+    "react-scroll-horizontal": "^1.6.6", // 슬라이드 서브(삭제예정)
+    "react-slick": "^0.29.0", // 가로 슬라이드
+    "slick-carousel": "^1.8.1", // 가로 슬라이드
+    "styled-components": "^5.3.5", // 컴포넌트 스타일링
+    "universal-cookie": "^4.0.4", // 쿠키 설정
+    "web-vitals": "^2.1.0" // 리액트
+    
+```
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+# 4. 기술 소개
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+- 무한스크롤 기능
+- 검색 기능
+- PWA 구현
+- kakao 로그인 구현
+- 상태관리(redux)
+- 코드분할(code-splitting)
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+# 5. 데이터 흐름도
 
-### `yarn eject`
+![image](https://user-images.githubusercontent.com/87622597/188310315-d59f7259-d564-4819-ab2c-4f7e7c5991cb.png)
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+# 6. 와이어 프레임
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `yarn build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+[https://www.figma.com/file/jtjWzOYOVgJ5I4dtneHYwG/무드캐쳐?node-id=117%3A247](https://www.figma.com/file/jtjWzOYOVgJ5I4dtneHYwG/%EB%AC%B4%EB%93%9C%EC%BA%90%EC%B3%90?node-id=117%3A247)
