@@ -23,9 +23,11 @@ import Artboard from "../../image/Artboard.png";
 
 import Header from "../../elem/Header";
 import Loader from "../../shared/Loader";
+import { useNavigate } from "react-router-dom";
 
 const SignupGenderAge = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [show, setShow] = useState(false);
   const [age, setAge] = useState("");
   const [gender, setGender] = useState("");
@@ -37,6 +39,14 @@ const SignupGenderAge = () => {
   } = useForm({ criteriaMode: "all", mode: "onChange" });
 
   const checkNickname = useSelector((state) => state.login.checkNickname);
+  const exist = useSelector((state) => state.login.exist);
+
+  //닉네임, 성별, 나이가 있는 유저가 로그인 했을 때 메인으로 돌려보내기
+  useEffect(() => {
+    if (exist === true) {
+      return navigate("/main");
+    }
+  }, []);
 
   //닉네임 인풋 값 받아오기
   const nickname = getValues("nickname");
@@ -265,7 +275,8 @@ const SignupGenderAge = () => {
                               message: "닉네임을 16자 이하로 작성해주세요",
                             },
                             pattern: {
-                              value: /^(?=.*[a-z0-9가-힣])[a-z0-9가-힣]{2,16}$/,
+                              value:
+                                /^(?=.*[a-zA-Z0-9가-힣])[a-zA-Z0-9가-힣]{2,16}$/,
                               message:
                                 "닉네임은 영문 대소문자, 글자 단위 한글, 숫자만 가능합니다.",
                             },
