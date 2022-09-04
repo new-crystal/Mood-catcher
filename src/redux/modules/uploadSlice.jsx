@@ -67,6 +67,19 @@ export const __representative = createAsyncThunk(
   }
 );
 
+//대표 게시물 조회하기
+export const __getRepPost = createAsyncThunk(
+  "GET/REPRESENTATIVE",
+  async (payload, thunkAPI) => {
+    try {
+      const response = await api.get(`/posts/rep/?${payload}`);
+      return response.myRepPost;
+    } catch (err) {
+      thunkAPI.rejectWithValue(err);
+    }
+  }
+);
+
 const uploadSlice = createSlice({
   name: "upload",
   initialState: {
@@ -114,6 +127,13 @@ const uploadSlice = createSlice({
       })
       .addCase(__representative.rejected, (state, action) => {
         state.representative.postId = action.payload;
+      })
+      //대표 게시물 조회하기
+      .addCase(__getRepPost.fulfilled, (state, action) => {
+        state.representative = action.payload;
+      })
+      .addCase(__getRepPost.rejected, (state, action) => {
+        state.representative = action.payload;
       });
   },
 });

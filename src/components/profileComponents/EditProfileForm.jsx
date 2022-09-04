@@ -9,6 +9,8 @@ import {
   __checkNickname,
   changeNickname,
 } from "../../redux/modules/loginSlice";
+import { removeCookie } from "../../shared/Cookie";
+import { Navigate } from "react-router-dom";
 
 const EditProfileForm = () => {
   const checkNickname = useSelector((state) => state.login.checkNickname);
@@ -105,6 +107,12 @@ const EditProfileForm = () => {
     } else {
       alert("수정할 프로필을 모두 입력해주세요!");
     }
+  };
+
+  //로그아웃
+  const onClickLogOut = () => {
+    removeCookie("token");
+    Navigate("/login");
   };
 
   //회원탍퇴
@@ -216,7 +224,7 @@ const EditProfileForm = () => {
         <h3>계정 설정</h3>
       </ProfileBox>
       <LogOut>
-        <button>로그아웃</button>
+        <button onClick={() => onClickLogOut()}>로그아웃</button>
         <button onClick={() => onClickDelBtn()}>계정탈퇴</button>
       </LogOut>
     </Container>

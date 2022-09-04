@@ -1,14 +1,17 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { act } from "react-dom/test-utils";
 import { api } from "../../shared/api";
+import { setCookie, removeCookie } from "../../shared/Cookie";
 
 // 로그인
 export const __login = createAsyncThunk("LOGIN", async (payload, thunkAPI) => {
   try {
     const response = await api.post("/auth/login", payload);
-    //sessionStorage.setItem("token", response.data.userStatus.token);
-    return response.data;
+    setCookie("token", response.data.token);
+    return response.data.exist;
   } catch (err) {
     console.log(err);
+    return false;
   }
 });
 
@@ -83,14 +86,13 @@ export const __delUser = createAsyncThunk(
 
 const initialState = {
   user: {
-    nickname: null,
-    detail: null,
     result: null,
   },
   checkNickname: false,
   social: null,
   loading: false,
   changeUser: null,
+  exist: false,
 };
 
 const loginSlice = createSlice({
@@ -107,14 +109,13 @@ const loginSlice = createSlice({
       //로그인
       .addCase(__login.fulfilled, (state, action) => {
         state.loading = false;
-        state.user = {
-          nickname: action.payload.nickname,
-          result: true,
-        };
+        state.exist = action.payload;
+        setCookie();
         alert("무드캐처로 입장하셨습니다!");
       })
       .addCase(__login.rejected, (state, action) => {
         state.loading = false;
+        state.exist = action.payload;
         alert("이메일이나 비밀번호를 다시 확인해주세요.");
       })
       //성별과 나이 닉네임

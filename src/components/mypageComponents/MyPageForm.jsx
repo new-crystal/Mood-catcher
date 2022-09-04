@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import cat from "../../image/냥5.png";
 import question from "../../image/question.png";
-import { __getMyPage } from "../../redux/modules/uploadSlice";
+import { __getMyPage, __getRepPost } from "../../redux/modules/uploadSlice";
 import ClosetForm from "./ClosetForm";
 import GradeList from "./GradeList";
 
@@ -12,7 +12,12 @@ const MyPageForm = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [gradeList, setGradeList] = useState(false);
+
+  //mypage의 데이터 받아오기!!
   const postList = useSelector((state) => state);
+
+  //대표 게시물 불러오기!!
+  const repList = useSelector((state) => state);
 
   //임시
   let userId = 1;
@@ -20,6 +25,7 @@ const MyPageForm = () => {
   //userId 보내주기!!
   useEffect(() => {
     dispatch(__getMyPage());
+    dispatch(__getRepPost());
   }, []);
 
   return (

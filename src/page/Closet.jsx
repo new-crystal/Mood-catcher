@@ -1,4 +1,4 @@
-import ClosetForm from "../components/mypage/ClosetForm";
+import ClosetForm from "../components/mypageComponents/ClosetForm";
 
 const Closet = () => {
   return <ClosetForm />;
