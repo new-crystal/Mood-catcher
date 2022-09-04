@@ -10,22 +10,43 @@ const star = "/images/star.png";
 const person = "/images/person.png";
 
 const NavigationBar = (props) => {
+  const navigate = useNavigate();
   return (
     <Fragment>
       <NavBox>
-        <SearchWrap>
+        <SearchWrap
+          onClick={() => {
+            navigate("/");
+          }}
+        >
           <ImageWrap style={{ backgroundImage: `url(${home})` }} />
         </SearchWrap>
-        <SearchWrap>
+        <SearchWrap
+          onClick={() => {
+            navigate("/");
+          }}
+        >
           <ImageWrap style={{ backgroundImage: `url(${search})` }} />
         </SearchWrap>
-        <SearchWrap>
+        <SearchWrap
+          onClick={() => {
+            navigate("/upload");
+          }}
+        >
           <ImageWrap style={{ backgroundImage: `url(${add_circle})` }} />
         </SearchWrap>
-        <SearchWrap>
+        <SearchWrap
+          onClick={() => {
+            navigate("/");
+          }}
+        >
           <ImageWrap style={{ backgroundImage: `url(${star})` }} />
         </SearchWrap>
-        <SearchWrap>
+        <SearchWrap
+          onClick={() => {
+            navigate("/mypage");
+          }}
+        >
           <ImageWrap style={{ backgroundImage: `url(${person})` }} />
         </SearchWrap>
       </NavBox>
@@ -36,30 +57,31 @@ const NavigationBar = (props) => {
 export default NavigationBar;
 
 const NavBox = styled.div`
-  background-color: #c4c2ca;
-  max-width: 428px;
-  height: 60px;
-  z-index: 10;
-  font-family: "GmarketSansM";
   display: flex;
   position: fixed;
-  justify-content: space-around;
-  bottom: 0;
   margin: 0 auto;
+  bottom: 0;
   left: 0;
   right: 0;
-`;
-
-const ImageWrap = styled.div`
-  margin: 0 auto;
-  margin-top: 17px;
-  width: 22px;
-  height: 22px;
-  background-size: cover;
+  height: 50px;
+  max-width: 428px;
+  background-color: #ffffff;
+  font-family: "GmarketSansM";
+  justify-content: space-around;
+  z-index: 10;
+  box-shadow: 0px -7px 7px #877f92;
 `;
 
 const SearchWrap = styled.div`
   text-align: center;
   width: 100px;
   cursor: pointer;
+`;
+
+const ImageWrap = styled.div`
+  margin: 0 auto;
+  margin-top: 13px;
+  width: 22px;
+  height: 22px;
+  background-size: cover;
 `;

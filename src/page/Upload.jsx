@@ -46,7 +46,7 @@ const Upload = (props) => {
       ...post,
       content: content_ref.current.value,
     });
-    console.log(post);
+    // console.log(post);
     dispatch(regPost(post));
 
     if (fileInput.current.files[0] === undefined) {
@@ -54,7 +54,7 @@ const Upload = (props) => {
       navigate("/upload");
     } else {
       const formdata = new FormData();
-      console.log(fileInput.current.files[0]);
+      // console.log(fileInput.current.files[0]);
       formdata.append("imgFile", fileInput.current.files[0]);
 
       dispatch(regFormdata(formdata));
@@ -74,18 +74,16 @@ const Upload = (props) => {
         <Header />
         <Container>
           <Grid>
-            <Wrap>
-              <JustifyAlign>
-                <UploadText>작성하기</UploadText>
-                <NextButton onClick={writePost}>다음</NextButton>
-              </JustifyAlign>
-            </Wrap>
+            <JustifyAlign>
+              <UploadText>작성하기</UploadText>
+              <NextButton onClick={writePost}>다음</NextButton>
+            </JustifyAlign>
             <StUploadBox>
-              <StimgButton>
+              <StFileButton>
                 <button>
                   <label htmlFor="file-input">파일선택</label>
                 </button>
-              </StimgButton>
+              </StFileButton>
               <StImageBox>
                 <input
                   id="file-input"
@@ -133,10 +131,9 @@ const LoaderWrap = styled.div`
 
 const Container = styled.div`
   display: flex;
-  height: 984px;
-  background-color: orange;
   flex-direction: column;
-  bottom: 110px;
+  /* height: 970px; */
+  /* background-color: orange; */
   & > span {
     display: -webkit-box;
     -webkit-box-orient: vertical;
@@ -147,30 +144,29 @@ const Container = styled.div`
 `;
 
 const Grid = styled.div`
-  //width: 100%;
-  width: 428px;
   margin: 0 auto;
-  background-color: royalblue;
   margin-top: 40px;
-  margin-bottom: 500px;
-`;
+  margin-bottom: 57px;
+  width: 428px;
+  background: linear-gradient(#a396c9, #c8c6d0);
 
-const Wrap = styled.div`
-  width: 366px;
-  margin: 56px auto 0;
-  background-color: aqua;
+  /* background-color: royalblue; */
 `;
 
 const JustifyAlign = styled.div`
   display: flex;
+  margin: 56px auto 0;
+  width: 366px;
   justify-content: space-between;
   align-items: center;
-  background-color: yellowgreen;
+  /* background-color: yellowgreen; */
 `;
 
 const UploadText = styled.span`
   margin: 0 76px 0 146px;
   font-size: 20px;
+  font-weight: bold;
+  color: #7b758b;
 `;
 
 const NextButton = styled.button`
@@ -183,60 +179,32 @@ const NextButton = styled.button`
   height: 30px;
   background-color: #7b758b;
   border-radius: 10px;
+  border: none;
+  box-shadow: 5px 5px 4px #877f92;
 `;
 
 const StUploadBox = styled.div`
-  margin: 12px auto;
   display: flex;
+  margin: 12px auto;
   flex-direction: column;
   width: 390px;
   /* height: 700px; */
   border: 3px solid #c4c2ca;
   border-radius: 20px;
-  background-color: transparent;
+  background-color: #ffffff;
+  box-shadow: 5px 5px 4px #877f92;
 `;
 
-const StImageBox = styled.div`
-  margin: 23px 20px 16px;
-  width: 350px;
-  height: 300px;
-  border-radius: 15px;
-  background-color: #e6e5ea;
-  text-align: center;
-  & > span {
-    opacity: 0.4;
-  }
-  .ImgDiv {
-    width: 100%;
-    height: 300px;
-    border-radius: 16px;
-    display: flex;
-    justify-content: center;
-    overflow: hidden;
-    img.default {
-      flex: 1 1 auto;
-    }
-  }
-`;
-
-const StimgButton = styled.div`
-  margin: 23px 20px 0;
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-  flex-flow: row;
-  gap: 10px;
-  color: darkgray;
-  border-radius: 15px;
-  width: 350px;
+const StFileButton = styled.div`
   & > button {
+    margin: 23px 20px 0;
     width: 350px;
     height: 36px;
     font-size: 14px;
     border: 2px solid white;
     border-radius: 15px;
-    background-color: transparent;
-    color: white;
+    background-color: #e6e5ea;
+    color: black;
     cursor: pointer;
     transition: all 0.5s;
     &:hover {
@@ -249,6 +217,24 @@ const StimgButton = styled.div`
   }
 `;
 
+const StImageBox = styled.div`
+  margin: 23px 20px 16px;
+  width: 350px;
+  height: 300px;
+  border-radius: 15px;
+  .ImgDiv {
+    display: flex;
+    width: 100%;
+    height: 300px;
+    border-radius: 15px;
+    justify-content: center;
+    overflow: hidden;
+    img.default {
+      flex: 1 1 auto;
+    }
+  }
+`;
+
 const StText = styled.p`
   display: inline-block;
   font-size: 20px;
@@ -256,11 +242,13 @@ const StText = styled.p`
   width: 350px;
   overflow: hidden;
   white-space: normal;
+  color: #7b758b;
+  font-weight: bold;
 `;
 
 const StTitleInput = styled.div`
-  width: 350px;
   margin: 11px 20px 18px 20px;
+  width: 350px;
   background: #e6e5ea;
   border-radius: 15px;
   outline: none;
@@ -271,6 +259,7 @@ const StTitleInput = styled.div`
     outline: none;
     margin-left: 20px;
     background: #e6e5ea;
+    font-size: 20px;
   }
 `;
 
@@ -287,5 +276,6 @@ const StContentInput = styled.div`
     outline: none;
     margin-left: 20px;
     background: #e6e5ea;
+    font-size: 20px;
   }
 `;
