@@ -3,6 +3,7 @@ import thunk from "redux-thunk";
 import loginReducer from "./modules/loginSlice";
 import signupReducer from "./modules/signUpSlice";
 import uploadReducer from "./modules/uploadSlice";
+import searchReducer from "./modules/searchSlice";
 
 const middlewares = [thunk];
 // 리듀서 통합
@@ -10,6 +11,7 @@ const rootReducer = combineReducers({
   login: loginReducer,
   signup: signupReducer,
   upload: uploadReducer,
+  search: searchReducer,
 });
 // 스토어 연결
 const store = configureStore({

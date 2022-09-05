@@ -107,6 +107,23 @@ export const __delUser = createAsyncThunk(
 //   }
 // );
 
+//유저 정보 조회
+export const __getUser = createAsyncThunk(
+  "GET/USER",
+  async (payload, thunkAPI) => {
+    const response = await api.get(`/user/${payload}`);
+    return response.data.userStatus;
+  }
+);
+
+//프로필 아이콘 바꾸기
+export const __patchUser = createAsyncThunk(
+  "PATCH/USER",
+  async (payload, thunkAPI) => {
+    const response = await api.patch(`/users`, payload);
+    return response.data.userStatus;
+  }
+);
 const initialState = {
   user: {
     result: null,
@@ -116,6 +133,7 @@ const initialState = {
   loading: false,
   changeUser: null,
   exist: false,
+  userStatus: {},
 };
 
 const loginSlice = createSlice({
@@ -165,7 +183,15 @@ const loginSlice = createSlice({
         state.changeUser = action.payload;
       })
       //회원탈퇴
-      .addCase(__delUser.fulfilled, (state, action) => {}),
+      .addCase(__delUser.fulfilled, (state, action) => {})
+      //유저정보조회
+      .addCase(__getUser.fulfilled, (state, action) => {
+        state.userStatus = action.payload;
+      })
+      //프로필 아이콘 바꾸기
+      .addCase(__patchUser.fulfilled, (state, action) => {
+        state.userStatus = action.payload;
+      }),
 });
 
 // // reducer dispatch하기 위해 export 하기

@@ -17,7 +17,7 @@ const Upload_select = lazy(() => import("./page/Upload_select"));
 const MyPage = lazy(() => import("./page/Mypage"));
 const Closet = lazy(() => import("./page/Closet"));
 const Search = lazy(() => import("./page/Search"));
-
+const Search_result = lazy(() => import("./page/Search_result"));
 function App() {
   return (
     <Fragment>
@@ -41,7 +41,8 @@ function App() {
           <Route path="/mypage/:userId" element={<MyPage />} />
           <Route path="/closet/:userId" element={<Closet />} />
           <Route path="/search" element={<Search />} />
-          <Route path="*" element={<Login />} />
+          <Route path="/search/result" element={<Search_result />} />
+          <Route path="*" element={<Main />} />
         </Routes>
       </Suspense>
       <GlobalStyle />

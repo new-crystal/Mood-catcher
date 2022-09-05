@@ -5,8 +5,8 @@ import styled from "styled-components";
 import cat from "../../image/냥5.png";
 import question from "../../image/question.png";
 import { __getMyPage, __getRepPost } from "../../redux/modules/uploadSlice";
-import ClosetForm from "./ClosetForm";
 import GradeList from "./GradeList";
+import { Fragment } from "react";
 
 const MyPageForm = () => {
   const dispatch = useDispatch();
@@ -27,10 +27,7 @@ const MyPageForm = () => {
   }, []);
 
   return (
-    <Container>
-      <MyPageHeader>
-        <h1>My Page</h1>
-      </MyPageHeader>
+    <Fragment>
       <Img url="https://cdn.discordapp.com/attachments/1014169130045292625/1014194232250077264/Artboard_1.png"></Img>
       <ProfileBox>
         <GradeIcon></GradeIcon>
@@ -74,21 +71,9 @@ const MyPageForm = () => {
       <ProfileEditBtn onClick={() => navigate("/edit_profile")}>
         내 프로필 수정하기
       </ProfileEditBtn>
-    </Container>
+    </Fragment>
   );
 };
-
-const Container = styled.div`
-  width: 428px;
-  height: 926px;
-`;
-
-const MyPageHeader = styled.div`
-  width: 428px;
-  height: 60px;
-  background-color: #a396c9;
-  color: white;
-`;
 
 const Img = styled.div`
   width: 107px;
