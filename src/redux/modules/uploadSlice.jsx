@@ -31,15 +31,6 @@ export const __getMyPage = createAsyncThunk(
   }
 );
 
-//대표 게시물 조회
-export const __getMyRep = createAsyncThunk(
-  "GET/MYREP",
-  async (payload, thunkAPI) => {
-    const response = await api.get(`/posts/rep/${payload}`);
-    return response.data;
-  }
-);
-
 //closet 페이지 정보 가져오기
 export const __getCloset = createAsyncThunk(
   "GET/CLOSET",
@@ -72,12 +63,8 @@ export const __representative = createAsyncThunk(
 export const __getRepPost = createAsyncThunk(
   "GET/REPRESENTATIVE",
   async (payload, thunkAPI) => {
-    try {
-      const response = await api.get(`/posts/rep/?${payload}`);
-      return response.myRepPost;
-    } catch (err) {
-      thunkAPI.rejectWithValue(err);
-    }
+    const response = await api.get(`/posts/rep/?${payload}`);
+    return response.data;
   }
 );
 
@@ -88,7 +75,7 @@ const uploadSlice = createSlice({
     formdata: {},
     myList: [],
     closetList: [],
-    representative: { postId: "" },
+    myRepPost: { postId: "" },
   },
   reducers: {
     regFormdata: (state, action) => {
@@ -131,12 +118,6 @@ const uploadSlice = createSlice({
       //대표 게시물 조회하기
       .addCase(__getRepPost.fulfilled, (state, action) => {
         state.representative = action.payload;
-      })
-      .addCase(__getRepPost.rejected, (state, action) => {
-        state.representative = action.payload;
-      })
-      .addCase(__getMyRep.fulfilled, (state, action) => {
-        state.myRepPost = action.payload;
       });
   },
 });

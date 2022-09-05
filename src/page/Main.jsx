@@ -3,25 +3,30 @@ import styled from "styled-components";
 import Loader from "../shared/Loader";
 import Header from "../elem/Header";
 import NavigationBar from "../elem/NavigationBar";
+import RepPost from "../components/mainComponents/RepPost";
+import HotPosts from "../components/mainComponents/HotPosts";
+import AllPosts from "../components/mainComponents/AllPosts";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { __userInfo } from "../redux/modules/loginSlice";
+import { __getUsers } from "../redux/modules/signUpSlice";
+import { __getRepPost } from "../redux/modules/uploadSlice";
+import { __getHotPosts } from "../redux/modules/rankSlice";
+import _ from "lodash";
 
-const junsu = "./images/junsu.PNG";
-const heart = "./images/heart.png";
+const upButton = "/images/upArrow.png";
 
 const Main = (props) => {
+  const [scrollHeightInfo, SetScrollHeightInfo] = useState(0);
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  // 대표게시물 불러옴
+  // 유저정보 조회
+  const userStatus = useSelector((state) => state.signup.userStatus);
+  // 대표게시물 조회
   const myRepPost = useSelector((state) => state.upload.myRepPost);
   // 랭크게시물 불러옴
-  const allPosts = useSelector;
-
-  // 유저정보를 불러와서 토큰이 없다면 다시 로그인
-  // useEffect(() => {
-  //   dispatch(__userInfo());
-  // }, []);
+  const hotPosts = useSelector((state) => state.rank.hotPosts);
 
   // profile_pic를 정하는 부분
   const [profile, setProfile] = useState({
@@ -29,6 +34,49 @@ const Main = (props) => {
     preview_URL:
       "https://cdn.discordapp.com/attachments/1014169130045292625/1014194232250077264/Artboard_1.png",
   });
+
+  // toTop버튼
+  const showTopButton = () => {
+    if (scrollHeightInfo > 2000) {
+      //2000px밑으로 스크롤 내려갔을때 위로가는 Top 버튼 보이기
+      return <TopButton onClick={ScrollToTop}></TopButton>;
+    } else {
+      return null;
+    }
+  };
+
+  const ScrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  };
+
+  //스크롤 위치계산시 연산 너무 많이되는 것
+  //방지하기 위해 300ms 쓰로틀적용
+  const _scrollPosition = _.throttle(() => {
+    const scrollHeight = document.documentElement.scrollTop;
+    SetScrollHeightInfo(scrollHeight);
+  }, 300);
+
+  useEffect(() => {
+    window.addEventListener("scroll", _scrollPosition); // scroll event listener 등록
+    return () => {
+      window.removeEventListener("scroll", _scrollPosition); // scroll event listener 해제(스크롤이벤트 클린업)
+    };
+  }, [scrollHeightInfo]);
+
+  // 유저정보를 불러와서 토큰이 없다면 다시 로그인
+  // 유저정보 조회해서 프로필 사진 확보
+  useEffect(() => {
+    dispatch(__userInfo());
+    dispatch(__getUsers());
+    dispatch(__getRepPost());
+    dispatch(__getHotPosts());
+    if (userStatus.imgUrl !== undefined) {
+      setProfile({ image_file: `${userStatus.imgUrl}` });
+    }
+  }, []);
 
   return (
     <Fragment>
@@ -48,56 +96,12 @@ const Main = (props) => {
                 profile.image_file ? profile.image_file : profile.preview_URL
               }
             ></Img>
-            {/* 대표게시물 조회 */}
-            <Wrap>
-              <StTag>My Closet</StTag>
-            </Wrap>
-            <WritedClosetInfo
-              onClick={() => {
-                navigate("/Closet");
-              }}
-            >
-              <ClosetImage>
-                <img src={junsu} />
-              </ClosetImage>
-              <ClosetTextWrap>
-                <GridHorizon>
-                  <TitleText>
-                    <span>내 다리 롱다리</span>
-                  </TitleText>
-                  <ContentText>
-                    <span>
-                      00/00 사진관에서 사진찍고 거울샷 찍었는데 길게 나와서
-                      맘에든다.
-                    </span>
-                  </ContentText>
-                  <HeartText>
-                    <img src={heart} alt="heart" />
-                    <span>100+</span>
-                  </HeartText>
-                </GridHorizon>
-              </ClosetTextWrap>
-            </WritedClosetInfo>
-            <Wrap>
-              <StTag>Hot</StTag>
-            </Wrap>
-            <WritedHotInfo>
-              <HotImage1>
-                <img src={junsu} />
-              </HotImage1>
-              <HotWrap>
-                <GridHorizonHot>
-                  <HotImage2>
-                    <img src={junsu} />
-                  </HotImage2>
-                </GridHorizonHot>
-                <GridHorizonHot>
-                  <HotImage3>
-                    <img src={junsu} />
-                  </HotImage3>
-                </GridHorizonHot>
-              </HotWrap>
-            </WritedHotInfo>
+            {/* 대표게시물 출력 */}
+            <RepPost myRepPost={myRepPost} />
+            {/* 랭킹게시물 출력 */}
+            <HotPosts hotPosts={hotPosts} />
+            <AllPosts />
+            {showTopButton()}
           </Grid>
         </Container>
         <NavigationBar props={props} />
@@ -148,159 +152,14 @@ const Img = styled.div`
   box-shadow: 5px 5px 4px #877f92;
 `;
 
-const Wrap = styled.div`
-  margin: 21px auto 10px;
-  width: 350px;
-`;
-
-const StTag = styled.div`
-  margin-bottom: 10px;
-  width: 200px;
+const TopButton = styled.div`
+  position: fixed;
+  bottom: 74px;
+  left: 50%;
+  margin-left: -20px;
+  width: 40px;
   height: 40px;
-  border-radius: 17px;
-  background: linear-gradient(to right, #7b758b 50%, #c8c6d0);
-  text-align: center;
-  line-height: 40px;
-  font-size: 30px;
-  font-weight: bold;
-  font-family: "Unna";
-  color: white;
-  box-shadow: 5px 5px 4px #877f92;
-`;
-
-const WritedClosetInfo = styled.div`
-  display: flex;
-  margin: 0px auto 37px;
-  width: 350px;
-  height: 200px;
-  background-color: #ffffff;
-  border-radius: 20px;
+  background-image: url(${upButton});
+  background-size: cover;
   cursor: pointer;
-  box-shadow: 5px 5px 4px #877f92;
-`;
-
-const ClosetImage = styled.div`
-  margin: 13px;
-  border-radius: 10px;
-  width: 80px;
-  height: 90px;
-  background-color: #ffffff;
-
-  & > img {
-    width: 131px;
-    height: 174px;
-    border-radius: 20px;
-    box-shadow: 5px 5px 4px #877f92;
-  }
-`;
-
-const ClosetTextWrap = styled.div`
-  margin: 66px 0 30px 50px;
-  width: 145px;
-  word-break: break-all;
-  word-wrap: break-word;
-`;
-
-const GridHorizon = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  height: 20px;
-`;
-
-const TitleText = styled.p`
-  margin: 0;
-  font-size: 16px;
-  font-weight: 700;
-  line-height: 20px;
-  color: #7b758b;
-`;
-
-const ContentText = styled.p`
-  margin: 0;
-  font-size: 10px;
-  font-weight: 700;
-  line-height: 13px;
-  color: #7b758b;
-`;
-
-const HeartText = styled.div`
-  display: flex;
-  margin-top: 21px;
-  align-items: center;
-  & > span {
-    font-weight: 700;
-    font-style: normal;
-    font-size: 16px;
-    color: #7b758b;
-  }
-  & > img {
-    margin-right: 2px;
-    width: 20px;
-    height: 20px;
-  }
-`;
-
-const WritedHotInfo = styled.div`
-  display: flex;
-  margin: 0px auto 37px;
-  width: 350px;
-  height: 288px;
-  background-color: #f6f6f6;
-  border-radius: 20px;
-  box-shadow: 5px 5px 4px #877f92;
-`;
-
-const HotImage1 = styled.div`
-  margin: 13px;
-  border-radius: 10px;
-  width: 80px;
-  height: 90px;
-  background-color: #ffffff;
-
-  & > img {
-    width: 150px;
-    height: 250px;
-    border-radius: 20px;
-    box-shadow: 5px 5px 4px #877f92;
-  }
-`;
-
-const HotWrap = styled.div`
-  margin: 66px 0 30px 50px;
-`;
-
-const GridHorizonHot = styled.div`
-  display: flex;
-  align-items: center;
-  height: 20px;
-`;
-
-const HotImage2 = styled.div`
-  margin: 0 0 30px 20px;
-  border-radius: 10px;
-  width: 80px;
-  height: 90px;
-  background-color: #ffffff;
-  & > img {
-    width: 151px;
-    height: 120px;
-    border-radius: 20px;
-    box-shadow: 5px 5px 4px #877f92;
-  }
-`;
-
-const HotImage3 = styled.div`
-  margin: 200px 0 19px 20px;
-  border-radius: 10px;
-  width: 80px;
-  height: 90px;
-
-  background-color: #ffffff;
-  & > img {
-    width: 151px;
-    height: 120px;
-    border-radius: 20px;
-    box-shadow: 5px 5px 4px #877f92;
-  }
 `;

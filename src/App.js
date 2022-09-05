@@ -1,4 +1,4 @@
-import React, { useEffect, Suspense, lazy, Fragment } from "react";
+import React, { Suspense, lazy, Fragment } from "react";
 import styled, { createGlobalStyle } from "styled-components";
 import { Routes, Route } from "react-router-dom";
 import Loader from "./shared/Loader";
