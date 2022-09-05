@@ -186,6 +186,12 @@ const SigupForm = () => {
       <OkBtn type="submit" disabled={isSubmitting}>
         OK
       </OkBtn>
+      <LoginBox>
+        <p>이미 무드캐처의 캐처라면?</p>
+        <LoginBtn type="button" onClick={() => navigate("/login")}>
+          로그인 페이지로 가기
+        </LoginBtn>
+      </LoginBox>
     </Container>
   );
 };
@@ -253,8 +259,20 @@ const OkBtn = styled.button`
   border-radius: 10px;
   width: 150px;
   height: 40px;
-  margin: 70px auto;
+  margin: 70px auto 0 auto;
   cursor: pointer;
 `;
-
+const LoginBtn = styled.button`
+  background-color: #7b758b;
+  color: white;
+  border: 0px;
+  border-radius: 10px;
+  width: 150px;
+  height: 40px;
+  margin: auto;
+  cursor: pointer;
+`;
+const LoginBox = styled.div`
+  padding: 0px;
+`;
 export default SigupForm;

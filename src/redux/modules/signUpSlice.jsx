@@ -51,6 +51,7 @@ const signUpSlice = createSlice({
       //회원가입
       .addCase(__signUp.fulfilled, (state, action) => {
         state.is_signup = action.payload;
+        alert("무드캐처 회원가입에 성공하셨습니다.");
       })
       .addCase(__signUp.rejected, (state, action) => {
         alert("무드캐처 회원가입에 실패하셨습니다");
