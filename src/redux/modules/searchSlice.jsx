@@ -1,20 +1,6 @@
 import { api } from "../../shared/api";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
-//게시물 검색하기
-export const __postSearch = createAsyncThunk(
-  "POST/SEARCH",
-  async (payload, thunkAPI) => {
-    try {
-      const response = await api.post("", payload);
-      console.log(response);
-      return response.data;
-    } catch (err) {
-      console.log(err);
-    }
-  }
-);
-
 //검색페이지에서 추천 게시물 조회하기
 export const __getSearch = createAsyncThunk(
   "GET/POSTS",
@@ -56,10 +42,6 @@ const searchSlice = createSlice({
   reducers: {},
   extraReducers: (builder) =>
     builder
-      //게시물 검색하기
-      .addCase(__postSearch.fulfilled, (state, action) => {
-        state.search = action.payload;
-      })
       //추천게시물 조회하기
       .addCase(__getSearch.fulfilled, (state, action) => {
         state.recommendedPosts = action.payload;

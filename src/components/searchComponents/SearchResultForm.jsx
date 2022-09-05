@@ -3,16 +3,14 @@ import { useForm } from "react-hook-form";
 import { Fragment, useEffect, useState } from "react";
 import search from "../../image/search.png";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  __getSearchResult,
-  __postSearch,
-} from "../../redux/modules/searchSlice";
-import { useNavigate } from "react-router-dom";
+import { __getSearchResult } from "../../redux/modules/searchSlice";
+import { useNavigate, useParams } from "react-router-dom";
 import more from "../../image/more.png";
 
 const SearchResultForm = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const { keyword } = useParams();
   const [moreBox, setMoreBox] = useState(false);
 
   const searchList = useSelector((state) => state.search.searchResult);
@@ -26,13 +24,13 @@ const SearchResultForm = () => {
 
   //검색 결과 조회하기
   useEffect(() => {
-    dispatch(__getSearchResult());
+    dispatch(__getSearchResult(keyword));
   }, []);
 
   //다시 검색하기
   const onSubmit = async (data) => {
     await new Promise((r) => setTimeout(r, 300));
-    dispatch(__postSearch(data)).then(navigate("/search/result"));
+    navigate(`/search/result/&{data}`);
   };
 
   return (

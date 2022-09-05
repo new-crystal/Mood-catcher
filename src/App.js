@@ -41,7 +41,7 @@ function App() {
           <Route path="/mypage/:userId" element={<MyPage />} />
           <Route path="/closet/:userId" element={<Closet />} />
           <Route path="/search" element={<Search />} />
-          <Route path="/search/result" element={<Search_result />} />
+          <Route path="/search/result/:keyword" element={<Search_result />} />
           <Route path="*" element={<Main />} />
         </Routes>
       </Suspense>

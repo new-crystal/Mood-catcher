@@ -4,11 +4,14 @@ import { Fragment, useEffect } from "react";
 import search from "../../image/search.png";
 import heart from "../../image/heart.png";
 import { useDispatch, useSelector } from "react-redux";
-import { __getSearch, __postSearch } from "../../redux/modules/searchSlice";
+import { __getSearch } from "../../redux/modules/searchSlice";
+import { useNavigate } from "react-router-dom";
 
 const SearchForm = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const recommended = useSelector((state) => state.search.recommendedPosts);
+
   const {
     register,
     setError,
@@ -20,7 +23,7 @@ const SearchForm = () => {
   //검색하기
   const onSubmit = async (data) => {
     await new Promise((r) => setTimeout(r, 300));
-    dispatch(__postSearch(data));
+    navigate(`/search/result/&{data}`);
   };
 
   //추천게시물 조회하기
