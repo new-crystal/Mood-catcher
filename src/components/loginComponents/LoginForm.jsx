@@ -50,6 +50,7 @@ const LoginForm = () => {
       </JustifyAlign>
       <LogBox onSubmit={handleSubmit(onSubmit)}>
         <div>
+          {errors.email && <ErrorMsg>{errors.email.message}</ErrorMsg>}
           <input
             placeholder="Email"
             name="email"
@@ -74,7 +75,6 @@ const LoginForm = () => {
               },
             })}
           />
-          {errors.email && <ErrorMsg>{errors.email.message}</ErrorMsg>}
           <input
             placeholder="PW"
             name="password"
@@ -107,7 +107,7 @@ const LoginForm = () => {
       </LogBox>
       <BtnBox>
         <p>무드캐쳐가 처음이신가요?</p>
-        <LogBtn kakao>
+        <LogBtn kakao onClick={() => onClickKakao()}>
           <a href="http://3.34.190.2/api/auth/kakao">카카오 로그인</a>
         </LogBtn>
         <LogBtn type="button" onClick={() => navigate("/signup")}>
@@ -139,10 +139,10 @@ const ErrorMsg = styled.p`
 const LogInBtn = styled.button`
   background-color: #7b758b;
   color: white;
-  width: 86px;
-  height: 110px;
+  width: 280px;
+  height: 50px;
   margin-top: 15px;
-  margin-right: 30px;
+  margin-right: 10px;
   border: 0px;
   border-radius: 20px;
   cursor: pointer;
@@ -150,6 +150,9 @@ const LogInBtn = styled.button`
 
 const LogBox = styled.form`
   display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
   margin-top: 50px;
   input {
     background-color: #e6e5ea;

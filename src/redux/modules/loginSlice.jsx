@@ -7,8 +7,9 @@ import { setCookie, removeCookie } from "../../shared/Cookie";
 export const __login = createAsyncThunk("LOGIN", async (payload, thunkAPI) => {
   try {
     const response = await api.post("/auth/login", payload);
-    setCookie("token", response.data.token);
-    return response.data.exist;
+    console.log(response);
+    //setCookie("token", response.data.token);
+    return response;
   } catch (err) {
     console.log(err);
     return false;
@@ -50,6 +51,7 @@ export const __socialLogin = createAsyncThunk(
   async (payload, thunkAPI) => {
     try {
       const response = await api.get("/auth/kakao");
+      console.log(response);
       thunkAPI.fulfillWithValue(response.data);
     } catch (err) {
       console.log(err);
@@ -62,8 +64,10 @@ export const __socialLogin = createAsyncThunk(
 export const __editProfile = createAsyncThunk(
   "EDITPROFILE",
   async (payload, thunkAPI) => {
+    console.log(payload);
     try {
       const response = await api.put("/user", payload);
+      console.log(response);
       return thunkAPI.fulfillWithValue(response.data.userStatus);
     } catch (err) {
       thunkAPI.rejectWithValue(err);
