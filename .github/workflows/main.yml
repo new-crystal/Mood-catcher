@@ -16,6 +16,12 @@ jobs:
       - name: Checkout source code
         uses: actions/checkout@main
 
+      - name: Generate Environment Variables File for Production # Github Repository Secrets를 통해 변수 파일을 생성
+        run: |
+          echo "REACT_APP_ENDPOINT=$REACT_APP_ENDPOINT" >> .env.production
+        env:
+          REACT_APP_ENDPOINT: ${{ secrets.REACT_APP_ENDPOINT }}
+
       # 실행 속도를 빠르게 하기 위해 설치된 Node 모듈을 캐시하도록 설정합니다.
       - name: Cache node modules
         uses: actions/cache@v2

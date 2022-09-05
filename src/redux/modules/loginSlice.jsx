@@ -19,12 +19,12 @@ export const __login = createAsyncThunk("LOGIN", async (payload, thunkAPI) => {
 export const __checkNickname = createAsyncThunk(
   "CHECKNICKNAME",
   async (payload, thunkAPI) => {
-    // console.log(payload);
+    console.log(payload);
     try {
       const response = await api.get(
         `/auth/checkNickname?nickname=${encodeURI(payload)}`
       );
-      // console.log(response);
+      console.log(response);
       if (response.status === 200) {
         return true;
       }
