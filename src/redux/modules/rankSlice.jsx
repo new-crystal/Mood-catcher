@@ -9,7 +9,7 @@ import { api } from "../../shared/api";
 export const __getHotPosts = createAsyncThunk(
   "GET/HOTPOST",
   async (data, thunkAPI) => {
-    const response = await api.get(`/api/posts/popular`);
+    const response = await api.get(`/posts/popular`);
     return response.data;
   }
 );
@@ -18,7 +18,7 @@ export const __getHotPosts = createAsyncThunk(
 export const __getMainAllPosts = createAsyncThunk(
   "GET/MAINALLPOSTS",
   async (data, thunkAPI) => {
-    const response = await api.get(`/api/posts/?page=${data}&count=${data}`);
+    const response = await api.get(`/posts/?page=${data}&count=${data}`);
     return response.data;
   }
 );

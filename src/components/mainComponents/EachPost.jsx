@@ -6,30 +6,30 @@ const EachPost = (props) => {
   const { item } = props;
   return (
     <Fragment>
-      <RecommendBeerWrap>
-        <BeerImage>
+      <PostWrap>
+        <PostImage>
           <img src={item.image} alt="post_image"></img>
-        </BeerImage>
-        <BeerInfoWrap>
+        </PostImage>
+        <PostInfoWrap>
           <JustifyAlign>
-            <BeerName>{item.name_korean}</BeerName>
+            <PostName>{item.name_korean}</PostName>
           </JustifyAlign>
-        </BeerInfoWrap>
-      </RecommendBeerWrap>
+        </PostInfoWrap>
+      </PostWrap>
     </Fragment>
   );
 };
 
 export default EachPost;
 
-const RecommendBeerWrap = styled.div`
+const PostWrap = styled.div`
   width: 148px;
   margin-bottom: 20px;
   margin-right: 16px;
   //z-index: 1px;
 `;
 
-const BeerImage = styled.div`
+const PostImage = styled.div`
   width: 148px;
   height: 148px;
   border-radius: 13px;
@@ -56,7 +56,7 @@ const BeerImage = styled.div`
   }
 `;
 
-const BeerInfoWrap = styled.div`
+const PostInfoWrap = styled.div`
   width: 134px;
   margin: 10px 5px 0 5px;
   & p {
@@ -68,7 +68,7 @@ const BeerInfoWrap = styled.div`
   }
 `;
 
-const BeerName = styled.p`
+const PostName = styled.p`
   display: inline-block;
   font-size: 14px;
   font-weight: bold;

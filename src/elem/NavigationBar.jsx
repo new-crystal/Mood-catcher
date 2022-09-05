@@ -37,14 +37,14 @@ const NavigationBar = (props) => {
         </SearchWrap>
         <SearchWrap
           onClick={() => {
-            navigate("/");
+            navigate("/like/1");
           }}
         >
           <ImageWrap style={{ backgroundImage: `url(${star})` }} />
         </SearchWrap>
         <SearchWrap
           onClick={() => {
-            navigate("/mypage");
+            navigate("/mypage/1");
           }}
         >
           <ImageWrap style={{ backgroundImage: `url(${person})` }} />

@@ -5,7 +5,7 @@ import { api } from "../../shared/api";
 export const __writePost = createAsyncThunk(
   "post/writePost",
   async (data, thunkAPI) => {
-    const response = await api.post(`/api/posts`, data);
+    const response = await api.post(`/posts`, data);
 
     return response.data;
   }
@@ -17,7 +17,7 @@ export const __getMusinsa = createAsyncThunk(
   async (data, thunkAPI) => {
     // console.log(data);
 
-    const response = await api.get(`/api/musinsa/${data}`);
+    const response = await api.get(`/musinsa/${data}`);
     return response.data;
   }
 );

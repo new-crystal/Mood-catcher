@@ -5,7 +5,7 @@ import styled from "styled-components";
 import cat from "../../image/냥5.png";
 import question from "../../image/question.png";
 import { __getMyPage, __getRepPost } from "../../redux/modules/uploadSlice";
-import ClosetForm from "./ClosetForm";
+import ClosetPosts from "../closetComponents/ClosetPosts";
 import GradeList from "./GradeList";
 
 const MyPageForm = () => {

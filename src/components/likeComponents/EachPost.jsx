@@ -1,19 +1,17 @@
-import React, { Fragment } from "react";
-import styled from "styled-components";
+import React, { Fragment, useEffect, useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import styled from "styled-components";
 
 const junsu = "/images/junsu.PNG";
 const heart = "/images/heart.png";
 
-const RepPost = ({ myRepPost }) => {
+const EachPost = (props) => {
   const navigate = useNavigate();
 
+  const { item } = props;
   return (
     <Fragment>
-      {/* 대표게시물 조회 */}
-      <Wrap>
-        <StTag>My Closet</StTag>
-      </Wrap>
       <WritedClosetInfo
         onClick={() => {
           navigate("/closet/1");
@@ -43,25 +41,7 @@ const RepPost = ({ myRepPost }) => {
   );
 };
 
-const Wrap = styled.div`
-  margin: 21px auto 10px;
-  width: 350px;
-`;
-
-const StTag = styled.div`
-  margin-bottom: 10px;
-  width: 200px;
-  height: 40px;
-  border-radius: 17px;
-  background: linear-gradient(to right, #7b758b 50%, #c8c6d0);
-  text-align: center;
-  line-height: 40px;
-  font-size: 30px;
-  font-weight: bold;
-  font-family: "Unna";
-  color: white;
-  box-shadow: 5px 5px 4px #877f92;
-`;
+export default EachPost;
 
 const WritedClosetInfo = styled.div`
   display: flex;
@@ -135,5 +115,3 @@ const HeartText = styled.div`
     height: 20px;
   }
 `;
-
-export default RepPost;
