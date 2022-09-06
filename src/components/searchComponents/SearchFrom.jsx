@@ -6,14 +6,12 @@ import heart from "../../image/heart.png";
 import { useDispatch, useSelector } from "react-redux";
 import { __getSearch } from "../../redux/modules/searchSlice";
 import { useRef } from "react";
-
-
+import { useNavigate } from "react-router-dom";
 
 const SearchForm = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const recommended = useSelector((state) => state.search.recommendedPosts);
-
 
   const {
     register,
