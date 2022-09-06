@@ -51,6 +51,7 @@ const SearchResultForm = () => {
           })}
         />
         <SearchImg type="submit" disabled={isSubmitting}></SearchImg>
+        <SearchBox></SearchBox>
       </form>
       <More onClick={() => setMoreBox(!moreBox)}></More>
       {moreBox ? (
@@ -69,6 +70,14 @@ const SearchResultForm = () => {
           </Mores>
         </MoreList>
       ) : null}
+      <ImgBox>
+        <Img url="https://dimg.donga.com/wps/NEWS/IMAGE/2022/03/24/112480172.5.jpg"></Img>
+        <Img url="https://dimg.donga.com/wps/NEWS/IMAGE/2022/03/24/112480172.5.jpg"></Img>
+      </ImgBox>
+      <ImgBox>
+        <Img url="https://dimg.donga.com/wps/NEWS/IMAGE/2022/03/24/112480172.5.jpg"></Img>
+        <Img url="https://dimg.donga.com/wps/NEWS/IMAGE/2022/03/24/112480172.5.jpg"></Img>
+      </ImgBox>
     </Fragment>
   );
 };
@@ -81,23 +90,31 @@ const ErrorMsg = styled.p`
 `;
 
 const SearchInput = styled.input`
-  background-color: white;
+  background-color: rgba(0, 0, 0, 0);
+  border: 0px;
   width: 350px;
   height: 50px;
-  border: 1px solid #ddd;
   border-radius: 10px;
   margin: 10px 30px;
 `;
+const SearchBox = styled.div`
+  width: 348px;
+  margin: 0 auto;
+  border-top: 3px solid #fff;
+  position: relative;
+  top: -50px;
+`;
+
 const SearchImg = styled.button`
   width: 40px;
   height: 40px;
   border: 0;
-  background-color: white;
+  background-color: rgba(0, 0, 0, 0);
   background-position: center;
   background-size: cover;
   background-image: url(${search});
   position: relative;
-  left: 149px;
+  left: 150px;
   top: -58px;
 `;
 const More = styled.div`
@@ -108,6 +125,7 @@ const More = styled.div`
   background-image: url(${more});
   display: block;
   float: right;
+  margin-top: -40px;
 `;
 const MoreList = styled.div`
   width: 140px;
@@ -135,5 +153,21 @@ const Mores = styled.div`
     font-size: 10px;
     margin: 4px;
   }
+`;
+const ImgBox = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: row;
+`;
+const Img = styled.div`
+  margin-left: 10px;
+  margin-bottom: 20px;
+  width: 180px;
+  height: 240px;
+  border-radius: 20px;
+  background-position: center;
+  background-size: cover;
+  background-image: url(${(props) => props.url});
 `;
 export default SearchResultForm;

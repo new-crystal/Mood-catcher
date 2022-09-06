@@ -25,9 +25,6 @@ const SigupForm = () => {
     handleSubmit,
   } = useForm({ criteriaMode: "all", mode: "onChange" });
 
-  //이메일 인풋 값 받아오기
-  const email = getValues("email");
-
   //email 중복확인 성공했을 때 메시지 띄워주기
   useEffect(() => {
     if (checkEmail === true) {
@@ -41,7 +38,8 @@ const SigupForm = () => {
   };
 
   //이메일 중복확인 눌렀을 때
-  const onClickCheckBtnHandler = () => {
+  const onClickCheckBtnHandler = async () => {
+    const email = await getValues("email");
     if (email !== "" && errors.email === undefined) {
       dispatch(__checkEmail(email));
       if (checkEmail === false) {
@@ -84,10 +82,10 @@ const SigupForm = () => {
       //비밀번호 값과 비밀번호 확인 값이 같을 때만
       if (data.password === data.confirmPw) {
         await new Promise((r) => setTimeout(r, 300));
-        navigate("/login");
 
-        const password = toString(pwpwpw);
-        const confirmPw = toString(pwpwpw);
+        const password = pwpwpw.toString();
+        const confirmPw = pwpwpw.toString();
+        const email = getValues("email");
 
         dispatch(__signUp({ email, password, confirmPw })).then(
           navigate("/login")
@@ -107,82 +105,85 @@ const SigupForm = () => {
       <SignUpBox>
         <h1>Sign Up</h1>
       </SignUpBox>
-      <div>
-        <TextBox>
-          <span>이메일</span>
-          {errors.email && <p>{errors.email.message}</p>}
-        </TextBox>
-        <input
-          className="email"
-          name="email"
-          type="email"
-          aria-invalid={!isDirty ? undefined : errors.email ? "true" : "false"}
-          {...register("email", {
-            onChange: () => onChangeEmail(),
-            required: "이메일은 필수 입력입니다.",
-            minLength: {
-              value: 8,
-              message: "이메일을 8자 이상 작성해주세요",
-            },
-            maxLength: {
-              value: 30,
-              message: "이메일을 30자 이하로 작성해주세요",
-            },
-            pattern: {
-              value:
-                /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/,
-              message: "이메일이 형식에 맞지 않습니다.",
-            },
-          })}
-        />
-        <ConfirmBtn type="button" onClick={() => onClickCheckBtnHandler()}>
-          중복확인
-        </ConfirmBtn>
-      </div>
-      <div>
-        <TextBox>
-          <h4>비밀번호</h4>
-          {errors.password && <p>{errors.password.message}</p>}
-        </TextBox>
-        <input
-          name="password"
-          type="password"
-          aria-invalid={
-            !isDirty ? undefined : errors.password ? "true" : "false"
-          }
-          {...register("password", {
-            required: "비밀번호는 필수 입력입니다.",
-            minLength: {
-              value: 8,
-              message: "비밀번호를 8자 이상 작성해주세요",
-            },
-            maxLength: {
-              value: 20,
-              message: "비밀번호를 20자 이하로 작성해주세요",
-            },
-            pattern: {
-              value:
-                /^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{8,20}$/,
-              message: "비밀번호가 형식에 맞지 않습니다.",
-            },
-          })}
-        />
-        <h6>영문, 숫자, 특수문자(!@#$%^&*) 조합으로 8자 이상 20자 이하</h6>
-      </div>
-      <div>
-        <TextBox>
-          <h4>비밀번호 확인</h4>
-          {errors.confirmPw && <p>{errors.confirmPw.message}</p>}
-        </TextBox>
-        <input
-          name="confirmPw"
-          type="password"
-          {...register("confirmPw", {
-            required: "비밀번호 확인을 해주세요",
-          })}
-        />
-      </div>
-
+      <FormCantainer>
+        <div>
+          <TextBox>
+            <h4>이메일</h4>
+            {errors.email && <p>{errors.email.message}</p>}
+          </TextBox>
+          <input
+            className="email"
+            name="email"
+            type="email"
+            aria-invalid={
+              !isDirty ? undefined : errors.email ? "true" : "false"
+            }
+            {...register("email", {
+              onChange: () => onChangeEmail(),
+              required: "이메일은 필수 입력입니다.",
+              minLength: {
+                value: 8,
+                message: "이메일을 8자 이상 작성해주세요",
+              },
+              maxLength: {
+                value: 30,
+                message: "이메일을 30자 이하로 작성해주세요",
+              },
+              pattern: {
+                value:
+                  /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/,
+                message: "이메일이 형식에 맞지 않습니다.",
+              },
+            })}
+          />
+          <ConfirmBtn type="button" onClick={() => onClickCheckBtnHandler()}>
+            중복확인
+          </ConfirmBtn>
+        </div>
+        <div>
+          <TextBox>
+            <h4>비밀번호</h4>
+            {errors.password && <p>{errors.password.message}</p>}
+          </TextBox>
+          <input
+            name="password"
+            type="password"
+            placeholder="영문, 숫자, 특수문자(!@#$%^&*) 조합으로 8자 이상 20자 이하"
+            aria-invalid={
+              !isDirty ? undefined : errors.password ? "true" : "false"
+            }
+            {...register("password", {
+              required: "비밀번호는 필수 입력입니다.",
+              minLength: {
+                value: 8,
+                message: "비밀번호를 8자 이상 작성해주세요",
+              },
+              maxLength: {
+                value: 20,
+                message: "비밀번호를 20자 이하로 작성해주세요",
+              },
+              pattern: {
+                value:
+                  /^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{8,20}$/,
+                message: "비밀번호가 형식에 맞지 않습니다.",
+              },
+            })}
+          />
+        </div>
+        <div>
+          <TextBox>
+            <h4>비밀번호 확인</h4>
+            {errors.confirmPw && <p>{errors.confirmPw.message}</p>}
+          </TextBox>
+          <input
+            name="confirmPw"
+            type="password"
+            {...register("confirmPw", {
+              required: "비밀번호 확인을 해주세요",
+            })}
+          />
+        </div>
+      </FormCantainer>
       <OkBtn type="submit" disabled={isSubmitting}>
         OK
       </OkBtn>
@@ -198,6 +199,7 @@ const SigupForm = () => {
 
 const Container = styled.form`
   width: 428px;
+  height: 926px;
 
   .email {
     width: 250px;
@@ -205,35 +207,37 @@ const Container = styled.form`
   input {
     background-color: #fff;
     border: 0px;
-    border-radius: 7px;
+    border-radius: 10px;
     height: 50px;
     width: 350px;
   }
 `;
 
-const CheckMail = styled.div`
-  border-radius: 7px;
-  height: 40px;
-  width: 387px;
+const FormCantainer = styled.div`
+  width: 390px;
+  display: flex;
+  align-items: center;
+  justify-content: left;
+  align-items: baseline;
+  flex-direction: column;
+  margin: 50px auto;
 `;
 
 const ConfirmBtn = styled.button`
-  background-color: #7b758b;
+  background: linear-gradient(78.32deg, #7b758b 41.41%, #ffffff 169.58%);
   border: 0px;
-  width: 110px;
-  height: 40px;
+  width: 90px;
+  height: 50px;
   color: white;
-  border-radius: 7px;
+  border-radius: 10px;
   margin-left: 20px;
+  font-family: "Roboto";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 16px;
   cursor: pointer;
 `;
 
-const SignUpHeader = styled.div`
-  width: 428px;
-  height: 60px;
-  background-color: #a396c9;
-  color: white;
-`;
 const SignUpBox = styled.div`
   border-bottom: 3px solid #fff;
   width: 211px;
@@ -245,8 +249,8 @@ const SignUpBox = styled.div`
   justify-content: center;
   flex-direction: column;
 
-  span {
-    margin-bottom: -10px;
+  h1 {
+    margin-bottom: 0px;
     font-family: "Unna";
     font-style: normal;
     font-weight: 700;
@@ -255,19 +259,31 @@ const SignUpBox = styled.div`
 `;
 const TextBox = styled.div`
   display: flex;
+  flex-direction: row;
+  align-items: baseline;
+
   h4 {
+    margin-bottom: 5px;
     color: #2d273f;
+    font-family: "Roboto";
+    font-style: normal;
+    font-weight: 700;
+    font-size: 20px;
   }
   p {
     color: #c60000;
     font-size: 10px;
-    margin-top: 30px;
     margin-left: 20px;
   }
 `;
+
 const OkBtn = styled.button`
-  background-color: #7b758b;
+  background: linear-gradient(78.32deg, #7b758b 41.41%, #ffffff 169.58%);
   color: white;
+  font-family: "Unna";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 30px;
   border: 0px;
   border-radius: 10px;
   width: 150px;
@@ -275,14 +291,18 @@ const OkBtn = styled.button`
   margin: 10px auto 0 auto;
   cursor: pointer;
 `;
+
 const LoginBtn = styled.button`
-  background-color: #7b758b;
+  background: linear-gradient(78.32deg, #7b758b 41.41%, #ffffff 169.58%);
   color: white;
   border: 0px;
   border-radius: 10px;
   width: 150px;
   height: 40px;
-  margin: auto;
+  font-family: "Roboto";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 15px;
   cursor: pointer;
 `;
 const LoginBox = styled.div`

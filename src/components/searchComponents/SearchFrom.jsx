@@ -51,18 +51,19 @@ const SearchForm = () => {
         />
         <SearchImg type="submit" disabled={isSubmitting}></SearchImg>
       </form>
+      <SearchBox></SearchBox>
       <ClosetBox>
         <h1>Other Closet</h1>
       </ClosetBox>
       <OtherClosetBox>
-        <NicknameBox>
-          <ProfilePic url="https://src.hidoc.co.kr/image/lib/2022/7/13/1657700243750_0.jpg"></ProfilePic>
-          <h4>수수</h4>
-        </NicknameBox>
-        <ImgBox url="https://w.namu.la/s/3b20e583635c0c8c1826780f45af9be65b29aa8bd6b29b4a02c5cca723c01164a2be7fafaf750b99f786d83fa384b2fbb5d368dc9e7163ef852178c37ecc375fb24f0b8780c35bdc8b1ae5a2d5714af655bb1e4b15f37f56b93b7d9a612cc4284bd393a8d8c0f15b239d5d20092b067d"></ImgBox>
+        <ImgBox url="https://dimg.donga.com/wps/NEWS/IMAGE/2022/03/24/112480172.5.jpg"></ImgBox>
         <TextBox>
-          <h5>패션왕이 되자!</h5>
-          <Heart></Heart>
+          <p>내 다리 롱다리</p>
+          <h5>짱짱 롱다리</h5>
+          <HeartBox>
+            <Heart></Heart>
+            <p>1000</p>
+          </HeartBox>
         </TextBox>
       </OtherClosetBox>
     </Fragment>
@@ -74,12 +75,19 @@ const ErrorMsg = styled.p`
   margin-left: -150px;
   margin-bottom: -10px;
 `;
+const SearchBox = styled.div`
+  width: 348px;
+  margin: 0 auto;
+  border-top: 3px solid #fff;
+  position: relative;
+  top: -50px;
+`;
 
 const SearchInput = styled.input`
-  background-color: white;
+  background-color: rgba(0, 0, 0, 0);
   width: 350px;
   height: 50px;
-  border: 1px solid #ddd;
+  border: 0px;
   border-radius: 10px;
   margin: 10px 30px;
 `;
@@ -87,68 +95,72 @@ const ClosetBox = styled.div`
   width: 200px;
   height: 40px;
   border-radius: 10px;
-  background-color: #7b758b;
+  background-color: rgba(0, 0, 0, 0);
   color: white;
   margin-top: -50px;
+  font-family: "Unna";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 15px;
+  margin-left: 40px;
 `;
+
 const SearchImg = styled.button`
   width: 40px;
   height: 40px;
   border: 0;
-  background-color: white;
+  background-color: rgba(0, 0, 0, 0);
   background-position: center;
   background-size: cover;
   background-image: url(${search});
   position: relative;
-  left: 149px;
+  left: 330px;
   top: -58px;
 `;
 const OtherClosetBox = styled.div`
-  width: 380px;
-  height: 380px;
+  width: 350px;
+  height: 200px;
   margin: 10px auto;
-  background-color: #e6e5ea;
+  background-color: #fff;
   border-radius: 20px;
   display: flex;
   align-items: center;
   justify-content: center;
-  flex-direction: column;
-`;
-const NicknameBox = styled.div`
-  width: 380px;
-  margin-left: 50px;
-  display: flex;
-  align-items: center;
-  justify-content: left;
   flex-direction: row;
 `;
-const ProfilePic = styled.div`
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  background-position: center;
-  background-size: cover;
-  background-image: url(${(props) => props.url});
-`;
+
 const ImgBox = styled.div`
-  width: 344px;
-  height: 260px;
-  margin: 0 auto;
+  margin-left: 10px;
+  width: 130px;
+  height: 170px;
   border-radius: 20px;
   background-position: center;
   background-size: cover;
   background-image: url(${(props) => props.url});
 `;
 const TextBox = styled.div`
-  width: 340px;
+  margin-left: 30px;
+  width: 200px;
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  flex-direction: column;
+  font-family: "Roboto";
+  font-style: normal;
+  font-weight: 800;
+  font-size: 16px;
+  color: #7b758b;
+`;
+
+const HeartBox = styled.div`
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
   flex-direction: row;
 `;
 const Heart = styled.div`
-  width: 30px;
-  height: 30px;
+  width: 20px;
+  height: 20px;
   background-position: center;
   background-size: cover;
   background-image: url(${heart});

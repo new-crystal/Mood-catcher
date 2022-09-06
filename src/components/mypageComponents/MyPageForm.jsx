@@ -36,11 +36,15 @@ const MyPageForm = () => {
       </ProfileBox>
       <MyPageBox>
         <MoodBox>
-          <MoodHeader>Mood Point</MoodHeader>
+          <MoodHeader>
+            <p className="name">Mood Point</p>
+          </MoodHeader>
           <MoodBody>
             <h1>10</h1>
           </MoodBody>
-          <MoodHeader>Catch Grade</MoodHeader>
+          <MoodHeader>
+            <p className="name">Catch Grade</p>
+          </MoodHeader>
           <MoodBody>
             <GradeImg></GradeImg>
             <GradeText>
@@ -57,7 +61,9 @@ const MyPageForm = () => {
         </MoodBox>
         <PostImg url="https://img.danawa.com/prod_img/500000/946/645/img/2645946_1.jpg?shrink=330:330&_v=20160728145124"></PostImg>
       </MyPageBox>
-      <MoodHeader>My Closet</MoodHeader>
+      <MoodHeader>
+        <p className="name">My Closet</p>
+      </MoodHeader>
       <ClosetList>
         <Closet url="http://img4.tmon.kr/cdn4/deals/2022/01/24/7863616202/front_0af52_cxazv.jpg"></Closet>
         <Closet url="http://img4.tmon.kr/cdn4/deals/2022/01/24/7863616202/front_0af52_cxazv.jpg"></Closet>
@@ -91,7 +97,17 @@ const ProfileBox = styled.div`
   justify-content: center;
   flex-direction: row;
   margin-top: -20px;
+
+  h4 {
+    font-family: "Roboto";
+    font-style: normal;
+    font-weight: 800;
+    font-size: 16px;
+    text-align: center;
+    color: #7b758b;
+  }
 `;
+
 const GradeIcon = styled.div`
   width: 50px;
   height: 50px;
@@ -107,29 +123,51 @@ const MyPageBox = styled.div`
   flex-direction: row;
 `;
 const MoodBox = styled.div`
+  margin: 10px;
   display: flex;
   align-items: center;
   justify-content: center;
   flex-direction: column;
 `;
+
 const MoodHeader = styled.div`
   width: 150px;
   height: 30px;
-  color: white;
-  background-color: #7b758b;
-  border-radius: 15px;
+  background: linear-gradient(78.32deg, #7b758b 41.41%, #ffffff 169.58%);
   text-align: center;
   margin: 10px auto;
+  box-shadow: 5px 5px 4px rgba(0, 0, 0, 0.25);
+  border-radius: 17px;
+  .name {
+    font-family: "Unna";
+    font-style: normal;
+    font-weight: 700;
+    font-size: 18px;
+    margin-top: 6px;
+    color: white;
+  }
 `;
+
 const MoodBody = styled.div`
   width: 150px;
   height: 80px;
-  border: 1px solid #eee;
+  background-color: white;
+  border-radius: 10px;
   display: flex;
   align-items: center;
   justify-content: center;
   flex-direction: row;
+
+  h1 {
+    font-family: "Unna";
+    font-style: normal;
+    font-weight: 700;
+    font-size: 60px;
+    text-align: center;
+    color: #7b758b;
+  }
 `;
+
 const GradeImg = styled.div`
   width: 60px;
   height: 60px;
@@ -172,6 +210,7 @@ const HighLight = styled.div`
 const PostImg = styled.div`
   width: 180px;
   height: 260px;
+  border-radius: 10px;
   background-position: center;
   background-size: cover;
   background-image: url(${(props) => props.url});
@@ -179,6 +218,10 @@ const PostImg = styled.div`
 const ClosetList = styled.div`
   width: 400px;
   height: 230px;
+  background-color: #fff;
+  border-radius: 10px;
+  margin-left: 40px;
+  margin-top: 20px;
   display: flexbox;
   overflow-x: scroll;
   overflow-y: hidden;
@@ -191,6 +234,7 @@ const Closet = styled.div`
   width: 160px;
   height: 190px;
   margin: 10px;
+  border-radius: 10px;
   background-position: center;
   background-size: cover;
   background-image: url(${(props) => props.url});
@@ -203,6 +247,13 @@ const ProfileEditBtn = styled.button`
   color: #7b758b;
   font-size: 16px;
   border: 0px;
-  margin-left: 100px;
+  margin-left: 150px;
+  font-family: "Roboto";
+  font-style: normal;
+  font-weight: 800;
+  font-size: 16px;
+  color: #7b758b;
+  text-align: center;
 `;
+
 export default MyPageForm;

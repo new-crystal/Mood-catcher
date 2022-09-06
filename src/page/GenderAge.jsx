@@ -2,10 +2,9 @@ import React, { Fragment, Suspense } from "react";
 import styled from "styled-components";
 import Loader from "../shared/Loader";
 import Header from "../elem/Header";
-import NavigationBar from "../elem/NavigationBar";
-import SearchResultForm from "../components/searchComponents/SearchResultForm";
+import SignupGenderAge from "../components/signupComponents/SignupGenderAge";
 
-const Search = (props) => {
+export default function GenderAge(props) {
   return (
     <Fragment>
       <Suspense
@@ -18,14 +17,13 @@ const Search = (props) => {
         <Header />
         <LoginWrap>
           <Container>
-            <SearchResultForm />
+            <SignupGenderAge />
           </Container>
         </LoginWrap>
       </Suspense>
-      <NavigationBar props={props} />
     </Fragment>
   );
-};
+}
 
 const LoaderWrap = styled.div`
   position: absolute;
@@ -37,18 +35,16 @@ const LoaderWrap = styled.div`
 
 const LoginWrap = styled.div`
   width: 100%;
-  background-color: #ffffff;
   display: flex;
   flex-direction: column;
   text-align: center;
+  /* min-height: 928px; */
 `;
 
 const Container = styled.div`
   width: 428px;
   margin: 0 auto;
-  margin-top: 60px;
-  min-height: 928px;
+  margin-top: 0px;
   background: linear-gradient(#a396c9, #ffffff);
+  /* min-height: 928px; */
 `;
-
-export default Search;
