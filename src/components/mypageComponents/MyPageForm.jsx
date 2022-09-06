@@ -1,15 +1,16 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
 import cat from "../../image/냥5.png";
 import question from "../../image/question.png";
 import { __getMyPage, __getRepPost } from "../../redux/modules/uploadSlice";
-import ClosetForm from "./ClosetForm";
+import ClosetPosts from "../closetComponents/ClosetPosts";
 import GradeList from "./GradeList";
 
 const MyPageForm = () => {
   const dispatch = useDispatch();
+  const { userId } = useParams();
   const navigate = useNavigate();
   const [gradeList, setGradeList] = useState(false);
 
@@ -19,71 +20,64 @@ const MyPageForm = () => {
   //대표 게시물 불러오기!!
   const repList = useSelector((state) => state);
 
-  //임시
-  let userId = 1;
-
   //userId 보내주기!!
   useEffect(() => {
-    dispatch(__getMyPage());
-    dispatch(__getRepPost());
+    dispatch(__getMyPage(userId));
+    dispatch(__getRepPost(userId));
   }, []);
 
   return (
-    <>
-      {gradeList ? (
-        <GradeList setGradeList={setGradeList} />
-      ) : (
-        <Container>
-          <MyPageHeader>
-            <h1>My Page</h1>
-          </MyPageHeader>
-          <Img url="https://cdn.discordapp.com/attachments/1014169130045292625/1014194232250077264/Artboard_1.png"></Img>
-          <ProfileBox>
-            <GradeIcon></GradeIcon>
-            <h4>수수</h4>
-          </ProfileBox>
-          <MyPageBox>
-            <MoodBox>
-              <MoodHeader>Mood Point</MoodHeader>
-              <MoodBody>
-                <h1>10</h1>
-              </MoodBody>
-              <MoodHeader>Catch Grade</MoodHeader>
-              <MoodBody>
-                <GradeImg></GradeImg>
-                <GradeText>
-                  <GradeQuestion>
-                    <h6>양복</h6>
-                    <Question onClick={() => setGradeList(true)}></Question>
-                  </GradeQuestion>
-                  <Progress>
-                    <HighLight></HighLight>
-                  </Progress>
-                </GradeText>
-              </MoodBody>
-            </MoodBox>
-            <PostImg url="https://img.danawa.com/prod_img/500000/946/645/img/2645946_1.jpg?shrink=330:330&_v=20160728145124"></PostImg>
-          </MyPageBox>
-          <MoodHeader>My Closet</MoodHeader>
-          <ClosetList>
-            <Closet url="http://img4.tmon.kr/cdn4/deals/2022/01/24/7863616202/front_0af52_cxazv.jpg"></Closet>
-            <Closet url="http://img4.tmon.kr/cdn4/deals/2022/01/24/7863616202/front_0af52_cxazv.jpg"></Closet>
-            <Closet url="http://img4.tmon.kr/cdn4/deals/2022/01/24/7863616202/front_0af52_cxazv.jpg"></Closet>
-            <Closet url="http://img4.tmon.kr/cdn4/deals/2022/01/24/7863616202/front_0af52_cxazv.jpg"></Closet>
-            <Closet url="http://img4.tmon.kr/cdn4/deals/2022/01/24/7863616202/front_0af52_cxazv.jpg"></Closet>
-            <Closet
-              url="https://contents.lotteon.com/itemimage/LD/55/34/08/11/4_/0/LD553408114_0_5.jpg/dims/resizef/720X720"
-              onClick={() => navigate(`/closet/${userId}`)}
-            ></Closet>
-          </ClosetList>
-          <ProfileEditBtn onClick={() => navigate("/edit_profile")}>
-            내 프로필 수정하기
-          </ProfileEditBtn>
-        </Container>
-      )}
-    </>
+    <Container>
+      <MyPageHeader>
+        <h1>My Page</h1>
+      </MyPageHeader>
+      <Img url="https://cdn.discordapp.com/attachments/1014169130045292625/1014194232250077264/Artboard_1.png"></Img>
+      <ProfileBox>
+        <GradeIcon></GradeIcon>
+        <h4>수수</h4>
+      </ProfileBox>
+      <MyPageBox>
+        <MoodBox>
+          <MoodHeader>Mood Point</MoodHeader>
+          <MoodBody>
+            <h1>10</h1>
+          </MoodBody>
+          <MoodHeader>Catch Grade</MoodHeader>
+          <MoodBody>
+            <GradeImg></GradeImg>
+            <GradeText>
+              <GradeQuestion>
+                <h6>양복</h6>
+                <Question onClick={() => setGradeList(true)}></Question>
+                {gradeList ? <GradeList setGradeList={setGradeList} /> : null}
+              </GradeQuestion>
+              <Progress>
+                <HighLight></HighLight>
+              </Progress>
+            </GradeText>
+          </MoodBody>
+        </MoodBox>
+        <PostImg url="https://img.danawa.com/prod_img/500000/946/645/img/2645946_1.jpg?shrink=330:330&_v=20160728145124"></PostImg>
+      </MyPageBox>
+      <MoodHeader>My Closet</MoodHeader>
+      <ClosetList>
+        <Closet url="http://img4.tmon.kr/cdn4/deals/2022/01/24/7863616202/front_0af52_cxazv.jpg"></Closet>
+        <Closet url="http://img4.tmon.kr/cdn4/deals/2022/01/24/7863616202/front_0af52_cxazv.jpg"></Closet>
+        <Closet url="http://img4.tmon.kr/cdn4/deals/2022/01/24/7863616202/front_0af52_cxazv.jpg"></Closet>
+        <Closet url="http://img4.tmon.kr/cdn4/deals/2022/01/24/7863616202/front_0af52_cxazv.jpg"></Closet>
+        <Closet url="http://img4.tmon.kr/cdn4/deals/2022/01/24/7863616202/front_0af52_cxazv.jpg"></Closet>
+        <Closet
+          url="https://contents.lotteon.com/itemimage/LD/55/34/08/11/4_/0/LD553408114_0_5.jpg/dims/resizef/720X720"
+          onClick={() => navigate(`/closet/${userId}`)}
+        ></Closet>
+      </ClosetList>
+      <ProfileEditBtn onClick={() => navigate("/edit_profile")}>
+        내 프로필 수정하기
+      </ProfileEditBtn>
+    </Container>
   );
 };
+
 const Container = styled.div`
   width: 428px;
   height: 926px;

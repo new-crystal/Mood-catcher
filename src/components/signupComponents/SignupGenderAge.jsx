@@ -24,8 +24,9 @@ import Artboard from "../../image/Artboard.png";
 import Header from "../../elem/Header";
 import Loader from "../../shared/Loader";
 import { useNavigate } from "react-router-dom";
+import { setCookie } from "../../shared/Cookie";
 
-const SignupGenderAge = () => {
+const SignupGenderAge = (location) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [show, setShow] = useState(false);
@@ -39,12 +40,19 @@ const SignupGenderAge = () => {
   } = useForm({ criteriaMode: "all", mode: "onChange" });
 
   const checkNickname = useSelector((state) => state.login.checkNickname);
-  const exist = useSelector((state) => state.login.exist);
+
+  // //test필요=>fail시 if (window.location.href.slice(29)) {
+  //   localStorage.setItem("token", window.location.href.slice(29));
+  // }
+  const paramas = new URLSearchParams(location.search);
+  const exist = paramas.get("exist");
+  const token = paramas.get("token");
 
   //닉네임, 성별, 나이가 있는 유저가 로그인 했을 때 메인으로 돌려보내기
   useEffect(() => {
+    setCookie("token", token);
     if (exist === true) {
-      return navigate("/main");
+      return navigate("/");
     }
   }, []);
 

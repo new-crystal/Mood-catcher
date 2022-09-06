@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 // 따로 shared에 있는 스타일을 사용합니다.
 import "../shared/style/TestHeader.css";
 
-const Back = "./images/Back2.png";
+const Back = "/images/Back2.png";
 
 const Header = () => {
   const navigate = useNavigate();

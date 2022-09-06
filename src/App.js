@@ -1,4 +1,4 @@
-import React, { useEffect, Suspense, lazy, Fragment } from "react";
+import React, { Suspense, lazy, Fragment } from "react";
 import styled, { createGlobalStyle } from "styled-components";
 import { Routes, Route } from "react-router-dom";
 import Loader from "./shared/Loader";
@@ -17,6 +17,8 @@ const Upload_select = lazy(() => import("./page/Upload_select"));
 const MyPage = lazy(() => import("./page/Mypage"));
 const Closet = lazy(() => import("./page/Closet"));
 const Search = lazy(() => import("./page/Search"));
+const Item_detail = lazy(() => import("./page/Item_detail"));
+const Like = lazy(() => import("./page/Like"));
 
 function App() {
   return (
@@ -37,10 +39,11 @@ function App() {
           <Route path="/edit_profile" element={<Edit_profile />} />
           <Route path="/upload" element={<Upload />} />
           <Route path="/upload_select" element={<Upload_select />} />
-          <Route path="/login/detail" element={<SignupGenderAge />} />
           <Route path="/mypage/:userId" element={<MyPage />} />
           <Route path="/closet/:userId" element={<Closet />} />
           <Route path="/search" element={<Search />} />
+          <Route path="/item_detail/:postId" element={<Item_detail />} />
+          <Route path="/like/:userId" element={<Like />} />
           <Route path="*" element={<Main />} />
         </Routes>
       </Suspense>
