@@ -9,12 +9,21 @@ import {
 import crypto from "crypto-js";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
+import { getCookie } from "../../shared/Cookie";
 
 const SigupForm = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const checkEmail = useSelector((state) => state.signup.checkEmail);
+
+  //로그인 한 경우
+  useEffect(() => {
+    const token = getCookie("token");
+    if (token !== undefined) {
+      navigate("/");
+    }
+  }, []);
 
   //react-hook-form에서 불러오기
   const {
