@@ -50,6 +50,7 @@ const SigupForm = () => {
   const onClickCheckBtnHandler = async () => {
     const email = await getValues("email");
     if (email !== "" && errors.email === undefined) {
+      console.log(email);
       dispatch(__checkEmail(email));
       if (checkEmail === false) {
         setError(

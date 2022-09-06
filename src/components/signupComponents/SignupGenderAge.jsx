@@ -21,6 +21,7 @@ import male from "../../image/5man.png";
 import female from "../../image/girl5.png";
 import board from "../../image/board.png";
 import { useNavigate } from "react-router-dom";
+
 import { setCookie, getCookie } from "../../shared/Cookie";
 import gender from "../../image/gender.png";
 
