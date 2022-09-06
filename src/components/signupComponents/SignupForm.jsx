@@ -109,7 +109,7 @@ const SigupForm = () => {
       </SignUpBox>
       <div>
         <TextBox>
-          <h4>이메일</h4>
+          <span>이메일</span>
           {errors.email && <p>{errors.email.message}</p>}
         </TextBox>
         <input
@@ -198,17 +198,16 @@ const SigupForm = () => {
 
 const Container = styled.form`
   width: 428px;
-  height: 926px;
+
   .email {
-    width: 270px;
+    width: 250px;
   }
   input {
-    background-color: #e6e5ea;
+    background-color: #fff;
     border: 0px;
     border-radius: 7px;
-    height: 40px;
-    width: 387px;
-    background-color: #e6e5ea;
+    height: 50px;
+    width: 350px;
   }
 `;
 
@@ -236,9 +235,23 @@ const SignUpHeader = styled.div`
   color: white;
 `;
 const SignUpBox = styled.div`
-  border-bottom: 2px solid #c4c2ca;
-  width: 200px;
+  border-bottom: 3px solid #fff;
+  width: 211px;
+  margin: 0 auto;
   color: #2d273f;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+
+  span {
+    margin-bottom: -10px;
+    font-family: "Unna";
+    font-style: normal;
+    font-weight: 700;
+    font-size: 40px;
+  }
 `;
 const TextBox = styled.div`
   display: flex;
@@ -259,7 +272,7 @@ const OkBtn = styled.button`
   border-radius: 10px;
   width: 150px;
   height: 40px;
-  margin: 70px auto 0 auto;
+  margin: 10px auto 0 auto;
   cursor: pointer;
 `;
 const LoginBtn = styled.button`

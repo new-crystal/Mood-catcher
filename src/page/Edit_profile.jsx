@@ -3,9 +3,10 @@ import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import Loader from "../shared/Loader";
 import Header from "../elem/Header";
+import NavigationBar from "../elem/NavigationBar";
 import EditProfileForm from "../components/profileComponents/EditProfileForm";
 
-const Edit_profile = () => {
+const Edit_profile = (props) => {
   return (
     <Fragment>
       <Suspense
@@ -24,6 +25,7 @@ const Edit_profile = () => {
           </Grid>
         </Container>
       </Suspense>
+      <NavigationBar props={props} />
     </Fragment>
   );
 };
