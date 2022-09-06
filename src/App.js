@@ -7,9 +7,7 @@ import "./App.css";
 // 코드 스플리팅을 위한 lazy설정
 const Main = lazy(() => import("./page/Main"));
 const Login = lazy(() => import("./page/Login"));
-const SignupGenderAge = lazy(() =>
-  import("./components/signupComponents/SignupGenderAge")
-);
+const SignupGenderAge = lazy(() => import("./page/GenderAge"));
 const Signup = lazy(() => import("./page/Signup"));
 const Edit_profile = lazy(() => import("./page/Edit_profile"));
 const Upload = lazy(() => import("./page/Upload"));
@@ -20,7 +18,6 @@ const Search = lazy(() => import("./page/Search"));
 const Search_result = lazy(() => import("./page/Search_result"));
 const Item_detail = lazy(() => import("./page/Item_detail"));
 const Like = lazy(() => import("./page/Like"));
-
 
 function App() {
   return (

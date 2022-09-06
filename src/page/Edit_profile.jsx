@@ -66,7 +66,7 @@ const Grid = styled.div`
 
 const LoginWrap = styled.div`
   width: 100%;
-  background-color: #ffffff;
+  background: linear-gradient(#a396c9, #ffffff);
   display: flex;
   flex-direction: column;
   text-align: center;

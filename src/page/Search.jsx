@@ -61,6 +61,7 @@ const Grid = styled.div`
   margin-top: 60px;
   margin-bottom: 57px;
   width: 428px;
+  min-height: 928px;
   background: linear-gradient(#a396c9, #c8c6d0);
 `;
 

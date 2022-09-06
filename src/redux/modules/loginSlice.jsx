@@ -8,10 +8,8 @@ export const __login = createAsyncThunk("LOGIN", async (payload, thunkAPI) => {
   try {
     console.log(payload);
     const response = await api.post("/auth/login", payload);
-    console.log(response);
     window.location.href = response.data.url;
-    //setCookie("token", response.data.token);
-    return response;
+    return response.data;
   } catch (err) {
     console.log(err);
     return false;

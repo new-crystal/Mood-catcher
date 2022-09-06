@@ -32,13 +32,10 @@ const LoginForm = () => {
       mode: crypto.mode.CBC,
     });
     const pwpwpw = cipher.key.words[0];
-
     const email = getValues("email");
     const password = pwpwpw.toString();
-    console.log(email);
-    console.log(password);
 
-    dispatch(__login({ email, password })).then(navigate("/login/detail"));
+    dispatch(__login({ email, password }));
   };
   //소셜로그인 버튼
   const onClickKakao = () => {
