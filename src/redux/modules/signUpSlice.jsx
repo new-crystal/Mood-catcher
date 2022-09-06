@@ -30,10 +30,21 @@ export const __checkEmail = createAsyncThunk(
   }
 );
 
-//회원 탈퇴
+//유저정보 조회
+export const __getUsers = createAsyncThunk(
+  "GETUSERS",
+  async (payload, thunkAPI) => {
+    const response = await api.get(`/users/${payload}`);
+    if (response.status === 200) {
+      return response.data;
+    }
+  }
+);
+
 const initialState = {
   checkEmail: false,
   is_signup: null,
+  userStatus: {},
 };
 
 //리듀서
@@ -62,6 +73,10 @@ const signUpSlice = createSlice({
       })
       .addCase(__checkEmail.rejected, (state, action) => {
         state.checkEmail = action.payload;
+      })
+      //유저정보 조회
+      .addCase(__getUsers.fulfilled, (state, action) => {
+        state.userStatus = action.payload;
       }),
 });
 

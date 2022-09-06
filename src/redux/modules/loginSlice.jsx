@@ -20,12 +20,12 @@ export const __login = createAsyncThunk("LOGIN", async (payload, thunkAPI) => {
 export const __checkNickname = createAsyncThunk(
   "CHECKNICKNAME",
   async (payload, thunkAPI) => {
-    // console.log(payload);
+    console.log(payload);
     try {
       const response = await api.get(
         `/auth/checkNickname?nickname=${encodeURI(payload)}`
       );
-      // console.log(response);
+      console.log(response);
       if (response.status === 200) {
         return true;
       }
@@ -88,24 +88,24 @@ export const __delUser = createAsyncThunk(
   }
 );
 
-//유저 정보 불러오기 pjs
-// export const __userInfo = createAsyncThunk(
-//   "user/userInfo",
-//   async (data, thunkAPI) => {
-//     const response = await api.get(`/user`);
-//     console.log(response);
-//     if (
-//       response.data.message === "fail" &&
-//       response.data.error === "all tokens are expired"
-//     ) {
-//       removeCookie("osid");
-//       removeCookie("_osidRe");
-//       alert("로그인기간이 만료되었습니다. 다시 로그인하시겠어요?");
-//       // window.location.href = "/login";
-//     }
-//     return response.data;
-//   }
-// );
+// 유저 정보 불러오기 pjs
+export const __userInfo = createAsyncThunk(
+  "user/userInfo",
+  async (data, thunkAPI) => {
+    const response = await api.get(`/user`);
+    console.log(response);
+    if (
+      response.data.message === "fail" &&
+      response.data.error === "all tokens are expired"
+    ) {
+      removeCookie("osid");
+      removeCookie("_osidRe");
+      alert("로그인기간이 만료되었습니다. 다시 로그인하시겠어요?");
+      // window.location.href = "/login";
+    }
+    return response.data;
+  }
+);
 
 //유저 정보 조회
 export const __getUser = createAsyncThunk(
