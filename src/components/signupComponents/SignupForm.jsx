@@ -41,6 +41,7 @@ const SigupForm = () => {
   const onClickCheckBtnHandler = async () => {
     const email = await getValues("email");
     if (email !== "" && errors.email === undefined) {
+      console.log(email);
       dispatch(__checkEmail(email));
       if (checkEmail === false) {
         setError(
@@ -82,7 +83,6 @@ const SigupForm = () => {
       //비밀번호 값과 비밀번호 확인 값이 같을 때만
       if (data.password === data.confirmPw) {
         await new Promise((r) => setTimeout(r, 300));
-
 
         const password = pwpwpw.toString();
         const confirmPw = pwpwpw.toString();

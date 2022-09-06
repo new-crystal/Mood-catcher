@@ -9,7 +9,7 @@ import {
   __checkNickname,
   changeNickname,
 } from "../../redux/modules/loginSlice";
-import { removeCookie } from "../../shared/Cookie";
+import { deleteCookie } from "../../cookie";
 import { useNavigate } from "react-router-dom";
 
 const EditProfileForm = () => {
@@ -114,7 +114,7 @@ const EditProfileForm = () => {
   const onClickLogOut = () => {
     const result = (window.confirm = "정말 로그아웃을 하시겠습니까?");
     if (result) {
-      removeCookie("token");
+      deleteCookie("token");
       navigate("/login");
     }
   };

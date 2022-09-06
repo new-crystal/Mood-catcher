@@ -1,13 +1,14 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { act } from "react-dom/test-utils";
 import { api } from "../../shared/api";
-import { setCookie, removeCookie } from "../../shared/Cookie";
+import { setCookie, deleteCookie } from "../../cookie";
 
 // 로그인
 export const __login = createAsyncThunk("LOGIN", async (payload, thunkAPI) => {
   try {
     console.log(payload);
     const response = await api.post("/auth/login", payload);
+    console.log(response);
     window.location.href = response.data.url;
     return response.data;
   } catch (err) {
@@ -98,8 +99,8 @@ export const __userInfo = createAsyncThunk(
       response.data.message === "fail" &&
       response.data.error === "all tokens are expired"
     ) {
-      removeCookie("osid");
-      removeCookie("_osidRe");
+      deleteCookie("osid");
+      deleteCookie("_osidRe");
       alert("로그인기간이 만료되었습니다. 다시 로그인하시겠어요?");
       // window.location.href = "/login";
     }

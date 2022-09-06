@@ -21,7 +21,7 @@ import male from "../../image/5man.png";
 import female from "../../image/girl5.png";
 import board from "../../image/board.png";
 import { useNavigate } from "react-router-dom";
-import { setCookie } from "../../shared/Cookie";
+import { setCookie } from "../../cookie";
 import gender from "../../image/gender.png";
 
 const SignupGenderAge = (location) => {
@@ -40,7 +40,6 @@ const SignupGenderAge = (location) => {
 
   const checkNickname = useSelector((state) => state.login.checkNickname);
 
-
   //url에 있는 exist와 토큰 받아오기
   useEffect(() => {
     if (window.location.href.slice(40, 45) === false) {
@@ -58,7 +57,6 @@ const SignupGenderAge = (location) => {
       return navigate("/");
     }
   }, []);
-
 
   //닉네임 인풋 값 받아오기
   const nickname = getValues("nickname");

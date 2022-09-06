@@ -18,14 +18,10 @@ export const __signUp = createAsyncThunk(
 export const __checkEmail = createAsyncThunk(
   "CHECKEMAIL",
   async (payload, thunkAPI) => {
-    try {
-      const response = await api.get(`/auth/checkEmail?email=${payload}`);
-      if (response.status === 200) {
-        return true;
-      }
-    } catch (err) {
-      console.log(err);
-      return false;
+    const response = await api.get(`/auth/checkEmail?email=${payload}`);
+    console.log(response);
+    if (response.status === 200) {
+      return true;
     }
   }
 );
