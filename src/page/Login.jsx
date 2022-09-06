@@ -35,7 +35,6 @@ const LoaderWrap = styled.div`
 
 const LoginWrap = styled.div`
   width: 100%;
-  background-color: #ffffff;
   display: flex;
   flex-direction: column;
   text-align: center;
@@ -45,4 +44,5 @@ const Container = styled.div`
   width: 428px;
   margin: 0 auto;
   margin-top: 60px;
+  background: linear-gradient(#a396c9, #ffffff);
 `;
