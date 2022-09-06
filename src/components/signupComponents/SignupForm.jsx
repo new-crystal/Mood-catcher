@@ -83,6 +83,7 @@ const SigupForm = () => {
       if (data.password === data.confirmPw) {
         await new Promise((r) => setTimeout(r, 300));
 
+
         const password = pwpwpw.toString();
         const confirmPw = pwpwpw.toString();
         const email = getValues("email");

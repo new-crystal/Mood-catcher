@@ -6,6 +6,7 @@ import { setCookie, removeCookie } from "../../shared/Cookie";
 // 로그인
 export const __login = createAsyncThunk("LOGIN", async (payload, thunkAPI) => {
   try {
+    console.log(payload);
     const response = await api.post("/auth/login", payload);
     window.location.href = response.data.url;
     return response.data;
