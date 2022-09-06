@@ -34,7 +34,9 @@ const LoginForm = () => {
     const pwpwpw = cipher.key.words[0];
 
     const email = getValues("email");
-    const password = toString(pwpwpw);
+    const password = pwpwpw.toString();
+    console.log(email);
+    console.log(password);
 
     dispatch(__login({ email, password })).then(navigate("/login/detail"));
   };

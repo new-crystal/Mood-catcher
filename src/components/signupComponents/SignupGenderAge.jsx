@@ -41,20 +41,22 @@ const SignupGenderAge = (location) => {
 
   const checkNickname = useSelector((state) => state.login.checkNickname);
 
-  // //test필요=>fail시 if (window.location.href.slice(29)) {
-  //   localStorage.setItem("token", window.location.href.slice(29));
-  // }
-  const paramas = new URLSearchParams(location.search);
-  const exist = paramas.get("exist");
-  const token = paramas.get("token");
+  //test필요=>fail시
+  if (window.location.href.slice(53)) {
+    console.log(window.location.href.slice(53));
+    setCookie("token", window.location.href.slice(53));
+  }
+  // const paramas = new URLSearchParams(location.search);
+  // const exist = paramas.get("exist");
+  // const token = paramas.get("token");
 
   //닉네임, 성별, 나이가 있는 유저가 로그인 했을 때 메인으로 돌려보내기
-  useEffect(() => {
-    setCookie("token", token);
-    if (exist === true) {
-      return navigate("/");
-    }
-  }, []);
+  // useEffect(() => {
+  //   setCookie("token", token);
+  //   if (exist === true) {
+  //     return navigate("/");
+  //   }
+  // }, []);
 
   //닉네임 인풋 값 받아오기
   const nickname = getValues("nickname");
@@ -114,7 +116,7 @@ const SignupGenderAge = (location) => {
   const onClickGenderHandler = (key) => {
     setGender(key.target.outerText);
     const nickname = getValues("nickname");
-    dispatch(__detail({ age, gender, nickname }));
+    dispatch(__detail({ age, gender, nickname })).then(navigate("/"));
   };
 
   const images = [

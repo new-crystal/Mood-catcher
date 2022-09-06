@@ -6,8 +6,10 @@ import { setCookie, removeCookie } from "../../shared/Cookie";
 // 로그인
 export const __login = createAsyncThunk("LOGIN", async (payload, thunkAPI) => {
   try {
+    console.log(payload);
     const response = await api.post("/auth/login", payload);
     console.log(response);
+    window.location.href = response.data.url;
     //setCookie("token", response.data.token);
     return response;
   } catch (err) {
@@ -151,7 +153,6 @@ const loginSlice = createSlice({
       .addCase(__login.fulfilled, (state, action) => {
         state.loading = false;
         state.exist = action.payload;
-        setCookie();
         alert("무드캐처로 입장하셨습니다!");
       })
       .addCase(__login.rejected, (state, action) => {

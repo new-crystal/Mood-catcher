@@ -5,7 +5,7 @@ import { api } from "../../shared/api";
 export const __addComment = createAsyncThunk(
   "post/ADDCOMMENT_LOG",
   async (payload, thunkAPI) => {
-    const response = await api.post(`/comments/?${payload.postId}`, {
+    const response = await api.post(`/comments?${payload.postId}`, {
       content: payload.comment,
     });
     // 추가한 댓글 하나의 Data
@@ -18,7 +18,7 @@ export const __getComments = createAsyncThunk(
   "get/GETCOMMENTS",
   async (payload, thunkAPI) => {
     const response = await api.get(
-      `/comments/?${payload.postId}&page=${payload.page}&count=${payload.count}`
+      `/comments?${payload.postId}&page=${payload.page}&count=${payload.count}`
     );
     return response.data;
   }

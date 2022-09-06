@@ -37,7 +37,7 @@ export const __getCloset = createAsyncThunk(
   async (payload, thunkAPI) => {
     try {
       const response = await api.get(
-        `/user/mycloset/?${payload.userId}=&page=${payload.page}&count=${payload.count}`
+        `/user/mycloset?${payload.userId}=&page=${payload.page}&count=${payload.count}`
       );
       return response.data;
     } catch (err) {

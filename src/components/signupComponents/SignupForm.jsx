@@ -84,11 +84,9 @@ const SigupForm = () => {
       //비밀번호 값과 비밀번호 확인 값이 같을 때만
       if (data.password === data.confirmPw) {
         await new Promise((r) => setTimeout(r, 300));
-        navigate("/login");
-
-        const password = toString(pwpwpw);
-        const confirmPw = toString(pwpwpw);
-
+        const password = pwpwpw.toString();
+        const confirmPw = pwpwpw.toString();
+        console.log(password);
         dispatch(__signUp({ email, password, confirmPw })).then(
           navigate("/login")
         );
