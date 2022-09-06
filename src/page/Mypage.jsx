@@ -27,14 +27,6 @@ const Mypage = (props) => {
   );
 };
 
-const LoaderWrap = styled.div`
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  margin-top: -100px;
-  margin-left: -100px;
-`;
-
 const LoginWrap = styled.div`
   width: 100%;
   background-color: #ffffff;
@@ -42,14 +34,6 @@ const LoginWrap = styled.div`
   flex-direction: column;
   text-align: center;
 `;
-
-const Container = styled.div`
-  width: 428px;
-  margin: 0 auto;
-  margin-top: 60px;
-`;
-
-export default Mypage;
 
 const LoaderWrap = styled.div`
   position: absolute;
@@ -79,3 +63,5 @@ const Grid = styled.div`
   width: 428px;
   background: linear-gradient(#a396c9, #c8c6d0);
 `;
+
+export default Mypage;
