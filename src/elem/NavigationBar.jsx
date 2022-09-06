@@ -23,7 +23,7 @@ const NavigationBar = (props) => {
         </SearchWrap>
         <SearchWrap
           onClick={() => {
-            navigate("/");
+            navigate("/search");
           }}
         >
           <ImageWrap style={{ backgroundImage: `url(${search})` }} />

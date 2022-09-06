@@ -1,20 +1,23 @@
 import styled from "styled-components";
 import { useRef } from "react";
+import { Fragment } from "react";
 
 const SearchForm = () => {
   const searchRef = useRef();
 
   return (
-    <Container>
-      <ClosetHeader>
-        <h1>Search</h1>
-      </ClosetHeader>
+    <Fragment>
+      <Container>
+        <ClosetHeader>
+          <h1>Search</h1>
+        </ClosetHeader>
 
-      <SearchInput type="search" ref={searchRef} />
-      <ClosetBox>
-        <h1>Other Closet</h1>
-      </ClosetBox>
-    </Container>
+        <SearchInput type="search" ref={searchRef} />
+        <ClosetBox>
+          <h1>Other Closet</h1>
+        </ClosetBox>
+      </Container>
+    </Fragment>
   );
 };
 
