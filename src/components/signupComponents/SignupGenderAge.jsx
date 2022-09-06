@@ -21,7 +21,8 @@ import male from "../../image/5man.png";
 import female from "../../image/girl5.png";
 import board from "../../image/board.png";
 import { useNavigate } from "react-router-dom";
-import { setCookie } from "../../cookie";
+
+import { setCookie, getCookie } from "../../shared/Cookie";
 import gender from "../../image/gender.png";
 
 const SignupGenderAge = (location) => {
@@ -29,7 +30,6 @@ const SignupGenderAge = (location) => {
   const navigate = useNavigate();
   const [show, setShow] = useState(false);
   const [age, setAge] = useState("");
-  const [exist, setExist] = useState("");
   const [gender, setGender] = useState("");
   const {
     register,
@@ -42,19 +42,15 @@ const SignupGenderAge = (location) => {
 
   //url에 있는 exist와 토큰 받아오기
   useEffect(() => {
-    if (window.location.href.slice(40, 45) === false) {
-      setExist(window.location.href.slice(40, 45));
-      setCookie("token", window.location.href.slice(53));
-    } else {
-      setExist(window.location.href.slice(41, 45));
-      setCookie("token", window.location.href.slice(52));
-    }
-  }, []);
+    const existList = window.location.href.split("=")[1];
+    const exist = existList.split("&")[0];
 
-  //닉네임, 성별, 나이가 있는 유저가 로그인 했을 때 메인으로 돌려보내기
-  useEffect(() => {
-    if (exist === true) {
-      return navigate("/");
+    if (exist == false) {
+      setCookie("token", window.location.href.split("=")[2]);
+    }
+    if (exist == true) {
+      setCookie("token", window.location.href.split("=")[2]);
+      //navigate("/");
     }
   }, []);
 

@@ -8,7 +8,9 @@ export const __login = createAsyncThunk("LOGIN", async (payload, thunkAPI) => {
   try {
     console.log(payload);
     const response = await api.post("/auth/login", payload);
-    console.log(response);
+
+    console.log(response.data.url);
+
     window.location.href = response.data.url;
     return response.data;
   } catch (err) {
@@ -152,7 +154,7 @@ const loginSlice = createSlice({
       .addCase(__login.fulfilled, (state, action) => {
         state.loading = false;
         state.exist = action.payload;
-        alert("무드캐처로 입장하셨습니다!");
+        // alert("무드캐처로 입장하셨습니다!");
       })
       .addCase(__login.rejected, (state, action) => {
         state.loading = false;

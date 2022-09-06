@@ -5,10 +5,20 @@ import { __login, __socialLogin } from "../../redux/modules/loginSlice";
 import { useNavigate } from "react-router-dom";
 import crypto from "crypto-js";
 import { Fragment } from "react";
+import { useEffect } from "react";
+import { getCookie } from "../../shared/Cookie";
 
 const LoginForm = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  //로그인 한 경우
+  useEffect(() => {
+    const token = getCookie("token");
+    if (token !== undefined) {
+      navigate("/");
+    }
+  }, []);
 
   //react hook form
   const {

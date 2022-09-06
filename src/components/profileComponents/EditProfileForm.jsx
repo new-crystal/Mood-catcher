@@ -112,7 +112,7 @@ const EditProfileForm = () => {
 
   //로그아웃
   const onClickLogOut = () => {
-    const result = (window.confirm = "정말 로그아웃을 하시겠습니까?");
+    const result = window.confirm("정말 로그아웃을 하시겠습니까?");
     if (result) {
       deleteCookie("token");
       navigate("/login");
