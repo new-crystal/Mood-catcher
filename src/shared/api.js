@@ -1,5 +1,5 @@
 import axios from "axios";
-import { getCookie } from "../cookie";
+import { getCookie } from "./cookie";
 
 // axios 기본 주소 & header 타입 세팅
 export const api = axios.create({

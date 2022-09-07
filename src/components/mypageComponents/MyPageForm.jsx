@@ -2,37 +2,50 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
-import cat from "../../image/냥5.png";
+import cat5 from "../../image/냥5.png";
 import question from "../../image/question.png";
 import { __getMyPage, __getRepPost } from "../../redux/modules/uploadSlice";
-import ClosetPosts from "../closetComponents/ClosetPosts";
 import GradeList from "./GradeList";
 import { Fragment } from "react";
+import { __getUser } from "../../redux/modules/loginSlice";
 
 const MyPageForm = () => {
   const dispatch = useDispatch();
   const { userId } = useParams();
   const navigate = useNavigate();
   const [gradeList, setGradeList] = useState(false);
+  const [profileImg, setProfileImg] = useState(
+    "https://cdn.discordapp.com/attachments/1014169130045292625/1014194232250077264/Artboard_1.png"
+  );
 
-  //mypage의 데이터 받아오기!!
-  const postList = useSelector((state) => state);
+  //유저의 닉네임, 프로필이미지, 등급, 무드 포인트 불러오기
+  const users = useSelector((state) => state.login.userStatus);
+  console.log(users);
 
   //대표 게시물 불러오기!!
   const repList = useSelector((state) => state);
 
+  //옷장 게시물 가져오기
+  const closetList = useSelector((state) => state.upload.closetList);
+
   //userId 보내주기!!
   useEffect(() => {
     dispatch(__getMyPage(userId));
+    dispatch(__getUser(userId));
     dispatch(__getRepPost(userId));
   }, []);
 
   return (
     <Fragment>
-      <Img url="https://cdn.discordapp.com/attachments/1014169130045292625/1014194232250077264/Artboard_1.png"></Img>
+      {users.imgUrl === null ? (
+        <Img url={profileImg}></Img>
+      ) : (
+        <Img url={users.imgUrl}></Img>
+      )}
+
       <ProfileBox>
         <GradeIcon></GradeIcon>
-        <h4>수수</h4>
+        <h4>{users.nickname}</h4>
       </ProfileBox>
       <MyPageBox>
         <MoodBox>
@@ -40,16 +53,16 @@ const MyPageForm = () => {
             <p className="name">Mood Point</p>
           </MoodHeader>
           <MoodBody>
-            <h1>10</h1>
+            <h1>{users.moodPoint}</h1>
           </MoodBody>
           <MoodHeader>
             <p className="name">Catch Grade</p>
           </MoodHeader>
           <MoodBody>
-            <GradeImg></GradeImg>
+            <GradeImg gender={users.gender}></GradeImg>
             <GradeText>
               <GradeQuestion>
-                <h6>양복</h6>
+                <h6>{users.grade}</h6>
                 <Question onClick={() => setGradeList(true)}></Question>
                 {gradeList ? <GradeList setGradeList={setGradeList} /> : null}
               </GradeQuestion>
@@ -113,7 +126,7 @@ const GradeIcon = styled.div`
   height: 50px;
   background-position: center;
   background-size: cover;
-  background-image: url(${cat});
+  background-image: url(${cat5});
 `;
 
 const MyPageBox = styled.div`
@@ -173,7 +186,7 @@ const GradeImg = styled.div`
   height: 60px;
   background-position: center;
   background-size: cover;
-  background-image: url(${cat});
+  background-image: url(${cat5});
 `;
 const GradeText = styled.div`
   display: flex;

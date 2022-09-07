@@ -9,7 +9,7 @@ import {
 import crypto from "crypto-js";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
-import { getCookie } from "../../shared/Cookie";
+import { getCookie } from "../../shared/cookie";
 
 const SigupForm = () => {
   const navigate = useNavigate();

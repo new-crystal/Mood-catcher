@@ -22,7 +22,7 @@ import female from "../../image/girl5.png";
 import board from "../../image/board.png";
 import { useNavigate } from "react-router-dom";
 
-import { setCookie, getCookie } from "../../shared/Cookie";
+import { setCookie } from "../../shared/cookie";
 import gender from "../../image/gender.png";
 
 const SignupGenderAge = (location) => {
@@ -38,19 +38,15 @@ const SignupGenderAge = (location) => {
     formState: { errors, isDirty },
   } = useForm({ criteriaMode: "all", mode: "onChange" });
 
+  //닉네임 중복확인 성공 여부 값 받아오기
   const checkNickname = useSelector((state) => state.login.checkNickname);
 
   //url에 있는 exist와 토큰 받아오기
   useEffect(() => {
     const existList = window.location.href.split("=")[1];
     const exist = existList.split("&")[0];
-
-    if (exist == false) {
-      setCookie("token", window.location.href.split("=")[2]);
-    }
     if (exist == true) {
-      setCookie("token", window.location.href.split("=")[2]);
-      //navigate("/");
+      navigate("/");
     }
   }, []);
 

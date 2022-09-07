@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 import crypto from "crypto-js";
 import { Fragment } from "react";
 import { useEffect } from "react";
-import { getCookie } from "../../shared/Cookie";
+import { getCookie } from "../../shared/cookie";
 
 const LoginForm = () => {
   const dispatch = useDispatch();
@@ -168,7 +168,7 @@ const ErrorMsg = styled.p`
 `;
 
 const LogInBtn = styled.button`
-  background-color: #7b758b;
+  background: linear-gradient(78.32deg, #7b758b 41.41%, #ffffff 169.58%);
   font-family: "Roboto";
   font-style: normal;
   font-weight: 700;

@@ -9,7 +9,7 @@ import {
   __checkNickname,
   changeNickname,
 } from "../../redux/modules/loginSlice";
-import { deleteCookie } from "../../cookie";
+import { deleteCookie } from "../../shared/cookie";
 import { useNavigate } from "react-router-dom";
 
 const EditProfileForm = () => {
@@ -121,7 +121,9 @@ const EditProfileForm = () => {
 
   //회원탍퇴
   const onClickDelBtn = () => {
-    const result = window.confirm("정말 회원탈퇴를 하시겠습니까?");
+    const result = window.confirm(
+      "다른 분들이 캐처님의 옷장을 기다리고 계시는데 회원탈퇴를 하시겠습니까?"
+    );
     if (result) {
       dispatch(__delUser);
     }

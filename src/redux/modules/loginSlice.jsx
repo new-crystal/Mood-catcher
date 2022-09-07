@@ -1,18 +1,14 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { act } from "react-dom/test-utils";
 import { api } from "../../shared/api";
-import { setCookie, deleteCookie } from "../../cookie";
+import { setCookie, deleteCookie } from "../../shared/cookie";
 
 // 로그인
 export const __login = createAsyncThunk("LOGIN", async (payload, thunkAPI) => {
   try {
-    console.log(payload);
     const response = await api.post("/auth/login", payload);
-
-    console.log(response.data.url);
-
-    window.location.href = response.data.url;
-    return response.data;
+    setCookie("token", response.data.url.split("=")[2]);
+    return (window.location.href = response.data.url);
   } catch (err) {
     console.log(err);
     return false;
@@ -114,8 +110,8 @@ export const __userInfo = createAsyncThunk(
 export const __getUser = createAsyncThunk(
   "GET/USER",
   async (payload, thunkAPI) => {
-    const response = await api.get(`/user/${payload}`);
-    return response.data.userStatus;
+    const response = await api.get(`/users/${payload}`);
+    return response.data.data.userStatus;
   }
 );
 
