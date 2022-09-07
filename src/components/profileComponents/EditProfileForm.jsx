@@ -9,10 +9,11 @@ import {
   __checkNickname,
   changeNickname,
 } from "../../redux/modules/loginSlice";
-import { removeCookie } from "../../shared/Cookie";
-import { Navigate } from "react-router-dom";
+import { deleteCookie } from "../../shared/cookie";
+import { useNavigate } from "react-router-dom";
 
 const EditProfileForm = () => {
+  const navigate = useNavigate();
   const checkNickname = useSelector((state) => state.login.checkNickname);
   const dispatch = useDispatch();
   const [gender, setGender] = useState("");
@@ -111,14 +112,21 @@ const EditProfileForm = () => {
 
   //로그아웃
   const onClickLogOut = () => {
-    removeCookie("token");
-    Navigate("/login");
+    const result = window.confirm("정말 로그아웃을 하시겠습니까?");
+    if (result) {
+      deleteCookie("token");
+      navigate("/login");
+    }
   };
 
   //회원탍퇴
   const onClickDelBtn = () => {
-    window.confirm("정말 회원탈퇴를 하시겠습니까?");
-    dispatch(__delUser);
+    const result = window.confirm(
+      "다른 분들이 캐처님의 옷장을 기다리고 계시는데 회원탈퇴를 하시겠습니까?"
+    );
+    if (result) {
+      dispatch(__delUser);
+    }
   };
 
   return (
@@ -217,7 +225,7 @@ const EditProfileForm = () => {
           </div>
         </GenderAgeBox>
         <ChangeBtn type="submit" disabled={isSubmitting}>
-          변경하기
+          완료
         </ChangeBtn>
       </form>
       <ProfileBox>
@@ -239,14 +247,13 @@ const Container = styled.div`
   }
 
   input {
-    background-color: #e6e5ea;
+    background-color: #fff;
     border: 0px;
     border-radius: 7px;
-    height: 40px;
+    height: 50px;
     width: 250px;
     margin-left: 20px;
     margin-bottom: 40px;
-    background-color: #e6e5ea;
   }
   p {
     color: #c60000;
@@ -256,18 +263,12 @@ const Container = styled.div`
   }
 `;
 
-const MyPageHeader = styled.div`
-  width: 428px;
-  height: 60px;
-  background-color: #a396c9;
-  color: white;
-`;
-
 const ProfileBox = styled.div`
   width: 380px;
   height: 40px;
-  border-bottom: 3px solid #c4c2ca;
+  border-bottom: 3px solid #fff;
   margin-left: 20px;
+  text-align: left;
 `;
 
 const Img = styled.div`
@@ -281,11 +282,17 @@ const Img = styled.div`
 `;
 
 const ChangeProfile = styled.button`
-  background-color: white;
+  background-color: rgba(0, 0, 0, 0);
+  text-align: center;
   border: 0px;
   color: #7b758b;
   margin-top: -20px;
+  font-family: "Roboto";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 10px;
 `;
+
 const GenderAgeBox = styled.div`
   display: flex;
   justify-content: space-between;
@@ -298,36 +305,49 @@ const GenderAgeBox = styled.div`
   }
 `;
 const CheckBtn = styled.button`
-  background-color: #7b758b;
+  background: linear-gradient(78.32deg, #7b758b 41.41%, #ffffff 169.58%);
   color: white;
   border: 0px;
-  border-radius: 5px;
-  height: 40px;
+  border-radius: 10px;
+  height: 50px;
   width: 80px;
   margin-left: 20px;
+  font-family: "Roboto";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 16px;
 `;
+
 const LogOut = styled.div`
   flex-direction: row;
   button {
-    background-color: #7b758b;
+    background: linear-gradient(78.32deg, #7b758b 41.41%, #ffffff 169.58%);
     border: 0px;
-    border-radius: 5px;
-    width: 260px;
+    border-radius: 10px;
+    width: 200px;
     height: 40px;
     margin: 20px auto;
     color: white;
     display: block;
+    font-family: "Roboto";
+    font-style: normal;
+    font-weight: 700;
+    font-size: 16px;
   }
 `;
 
 const ChangeBtn = styled.button`
-  background-color: #7b758b;
+  background: linear-gradient(78.32deg, #7b758b 41.41%, #ffffff 169.58%);
   border: 0px;
   border-radius: 5px;
-  width: 260px;
+  width: 90px;
   height: 40px;
   margin: 20px auto;
   color: white;
   display: block;
+  font-family: "Roboto";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 16px;
 `;
 export default EditProfileForm;

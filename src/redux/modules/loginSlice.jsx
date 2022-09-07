@@ -1,14 +1,14 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { act } from "react-dom/test-utils";
 import { api } from "../../shared/api";
-import { setCookie, removeCookie } from "../../shared/Cookie";
+import { setCookie, deleteCookie } from "../../shared/cookie";
 
 // 로그인
 export const __login = createAsyncThunk("LOGIN", async (payload, thunkAPI) => {
   try {
     const response = await api.post("/auth/login", payload);
-    setCookie("token", response.data.token);
-    return response.data.exist;
+    setCookie("token", response.data.url.split("=")[2]);
+    return (window.location.href = response.data.url);
   } catch (err) {
     console.log(err);
     return false;
@@ -50,6 +50,7 @@ export const __socialLogin = createAsyncThunk(
   async (payload, thunkAPI) => {
     try {
       const response = await api.get("/auth/kakao");
+      console.log(response);
       thunkAPI.fulfillWithValue(response.data);
     } catch (err) {
       console.log(err);
@@ -62,8 +63,10 @@ export const __socialLogin = createAsyncThunk(
 export const __editProfile = createAsyncThunk(
   "EDITPROFILE",
   async (payload, thunkAPI) => {
+    console.log(payload);
     try {
       const response = await api.put("/user", payload);
+      console.log(response);
       return thunkAPI.fulfillWithValue(response.data.userStatus);
     } catch (err) {
       thunkAPI.rejectWithValue(err);
@@ -84,25 +87,42 @@ export const __delUser = createAsyncThunk(
   }
 );
 
-//유저 정보 불러오기 pjs
-// export const __userInfo = createAsyncThunk(
-//   "user/userInfo",
-//   async (data, thunkAPI) => {
-//     const response = await api.get(`/user`);
-//     console.log(response);
-//     if (
-//       response.data.message === "fail" &&
-//       response.data.error === "all tokens are expired"
-//     ) {
-//       removeCookie("osid");
-//       removeCookie("_osidRe");
-//       alert("로그인기간이 만료되었습니다. 다시 로그인하시겠어요?");
-//       // window.location.href = "/login";
-//     }
-//     return response.data;
-//   }
-// );
+// 유저 정보 불러오기 pjs
+export const __userInfo = createAsyncThunk(
+  "user/userInfo",
+  async (data, thunkAPI) => {
+    const response = await api.get(`/user`);
+    console.log(response);
+    if (
+      response.data.message === "fail" &&
+      response.data.error === "all tokens are expired"
+    ) {
+      deleteCookie("osid");
+      deleteCookie("_osidRe");
+      alert("로그인기간이 만료되었습니다. 다시 로그인하시겠어요?");
+      // window.location.href = "/login";
+    }
+    return response.data;
+  }
+);
 
+//유저 정보 조회
+export const __getUser = createAsyncThunk(
+  "GET/USER",
+  async (payload, thunkAPI) => {
+    const response = await api.get(`/users/${payload}`);
+    return response.data.data.userStatus;
+  }
+);
+
+//프로필 아이콘 바꾸기
+export const __patchUser = createAsyncThunk(
+  "PATCH/USER",
+  async (payload, thunkAPI) => {
+    const response = await api.patch(`/users`, payload);
+    return response.data.userStatus;
+  }
+);
 const initialState = {
   user: {
     result: null,
@@ -112,6 +132,7 @@ const initialState = {
   loading: false,
   changeUser: null,
   exist: false,
+  userStatus: {},
 };
 
 const loginSlice = createSlice({
@@ -129,8 +150,7 @@ const loginSlice = createSlice({
       .addCase(__login.fulfilled, (state, action) => {
         state.loading = false;
         state.exist = action.payload;
-        setCookie();
-        alert("무드캐처로 입장하셨습니다!");
+        // alert("무드캐처로 입장하셨습니다!");
       })
       .addCase(__login.rejected, (state, action) => {
         state.loading = false;
@@ -161,7 +181,15 @@ const loginSlice = createSlice({
         state.changeUser = action.payload;
       })
       //회원탈퇴
-      .addCase(__delUser.fulfilled, (state, action) => {}),
+      .addCase(__delUser.fulfilled, (state, action) => {})
+      //유저정보조회
+      .addCase(__getUser.fulfilled, (state, action) => {
+        state.userStatus = action.payload;
+      })
+      //프로필 아이콘 바꾸기
+      .addCase(__patchUser.fulfilled, (state, action) => {
+        state.userStatus = action.payload;
+      }),
 });
 
 // // reducer dispatch하기 위해 export 하기

@@ -19,13 +19,13 @@ import {
 } from "../../redux/modules/loginSlice";
 import male from "../../image/5man.png";
 import female from "../../image/girl5.png";
-import Artboard from "../../image/Artboard.png";
-
-import Header from "../../elem/Header";
-import Loader from "../../shared/Loader";
+import board from "../../image/board.png";
 import { useNavigate } from "react-router-dom";
 
-const SignupGenderAge = () => {
+import { setCookie } from "../../shared/cookie";
+import gender from "../../image/gender.png";
+
+const SignupGenderAge = (location) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [show, setShow] = useState(false);
@@ -38,13 +38,15 @@ const SignupGenderAge = () => {
     formState: { errors, isDirty },
   } = useForm({ criteriaMode: "all", mode: "onChange" });
 
+  //닉네임 중복확인 성공 여부 값 받아오기
   const checkNickname = useSelector((state) => state.login.checkNickname);
-  const exist = useSelector((state) => state.login.exist);
 
-  //닉네임, 성별, 나이가 있는 유저가 로그인 했을 때 메인으로 돌려보내기
+  //url에 있는 exist와 토큰 받아오기
   useEffect(() => {
-    if (exist === true) {
-      return navigate("/main");
+    const existList = window.location.href.split("=")[1];
+    const exist = existList.split("&")[0];
+    if (exist == true) {
+      navigate("/");
     }
   }, []);
 
@@ -106,19 +108,19 @@ const SignupGenderAge = () => {
   const onClickGenderHandler = (key) => {
     setGender(key.target.outerText);
     const nickname = getValues("nickname");
-    dispatch(__detail({ age, gender, nickname }));
+    dispatch(__detail({ age, gender, nickname })).then(navigate("/"));
   };
 
   const images = [
     {
       url: `${male}`,
       title: "남자",
-      width: "50%",
+      width: "105px",
     },
     {
       url: `${female}`,
       title: "여자",
-      width: "50%",
+      width: "105px",
     },
   ];
 
@@ -188,113 +190,101 @@ const SignupGenderAge = () => {
 
   return (
     <Fragment>
-      <Suspense
-        fallback={
-          <LoaderWrap>
-            <Loader />
-          </LoaderWrap>
-        }
-      >
-        <Header />
-        <Container>
-          <Grid>
-            <div>
-              {show ? (
-                <>
-                  <h1>Gender</h1>
-                  <Box
-                    sx={{
-                      display: "flex",
-                      flexWrap: "wrap",
-                      minWidth: 300,
-                      width: "100%",
-                    }}
-                  >
-                    {images.map((image) => (
-                      <ImageButton
-                        key={image.title}
-                        onClick={(key) => onClickGenderHandler(key)}
-                        focusRipple
-                        style={{
-                          width: image.width,
-                        }}
-                      >
-                        <ImageSrc
-                          style={{ backgroundImage: `url(${image.url})` }}
-                        />
-                        <ImageBackdrop className="MuiImageBackdrop-root" />
-                        <Image>
-                          <Typography
-                            component="span"
-                            variant="subtitle1"
-                            color="inherit"
-                            sx={{
-                              position: "relative",
-                              p: 4,
-                              pt: 2,
-                              pb: (theme) => `calc(${theme.spacing(1)} + 6px)`,
-                            }}
-                          >
-                            {image.title}
-                            <ImageMarked className="MuiImageMarked-root" />
-                          </Typography>
-                        </Image>
-                      </ImageButton>
-                    ))}
-                  </Box>
-                </>
-              ) : (
-                <>
+      <Container>
+        <Grid>
+          <div>
+            {show ? (
+              <>
+                <GenderImg>
+                  <h1>성별</h1>
+                </GenderImg>
+                <Box
+                  className="genderSelector"
+                  sx={{
+                    display: "flex",
+                    minWidth: 300,
+                    width: "400px",
+                  }}
+                >
+                  {images.map((image) => (
+                    <ImageButton
+                      key={image.title}
+                      onClick={(key) => onClickGenderHandler(key)}
+                      focusRipple
+                      style={{
+                        width: image.width,
+                      }}
+                    >
+                      <ImageSrc
+                        style={{ backgroundImage: `url(${image.url})` }}
+                      />
+                      <ImageBackdrop className="MuiImageBackdrop-root" />
+                      <Image>
+                        <Typography
+                          component="span"
+                          variant="subtitle1"
+                          color="inherit"
+                          sx={{
+                            position: "relative",
+                            p: 4,
+                            pt: 2,
+                            pb: (theme) => `calc(${theme.spacing(1)} + 6px)`,
+                          }}
+                        >
+                          {image.title}
+                          <ImageMarked className="MuiImageMarked-root" />
+                        </Typography>
+                      </Image>
+                    </ImageButton>
+                  ))}
+                </Box>
+                <BottomImg></BottomImg>
+              </>
+            ) : (
+              <>
+                <Img>
                   <form method="post">
-                    <div>
-                      <Img></Img>
-                      <InputBox>
-                        <TextBox>
-                          {errors.nickname && <p>{errors.nickname.message}</p>}
-                        </TextBox>
-                        <input
-                          type="text"
-                          placeholder="닉네임을 입력해주세요"
-                          name="nickname"
-                          aria-invalid={
-                            !isDirty
-                              ? undefined
-                              : errors.nickname
-                              ? "true"
-                              : "false"
-                          }
-                          {...register("nickname", {
-                            onChange: () => onChangeNickname(),
-                            required: "닉네임은 필수 입력입니다.",
-                            minLength: {
-                              value: 2,
-                              message: "닉네임을 2자 이상 작성해주세요",
-                            },
-                            maxLength: {
-                              value: 16,
-                              message: "닉네임을 16자 이하로 작성해주세요",
-                            },
-                            pattern: {
-                              value:
-                                /^(?=.*[a-zA-Z0-9가-힣])[a-zA-Z0-9가-힣]{2,16}$/,
-                              message:
-                                "닉네임은 영문 대소문자, 글자 단위 한글, 숫자만 가능합니다.",
-                            },
-                          })}
-                        />
-                        <ConfirmBtn onClick={(e) => onClickCheckBtnHandler(e)}>
-                          중복확인
-                        </ConfirmBtn>
-                      </InputBox>
-                    </div>
+                    <NicknameBox>
+                      <h4>닉네임</h4>
+                      {errors.nickname && <p>{errors.nickname.message}</p>}
+                    </NicknameBox>
+                    <InputBox>
+                      <input
+                        type="text"
+                        placeholder="닉네임을 입력해주세요"
+                        name="nickname"
+                        aria-invalid={
+                          !isDirty
+                            ? undefined
+                            : errors.nickname
+                            ? "true"
+                            : "false"
+                        }
+                        {...register("nickname", {
+                          onChange: () => onChangeNickname(),
+                          required: "닉네임은 필수 입력입니다.",
+                          minLength: {
+                            value: 2,
+                            message: "닉네임을 2자 이상 작성해주세요",
+                          },
+                          maxLength: {
+                            value: 16,
+                            message: "닉네임을 16자 이하로 작성해주세요",
+                          },
+                          pattern: {
+                            value:
+                              /^(?=.*[a-zA-Z0-9가-힣])[a-zA-Z0-9가-힣]{2,16}$/,
+                            message:
+                              "닉네임은 영문 대소문자, 글자 단위 한글, 숫자만 가능합니다.",
+                          },
+                        })}
+                      />
+                      <ConfirmBtn onClick={(e) => onClickCheckBtnHandler(e)}>
+                        중복확인
+                      </ConfirmBtn>
+                    </InputBox>
                   </form>
-                  <FootBox>
-                    <Foot></Foot>
-                    <Foot></Foot>
-                  </FootBox>
-                  <AgeBox>
-                    <h1>Age</h1>
-                  </AgeBox>
+                  <h4>나이</h4>
                   <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>
                     <InputLabel
                       id="demo-simple-select-standard-label"
@@ -318,136 +308,190 @@ const SignupGenderAge = () => {
                       <MenuItem value={"50대"}>50대 이상</MenuItem>
                     </Select>
                   </FormControl>
-                  <FootBox>
-                    <Foot></Foot>
-                    <OkBtn onClick={() => onClickOKBtnHandler()}>OK</OkBtn>
-                    <Foot></Foot>
-                  </FootBox>
-                </>
-              )}
-            </div>
-          </Grid>
-        </Container>
-      </Suspense>
+                  <OkBtn onClick={() => onClickOKBtnHandler()}>OK</OkBtn>
+                </Img>
+              </>
+            )}
+          </div>
+        </Grid>
+      </Container>
     </Fragment>
   );
 };
 
-const LoaderWrap = styleds.div`
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  margin-top: -100px;
-  margin-left: -100px;
-`;
-
 const Container = styleds.div`
   display: flex;
   height: 984px;
+  text-align: left;
   flex-direction: column;
+  align-items: left;
   bottom: 110px;
-  div {
-    text-align: center;
-  }
+  
   .label {
-    margin: 9px 30px;
+    margin: 20px 60px;
   }
   .age {
     width: 280px;
+    height: 50px;
     margin-top: 25px;
-    margin-left: 25px;
+    margin-left: 45px;
     margin-bottom : 20px;
   }
   form {
     width:428px;
     display: flex;
-    flex-direction: row;
+    align-items: left;
+    justify-content:center;
+    flex-direction: column;
   }
   input {
     background-color: #e6e5ea;
     border: 0px;
     border-radius: 7px;
-    height: 35px;
-    width: 210px;
+    height: 50px;
+    width: 180px;
+    margin-left : -40px;
   }
+  h4 {
+    margin-left : 50px;
+    margin-bottom : 5px;
+    font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 700;
+  font-size: 20px;
+  color: #2D273F;
+   }
+   p {
+    position : relative;
+    top:20px;
+    left: 10px;
+   }
+
+   .genderSelector{
+    width: 220px;
+    margin-top : -30px;
+    margin-left : 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: row;
+   }
 `;
 
 const Grid = styleds.div`
   //width: 100%;
   width: 428px;
   margin: 0 auto;
-  // background-color: royalblue;
+  background: linear-gradient(#a396c9, #ffffff);
   margin-top: 60px;
   margin-bottom: 500px;
+  min-height: 928px;
+`;
+
+const GenderImg = styleds.div`
+  width: 351px;
+  height: 125px;
+  margin : 0px auto 50px auto;
+  background-position: center;
+  background-size: cover;
+  background-image: url(${gender});
+  text-aligns : center;
+  align-items: center;
+  justify-content: center;
+  
+  h1{
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 40px;
+    text-align: center;
+    color: #2D273F;
+    position : relative;
+    top:75px;
+  }
 `;
 
 const Img = styleds.div`
-  margin-top : 60px;
-  width: 428px;
-  height: 130px;
+  margin: 60px auto 0px auto;
+  width: 383px;
+  height: 551px;
+  display: flex;
+  align-items: left;
+  justify-content: center;
+  flex-direction: column;
   background-position: center;
   background-size: cover;
-  background-image: url(${Artboard});
+  background-image: url(${board});
+`;
+
+const BottomImg = styleds.div`
+  transform: scaleY(-1);
+  width: 264px;
+  height: 93px;
+  margin-top : 50px;
+  margin-left : 80px;
+  background-position: center;
+  background-size: cover;
+  background-image: url(${gender});
+`;
+
+const NicknameBox = styleds.div`
+display: flex;
+align-items: left;
+justify-content: left;
+flex-direction: row;
+
+h4 {
+  margin-left : 50px;
+  margin-bottom : 5px;
+  font-family: 'Roboto';
+font-style: normal;
+font-weight: 700;
+font-size: 20px;
+color: #2D273F;
+ }
+ p {
+  color: #c60000;
+  font-size: 10px;
+  margin-bottom : -30px;
+}
 `;
 
 const InputBox = styleds.div`
-  margin-top: -35px;
-`;
-
-const TextBox = styleds.div`
+width : 430px;
+  margin: 0px auto;
   display: flex;
-  h4 {
-    color: #2d273f;
-  }
-  p {
-    color: #c60000;
-    font-size: 10px;
-    margin-top: 0px;
-    margin-left: 90px;
-  }
+  align-items: center;
+  justify-content: center;
+  flex-direction: row;
 `;
 const ConfirmBtn = styleds.button`
-  background-color: #7b758b;
+background: linear-gradient(78.32deg, #7B758B 41.41%, #FFFFFF 169.58%);
   color : white;
   border: 0px;
   border-radius: 10px;
-  width: 80px;
-  height: 40px;
+  width: 90px;
+  height: 50px;
   margin: 0px 10px;
+  font-family: 'Roboto';
+font-style: normal;
+font-weight: 700;
+font-size: 16px;
 `;
-const SignUpHeader = styleds.div`
-  width: 428px;
-  height: 60px;
-  background-color: #a396c9;
-  color: white;
-`;
-const AgeBox = styleds.div`
-  width: 300px;
-  height: 40px;
-  background-color: #A396C9;
-  color: white;
-  margin : 0px 55px;
-  border-radius: 5px;
-`;
-const FootBox = styleds.div`
-  width: 300px;
-  display : flex;
-  justify-content: space-between;
-  margin : 10px 55px;
-`;
+
 const OkBtn = styleds.button`
-  background-color: #7b758b;
+background: linear-gradient(78.32deg, #7B758B 41.41%, #FFFFFF 169.58%);
   color: white;
   border: 0px;
   border-radius: 10px;
-  width: 150px;
+  width: 90px;
   height: 40px;
   margin: 0px auto;
-`;
-const Foot = styleds.div`
-  width: 25px;
-  height:40px;
-  background-color: #a396c9;
+  text-align: center;
+  font-family: 'Unna';
+font-style: normal;
+font-weight: 400;
+font-size: 30px;
 `;
 
 export default SignupGenderAge;

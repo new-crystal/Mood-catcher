@@ -64,15 +64,6 @@ const Upload = (props) => {
 
   const navigate = useNavigate();
 
-  const settings = {
-    infinite: false,
-    speed: 200, //옆으로넘어가는 속도
-    slidesToShow: 1, //한번에 보여주는 목록 개수(div가 더 좁으면 반영이 잘안됨)
-    slidesToScroll: 5, //한번에 넘기는 목록의 개수
-    variableWidth: true, //div커스텀하기위한 설정
-    initialSlide: 0,
-  };
-
   return (
     <Fragment>
       <Suspense
@@ -107,31 +98,12 @@ const Upload = (props) => {
                 </div>
               </StImageBox>
               <SliderContainer>
-                <StyledSlider {...settings}>
-                  <StMusinsaItemBox className={searchTogle}>
-                    asdasdasdasd
-                  </StMusinsaItemBox>
-                  <Test>aa</Test>
-                  <StMusinsaItemBox className={searchTogle}>
-                    asdasdasdasd
-                  </StMusinsaItemBox>
-                  <Test>aa</Test>
-                  <StMusinsaItemBox className={searchTogle}>
-                    asdasdasdasd
-                  </StMusinsaItemBox>
-                  <Test>aa</Test>
-                  <StMusinsaItemBox className={searchTogle}>
-                    asdasdasdasd
-                  </StMusinsaItemBox>
-                  <Test>aa</Test>
-                  <StMusinsaItemBox className={searchTogle}>
-                    asdasdasdasd
-                  </StMusinsaItemBox>
-                  <Test>aa</Test>
-                  <StMusinsaItemBox className={searchTogle}>
-                    asdasdasdasd
-                  </StMusinsaItemBox>
-                </StyledSlider>
+                <StMusinsaItemBox className={searchTogle}></StMusinsaItemBox>
+                <StMusinsaItemBox className={searchTogle}></StMusinsaItemBox>
+                <StMusinsaItemBox className={searchTogle}></StMusinsaItemBox>
+                <StMusinsaItemBox className={searchTogle}></StMusinsaItemBox>
+                <StMusinsaItemBox className={searchTogle}></StMusinsaItemBox>
+                <StMusinsaItemBox className={searchTogle}></StMusinsaItemBox>
               </SliderContainer>
               <StSearchInput>
                 <input
@@ -287,6 +259,12 @@ const SliderContainer = styled.div`
   width: 350px;
   overflow: hidden;
   margin-left: 20px;
+  display: flexbox;
+  overflow-x: scroll;
+  overflow-y: hidden;
+  ::-webkit-scrollbar {
+    display: none;
+  }
   &.true {
     display: none;
     margin: 0;
@@ -294,30 +272,20 @@ const SliderContainer = styled.div`
   transition: 0.5s;
 `;
 
-const StyledSlider = styled(Slider)`
-  color: #e6e5ea;
-  font-size: 14px;
-`;
-
 const StMusinsaItemBox = styled.div`
-  /* width: 150px; */
+  width: 150px;
   height: 100px;
   background-color: #e6e5ea;
   border-radius: 15px;
-
-  color: transparent;
+  margin-right: 8px;
   font-size: 20px;
   outline: none;
-  padding: 0;
   text-align: center;
   cursor: pointer;
   &.true {
     height: 0;
   }
   transition: 0.5s;
-`;
-const Test = styled.div`
-  color: transparent;
 `;
 
 const StSearchInput = styled.div`
