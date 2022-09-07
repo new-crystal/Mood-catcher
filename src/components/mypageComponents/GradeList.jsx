@@ -3,7 +3,15 @@ import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
+import man1 from "../../image/1man.png";
+import man2 from "../../image/2man.png";
+import man3 from "../../image/3man.png";
+import man4 from "../../image/4man.png";
 import man5 from "../../image/5man.png";
+import cat1 from "../../image/냥1.png";
+import cat2 from "../../image/냥2.png";
+import cat3 from "../../image/냥3.png";
+import cat4 from "../../image/냥4.png";
 import cat5 from "../../image/냥5.png";
 import { __getUser, __patchUser } from "../../redux/modules/loginSlice";
 
@@ -43,19 +51,44 @@ const GradeList = ({ setGradeList }) => {
         </TitleBox>
         <Grade>
           {moody === false ? (
-            <GradeImg url={`${man5}`}></GradeImg>
+            <GradeImg url={`${man1}`}></GradeImg>
           ) : (
-            <GradeImg url={`${cat5}`}></GradeImg>
+            <GradeImg url={`${cat1}`}></GradeImg>
           )}
           <h4>티셔츠</h4>
         </Grade>
         <Grade>
           {moody === false ? (
-            <GradeImg url={`${man5}`}></GradeImg>
+            <GradeImg url={`${man2}`}></GradeImg>
           ) : (
-            <GradeImg url={`${cat5}`}></GradeImg>
+            <GradeImg url={`${cat2}`}></GradeImg>
           )}
-          <h4>와이셔츠</h4>
+          <TextBox>
+            <h4>와이셔츠</h4>
+            <h6>(3000 무드 이상) </h6>
+          </TextBox>
+        </Grade>
+        <Grade>
+          {moody === false ? (
+            <GradeImg url={`${man3}`}></GradeImg>
+          ) : (
+            <GradeImg url={`${cat3}`}></GradeImg>
+          )}
+          <TextBox>
+            <h4>넥타이</h4>
+            <h6>(10000 무드 이상) </h6>
+          </TextBox>
+        </Grade>
+        <Grade>
+          {moody === false ? (
+            <GradeImg url={`${man4}`}></GradeImg>
+          ) : (
+            <GradeImg url={`${cat4}`}></GradeImg>
+          )}
+          <TextBox>
+            <h4>조끼</h4>
+            <h6>(50000 무드 이상)</h6>
+          </TextBox>
         </Grade>
         <Grade>
           {moody === false ? (
@@ -63,23 +96,10 @@ const GradeList = ({ setGradeList }) => {
           ) : (
             <GradeImg url={`${cat5}`}></GradeImg>
           )}
-          <h4>넥타이</h4>
-        </Grade>
-        <Grade>
-          {moody === false ? (
-            <GradeImg url={`${man5}`}></GradeImg>
-          ) : (
-            <GradeImg url={`${cat5}`}></GradeImg>
-          )}
-          <h4>조끼</h4>
-        </Grade>
-        <Grade>
-          {moody === false ? (
-            <GradeImg url={`${man5}`}></GradeImg>
-          ) : (
-            <GradeImg url={`${cat5}`}></GradeImg>
-          )}
-          <h4>자켓</h4>
+          <TextBox>
+            <h4>자켓</h4>
+            <h6>(100000 무드 이상)</h6>
+          </TextBox>
         </Grade>
       </ListBox>
     </>
@@ -125,10 +145,22 @@ const Grade = styled.div`
   background-color: #ddd;
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: baseline;
   flex-direction: row;
   margin: 5px;
   border-radius: 10px;
+`;
+const TextBox = styled.div`
+  display: flex;
+  flex-direction: column;
+
+  h4 {
+    margin: 0px;
+  }
+  h6 {
+    margin: 0px;
+    color: #848484;
+  }
 `;
 const GradeImg = styled.div`
   width: 45px;
@@ -137,7 +169,7 @@ const GradeImg = styled.div`
   background-size: cover;
   background-image: url(${(props) => props.url});
   margin-right: 30px;
-  margin-left: -90px;
+  margin-left: 10px;
 `;
 const Shadow = styled.div`
   position: fixed;

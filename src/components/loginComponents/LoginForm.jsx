@@ -5,10 +5,20 @@ import { __login, __socialLogin } from "../../redux/modules/loginSlice";
 import { useNavigate } from "react-router-dom";
 import crypto from "crypto-js";
 import { Fragment } from "react";
+import { useEffect } from "react";
+import { getCookie } from "../../shared/cookie";
 
 const LoginForm = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  //로그인 한 경우
+  useEffect(() => {
+    const token = getCookie("token");
+    if (token !== undefined) {
+      navigate("/");
+    }
+  }, []);
 
   //react hook form
   const {
@@ -111,7 +121,7 @@ const LoginForm = () => {
           <BtnBox>
             <p>무드캐쳐가 처음이신가요?</p>
             <LogBtn kakao onClick={() => onClickKakao()}>
-              <a href="http://3.34.190.2/api/auth/kakao">카카오 로그인</a>
+              <a href="http://3.39.0.75/api/auth/kakao">카카오 로그인</a>
             </LogBtn>
             <LogBtn type="button" onClick={() => navigate("/signup")}>
               <p>이메일로 회원가입</p>
@@ -158,7 +168,7 @@ const ErrorMsg = styled.p`
 `;
 
 const LogInBtn = styled.button`
-  background-color: #7b758b;
+  background: linear-gradient(78.32deg, #7b758b 41.41%, #ffffff 169.58%);
   font-family: "Roboto";
   font-style: normal;
   font-weight: 700;

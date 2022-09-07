@@ -22,11 +22,11 @@ export const __getMusinsa = createAsyncThunk(
   }
 );
 
-//mypage 정보 가져오기
+//냐의 옷장 게시물 가져오기
 export const __getMyPage = createAsyncThunk(
   "GET/MYPAGE",
   async (payload, thunkAPI) => {
-    const response = await api.get(`/user/${payload}`);
+    const response = await api.get(`/posts?type=${payload}`);
     return response.data;
   }
 );

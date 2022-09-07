@@ -9,12 +9,21 @@ import {
 import crypto from "crypto-js";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
+import { getCookie } from "../../shared/cookie";
 
 const SigupForm = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const checkEmail = useSelector((state) => state.signup.checkEmail);
+
+  //로그인 한 경우
+  useEffect(() => {
+    const token = getCookie("token");
+    if (token !== undefined) {
+      navigate("/");
+    }
+  }, []);
 
   //react-hook-form에서 불러오기
   const {
@@ -41,6 +50,7 @@ const SigupForm = () => {
   const onClickCheckBtnHandler = async () => {
     const email = await getValues("email");
     if (email !== "" && errors.email === undefined) {
+      console.log(email);
       dispatch(__checkEmail(email));
       if (checkEmail === false) {
         setError(
@@ -82,7 +92,6 @@ const SigupForm = () => {
       //비밀번호 값과 비밀번호 확인 값이 같을 때만
       if (data.password === data.confirmPw) {
         await new Promise((r) => setTimeout(r, 300));
-
 
         const password = pwpwpw.toString();
         const confirmPw = pwpwpw.toString();
