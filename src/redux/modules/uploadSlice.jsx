@@ -4,21 +4,41 @@ import { api } from "../../shared/api";
 // 게시물 작성
 export const __writePost = createAsyncThunk(
   "post/writePost",
-  async (data, thunkAPI) => {
-    const response = await api.post(`/posts`, data);
-
+  async (payload, thunkAPI) => {
+    const response = await api.post(`/posts`, payload);
+    console.log(response);
     return response.data;
   }
 );
 
-// 상품 찾기
+// 이미지 업데이트
+export const __writeImage = createAsyncThunk(
+  "post/writePost",
+  async (payload, thunkAPI) => {
+    console.log(payload);
+    const response = await api.put(
+      `/posts/${payload.postId}/image`,
+      payload.postImage,
+      {
+        headers: {
+          "Content-type": "multipart/form-data",
+        },
+      }
+    );
+    console.log(response);
+    return response.data;
+  }
+);
+
+// 상품 찾기(무신사)
 export const __getMusinsa = createAsyncThunk(
   "post/getMusinsa",
-  async (data, thunkAPI) => {
+  async (payload, thunkAPI) => {
     // console.log(data);
 
-    const response = await api.get(`/musinsa/${data}`);
-    return response.data;
+    const response = await api.get(`/musinsa/${payload}`);
+    console.log(response);
+    return response.data.data;
   }
 );
 
@@ -72,19 +92,22 @@ const uploadSlice = createSlice({
   name: "upload",
   initialState: {
     post: { title: "", content: "" },
+    items: [],
     formdata: {},
+    selectedItems: [],
     myList: [],
     closetList: [],
     myRepPost: { postId: "" },
   },
   reducers: {
-    regFormdata: (state, action) => {
-      state.formdata = action.payload;
-      // console.log(state.formdata);
-    },
     regPost: (state, action) => {
       state.post = action.payload;
-      // console.log(state.post);
+    },
+    regFormdata: (state, action) => {
+      state.formdata = action.payload;
+    },
+    selectItem: (state, action) => {
+      state.selectedItems.unshift(action.payload);
     },
   },
   extraReducers: (builder) => {
@@ -94,6 +117,7 @@ const uploadSlice = createSlice({
       })
       .addCase(__getMusinsa.fulfilled, (state, action) => {
         state.items = action.payload.items;
+        console.log(state.items);
       })
       .addCase(__getMyPage.fulfilled, (state, action) => {
         state.myList = action.payload;
@@ -122,5 +146,5 @@ const uploadSlice = createSlice({
   },
 });
 
-export const { regFormdata, regPost } = uploadSlice.actions;
+export const { regFormdata, regPost, selectItem } = uploadSlice.actions;
 export default uploadSlice.reducer;

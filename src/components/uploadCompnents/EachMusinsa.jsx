@@ -1,19 +1,36 @@
 import React, { Fragment, useEffect, useState } from "react";
 import styled from "styled-components";
 import { useSelector, useDispatch } from "react-redux";
-
+import { selectItem } from "../../redux/modules/uploadSlice";
 const EachMusinsa = (props) => {
   const dispatch = useDispatch();
+  const { item } = props;
+  // console.log(item);
 
   return (
     <Fragment>
       <RecomandMusinsaWrap>
-        <MusinsaImage></MusinsaImage>
+        <MusinsaImage>
+          <img src={item.imgUrl} alt="" />
+        </MusinsaImage>
         <MusinsaInfoWrap>
-          <MusinsaBrand></MusinsaBrand>
-          <MusinsaTitle></MusinsaTitle>
-          <MusinsaPrice></MusinsaPrice>
+          <MusinsaBrand>{item.brand}</MusinsaBrand>
+          <MusinsaTitle>{item.name}</MusinsaTitle>
+          {item.price.indexOf(" ") !== -1 ? (
+            <MusinsaPrice>
+              {item.price.slice(item.price.indexOf(" "))}
+            </MusinsaPrice>
+          ) : (
+            <MusinsaPrice>{item.price}</MusinsaPrice>
+          )}
         </MusinsaInfoWrap>
+        <MusinsaCheckButton
+          onClick={() => {
+            dispatch(selectItem(item));
+          }}
+        >
+          선택
+        </MusinsaCheckButton>
       </RecomandMusinsaWrap>
     </Fragment>
   );
@@ -22,25 +39,25 @@ const EachMusinsa = (props) => {
 export default EachMusinsa;
 
 const RecomandMusinsaWrap = styled.div`
-  width: 148px;
+  width: 350px;
   margin-bottom: 20px;
-  margin-right: 16px;
-  //z-index: 1px;
+  display: flex;
 `;
 
 const MusinsaImage = styled.div`
-  width: 148px;
-  height: 148px;
+  margin-top: 8px;
+  width: 75px;
+  height: 75px;
   border-radius: 13px;
   background-color: #f7f7f7;
   background-size: cover;
   cursor: pointer;
   & > img {
-    width: 130px;
-    height: 130px;
-    margin: 9px;
+    width: 75px;
+    height: 75px;
+    border-radius: 13px;
   }
-  @media (img: img) {
+  /* @media (img: img) {
     & > img {
       width: 130px;
       height: 130px;
@@ -52,7 +69,7 @@ const MusinsaImage = styled.div`
       width: 148px;
       height: 148px;
     }
-  }
+  } */
 `;
 
 const MusinsaInfoWrap = styled.div`
@@ -81,7 +98,7 @@ const MusinsaTitle = styled.p`
   display: inline-block;
   font-size: 14px;
   font-weight: bold;
-  width: 100px;
+  width: 250px;
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
@@ -91,8 +108,23 @@ const MusinsaPrice = styled.p`
   display: inline-block;
   font-size: 14px;
   font-weight: bold;
-  width: 100px;
+  width: 250px;
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
+`;
+
+const MusinsaCheckButton = styled.button`
+  margin: 30px 0 0 70px;
+  text-align: center;
+  color: white;
+  font-size: 16px;
+  font-weight: bold;
+  line-height: 20px;
+  width: 50px;
+  height: 30px;
+  background-color: #7b758b;
+  border-radius: 10px;
+  border: none;
+  box-shadow: 5px 5px 4px #877f92;
 `;
