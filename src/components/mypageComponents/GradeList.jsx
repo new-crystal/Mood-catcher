@@ -20,6 +20,7 @@ const GradeList = ({ setGradeList }) => {
   const [moody, setMoody] = useState(false);
   const { userId } = useParams();
   const user = useSelector((state) => state.login.userStatus);
+  const grade = user.grade?.split(" ")[0];
 
   //유저 정보 가져오기
   useEffect(() => {
@@ -29,14 +30,14 @@ const GradeList = ({ setGradeList }) => {
   //유저의 프로필 아이콘 변경하기
   const onClickMoodyBtn = () => {
     setMoody(!moody);
-    if (moody === true) {
+    if (grade === "man") {
       dispatch(__patchUser({ profileIcon: "moody" }));
-    } else {
-      if (user.gender === "남자") {
-        dispatch(__patchUser({ profileIcon: "man" }));
-      } else {
-        dispatch(__patchUser({ profileIcon: "woman" }));
-      }
+    } else if (grade === "woman") {
+      dispatch(__patchUser({ profileIcon: "moody" }));
+    } else if (grade === moody && user.gender === "남자") {
+      dispatch({ profileIcon: "man" });
+    } else if (grade === moody && user.gender === "여자") {
+      dispatch({ profileIcon: "woman" });
     }
   };
   return (

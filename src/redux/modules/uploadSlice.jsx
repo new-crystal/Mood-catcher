@@ -26,8 +26,13 @@ export const __getMusinsa = createAsyncThunk(
 export const __getMyPage = createAsyncThunk(
   "GET/MYPAGE",
   async (payload, thunkAPI) => {
-    const response = await api.get(`/posts?type=${payload}`);
-    return response.data;
+    console.log(payload);
+    try {
+      const response = await api.get(`/posts?type=${payload}`);
+      return response.data;
+    } catch (err) {
+      console.log(err);
+    }
   }
 );
 
@@ -63,8 +68,14 @@ export const __representative = createAsyncThunk(
 export const __getRepPost = createAsyncThunk(
   "GET/REPRESENTATIVE",
   async (payload, thunkAPI) => {
-    const response = await api.get(`/posts/rep/?${payload}`);
-    return response.data;
+    console.log(payload);
+    try {
+      const response = await api.get(`/posts/rep?${payload}`);
+      console.log(response);
+      return response.data;
+    } catch (err) {
+      console.log(err);
+    }
   }
 );
 

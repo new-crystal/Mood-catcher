@@ -18,7 +18,7 @@ export const __getHotPosts = createAsyncThunk(
 export const __getMainAllPosts = createAsyncThunk(
   "GET/MAINALLPOSTS",
   async (data, thunkAPI) => {
-    const response = await api.get(`/posts?page=${data}&count=${data}`);
+    const response = await api.get(`/post?page=${data}&count=${data}`);
     return response.data;
   }
 );

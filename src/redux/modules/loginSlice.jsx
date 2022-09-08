@@ -39,8 +39,14 @@ export const __checkNickname = createAsyncThunk(
 export const __detail = createAsyncThunk(
   "DETAIL",
   async (payload, thunkAPI) => {
-    const response = await api.post("/auth/detail", payload);
-    return response.data;
+    try {
+      console.log(payload);
+      const response = await api.post("/auth/detail", payload);
+      console.log(response);
+      return response.data;
+    } catch (err) {
+      console.log(err);
+    }
   }
 );
 
@@ -63,10 +69,18 @@ export const __socialLogin = createAsyncThunk(
 export const __editProfile = createAsyncThunk(
   "EDITPROFILE",
   async (payload, thunkAPI) => {
-    console.log(payload);
     try {
-      const response = await api.put("/user", payload);
-      console.log(response);
+      const response = await api.put(
+        `/users?nickname=${encodeURI(payload.nickname)}&gender=${
+          payload.gender
+        }&age=${payload.age}`,
+        payload.userValue,
+        {
+          headers: {
+            "Content-type": "multipart/form-data",
+          },
+        }
+      );
       return thunkAPI.fulfillWithValue(response.data.userStatus);
     } catch (err) {
       thunkAPI.rejectWithValue(err);
@@ -110,8 +124,13 @@ export const __userInfo = createAsyncThunk(
 export const __getUser = createAsyncThunk(
   "GET/USER",
   async (payload, thunkAPI) => {
-    const response = await api.get(`/users/${payload}`);
-    return response.data.data.userStatus;
+    try {
+      const response = await api.get(`/users/${payload}`);
+
+      return response.data.data.userStatus;
+    } catch (err) {
+      console.log(err);
+    }
   }
 );
 
@@ -119,8 +138,13 @@ export const __getUser = createAsyncThunk(
 export const __patchUser = createAsyncThunk(
   "PATCH/USER",
   async (payload, thunkAPI) => {
-    const response = await api.patch(`/users`, payload);
-    return response.data.userStatus;
+    try {
+      const response = await api.patch(`/users`, payload);
+      console.log(response);
+      return response.data.userStatus;
+    } catch (err) {
+      console.log(err);
+    }
   }
 );
 const initialState = {
@@ -133,6 +157,7 @@ const initialState = {
   changeUser: null,
   exist: false,
   userStatus: {},
+  check: false,
 };
 
 const loginSlice = createSlice({

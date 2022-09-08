@@ -130,6 +130,7 @@ const SearchImg = styled.button`
   position: relative;
   left: 150px;
   top: -58px;
+  cursor: pointer;
 `;
 const More = styled.div`
   width: 30px;

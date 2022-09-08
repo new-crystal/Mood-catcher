@@ -9,8 +9,9 @@ import {
   __checkNickname,
   changeNickname,
 } from "../../redux/modules/loginSlice";
-import { deleteCookie } from "../../shared/cookie";
+import { deleteCookie, getCookie } from "../../shared/cookie";
 import { useNavigate } from "react-router-dom";
+import jwt_decode from "jwt-decode";
 
 const EditProfileForm = () => {
   const navigate = useNavigate();
@@ -23,6 +24,9 @@ const EditProfileForm = () => {
     preview_URL:
       "https://cdn.discordapp.com/attachments/1014169130045292625/1014194232250077264/Artboard_1.png",
   });
+  const token = getCookie("token");
+  const payload = jwt_decode(token);
+  const userId = payload.userId;
 
   //react-hook-form사용
   const {
@@ -96,15 +100,15 @@ const EditProfileForm = () => {
   };
 
   //수정된 프로필 이미지, 닉네임, 성별, 나이 전송하기
-  const onSubmit = () => {
+  const onSubmit = async () => {
     const nickname = getValues("nickname");
     if (image.image_file && nickname && gender && age) {
       const formData = new FormData();
-      formData.append("imgFile", image.image_file);
-      formData.append("nickname", nickname);
-      formData.append("gender", gender);
-      formData.append("age", age);
-      dispatch(__editProfile(formData));
+      formData.append("userValue", image.image_file);
+
+      dispatch(
+        __editProfile({ userValue: formData, nickname, gender, age })
+      ).then(navigate(`/mypage/${userId}`));
     } else {
       alert("수정할 프로필을 모두 입력해주세요!");
     }
@@ -138,6 +142,7 @@ const EditProfileForm = () => {
       <ChangeProfile onClick={() => inputRef.click()}>
         <input
           hidden
+          name="userValue"
           accept="image/*"
           type="file"
           onChange={saveImg}

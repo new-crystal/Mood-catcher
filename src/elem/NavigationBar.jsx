@@ -2,6 +2,8 @@ import React, { Fragment } from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import "../shared/style/TestHeader.css";
+import { getCookie } from "../shared/cookie";
+import jwt_decode from "jwt-decode";
 
 const home = "/images/home.png";
 const search = "/images/search.png";
@@ -11,6 +13,9 @@ const person = "/images/person.png";
 
 const NavigationBar = (props) => {
   const navigate = useNavigate();
+  const token = getCookie("token");
+  const payload = jwt_decode(token);
+
   return (
     <Fragment>
       <NavBox>
@@ -37,14 +42,14 @@ const NavigationBar = (props) => {
         </SearchWrap>
         <SearchWrap
           onClick={() => {
-            navigate("/like/1");
+            navigate(`/like/${payload.userId}`);
           }}
         >
           <ImageWrap style={{ backgroundImage: `url(${star})` }} />
         </SearchWrap>
         <SearchWrap
           onClick={() => {
-            navigate("/mypage/1");
+            navigate(`/mypage/${payload.userId}`);
           }}
         >
           <ImageWrap style={{ backgroundImage: `url(${person})` }} />

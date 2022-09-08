@@ -22,11 +22,13 @@ import { __getMyPage, __getRepPost } from "../../redux/modules/uploadSlice";
 import GradeList from "./GradeList";
 import { Fragment } from "react";
 import { __getUser } from "../../redux/modules/loginSlice";
+import { getCookie } from "../../shared/cookie";
+import jwt_decode from "jwt-decode";
 
 const MyPageForm = () => {
   const dispatch = useDispatch();
-  const { userId } = useParams();
   const navigate = useNavigate();
+  const { userId } = useParams();
   const [gradeList, setGradeList] = useState(false);
   const [profileImg, setProfileImg] = useState(
     "https://cdn.discordapp.com/attachments/1014169130045292625/1014194232250077264/Artboard_1.png"
@@ -34,33 +36,22 @@ const MyPageForm = () => {
   const [gradeImg, setGradeImg] = useState(cat1);
 
   //유저의 닉네임, 프로필이미지, 등급, 무드 포인트 불러오기
-  // const users = useSelector((state) => state.login.userStatus);
-  // console.log(users);
+  const users = useSelector((state) => state.login.userStatus);
+  console.log(users);
 
-  //임시 => 지울 것!!
-  const users = {
-    nickname: "susu",
-    imgUrl: null,
-    moodPoint: 1000,
-    grade: "woman 3",
-    gender: "여자",
-  };
-  console.log(users.grade.split(" ")[1]);
-  const [grade, setGrade] = useState(users.grade.split(" ")[1]);
-  const [icon, setIcon] = useState(users.grade.split(" ")[0]);
+  const grade = users.grade?.split(" ")[1];
+  const icon = users.grade?.split(" ")[0];
 
-  console.log(grade, icon);
+  //토큰에서 userId 가져오기
+  const token = getCookie("token");
+  const payload = jwt_decode(token);
 
-  //userId 보내주기!!
   useEffect(() => {
-    //내 옷장 게시물 가져오기
-    dispatch(__getMyPage(userId));
-    //유저 정보 불러오기
     dispatch(__getUser(userId));
-    //대표 게시물 가져오기
+    dispatch(__getMyPage(userId));
     dispatch(__getRepPost(userId));
     gradeCase(grade);
-  }, []);
+  }, [grade]);
 
   //대표 게시물 불러오기!!
   const repList = useSelector((state) => state);
@@ -181,9 +172,11 @@ const MyPageForm = () => {
           onClick={() => navigate(`/closet/${userId}`)}
         ></Closet>
       </ClosetList>
-      <ProfileEditBtn onClick={() => navigate("/edit_profile")}>
-        내 프로필 수정하기
-      </ProfileEditBtn>
+      {payload.userId == userId ? (
+        <ProfileEditBtn onClick={() => navigate("/edit_profile")}>
+          내 프로필 수정하기
+        </ProfileEditBtn>
+      ) : null}
     </Fragment>
   );
 };

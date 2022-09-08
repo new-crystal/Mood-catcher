@@ -28,7 +28,6 @@ const SignupGenderAge = (location) => {
   const navigate = useNavigate();
   const [show, setShow] = useState(false);
   const [age, setAge] = useState("");
-  const [gender, setGender] = useState("");
   const {
     register,
     setError,
@@ -103,10 +102,13 @@ const SignupGenderAge = (location) => {
   };
 
   //성별, 나이, 닉네임 보내기
-  const onClickGenderHandler = (key) => {
-    setGender(key.target.outerText);
+  const onClickGenderHandler = async (key) => {
+    console.log(key.target.innerText);
+    const keyGender = await key.target.innerText;
     const nickname = getValues("nickname");
-    dispatch(__detail({ age, gender, nickname })).then(navigate("/"));
+    dispatch(__detail({ age, gender: keyGender, nickname })).then(
+      navigate("/")
+    );
   };
 
   const images = [

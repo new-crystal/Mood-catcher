@@ -8,13 +8,19 @@ import { __getSearch } from "../../redux/modules/searchSlice";
 import { useNavigate, useParams } from "react-router-dom";
 import { __getUser } from "../../redux/modules/loginSlice";
 import { useState } from "react";
+import jwt_decode from "jwt-decode";
+import { getCookie } from "../../shared/cookie";
+import SearchOtherCloset from "./SearchOtherCloset";
 
 const SearchForm = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const token = getCookie("token");
+  const payload = jwt_decode(token);
 
   //정보 불러오기
   const recommended = useSelector((state) => state.search.recommendedPosts);
+  console.log(recommended);
   const users = useSelector((state) => state.login.userStatus);
   const gender = users.gender;
   const age = users.age;
@@ -36,7 +42,7 @@ const SearchForm = () => {
 
   //추천게시물 조회하기
   useEffect(() => {
-    dispatch(__getUser(users.userId));
+    dispatch(__getUser(payload.userId));
     dispatch(__getSearch());
   }, []);
 
@@ -79,6 +85,7 @@ const SearchForm = () => {
           </HeartBox>
         </TextBox>
       </OtherClosetBox>
+      <SearchOtherCloset />
     </Fragment>
   );
 };
@@ -142,6 +149,7 @@ const SearchImg = styled.button`
   position: relative;
   left: 330px;
   top: -58px;
+  cursor: pointer;
 `;
 const OtherClosetBox = styled.div`
   width: 350px;
