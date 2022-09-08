@@ -1,4 +1,4 @@
-import React, { Fragment, useState, Suspense, useEffect } from "react";
+import React, { Fragment, useState, useEffect } from "react";
 import styleds from "styled-components";
 import {
   styled,
@@ -21,8 +21,6 @@ import male from "../../image/5man.png";
 import female from "../../image/girl5.png";
 import board from "../../image/board.png";
 import { useNavigate } from "react-router-dom";
-
-import { setCookie } from "../../shared/cookie";
 import gender from "../../image/gender.png";
 
 const SignupGenderAge = (location) => {

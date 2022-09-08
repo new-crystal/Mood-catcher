@@ -6,7 +6,7 @@ export const __getSearch = createAsyncThunk(
   "GET/POSTS",
   async (payload, thunkAPI) => {
     try {
-      const response = await api.get("");
+      const response = await api.get(`/posts?`);
       console.log(response);
       return response.data;
     } catch (err) {
@@ -20,7 +20,11 @@ export const __getSearchResult = createAsyncThunk(
   "GET/RESULT",
   async (payload, thunkAPI) => {
     try {
-      const response = await api.get("");
+      const response = await api.get(
+        `/posts?type=search&keyword=${encodeURI(payload.key)}&sort=${
+          payload.sort
+        }`
+      );
       console.log(response);
       return response.data;
     } catch (err) {
