@@ -12,6 +12,7 @@ import {
   __getMusinsa,
   __writePost,
   __writeImage,
+  changeCheckPostId,
 } from "../redux/modules/uploadSlice";
 
 const Search = "./images/search.png";
@@ -33,20 +34,22 @@ const Upload_select = (props) => {
   const items = useSelector((state) => state.upload.items);
   // 선택된 무신사 selectedItems를 가져옵니다.
   const selectedItems = useSelector((state) => state.upload.selectedItems);
-  console.log(selectedItems);
+  // postId 잘 가져왔는지 확인합니다.
+  const checkPostId = useSelector((state) => state.upload.checkPostId);
+  console.log(checkPostId);
   const [totalPost, setTotalPost] = useState({
     post: {},
     items: [],
   });
 
   const [imagePost, setImagePost] = useState({
-    postId: 2,
+    postId: "",
     postImage: formdata,
   });
 
   React.useEffect(() => {
     setTotalPost({ ...totalPost, post: post, items: selectedItems });
-    setImagePost({ ...imagePost, postImage: formdata });
+    setImagePost({ ...imagePost, postImage: formdata, postId: post.postId });
   }, [post, selectedItems, formdata]);
 
   React.useEffect(() => {
@@ -70,9 +73,29 @@ const Upload_select = (props) => {
 
   const writeTotalPost = () => {
     dispatch(__writePost(totalPost));
-    dispatch(__writeImage(imagePost));
-    // navigate("/");
+    console.log(post);
   };
+  React.useEffect(() => {
+    if (checkPostId === true) {
+      dispatch(__writeImage({ postId: post.postId, postImage: formdata }));
+      dispatch(changeCheckPostId(false));
+      navigate("/");
+    }
+  }, [checkPostId]);
+
+  // const writeImage = () => {
+  //   console.log("test");
+  //   if (checkPostId === true) {
+  //     console.log("test2");
+  //     console.log(post.postId);
+
+  //     setImagePost({ ...imagePost, postId: 3 });
+  //     console.log(imagePost);
+  //     dispatch(__writeImage(imagePost));
+  //     dispatch(changeCheckPostId(false));
+  //     navigate("/");
+  //   }
+  // };
 
   return (
     <Fragment>

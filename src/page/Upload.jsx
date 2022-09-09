@@ -14,8 +14,6 @@ const Upload = (props) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const fileInput = useRef(null);
-  const title_ref = React.useRef(null);
-  const content_ref = React.useRef(null);
 
   const [attachment, setAttachment] = useState("");
   const [post, setPost] = useState({
@@ -35,29 +33,22 @@ const Upload = (props) => {
     };
   };
 
+  // input 데이터 저장하기
+  const changeInput = (e) => {
+    const { value, id } = e.target;
+    setPost({ ...post, [id]: value });
+  };
+
   const writePost = () => {
-    const title_r = title_ref.current.value;
-
-    setPost({
-      ...post,
-      title: title_r,
-    });
-    setPost({
-      ...post,
-      content: content_ref.current.value,
-    });
-    // console.log(post);
-    dispatch(regPost(post));
-
     if (fileInput.current.files[0] === undefined) {
       alert("사진을 넣어주세요!");
       navigate("/upload");
     } else {
       const formdata = new FormData();
-      // console.log(fileInput.current.files[0]);
       formdata.append("postImage", fileInput.current.files[0]);
 
       dispatch(regFormdata(formdata));
+      dispatch(regPost(post));
     }
     navigate("/upload_select");
   };
@@ -104,11 +95,11 @@ const Upload = (props) => {
               </StImageBox>
               <StText>제목</StText>
               <StTitleInput>
-                <input ref={title_ref} />
+                <input id="title" required onChange={changeInput} />
               </StTitleInput>
               <StText>내용</StText>
               <StContentInput>
-                <input ref={content_ref} />
+                <input id="content" required onChange={changeInput} />
               </StContentInput>
             </StUploadBox>
           </Grid>

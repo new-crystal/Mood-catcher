@@ -5,9 +5,10 @@ import { api } from "../../shared/api";
 export const __writePost = createAsyncThunk(
   "post/writePost",
   async (payload, thunkAPI) => {
+    console.log(payload);
     const response = await api.post(`/posts`, payload);
-    console.log(response);
-    return response.data;
+    console.log(response.data.data);
+    return response.data.data;
   }
 );
 
@@ -16,6 +17,7 @@ export const __writeImage = createAsyncThunk(
   "post/writePost",
   async (payload, thunkAPI) => {
     console.log(payload);
+    console.log(payload.postId);
     const response = await api.put(
       `/posts/${payload.postId}/image`,
       payload.postImage,
@@ -36,7 +38,7 @@ export const __getMusinsa = createAsyncThunk(
   async (payload, thunkAPI) => {
     // console.log(data);
 
-    const response = await api.get(`/musinsa/${payload}`);
+    const response = await api.get(`/musinsa/${payload}?page=1&count=9`);
     console.log(response);
     return response.data.data;
   }
@@ -56,9 +58,9 @@ export const __getCloset = createAsyncThunk(
   "GET/CLOSET",
   async (payload, thunkAPI) => {
     try {
-      const response = await api.get(
-        `/user/mycloset?${payload.userId}=&page=${payload.page}&count=${payload.count}`
-      );
+      console.log(payload);
+      const response = await api.get(`posts?${payload}`);
+      console.log(response);
       return response.data;
     } catch (err) {
       thunkAPI.rejectWithValue(err);
@@ -91,13 +93,14 @@ export const __getRepPost = createAsyncThunk(
 const uploadSlice = createSlice({
   name: "upload",
   initialState: {
-    post: { title: "", content: "" },
+    post: {},
     items: [],
     formdata: {},
     selectedItems: [],
     myList: [],
     closetList: [],
     myRepPost: { postId: "" },
+    checkPostId: false,
   },
   reducers: {
     regPost: (state, action) => {
@@ -109,11 +112,15 @@ const uploadSlice = createSlice({
     selectItem: (state, action) => {
       state.selectedItems.unshift(action.payload);
     },
+    changeCheckPostId: (state, action) => {
+      state.checkPostId = action.payload;
+    },
   },
   extraReducers: (builder) => {
     builder
       .addCase(__writePost.fulfilled, (state, action) => {
-        state.postList.unshift(action.payload.post);
+        state.post = action.payload.post;
+        state.checkPostId = true;
       })
       .addCase(__getMusinsa.fulfilled, (state, action) => {
         state.items = action.payload.items;
@@ -146,5 +153,6 @@ const uploadSlice = createSlice({
   },
 });
 
-export const { regFormdata, regPost, selectItem } = uploadSlice.actions;
+export const { regFormdata, regPost, selectItem, changeCheckPostId } =
+  uploadSlice.actions;
 export default uploadSlice.reducer;

@@ -26,7 +26,7 @@ const Item_detail = (props) => {
 
   // 댓글 작성하기
   const addComment = () => {
-    const addState = dispatch(
+    dispatch(
       __addComment({ comment: commentText.current.value }) // , postId: postId
     );
     commentText.current.value = "";

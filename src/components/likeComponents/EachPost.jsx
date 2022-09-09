@@ -10,6 +10,7 @@ const EachPost = (props) => {
   const navigate = useNavigate();
 
   const { item } = props;
+  console.log(item);
   return (
     <Fragment>
       <WritedClosetInfo
@@ -18,7 +19,7 @@ const EachPost = (props) => {
         }}
       >
         <ClosetImage>
-          <img src={junsu} />
+          <img src={junsu} alt="test" />
         </ClosetImage>
         <ClosetTextWrap>
           <GridHorizon>
