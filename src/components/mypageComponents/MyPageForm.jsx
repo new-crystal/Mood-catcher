@@ -4,7 +4,11 @@ import { useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
 import cat5 from "../../image/냥5.png";
 import question from "../../image/question.png";
-import { __getMyPage, __getRepPost } from "../../redux/modules/uploadSlice";
+import {
+  __getMyPage,
+  __getRepPost,
+  __getCloset,
+} from "../../redux/modules/uploadSlice";
 import GradeList from "./GradeList";
 import { Fragment } from "react";
 import { __getUser } from "../../redux/modules/loginSlice";
@@ -17,7 +21,6 @@ const MyPageForm = () => {
   const [profileImg, setProfileImg] = useState(
     "https://cdn.discordapp.com/attachments/1014169130045292625/1014194232250077264/Artboard_1.png"
   );
-
   //유저의 닉네임, 프로필이미지, 등급, 무드 포인트 불러오기
   const users = useSelector((state) => state.login.userStatus);
   console.log(users);
@@ -27,9 +30,10 @@ const MyPageForm = () => {
 
   //옷장 게시물 가져오기
   const closetList = useSelector((state) => state.upload.closetList);
-
+  console.log(closetList);
   //userId 보내주기!!
   useEffect(() => {
+    dispatch(__getCloset(userId));
     dispatch(__getMyPage(userId));
     dispatch(__getUser(userId));
     dispatch(__getRepPost(userId));
