@@ -18,7 +18,11 @@ import woman3 from "../../image/girl3.png";
 import woman4 from "../../image/girl4.png";
 import woman5 from "../../image/girl5.png";
 import question from "../../image/question.png";
-import { __getMyPage, __getRepPost } from "../../redux/modules/uploadSlice";
+import {
+  __getMyPage,
+  __getRepPost,
+  __getCloset,
+} from "../../redux/modules/uploadSlice";
 import GradeList from "./GradeList";
 import { Fragment } from "react";
 import { __getUser } from "../../redux/modules/loginSlice";
@@ -35,6 +39,7 @@ const MyPageForm = () => {
   );
   const [gradeImg, setGradeImg] = useState(cat1);
 
+
   //유저의 닉네임, 프로필이미지, 등급, 무드 포인트 불러오기
   const users = useSelector((state) => state.login.userStatus);
   console.log(users);
@@ -49,6 +54,7 @@ const MyPageForm = () => {
     dispatch(__getUser(userId));
     dispatch(__getMyPage(userId));
     dispatch(__getRepPost(userId));
+    dispatch(__getCloset(userId));
     gradeIcon(grade);
   }, [grade]);
 
@@ -57,6 +63,7 @@ const MyPageForm = () => {
 
   //옷장 게시물 가져오기
   const closetList = useSelector((state) => state.upload.closetList);
+
 
   //성별과 등급별로 아이콘 이미지 보여주기
   const gradeIcon = (grade) => {

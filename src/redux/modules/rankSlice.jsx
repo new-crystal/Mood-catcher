@@ -8,7 +8,7 @@ import { api } from "../../shared/api";
 // 인기 게시물 조회
 export const __getHotPosts = createAsyncThunk(
   "GET/HOTPOST",
-  async (data, thunkAPI) => {
+  async (payload, thunkAPI) => {
     const response = await api.get(`/posts/popular`);
     return response.data;
   }
@@ -17,8 +17,12 @@ export const __getHotPosts = createAsyncThunk(
 // 게시물 전체 조회(메인페이지)
 export const __getMainAllPosts = createAsyncThunk(
   "GET/MAINALLPOSTS",
-  async (data, thunkAPI) => {
-    const response = await api.get(`/post?page=${data}&count=${data}`);
+  async (payload, thunkAPI) => {
+    console.log(payload);
+    const response = await api.get(
+      `/posts?userId=${payload.userId}&type=like&page=${payload.paging}&count=2`
+    );
+    console.log(response.data);
     return response.data;
   }
 );

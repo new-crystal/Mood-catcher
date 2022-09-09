@@ -4,37 +4,56 @@ import Loader from "../shared/Loader";
 import Header from "../elem/Header";
 import NavigationBar from "../elem/NavigationBar";
 import { useNavigate } from "react-router-dom";
-import Slider from "react-slick";
 import { useSelector, useDispatch } from "react-redux";
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
 import "../shared/style/myBeer.css";
 import EachMusinsa from "../components/uploadCompnents/EachMusinsa";
 
-import { __getMusinsa, __writePost } from "../redux/modules/uploadSlice";
+import {
+  __getMusinsa,
+  __writePost,
+  __writeImage,
+  changeCheckPostId,
+} from "../redux/modules/uploadSlice";
 
 const Search = "./images/search.png";
 
-const Upload = (props) => {
+const Upload_select = (props) => {
   const dispatch = useDispatch();
-  const [searchTogle, setSearchTogle] = useState(false);
-  const [search, setSearch] = useState("");
+  const navigate = useNavigate();
+  // 사진 파일 미리보기를 위한 상태
   const [attachment, setAttachment] = useState("");
-
-  const post = useSelector((state) => state.upload.post);
+  // 검색창 클릭을 이용한 토글기능관련 상태
+  const [searchTogle, setSearchTogle] = useState(false);
+  // 무신사 검색을 위한 상태
+  const [search, setSearch] = useState("");
+  // upload 페이지의 formdate를 가져옵니다.
   const formdata = useSelector((state) => state.upload.formdata);
+  const postImg = formdata.get("postImage");
+  const post = useSelector((state) => state.upload.post);
+  // 무신사 items를 가져옵니다.
+  const items = useSelector((state) => state.upload.items);
+  // 선택된 무신사 selectedItems를 가져옵니다.
+  const selectedItems = useSelector((state) => state.upload.selectedItems);
+  // postId 잘 가져왔는지 확인합니다.
+  const checkPostId = useSelector((state) => state.upload.checkPostId);
+  console.log(checkPostId);
+  const [totalPost, setTotalPost] = useState({
+    post: {},
+    items: [],
+  });
 
-  // console.log(post);
-  // for (let key of post.keys()) {
-  //   console.log(key);
-  // }
-  // for (let value of post.values()) {
-  //   console.log(value);
-  // }
-  const postImg = formdata.get("imgFile");
-  // console.log(postImg);
+  const [imagePost, setImagePost] = useState({
+    postId: "",
+    postImage: formdata,
+  });
 
   React.useEffect(() => {
+    setTotalPost({ ...totalPost, post: post, items: selectedItems });
+    setImagePost({ ...imagePost, postImage: formdata, postId: post.postId });
+  }, [post, selectedItems, formdata]);
+
+  React.useEffect(() => {
+    // 검색창이 안 눌려 있으면 이미지 미리보기를 켜놓습니다.
     if (searchTogle === false) {
       const reader = new FileReader();
       const theFile = postImg;
@@ -45,24 +64,38 @@ const Upload = (props) => {
         } = finishiedEvent;
         setAttachment(result);
       };
+      // 검색창이 눌려 있으면 이미지 미리보기를 꺼놓습니다..
     } else {
       setAttachment("");
     }
+    // searchTogle을 구독해놓습니다.
   }, [searchTogle]);
 
+  const writeTotalPost = () => {
+    dispatch(__writePost(totalPost));
+    console.log(post);
+  };
   React.useEffect(() => {
-    const reader = new FileReader();
-    const theFile = postImg;
-    reader.readAsDataURL(theFile);
-    reader.onloadend = (finishiedEvent) => {
-      const {
-        currentTarget: { result },
-      } = finishiedEvent;
-      setAttachment(result);
-    };
-  }, []);
+    if (checkPostId === true) {
+      dispatch(__writeImage({ postId: post.postId, postImage: formdata }));
+      dispatch(changeCheckPostId(false));
+      navigate("/");
+    }
+  }, [checkPostId]);
 
-  const navigate = useNavigate();
+  // const writeImage = () => {
+  //   console.log("test");
+  //   if (checkPostId === true) {
+  //     console.log("test2");
+  //     console.log(post.postId);
+
+  //     setImagePost({ ...imagePost, postId: 3 });
+  //     console.log(imagePost);
+  //     dispatch(__writeImage(imagePost));
+  //     dispatch(changeCheckPostId(false));
+  //     navigate("/");
+  //   }
+  // };
 
   return (
     <Fragment>
@@ -78,14 +111,7 @@ const Upload = (props) => {
           <Grid>
             <JustifyAlign>
               <UploadText>내 아이템</UploadText>
-              <NextButton
-                onClick={() => {
-                  dispatch(__writePost(formdata));
-                  navigate("/");
-                }}
-              >
-                완료
-              </NextButton>
+              <NextButton onClick={writeTotalPost}>완료</NextButton>
             </JustifyAlign>
             <StUploadBox>
               <StImageBox className={searchTogle}>
@@ -98,12 +124,32 @@ const Upload = (props) => {
                 </div>
               </StImageBox>
               <SliderContainer>
-                <StMusinsaItemBox className={searchTogle}></StMusinsaItemBox>
-                <StMusinsaItemBox className={searchTogle}></StMusinsaItemBox>
-                <StMusinsaItemBox className={searchTogle}></StMusinsaItemBox>
-                <StMusinsaItemBox className={searchTogle}></StMusinsaItemBox>
-                <StMusinsaItemBox className={searchTogle}></StMusinsaItemBox>
-                <StMusinsaItemBox className={searchTogle}></StMusinsaItemBox>
+                {selectedItems?.map((item, idx) => (
+                  <StMusinsaItemBox key={idx} className={searchTogle}>
+                    <StMusinsaImage>
+                      <div className="ImgDiv">
+                        <img
+                          src={item.imgUrl}
+                          alt=""
+                          className={searchTogle.toString()}
+                        />
+                      </div>
+                    </StMusinsaImage>
+                    <StTextBox>
+                      {items.length === 0 ? (
+                        <Fragment>
+                          <StText>이름</StText>
+                          <StText>가격</StText>
+                        </Fragment>
+                      ) : (
+                        <Fragment>
+                          <StText>{item.name}</StText>
+                          <StText>{item.price}</StText>
+                        </Fragment>
+                      )}
+                    </StTextBox>
+                  </StMusinsaItemBox>
+                ))}
               </SliderContainer>
               <StSearchInput>
                 <input
@@ -115,10 +161,12 @@ const Upload = (props) => {
                     setSearch(e.target.value);
                   }}
                   onKeyPress={(e) => {
-                    if (e.key === "Enter") {
+                    if (e.key === "Enter" && search === "") {
+                      window.alert("검색 키워드를 입력해주세요!");
+                      setSearch("");
+                    } else if (e.key === "Enter") {
                       e.preventDefault();
-                      // console.log(search);
-                      dispatch(__getMusinsa("나이키 신발"));
+                      dispatch(__getMusinsa(search));
                       setSearch("");
                     }
                   }}
@@ -139,11 +187,11 @@ const Upload = (props) => {
                   />
                 </ButtonWrap>
               </StSearchInput>
-              {/* <List>
-                {searchTogle?.map((item, idx) => (
-                  <EachMusinsa page={"beerList"} key={idx} item={item} />
+              <List className={searchTogle}>
+                {items?.map((item, idx) => (
+                  <EachMusinsa key={idx} item={item} />
                 ))}
-              </List> */}
+              </List>
             </StUploadBox>
           </Grid>
         </Container>
@@ -153,7 +201,7 @@ const Upload = (props) => {
   );
 };
 
-export default Upload;
+export default Upload_select;
 
 const LoaderWrap = styled.div`
   position: absolute;
@@ -232,20 +280,20 @@ const StUploadBox = styled.div`
 const StImageBox = styled.div`
   margin: 23px 20px 9px;
   width: 350px;
-  height: 300px;
+  height: 452px;
   border-radius: 15px;
   &.true {
     height: 0;
   }
   .ImgDiv {
     width: 100%;
-    height: 300px;
+    height: 452px;
     border-radius: 16px;
     display: flex;
     justify-content: center;
     overflow: hidden;
     img {
-      flex: 1 1 auto;
+      /* flex: 1 1 auto; */
     }
     img.true {
       display: none;
@@ -273,11 +321,12 @@ const SliderContainer = styled.div`
 `;
 
 const StMusinsaItemBox = styled.div`
-  width: 150px;
+  margin-right: 8px;
+  display: flex;
+  width: 200px;
   height: 100px;
   background-color: #e6e5ea;
   border-radius: 15px;
-  margin-right: 8px;
   font-size: 20px;
   outline: none;
   text-align: center;
@@ -286,6 +335,44 @@ const StMusinsaItemBox = styled.div`
     height: 0;
   }
   transition: 0.5s;
+`;
+
+const StMusinsaImage = styled.div`
+  margin: 13px 12px 12px;
+  width: 75px;
+  height: 75px;
+  border-radius: 15px;
+  &.true {
+    height: 0;
+  }
+  .ImgDiv {
+    background-color: orange;
+    width: 100%;
+    height: 75px;
+    border-radius: 16px;
+    display: flex;
+    justify-content: center;
+    overflow: hidden;
+    img {
+      /* flex: 1 1 auto; */
+    }
+    img.true {
+      display: none;
+    }
+  }
+  transition: display 0.5s, height 0.5s;
+`;
+
+const StTextBox = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+
+const StText = styled.span`
+  margin-top: 18px;
+  font-size: 16px;
+  color: #7b758b;
+  font-weight: bold;
 `;
 
 const StSearchInput = styled.div`
@@ -321,9 +408,13 @@ const ImageWrap = styled.div`
   cursor: pointer;
 `;
 
-// const List = styled.div`
-//   width: 312px;
-//   margin: 0 auto;
-//   display: grid;
-//   grid-template-columns: repeat(2, 1fr);
-// `;
+const List = styled.div`
+  width: 350px;
+  margin: 0 auto;
+  display: none;
+  flex-direction: column;
+  &.true {
+    display: flex;
+  }
+  transition: 0.5s;
+`;
