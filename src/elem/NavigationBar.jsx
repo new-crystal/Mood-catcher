@@ -15,6 +15,8 @@ const NavigationBar = (props) => {
   const token = getCookie("token");
   const { userId } = jwt(token);
   const navigate = useNavigate();
+
+
   return (
     <Fragment>
       <NavBox>

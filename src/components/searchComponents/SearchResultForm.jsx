@@ -10,8 +10,10 @@ import more from "../../image/more.png";
 const SearchResultForm = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { keyword } = useParams();
   const [moreBox, setMoreBox] = useState(false);
+  const { keyword } = useParams();
+  const key = keyword.split("=")[1];
+  const sort = window.location.href.split("sort=")[1];
 
   const searchList = useSelector((state) => state.search.searchResult);
 
@@ -24,13 +26,13 @@ const SearchResultForm = () => {
 
   //검색 결과 조회하기
   useEffect(() => {
-    dispatch(__getSearchResult(keyword));
+    dispatch(__getSearchResult({ key, sort }));
   }, []);
 
   //다시 검색하기
   const onSubmit = async (data) => {
     await new Promise((r) => setTimeout(r, 300));
-    navigate(`/search/result/&{data}`);
+    navigate(`/search/result/keyword=${data.search}?sort=${data.sort}`);
   };
 
   return (
@@ -40,19 +42,24 @@ const SearchResultForm = () => {
         <SearchInput
           type="search"
           name="search"
-          placeholder="제목, 내용, 닉네임으로 검색해주세요"
+          placeholder="제목이나 내용으로 검색해주세요"
           aria-invalid={!isDirty ? undefined : errors.email ? "true" : "false"}
           {...register("search", {
             required: "검색어를 입력해주세요",
             pattern: {
-              value: /^(?=.*[a-zA-Z0-9가-힣])[a-zA-Z0-9가-힣]$/,
+              value: /^[0-9|a-z|A-Z|가-힣]*$/,
               message: "검색어에는 공백이나 특수문자는 포함할 수 없습니다.",
             },
           })}
         />
         <SearchImg type="submit" disabled={isSubmitting}></SearchImg>
-        <SearchBox></SearchBox>
       </form>
+      <SearchBox>
+        <input type="radio" value="title" checked {...register("sort")} />
+        <label>제목으로 검색하기</label>
+        <input type="radio" value="writer" {...register("sort")} />
+        <label>작성자로 검색하기</label>
+      </SearchBox>
       <More onClick={() => setMoreBox(!moreBox)}></More>
       {moreBox ? (
         <MoreList>
@@ -71,12 +78,21 @@ const SearchResultForm = () => {
         </MoreList>
       ) : null}
       <ImgBox>
-        <Img url="https://dimg.donga.com/wps/NEWS/IMAGE/2022/03/24/112480172.5.jpg"></Img>
-        <Img url="https://dimg.donga.com/wps/NEWS/IMAGE/2022/03/24/112480172.5.jpg"></Img>
-      </ImgBox>
-      <ImgBox>
-        <Img url="https://dimg.donga.com/wps/NEWS/IMAGE/2022/03/24/112480172.5.jpg"></Img>
-        <Img url="https://dimg.donga.com/wps/NEWS/IMAGE/2022/03/24/112480172.5.jpg"></Img>
+        {searchList.length === 0 ? (
+          <div>
+            <h1>검색 결과가 없습니다</h1>
+            <h3>다시 검색해주세요</h3>
+          </div>
+        ) : (
+          searchList.map((se) => (
+            <>
+              <Img
+                url={se.imgUrl}
+                onClick={() => navigate(`/item_detail/${se.postId}`)}
+              ></Img>
+            </>
+          ))
+        )}
       </ImgBox>
     </Fragment>
   );
@@ -91,18 +107,25 @@ const ErrorMsg = styled.p`
 
 const SearchInput = styled.input`
   background-color: rgba(0, 0, 0, 0);
-  border: 0px;
+  border: none;
   width: 350px;
   height: 50px;
   border-radius: 10px;
   margin: 10px 30px;
+  :focus {
+    outline: none;
+  }
 `;
 const SearchBox = styled.div`
   width: 348px;
   margin: 0 auto;
   border-top: 3px solid #fff;
   position: relative;
-  top: -50px;
+  top: -60px;
+  display: flex;
+  align-items: left;
+  justify-content: baseline;
+  flex-direction: row;
 `;
 
 const SearchImg = styled.button`
@@ -116,6 +139,7 @@ const SearchImg = styled.button`
   position: relative;
   left: 150px;
   top: -58px;
+  cursor: pointer;
 `;
 const More = styled.div`
   width: 30px;
@@ -156,12 +180,12 @@ const Mores = styled.div`
 `;
 const ImgBox = styled.div`
   display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: row;
+  flex-wrap: wrap;
+  width: 400px;
 `;
 const Img = styled.div`
-  margin-left: 10px;
+  flex-direction: column;
+  margin-left: 20px;
   margin-bottom: 20px;
   width: 180px;
   height: 240px;
@@ -169,5 +193,7 @@ const Img = styled.div`
   background-position: center;
   background-size: cover;
   background-image: url(${(props) => props.url});
+  /* position: relative;
+  overflow: hidden; */
 `;
 export default SearchResultForm;

@@ -8,14 +8,16 @@ import {
   __editProfile,
   __checkNickname,
   changeNickname,
+  __getUser,
 } from "../../redux/modules/loginSlice";
-import { deleteCookie } from "../../shared/cookie";
+import { deleteCookie, getCookie } from "../../shared/cookie";
 import { useNavigate } from "react-router-dom";
+import jwt_decode from "jwt-decode";
 
 const EditProfileForm = () => {
   const navigate = useNavigate();
-  const checkNickname = useSelector((state) => state.login.checkNickname);
   const dispatch = useDispatch();
+  const [editNickname, setEditNickname] = useState(false);
   const [gender, setGender] = useState("");
   const [age, setAge] = useState("");
   const [image, setImage] = useState({
@@ -23,6 +25,15 @@ const EditProfileForm = () => {
     preview_URL:
       "https://cdn.discordapp.com/attachments/1014169130045292625/1014194232250077264/Artboard_1.png",
   });
+  const checkNickname = useSelector((state) => state.login.checkNickname);
+  const users = useSelector((state) => state.login.userStatus);
+  const token = getCookie("token");
+  const payload = jwt_decode(token);
+  const userId = payload.userId;
+
+  useEffect(() => {
+    dispatch(__getUser(userId));
+  }, []);
 
   //react-hook-form사용
   const {
@@ -96,18 +107,15 @@ const EditProfileForm = () => {
   };
 
   //수정된 프로필 이미지, 닉네임, 성별, 나이 전송하기
-  const onSubmit = () => {
+  const onSubmit = async () => {
     const nickname = getValues("nickname");
-    if (image.image_file && nickname && gender && age) {
-      const formData = new FormData();
-      formData.append("imgFile", image.image_file);
-      formData.append("nickname", nickname);
-      formData.append("gender", gender);
-      formData.append("age", age);
-      dispatch(__editProfile(formData));
-    } else {
-      alert("수정할 프로필을 모두 입력해주세요!");
-    }
+
+    const formData = new FormData();
+    formData.append("userValue", image.image_file);
+
+    dispatch(
+      __editProfile({ userValue: formData, nickname, gender, age })
+    ).then(navigate(`/mypage/${userId}`));
   };
 
   //로그아웃
@@ -138,6 +146,7 @@ const EditProfileForm = () => {
       <ChangeProfile onClick={() => inputRef.click()}>
         <input
           hidden
+          name="userValue"
           accept="image/*"
           type="file"
           onChange={saveImg}
@@ -150,14 +159,13 @@ const EditProfileForm = () => {
         {errors.nickname && <p>{errors.nickname.message}</p>}
         <input
           type="text"
-          placeholder="새로운 닉네임을 입력해주세요"
+          placeholder={users.nickname}
           name="nickname"
           aria-invalid={
             !isDirty ? undefined : errors.nickname ? "true" : "false"
           }
           {...register("nickname", {
             onChange: () => onChangeNickname(),
-            required: "닉네임은 필수 입력입니다.",
             minLength: {
               value: 2,
               message: "닉네임을 2자 이상 작성해주세요",

@@ -1,4 +1,4 @@
-import React, { Fragment, useState, Suspense, useEffect } from "react";
+import React, { Fragment, useState, useEffect } from "react";
 import styleds from "styled-components";
 import {
   styled,
@@ -21,8 +21,6 @@ import male from "../../image/5man.png";
 import female from "../../image/girl5.png";
 import board from "../../image/board.png";
 import { useNavigate } from "react-router-dom";
-
-import { setCookie } from "../../shared/cookie";
 import gender from "../../image/gender.png";
 
 const SignupGenderAge = (location) => {
@@ -30,7 +28,6 @@ const SignupGenderAge = (location) => {
   const navigate = useNavigate();
   const [show, setShow] = useState(false);
   const [age, setAge] = useState("");
-  const [gender, setGender] = useState("");
   const {
     register,
     setError,
@@ -45,7 +42,8 @@ const SignupGenderAge = (location) => {
   useEffect(() => {
     const existList = window.location.href.split("=")[1];
     const exist = existList.split("&")[0];
-    if (exist == true) {
+
+    if (exist === "true") {
       navigate("/");
     }
   }, []);
@@ -105,10 +103,13 @@ const SignupGenderAge = (location) => {
   };
 
   //성별, 나이, 닉네임 보내기
-  const onClickGenderHandler = (key) => {
-    setGender(key.target.outerText);
+  const onClickGenderHandler = async (key) => {
+    console.log(key.target.innerText);
+    const keyGender = await key.target.innerText;
     const nickname = getValues("nickname");
-    dispatch(__detail({ age, gender, nickname })).then(navigate("/"));
+    dispatch(__detail({ age, gender: keyGender, nickname })).then(
+      navigate("/")
+    );
   };
 
   const images = [
