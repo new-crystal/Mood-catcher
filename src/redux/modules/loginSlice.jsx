@@ -10,7 +10,7 @@ export const __login = createAsyncThunk("LOGIN", async (payload, thunkAPI) => {
     setCookie("token", response.data.url.split("=")[2]);
     return (window.location.href = response.data.url);
   } catch (err) {
-    console.log(err);
+    alert("로그인에 실패하셨습니다.");
     return false;
   }
 });
@@ -158,6 +158,7 @@ const initialState = {
   exist: false,
   userStatus: {},
   check: false,
+  userIcon: {},
 };
 
 const loginSlice = createSlice({
@@ -213,7 +214,7 @@ const loginSlice = createSlice({
       })
       //프로필 아이콘 바꾸기
       .addCase(__patchUser.fulfilled, (state, action) => {
-        state.userStatus = action.payload;
+        state.userIcon = action.payload;
       }),
 });
 

@@ -20,7 +20,6 @@ const SearchForm = () => {
 
   //정보 불러오기
   const recommended = useSelector((state) => state.search.recommendedPosts);
-  console.log(recommended);
   const users = useSelector((state) => state.login.userStatus);
   const gender = users.gender;
   const age = users.age;
@@ -74,17 +73,23 @@ const SearchForm = () => {
       <ClosetBox>
         <h1>Other Closet</h1>
       </ClosetBox>
-      <OtherClosetBox>
-        <ImgBox url="https://dimg.donga.com/wps/NEWS/IMAGE/2022/03/24/112480172.5.jpg"></ImgBox>
-        <TextBox>
-          <p>내 다리 롱다리</p>
-          <h5>짱짱 롱다리</h5>
-          <HeartBox>
-            <Heart></Heart>
-            <p>1000</p>
-          </HeartBox>
-        </TextBox>
-      </OtherClosetBox>
+      {recommended?.map((re) => (
+        <OtherClosetBox
+          key={re.postId}
+          onClick={() => navigate(`/item_detail/${re.postId}`)}
+        >
+          <ImgBox url={re.imgUrl}></ImgBox>
+          <TextBox>
+            <p>{re.title}</p>
+            <h5>{re.content}</h5>
+            <HeartBox>
+              <Heart></Heart>
+              <p>{re.likeCount}</p>
+            </HeartBox>
+          </TextBox>
+        </OtherClosetBox>
+      ))}
+
       <SearchOtherCloset />
     </Fragment>
   );

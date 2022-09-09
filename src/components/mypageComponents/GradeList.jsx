@@ -32,11 +32,14 @@ const GradeList = ({ setGradeList }) => {
     setMoody(!moody);
     if (grade === "man") {
       dispatch(__patchUser({ profileIcon: "moody" }));
-    } else if (grade === "woman") {
+    }
+    if (grade === "woman") {
       dispatch(__patchUser({ profileIcon: "moody" }));
-    } else if (grade === moody && user.gender === "남자") {
+    }
+    if (grade === moody && user.gender === "남자") {
       dispatch({ profileIcon: "man" });
-    } else if (grade === moody && user.gender === "여자") {
+    }
+    if (grade === moody && user.gender === "여자") {
       dispatch({ profileIcon: "woman" });
     }
   };

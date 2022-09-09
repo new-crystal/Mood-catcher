@@ -78,12 +78,21 @@ const SearchResultForm = () => {
         </MoreList>
       ) : null}
       <ImgBox>
-        <Img url="https://dimg.donga.com/wps/NEWS/IMAGE/2022/03/24/112480172.5.jpg"></Img>
-        <Img url="https://dimg.donga.com/wps/NEWS/IMAGE/2022/03/24/112480172.5.jpg"></Img>
-      </ImgBox>
-      <ImgBox>
-        <Img url="https://dimg.donga.com/wps/NEWS/IMAGE/2022/03/24/112480172.5.jpg"></Img>
-        <Img url="https://dimg.donga.com/wps/NEWS/IMAGE/2022/03/24/112480172.5.jpg"></Img>
+        {searchList.length === 0 ? (
+          <div>
+            <h1>검색 결과가 없습니다</h1>
+            <h3>다시 검색해주세요</h3>
+          </div>
+        ) : (
+          searchList.map((se) => (
+            <>
+              <Img
+                url={se.imgUrl}
+                onClick={() => navigate(`/item_detail/${se.postId}`)}
+              ></Img>
+            </>
+          ))
+        )}
       </ImgBox>
     </Fragment>
   );
@@ -171,12 +180,12 @@ const Mores = styled.div`
 `;
 const ImgBox = styled.div`
   display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: row;
+  flex-wrap: wrap;
+  width: 400px;
 `;
 const Img = styled.div`
-  margin-left: 10px;
+  flex-direction: column;
+  margin-left: 20px;
   margin-bottom: 20px;
   width: 180px;
   height: 240px;
@@ -184,5 +193,7 @@ const Img = styled.div`
   background-position: center;
   background-size: cover;
   background-image: url(${(props) => props.url});
+  /* position: relative;
+  overflow: hidden; */
 `;
 export default SearchResultForm;

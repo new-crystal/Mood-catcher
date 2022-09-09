@@ -40,7 +40,6 @@ const MyPageForm = () => {
   console.log(users);
 
   const grade = users.grade?.split(" ")[1];
-  const icon = users.grade?.split(" ")[0];
 
   //토큰에서 userId 가져오기
   const token = getCookie("token");
@@ -50,7 +49,7 @@ const MyPageForm = () => {
     dispatch(__getUser(userId));
     dispatch(__getMyPage(userId));
     dispatch(__getRepPost(userId));
-    gradeCase(grade);
+    gradeIcon(grade);
   }, [grade]);
 
   //대표 게시물 불러오기!!
@@ -59,61 +58,28 @@ const MyPageForm = () => {
   //옷장 게시물 가져오기
   const closetList = useSelector((state) => state.upload.closetList);
 
-  const gradeCase = (grade) => {
-    switch (grade) {
-      case "1":
-        if (icon === "man") {
-          setGradeImg(man1);
-        } else if (icon === "woman") {
-          setGradeImg(woman1);
-        } else if (icon === "moody") {
-          setGradeImg(cat1);
-        }
-        break;
-      case "2":
-        if (icon === "man") {
-          return setGradeImg(man2);
-        } else if (icon === "woman") {
-          setGradeImg(woman2);
-        } else if (icon === "moody") {
-          setGradeImg(cat2);
-        }
-        break;
-      case "3":
-        if (icon === "man") {
-          setGradeImg(man3);
-        } else if (icon === "woman") {
-          setGradeImg(woman3);
-        } else if (icon === "moody") {
-          setGradeImg(cat3);
-        }
-        break;
-      case "4":
-        if (icon === "man") {
-          setGradeImg(man4);
-        } else if (icon === "woman") {
-          setGradeImg(woman4);
-        } else if (icon === "moody") {
-          setGradeImg(cat4);
-        }
-        break;
-      case "5":
-        if (icon === "man") {
-          setGradeImg(man5);
-        } else if (icon === "woman") {
-          setGradeImg(woman5);
-        } else if (icon === "moody") {
-          setGradeImg(cat5);
-        }
-        break;
-      default:
-        return setGradeImg(cat1);
+  //성별과 등급별로 아이콘 이미지 보여주기
+  const gradeIcon = (grade) => {
+    const icon = users.grade?.split(" ")[0];
+    const manIcon = [0, man1, man2, man3, man4, man5];
+    const womanIcon = [0, woman1, woman2, woman3, woman4, woman5];
+    const catIcon = [0, cat1, cat2, cat3, cat4, cat5];
+
+    if (icon === "man") {
+      setGradeImg(manIcon[grade]);
+    }
+    if (icon === "woman") {
+      setGradeImg(womanIcon[grade]);
+    }
+    if (icon === "moody") {
+      setGradeImg(catIcon[grade]);
     }
   };
 
   return (
     <Fragment>
-      {users.imgUrl === null ? (
+      {users.imgUrl ===
+      "https://gwonyeong.s3.ap-northeast-2.amazonaws.com/null" ? (
         <Img url={profileImg}></Img>
       ) : (
         <Img url={users.imgUrl}></Img>

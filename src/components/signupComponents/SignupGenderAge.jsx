@@ -42,7 +42,8 @@ const SignupGenderAge = (location) => {
   useEffect(() => {
     const existList = window.location.href.split("=")[1];
     const exist = existList.split("&")[0];
-    if (exist == true) {
+
+    if (exist === "true") {
       navigate("/");
     }
   }, []);

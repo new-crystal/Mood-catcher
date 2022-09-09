@@ -25,7 +25,6 @@ export const __getSearchResult = createAsyncThunk(
           payload.sort
         }`
       );
-      console.log(response);
       return response.data;
     } catch (err) {
       console.log(err);
@@ -35,8 +34,8 @@ export const __getSearchResult = createAsyncThunk(
 
 const initialState = {
   search: false,
-  recommendedPosts: {},
-  searchResult: {},
+  recommendedPosts: [],
+  searchResult: [],
 };
 
 //리듀서
