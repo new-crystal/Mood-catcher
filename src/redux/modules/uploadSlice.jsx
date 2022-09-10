@@ -48,27 +48,11 @@ export const __getMusinsa = createAsyncThunk(
 export const __getMyPage = createAsyncThunk(
   "GET/MYPAGE",
   async (payload, thunkAPI) => {
-    console.log(payload);
     try {
-      const response = await api.get(`/posts?type=${payload}`);
+      const response = await api.get(`/posts?userId=${payload}&type=my`);
       return response.data;
     } catch (err) {
       console.log(err);
-    }
-  }
-);
-
-//closet 페이지 정보 가져오기
-export const __getCloset = createAsyncThunk(
-  "GET/CLOSET",
-  async (payload, thunkAPI) => {
-    try {
-      console.log(payload);
-      const response = await api.get(`posts?${payload}`);
-      console.log(response);
-      return response.data;
-    } catch (err) {
-      thunkAPI.rejectWithValue(err);
     }
   }
 );
@@ -90,7 +74,6 @@ export const __representative = createAsyncThunk(
 export const __getRepPost = createAsyncThunk(
   "GET/REPRESENTATIVE",
   async (payload, thunkAPI) => {
-    console.log(payload);
     try {
       const response = await api.get(`/posts/rep?${payload}`);
       console.log(response);
@@ -137,18 +120,12 @@ const uploadSlice = createSlice({
         state.items = action.payload.items;
         console.log(state.items);
       })
+      //mypage 게시글 조회하기
       .addCase(__getMyPage.fulfilled, (state, action) => {
         state.myList = action.payload;
       })
       .addCase(__getMyPage.rejected, (state, action) => {
         state.myList = action.payload;
-      })
-      //옷장 정보 가져오기
-      .addCase(__getCloset.fulfilled, (state, action) => {
-        state.closetList = action.payload;
-      })
-      .addCase(__getCloset.rejected, (state, action) => {
-        state.closetList = action.payload;
       })
       //대표 게시물 지정하기
       .addCase(__representative.fulfilled, (state, action) => {

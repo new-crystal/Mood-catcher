@@ -36,10 +36,10 @@ const GradeList = ({ setGradeList }) => {
     if (grade === "woman") {
       dispatch(__patchUser({ profileIcon: "moody" }));
     }
-    if (grade === moody && user.gender === "남자") {
+    if (grade === "moody" && user.gender === "남자") {
       dispatch({ profileIcon: "man" });
     }
-    if (grade === moody && user.gender === "여자") {
+    if (grade === "moody" && user.gender === "여자") {
       dispatch({ profileIcon: "woman" });
     }
   };
@@ -50,7 +50,7 @@ const GradeList = ({ setGradeList }) => {
         <TitleBox>
           <h3>mood grade</h3>
           <MudiBtn type="button" onClick={() => onClickMoodyBtn()}>
-            {moody === false ? "무디로 바꾸기" : "사람으로 바꾸기"}
+            {moody ? "사람으로 바꾸기" : "무디로 바꾸기"}
           </MudiBtn>
         </TitleBox>
         <Grade>

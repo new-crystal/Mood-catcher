@@ -1,11 +1,12 @@
 import styled from "styled-components";
 import { useForm } from "react-hook-form";
-import { Fragment, useEffect, useState } from "react";
+import { Fragment, useEffect, useState, useCallback } from "react";
 import search from "../../image/search.png";
 import { useDispatch, useSelector } from "react-redux";
 import { __getSearchResult } from "../../redux/modules/searchSlice";
 import { useNavigate, useParams } from "react-router-dom";
 import more from "../../image/more.png";
+import _ from "lodash";
 
 const SearchResultForm = () => {
   const dispatch = useDispatch();
@@ -14,26 +15,69 @@ const SearchResultForm = () => {
   const { keyword } = useParams();
   const key = keyword.split("=")[1];
   const sort = window.location.href.split("sort=")[1];
+  const [page, setPage] = useState(4);
+  const [loading, setLoading] = useState(false);
 
+  //검색 결과 받아오기
   const searchList = useSelector((state) => state.search.searchResult);
 
+  //react-hook-form 사용하기
   const {
     register,
-    getValues,
     formState: { errors, isDirty, isSubmitting },
     handleSubmit,
   } = useForm({ criteriaMode: "all", mode: "onChange" });
-
-  //검색 결과 조회하기
-  useEffect(() => {
-    dispatch(__getSearchResult({ key, sort }));
-  }, []);
 
   //다시 검색하기
   const onSubmit = async (data) => {
     await new Promise((r) => setTimeout(r, 300));
     navigate(`/search/result/keyword=${data.search}?sort=${data.sort}`);
   };
+
+  //검색글 불러오기
+  const getSearchList = useCallback(() => {
+    const getSearch = async () => {
+      await dispatch(__getSearchResult({ key, sort, page }));
+      setLoading(false);
+    };
+    return getSearch();
+  }, [page, searchList]);
+
+  //스크롤 위치 계산하기
+  const _scrollPosition = _.throttle(() => {
+    const scrollHeight = document.documentElement.scrollHeight;
+    const scrollTop = document.documentElement.scrollTop;
+    const clientHeight = document.documentElement.clientHeight;
+
+    if (scrollTop + clientHeight >= scrollHeight - 100 && loading === false) {
+      if (page >= 13) {
+        return;
+      }
+      setPage((pre) => pre + 1);
+      getSearchList();
+      setLoading(true);
+    }
+  }, 500);
+
+  useEffect(() => {
+    if (page === 4 && searchList.length === 0) {
+      dispatch(__getSearchResult({ key, sort, page }));
+      setPage((pre) => pre + 1);
+    }
+    if (searchList.length !== 0) {
+      setPage(searchList.length / 8 + 1);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (loading) {
+      return;
+    }
+    window.addEventListener("scroll", _scrollPosition);
+    return () => {
+      window.removeEventListener("scroll", _scrollPosition);
+    };
+  }, [page, loading]);
 
   return (
     <Fragment>
@@ -60,7 +104,7 @@ const SearchResultForm = () => {
         <input type="radio" value="writer" {...register("sort")} />
         <label>작성자로 검색하기</label>
       </SearchBox>
-      <More onClick={() => setMoreBox(!moreBox)}></More>
+      {/* <More onClick={() => setMoreBox(!moreBox)}></More>
       {moreBox ? (
         <MoreList>
           <Mores>
@@ -76,7 +120,7 @@ const SearchResultForm = () => {
             <p>여자 인기순</p>
           </Mores>
         </MoreList>
-      ) : null}
+      ) : null} */}
       <ImgBox>
         {searchList.length === 0 ? (
           <div>
@@ -157,12 +201,11 @@ const MoreList = styled.div`
   background-color: #ddd;
   border-radius: 20px;
   display: flex;
-  display: flex;
   align-items: center;
   justify-content: center;
   flex-direction: column;
   float: right;
-  z-index: 22;
+  margin-bottom: -150px;
 `;
 const Mores = styled.div`
   width: 120px;
@@ -181,12 +224,12 @@ const Mores = styled.div`
 const ImgBox = styled.div`
   display: flex;
   flex-wrap: wrap;
-  width: 400px;
+  width: 420px;
 `;
 const Img = styled.div`
   flex-direction: column;
-  margin-left: 20px;
-  margin-bottom: 20px;
+  margin-left: 22.5px;
+  margin-bottom: 25px;
   width: 180px;
   height: 240px;
   border-radius: 20px;

@@ -1,8 +1,9 @@
-import React, { Suspense, lazy, Fragment } from "react";
+import React, { Suspense, lazy, Fragment, useEffect } from "react";
 import styled, { createGlobalStyle } from "styled-components";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, useNavigate } from "react-router-dom";
 import Loader from "./shared/Loader";
 import "./App.css";
+import { getCookie } from "./shared/cookie";
 
 // 코드 스플리팅을 위한 lazy설정
 const Main = lazy(() => import("./page/Main"));
@@ -20,6 +21,11 @@ const Item_detail = lazy(() => import("./page/Item_detail"));
 const Like = lazy(() => import("./page/Like"));
 
 function App() {
+  const token = getCookie("token");
+  const navigate = useNavigate();
+  useEffect(() => {
+    if (token === undefined) navigate("/login");
+  }, []);
   return (
     <Fragment>
       {/* Suspense이용 최적화 및 Loading중에는 Loader가 작동*/}

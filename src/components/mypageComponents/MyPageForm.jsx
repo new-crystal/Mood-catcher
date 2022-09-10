@@ -2,6 +2,13 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
+import { __getMyPage, __getRepPost } from "../../redux/modules/uploadSlice";
+import GradeList from "./GradeList";
+import { Fragment } from "react";
+import { __getUser } from "../../redux/modules/loginSlice";
+import { getCookie } from "../../shared/cookie";
+import jwt_decode from "jwt-decode";
+
 import man1 from "../../image/1man.png";
 import man2 from "../../image/2man.png";
 import man3 from "../../image/3man.png";
@@ -18,16 +25,6 @@ import woman3 from "../../image/girl3.png";
 import woman4 from "../../image/girl4.png";
 import woman5 from "../../image/girl5.png";
 import question from "../../image/question.png";
-import {
-  __getMyPage,
-  __getRepPost,
-  __getCloset,
-} from "../../redux/modules/uploadSlice";
-import GradeList from "./GradeList";
-import { Fragment } from "react";
-import { __getUser } from "../../redux/modules/loginSlice";
-import { getCookie } from "../../shared/cookie";
-import jwt_decode from "jwt-decode";
 
 const MyPageForm = () => {
   const dispatch = useDispatch();
@@ -39,10 +36,14 @@ const MyPageForm = () => {
   );
   const [gradeImg, setGradeImg] = useState(cat1);
 
-
   //유저의 닉네임, 프로필이미지, 등급, 무드 포인트 불러오기
   const users = useSelector((state) => state.login.userStatus);
+  const img = users.imgUrl?.split(".com/")[1];
+
   console.log(users);
+
+  //내 게시글 불러오기
+  const myClosetList = useSelector((state) => state.upload.myList);
 
   const grade = users.grade?.split(" ")[1];
 
@@ -54,16 +55,14 @@ const MyPageForm = () => {
     dispatch(__getUser(userId));
     dispatch(__getMyPage(userId));
     dispatch(__getRepPost(userId));
-    dispatch(__getCloset(userId));
     gradeIcon(grade);
-  }, [grade]);
+  }, [grade, users.grade, users.imgUrl]);
 
   //대표 게시물 불러오기!!
   const repList = useSelector((state) => state);
 
   //옷장 게시물 가져오기
   const closetList = useSelector((state) => state.upload.closetList);
-
 
   //성별과 등급별로 아이콘 이미지 보여주기
   const gradeIcon = (grade) => {
@@ -85,16 +84,23 @@ const MyPageForm = () => {
 
   return (
     <Fragment>
-      {users.imgUrl ===
-      "https://gwonyeong.s3.ap-northeast-2.amazonaws.com/null" ? (
+      {img === "null" ? (
         <Img url={profileImg}></Img>
       ) : (
-        <Img url={users.imgUrl}></Img>
+        <>
+          <Img url={users.imgUrl}></Img>
+          {/* <KakaoImg url={img}></KakaoImg> */}
+        </>
       )}
       <ProfileBox>
         <GradeIcon url={gradeImg}></GradeIcon>
         <h4>{users.nickname}</h4>
       </ProfileBox>
+      {payload.userId == userId ? (
+        <ProfileEditBtn onClick={() => navigate("/edit_profile")}>
+          내 프로필 수정하기
+        </ProfileEditBtn>
+      ) : null}
       <MyPageBox>
         <MoodBox>
           <MoodHeader>
@@ -135,21 +141,33 @@ const MyPageForm = () => {
         <p className="name">My Closet</p>
       </MoodHeader>
       <ClosetList>
-        <Closet url="http://img4.tmon.kr/cdn4/deals/2022/01/24/7863616202/front_0af52_cxazv.jpg"></Closet>
-        <Closet url="http://img4.tmon.kr/cdn4/deals/2022/01/24/7863616202/front_0af52_cxazv.jpg"></Closet>
-        <Closet url="http://img4.tmon.kr/cdn4/deals/2022/01/24/7863616202/front_0af52_cxazv.jpg"></Closet>
-        <Closet url="http://img4.tmon.kr/cdn4/deals/2022/01/24/7863616202/front_0af52_cxazv.jpg"></Closet>
-        <Closet url="http://img4.tmon.kr/cdn4/deals/2022/01/24/7863616202/front_0af52_cxazv.jpg"></Closet>
-        <Closet
-          url="https://contents.lotteon.com/itemimage/LD/55/34/08/11/4_/0/LD553408114_0_5.jpg/dims/resizef/720X720"
-          onClick={() => navigate(`/closet/${userId}`)}
-        ></Closet>
+        {myClosetList.length === 0 ? (
+          <>
+            <Closet onClick={() => navigate("/upload")}>
+              <p>캐처님의 옷장이 </p>
+              <p>비어있습니다</p>
+            </Closet>
+            <Closet onClick={() => navigate("/upload")}>
+              <p>옷장도 꾸미고</p>
+              <p>무드도 캐치하세요</p>
+            </Closet>
+          </>
+        ) : (
+          <>
+            <Closet url={myClosetList[0].imgUrl}></Closet>
+            <Closet url={myClosetList[1].imgUrl}></Closet>
+            <Closet url={myClosetList[2].imgUrl}></Closet>
+            <Closet url={myClosetList[3].imgUrl}></Closet>
+            <Closet url={myClosetList[4].imgUrl}></Closet>
+            <Closet
+              url="https://m.spadegagu.com/web/product/extra/big/20200214/f614adca4a7b75279a0142f3657bfafe.jpg"
+              onClick={() => navigate(`/closet/${userId}`)}
+            >
+              <h4>옷장 열어보기</h4>
+            </Closet>
+          </>
+        )}
       </ClosetList>
-      {payload.userId == userId ? (
-        <ProfileEditBtn onClick={() => navigate("/edit_profile")}>
-          내 프로필 수정하기
-        </ProfileEditBtn>
-      ) : null}
     </Fragment>
   );
 };
@@ -163,6 +181,17 @@ const Img = styled.div`
   background-size: cover;
   background-image: url(${(props) => props.url});
 `;
+
+const KakaoImg = styled.div`
+  width: 107px;
+  height: 107px;
+  border-radius: 50%;
+  margin: -110px auto 10px auto;
+  background-position: center;
+  background-size: cover;
+  background-image: url(${(props) => props.url});
+`;
+
 const ProfileBox = styled.div`
   display: flex;
   align-items: center;
@@ -304,12 +333,24 @@ const ClosetList = styled.div`
   border-radius: 10px;
   margin-left: 40px;
   margin-top: 20px;
+  align-items: center;
   display: flexbox;
   overflow-x: scroll;
   overflow-y: hidden;
 
   ::-webkit-scrollbar {
     display: none;
+  }
+
+  p {
+    margin-top: 40px;
+    display: block;
+    font-family: "Unna";
+    font-style: normal;
+    font-weight: 700;
+    font-size: 20px;
+    text-align: center;
+    color: #7b758b;
   }
 `;
 const Closet = styled.div`
@@ -320,12 +361,23 @@ const Closet = styled.div`
   background-position: center;
   background-size: cover;
   background-image: url(${(props) => props.url});
+
+  h4 {
+    margin-top: 80px;
+    display: block;
+    font-family: "Unna";
+    font-style: normal;
+    font-weight: 700;
+    font-size: 20px;
+    text-align: center;
+    color: #534b67;
+  }
 `;
 
 const ProfileEditBtn = styled.button`
   width: 135px;
   height: 20px;
-  background-color: white;
+  background-color: rgba(0, 0, 0, 0);
   color: #7b758b;
   font-size: 16px;
   border: 0px;

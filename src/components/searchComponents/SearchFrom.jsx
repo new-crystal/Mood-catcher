@@ -1,34 +1,33 @@
 import styled from "styled-components";
 import { useForm } from "react-hook-form";
-import { Fragment, useEffect, useRef } from "react";
+import { Fragment, useEffect, useState } from "react";
 import search from "../../image/search.png";
 import heart from "../../image/heart.png";
 import { useDispatch, useSelector } from "react-redux";
 import { __getSearch } from "../../redux/modules/searchSlice";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { __getUser } from "../../redux/modules/loginSlice";
-import { useState } from "react";
 import jwt_decode from "jwt-decode";
 import { getCookie } from "../../shared/cookie";
-import SearchOtherCloset from "./SearchOtherCloset";
+import _ from "lodash";
+import { useCallback } from "react";
 
 const SearchForm = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const token = getCookie("token");
   const payload = jwt_decode(token);
+  const [page, setPage] = useState(3);
+  const [loading, setLoading] = useState(false);
 
   //정보 불러오기
   const recommended = useSelector((state) => state.search.recommendedPosts);
   const users = useSelector((state) => state.login.userStatus);
   const gender = users.gender;
-  const age = users.age;
 
   //react-hook-form에서 불러오기
   const {
     register,
-    setError,
-    getValues,
     formState: { errors, isDirty, isSubmitting },
     handleSubmit,
   } = useForm({ criteriaMode: "all", mode: "onChange" });
@@ -39,11 +38,50 @@ const SearchForm = () => {
     navigate(`/search/result/keyword=${data.search}?sort=${data.sort}`);
   };
 
-  //추천게시물 조회하기
+  //추천게시글 불러오기
+  const getRecommendedList = useCallback(() => {
+    const getRecommended = async () => {
+      await dispatch(__getSearch(page));
+      setLoading(false);
+    };
+    return getRecommended();
+  }, [page, recommended]);
+
+  //스크롤 위치 계산하기
+  const _scrollPosition = _.throttle(() => {
+    const scrollHeight = document.documentElement.scrollHeight;
+    const scrollTop = document.documentElement.scrollTop;
+    const clientHeight = document.documentElement.clientHeight;
+
+    if (scrollTop + clientHeight >= scrollHeight - 100 && loading === false) {
+      if (page >= 13) {
+        return;
+      }
+      setPage((pre) => pre + 1);
+      getRecommendedList();
+      setLoading(true);
+    }
+  }, 500);
+
   useEffect(() => {
-    dispatch(__getUser(payload.userId));
-    dispatch(__getSearch());
+    if (page === 3 && recommended.length === 0) {
+      dispatch(__getSearch(page));
+      setPage((pre) => pre + 1);
+    }
+    if (recommended.length !== 0) {
+      setPage(recommended.length / 8 + 1);
+    }
   }, []);
+
+  useEffect(() => {
+    if (loading) {
+      return;
+    }
+    window.addEventListener("scroll", _scrollPosition);
+    return () => {
+      window.removeEventListener("scroll", _scrollPosition);
+    };
+  }, [page, loading]);
 
   return (
     <Fragment>
@@ -89,8 +127,6 @@ const SearchForm = () => {
           </TextBox>
         </OtherClosetBox>
       ))}
-
-      <SearchOtherCloset />
     </Fragment>
   );
 };

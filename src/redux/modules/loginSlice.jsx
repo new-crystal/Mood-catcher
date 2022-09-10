@@ -56,7 +56,7 @@ export const __socialLogin = createAsyncThunk(
   async (payload, thunkAPI) => {
     try {
       const response = await api.get("/auth/kakao");
-      console.log(response);
+      setCookie("token", response.data.url.split("=")[2]);
       thunkAPI.fulfillWithValue(response.data);
     } catch (err) {
       console.log(err);
