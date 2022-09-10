@@ -9,12 +9,12 @@ const heart = "/images/heart.png";
 const EachPost = (props) => {
   const navigate = useNavigate();
   const { item } = props;
-  // console.log(item);
+  console.log(item);
   return (
     <Fragment>
       <WritedClosetInfo
         onClick={() => {
-          navigate("/closet/1");
+          navigate(`/item_detail/${item.postId}/${item.userId}`);
         }}
       >
         <ClosetImage>

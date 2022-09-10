@@ -50,7 +50,10 @@ function App() {
           <Route path="/closet/:userId" element={<Closet />} />
           <Route path="/search" element={<Search />} />
           <Route path="/search/result/:keyword" element={<Search_result />} />
-          <Route path="/item_detail/:postId" element={<Item_detail />} />
+          <Route
+            path="/item_detail/:postId/:userId"
+            element={<Item_detail />}
+          />
           <Route path="/like/:userId" element={<Like />} />
           <Route path="*" element={<Main />} />
         </Routes>
