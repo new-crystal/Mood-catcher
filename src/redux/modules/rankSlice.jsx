@@ -42,7 +42,7 @@ const rankSlice = createSlice({
       })
       // 게시물 전체 조회(메인페이지)
       .addCase(__getMainAllPosts.fulfilled, (state, action) => {
-        state.allPosts = action.payload;
+        state.allPosts = [...state.allPosts, ...action.payload];
       }),
 });
 
