@@ -34,12 +34,9 @@ export const __getComments = createAsyncThunk(
 export const __changeComment = createAsyncThunk(
   "comment/CHANGECOMMENT_LOG",
   async (payload, thunkAPI) => {
-    const response = await api.put(
-      `api/post/${payload.postId}/comment/${payload.commentId}`,
-      {
-        comment: payload.comment,
-      }
-    );
+    const response = await api.put(`/comments/${payload.commentId}`, {
+      content: payload.comment,
+    });
     return response.data;
   }
 );
@@ -48,9 +45,47 @@ export const __changeComment = createAsyncThunk(
 export const __deleteComment = createAsyncThunk(
   "comment/DELETECOMMENT_LOG",
   async (payload, thunkAPI) => {
-    const response = await api.delete(
-      `/api/post/${payload.postId}/comment/${payload.commentId}`
+    const response = await api.delete(`/comments/${payload.commentId}`);
+    // 삭제 완료 msg alert 띄우기
+    // 이렇게 처리할 필요는 없을 것 같다....
+    if (response.request.status === 200) {
+      alert(response.data.msg);
+    }
+    return payload;
+  }
+);
+
+// 대댓글 추가
+export const __addRecomment = createAsyncThunk(
+  "post/ADDCOMMENT_LOG",
+  async (payload, thunkAPI) => {
+    const response = await api.post(
+      `/recomments?commentId=${payload.commentId}`,
+      {
+        content: payload.comment,
+      }
     );
+    // 추가한 댓글 하나의 Data
+    return response.data;
+  }
+);
+
+// 대댓글 수정
+export const __changeRecomment = createAsyncThunk(
+  "comment/CHANGECOMMENT_LOG",
+  async (payload, thunkAPI) => {
+    const response = await api.put(`/recomments/${payload.recommentId}`, {
+      content: payload.comment,
+    });
+    return response.data;
+  }
+);
+
+// 대댓글 삭제
+export const __deleteRecomment = createAsyncThunk(
+  "comment/DELETECOMMENT_LOG",
+  async (payload, thunkAPI) => {
+    const response = await api.delete(`/recomments/${payload.recommentId}`);
     // 삭제 완료 msg alert 띄우기
     // 이렇게 처리할 필요는 없을 것 같다....
     if (response.request.status === 200) {

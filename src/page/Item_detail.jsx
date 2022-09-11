@@ -129,7 +129,7 @@ const Item_detail = (props) => {
             </CommentBox>
             <Line />
             {commentList?.map((item, idx) => (
-              <DetailCommentList key={idx} item={item} />
+              <DetailCommentList key={idx} item={item} postId={postId} />
             ))}
           </Grid>
         </Container>

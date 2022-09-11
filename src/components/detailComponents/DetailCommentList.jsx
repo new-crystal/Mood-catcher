@@ -3,11 +3,13 @@ import styled from "styled-components";
 import { useDispatch } from "react-redux/es/exports";
 import { __deleteComment } from "../../redux/modules/commentSlice";
 import DetailChangeComment from "./DetailChangeComments";
+import DetailRecomments from "./DetailRecomments";
 
 // 상세페이지에 댓글 list 컴포넌트
 const DetailCommentList = (props) => {
   const dispatch = useDispatch();
   const { item } = props;
+  const { postId } = props;
   console.log(item);
 
   // profile_pic를 정하는 부분
@@ -19,6 +21,7 @@ const DetailCommentList = (props) => {
 
   // 수정 토글 창 관리 state
   const [changeState, setChangeState] = useState(false);
+  const [recommentState, setRecommentState] = useState(false);
 
   useEffect(() => {
     if (item.imgUrl !== undefined) {
@@ -31,24 +34,52 @@ const DetailCommentList = (props) => {
     dispatch(
       __deleteComment({
         commentId: item.commentId,
-        postId: item.PostId,
       })
     );
   };
   return (
     <>
       {changeState ? (
-        <DetailChangeComment commentData={item} btnState={setChangeState} />
+        <DetailChangeComment
+          commentData={item}
+          btnState={setChangeState}
+          postId={postId}
+        />
+      ) : null}
+
+      {recommentState ? (
+        <DetailRecomments
+          commentData={item}
+          btnState={setRecommentState}
+          postId={postId}
+        />
       ) : null}
 
       <CommentBox>
         <CommentImg
           url={profile.image_file ? profile.image_file : profile.preview_URL}
         ></CommentImg>
-        <WrapComment>
+        <WrapComment
+          onClick={() => {
+            setRecommentState(true);
+          }}
+        >
           <pre>{item.content}</pre>
         </WrapComment>
-        <AddCommentButton>완료</AddCommentButton>
+        <AddCommentButton
+          onClick={() => {
+            setChangeState(true);
+          }}
+        >
+          수정
+        </AddCommentButton>
+        <AddCommentButton
+          onClick={() => {
+            deleteComment();
+          }}
+        >
+          삭제
+        </AddCommentButton>
       </CommentBox>
 
       {/* <WrapComment>
@@ -84,24 +115,23 @@ export default DetailCommentList;
 const WrapComment = styled.div`
   display: flex;
   justify-content: space-between;
-  padding: 5px 20px;
-
-  border: 1px solid var(--greyD);
-  border-radius: 10px 10px 0 0;
-  span {
-    margin-right: 10px;
-    color: var(--greyD);
-    font-weight: 600;
-  }
+  /* padding: 0 20px; */
+  margin-top: 7px;
+  /* background-color: orange; */
+  /* border: 1px solid black; */
+  border-radius: 10px;
   pre {
-    width: 200px;
-    height: 25px;
-    padding-top: 13px;
+    width: 240px;
+    height: 20px;
+    background-color: royalblue;
+    /* padding-top: 7px; */
+    margin-left: 3px;
     border: none;
     outline: none;
+    overflow: hidden;
     font-size: 16px;
-    border: 1px solid var(--grey);
-    border-radius: 10px;
+    /* border: 1px solid black; */
+    border-radius: 5px;
     background-color: transparent;
   }
 `;
@@ -136,7 +166,7 @@ const CommentBox = styled.div`
 `;
 
 const CommentImg = styled.div`
-  margin: 8px 6px 4px 29px;
+  margin: 8px 6px 4px 23px;
   width: 45px;
   height: 45px;
   border-radius: 50%;
@@ -150,31 +180,13 @@ const AddCommentButton = styled.button`
   margin-top: 15px;
   text-align: center;
   color: white;
-  font-size: 16px;
+  font-size: 8px;
   font-weight: bold;
   line-height: 20px;
-  width: 70px;
+  width: 35px;
   height: 30px;
   background-color: #7b758b;
   border-radius: 10px;
   border: none;
   box-shadow: 5px 5px 4px #877f92;
-`;
-
-const Textarea = styled.textarea`
-  width: 200px;
-  height: 25px;
-  padding-top: 13px;
-  border: none;
-  outline: none;
-  font-size: 16px;
-  border: 1px solid var(--grey);
-  border-radius: 10px;
-  background-color: transparent;
-  ::placeholder {
-  }
-  resize: none;
-  :focus {
-    border: 2px solid var(--greyD);
-  }
 `;
