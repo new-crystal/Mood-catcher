@@ -36,10 +36,19 @@ export const __writeImage = createAsyncThunk(
 export const __getMusinsa = createAsyncThunk(
   "post/getMusinsa",
   async (payload, thunkAPI) => {
-    // console.log(data);
-
     const response = await api.get(`/musinsa/${payload}?page=1&count=9`);
     console.log(response);
+    return response.data.data;
+  }
+);
+
+// 게시물 상세 조회
+export const __getDetail = createAsyncThunk(
+  "post/getDetail",
+  async (payload, thunkAPI) => {
+    const response = await api.get(`/posts/detail/${payload}`);
+    console.log(response);
+    console.log(response.data.data);
     return response.data.data;
   }
 );
@@ -91,6 +100,8 @@ const uploadSlice = createSlice({
     items: [],
     formdata: {},
     selectedItems: [],
+    detailPost: {},
+    detailItems: [],
     myList: [],
     closetList: [],
     myRepPost: { postId: "" },
@@ -120,7 +131,11 @@ const uploadSlice = createSlice({
         state.items = action.payload.items;
         console.log(state.items);
       })
-      //mypage 게시글 조회하기
+      .addCase(__getDetail.fulfilled, (state, action) => {
+        console.log(action.payload);
+        state.detailPost = action.payload.post;
+        state.detailItems = action.payload.items;
+      })
       .addCase(__getMyPage.fulfilled, (state, action) => {
         state.myList = action.payload;
       })
