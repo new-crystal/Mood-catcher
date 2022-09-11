@@ -6,7 +6,9 @@ export const __getSearch = createAsyncThunk(
   "GET/POSTS",
   async (payload, thunkAPI) => {
     try {
-      const response = await api.get(`/posts?`);
+      const response = await api.get(
+        `/posts?type=alg&page=${payload}&count=${payload}`
+      );
       console.log(response);
       return response.data;
     } catch (err) {
@@ -19,11 +21,12 @@ export const __getSearch = createAsyncThunk(
 export const __getSearchResult = createAsyncThunk(
   "GET/RESULT",
   async (payload, thunkAPI) => {
+    console.log(payload);
     try {
       const response = await api.get(
         `/posts?type=search&keyword=${encodeURI(payload.key)}&sort=${
           payload.sort
-        }`
+        }&page=${payload.page}&count=${payload.page}`
       );
       return response.data;
     } catch (err) {
@@ -47,11 +50,11 @@ const searchSlice = createSlice({
     builder
       //추천게시물 조회하기
       .addCase(__getSearch.fulfilled, (state, action) => {
-        state.recommendedPosts = action.payload;
+        state.recommendedPosts = [...state.recommendedPosts, ...action.payload];
       })
       //검색 결과 보기
       .addCase(__getSearchResult.fulfilled, (state, action) => {
-        state.searchResult = action.payload;
+        state.searchResult = [...state.searchResult, ...action.payload];
       }),
 });
 

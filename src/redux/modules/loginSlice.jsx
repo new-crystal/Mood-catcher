@@ -56,7 +56,7 @@ export const __socialLogin = createAsyncThunk(
   async (payload, thunkAPI) => {
     try {
       const response = await api.get("/auth/kakao");
-      console.log(response);
+      setCookie("token", response.data.url.split("=")[2]);
       thunkAPI.fulfillWithValue(response.data);
     } catch (err) {
       console.log(err);
@@ -117,11 +117,11 @@ export const __getUser = createAsyncThunk(
 
 //프로필 아이콘 바꾸기
 export const __patchUser = createAsyncThunk(
-  "PATCH/USER",
+  "PATCH/ICON",
   async (payload, thunkAPI) => {
+    console.log(payload);
     try {
       const response = await api.patch(`/users`, payload);
-      console.log(response);
       return response.data.userStatus;
     } catch (err) {
       console.log(err);

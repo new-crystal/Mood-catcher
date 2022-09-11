@@ -1,6 +1,6 @@
 import React, { Suspense, lazy, Fragment, useEffect } from "react";
 import styled, { createGlobalStyle } from "styled-components";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, useNavigate } from "react-router-dom";
 import Loader from "./shared/Loader";
 import { useNavigate } from "react-router-dom";
 
