@@ -63,6 +63,7 @@ const SearchForm = () => {
     }
   }, 500);
 
+  //페이지 계산해서 get 요청 보내고 page 카운트 올리기
   useEffect(() => {
     if (page === 3 && recommended.length === 0) {
       dispatch(__getSearch(page));
@@ -73,6 +74,7 @@ const SearchForm = () => {
     }
   }, []);
 
+  //윈도우 스크롤 위치 계산하기
   useEffect(() => {
     if (loading) {
       return;

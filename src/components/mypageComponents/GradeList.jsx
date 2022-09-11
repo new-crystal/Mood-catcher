@@ -22,25 +22,32 @@ const GradeList = ({ setGradeList }) => {
   const user = useSelector((state) => state.login.userStatus);
   const grade = user.grade?.split(" ")[0];
 
+  const moodyStatus = (grade) => {
+    if (grade === "moody") {
+      setMoody(true);
+    }
+  };
+
   //유저 정보 가져오기
   useEffect(() => {
     dispatch(__getUser(userId));
+    moodyStatus(grade);
   }, []);
 
   //유저의 프로필 아이콘 변경하기
   const onClickMoodyBtn = () => {
     setMoody(!moody);
-    if (grade === "man") {
+    if (grade == "man") {
       dispatch(__patchUser({ profileIcon: "moody" }));
     }
-    if (grade === "woman") {
+    if (grade == "woman") {
       dispatch(__patchUser({ profileIcon: "moody" }));
     }
-    if (grade === "moody" && user.gender === "남자") {
-      dispatch({ profileIcon: "man" });
+    if (grade == "moody" && user.gender == "남자") {
+      dispatch(__patchUser({ profileIcon: "man" }));
     }
-    if (grade === "moody" && user.gender === "여자") {
-      dispatch({ profileIcon: "woman" });
+    if (grade == "moody" && user.gender == "여자") {
+      dispatch(__patchUser({ profileIcon: "woman" }));
     }
   };
   return (
@@ -49,9 +56,12 @@ const GradeList = ({ setGradeList }) => {
       <ListBox>
         <TitleBox>
           <h3>mood grade</h3>
-          <MudiBtn type="button" onClick={() => onClickMoodyBtn()}>
-            {moody ? "사람으로 바꾸기" : "무디로 바꾸기"}
+          <MudiBtn type="button" onClick={onClickMoodyBtn}>
+            {moody === false ? "사람으로 바꾸기" : "무디로 바꾸기"}
           </MudiBtn>
+          <ConfirmBtn type="button" onClick={() => setGradeList(false)}>
+            확인
+          </ConfirmBtn>
         </TitleBox>
         <Grade>
           {moody === false ? (
@@ -142,7 +152,14 @@ const MudiBtn = styled.button`
   color: #7b758b;
   border: 0px;
 `;
-
+const ConfirmBtn = styled.button`
+  width: 40px;
+  height: 20px;
+  background-color: white;
+  color: #7b758b;
+  border: 0px;
+  margin-right: -20px;
+`;
 const Grade = styled.div`
   width: 280px;
   height: 50px;

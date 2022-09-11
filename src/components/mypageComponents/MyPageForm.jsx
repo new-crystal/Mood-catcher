@@ -25,6 +25,7 @@ import woman3 from "../../image/girl3.png";
 import woman4 from "../../image/girl4.png";
 import woman5 from "../../image/girl5.png";
 import question from "../../image/question.png";
+import empty from "../../image/옷걸이.png";
 
 const MyPageForm = () => {
   const dispatch = useDispatch();
@@ -56,7 +57,7 @@ const MyPageForm = () => {
     dispatch(__getMyPage(userId));
     dispatch(__getRepPost(userId));
     gradeIcon(grade);
-  }, [grade, users.grade, users.imgUrl]);
+  }, [gradeList, gradeImg]);
 
   //대표 게시물 불러오기!!
   const repList = useSelector((state) => state);
@@ -67,6 +68,7 @@ const MyPageForm = () => {
   //성별과 등급별로 아이콘 이미지 보여주기
   const gradeIcon = (grade) => {
     const icon = users.grade?.split(" ")[0];
+    console.log(icon);
     const manIcon = [0, man1, man2, man3, man4, man5];
     const womanIcon = [0, woman1, woman2, woman3, woman4, woman5];
     const catIcon = [0, cat1, cat2, cat3, cat4, cat5];
@@ -87,10 +89,7 @@ const MyPageForm = () => {
       {img === "null" ? (
         <Img url={profileImg}></Img>
       ) : (
-        <>
-          <Img url={users.imgUrl}></Img>
-          {/* <KakaoImg url={img}></KakaoImg> */}
-        </>
+        <Img url={users.imgUrl}></Img>
       )}
       <ProfileBox>
         <GradeIcon url={gradeImg}></GradeIcon>
@@ -121,7 +120,9 @@ const MyPageForm = () => {
                 {grade === "3" && <h6>넥타이</h6>}
                 {grade === "4" && <h6>조끼</h6>}
                 {grade === "5" && <h6>자켓</h6>}
-                <Question onClick={() => setGradeList(true)}></Question>
+                {payload.userId == userId ? (
+                  <Question onClick={() => setGradeList(true)}></Question>
+                ) : null}
                 {gradeList ? <GradeList setGradeList={setGradeList} /> : null}
               </GradeQuestion>
               <Progress>
@@ -143,14 +144,14 @@ const MyPageForm = () => {
       <ClosetList>
         {myClosetList.length === 0 ? (
           <>
-            <Closet onClick={() => navigate("/upload")}>
-              <p>캐처님의 옷장이 </p>
-              <p>비어있습니다</p>
-            </Closet>
-            <Closet onClick={() => navigate("/upload")}>
+            <EmptyCloset onClick={() => navigate("/upload")}>
+              <p>{users.nickname}님의</p>
+              <p>옷장이 비어있습니다</p>
+            </EmptyCloset>
+            <EmptyCloset onClick={() => navigate("/upload")}>
               <p>옷장도 꾸미고</p>
               <p>무드도 캐치하세요</p>
-            </Closet>
+            </EmptyCloset>
           </>
         ) : (
           <>
@@ -163,7 +164,10 @@ const MyPageForm = () => {
               url="https://m.spadegagu.com/web/product/extra/big/20200214/f614adca4a7b75279a0142f3657bfafe.jpg"
               onClick={() => navigate(`/closet/${userId}`)}
             >
-              <h4>옷장 열어보기</h4>
+              <OpenCloset>
+                <h4>{users.nickname}님의</h4>
+                <h4>옷장 열어보기</h4>
+              </OpenCloset>
             </Closet>
           </>
         )}
@@ -177,16 +181,6 @@ const Img = styled.div`
   height: 107px;
   border-radius: 50%;
   margin: 10px auto;
-  background-position: center;
-  background-size: cover;
-  background-image: url(${(props) => props.url});
-`;
-
-const KakaoImg = styled.div`
-  width: 107px;
-  height: 107px;
-  border-radius: 50%;
-  margin: -110px auto 10px auto;
   background-position: center;
   background-size: cover;
   background-image: url(${(props) => props.url});
@@ -361,6 +355,29 @@ const Closet = styled.div`
   background-position: center;
   background-size: cover;
   background-image: url(${(props) => props.url});
+
+  h4 {
+    display: block;
+    font-family: "Unna";
+    font-style: normal;
+    font-weight: 700;
+    font-size: 20px;
+    text-align: center;
+    color: #6b6187;
+  }
+`;
+const OpenCloset = styled.div`
+  margin-top: 50px;
+`;
+
+const EmptyCloset = styled.div`
+  width: 180px;
+  height: 190px;
+  margin: 10px;
+  border-radius: 10px;
+  background-position: center;
+  background-size: cover;
+  background-image: url(${empty});
 
   h4 {
     margin-top: 80px;
