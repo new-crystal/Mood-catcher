@@ -12,15 +12,14 @@ import jwt from "jwt-decode"; // to get userId from loggedIn user's token
 const LikePosts = () => {
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(false); //데이터 받아오는동안 로딩 true로 하고 api요청 그동안 한번만되게
-  const [paging, setPaging] = useState(0); //페이지넘버
+  const [paging, setPaging] = useState(1); //페이지넘버
   const ranksIF = useSelector(InfinityRank); //redux store값 받아오는부기
 
   // 토큰 decode를 통해서 현재 로그인한 유저 id 가져오기
   const token = getCookie("token");
-  console.log(jwt(token));
+  // console.log(jwt(token));
   const { userId } = jwt(token);
-
-  console.log(ranksIF);
+  // console.log(ranksIF);
 
   const getInfinityList = useCallback(() => {
     async function getData() {
@@ -47,8 +46,11 @@ const LikePosts = () => {
   }, 500);
 
   useEffect(() => {
-    if (paging === 0 && ranksIF.length === 0) {
-      dispatch(__getMainAllPosts(paging));
+    console.log(paging, userId, ranksIF);
+
+    if (paging === 1 && ranksIF.length === 0) {
+      console.log(paging, userId);
+      dispatch(__getMainAllPosts({ paging: paging, userId: userId }));
       setPaging(paging + 1);
     } //첫렌더링시 0페이지 받아오기
     if (ranksIF.length !== 0) {
@@ -65,13 +67,13 @@ const LikePosts = () => {
       window.removeEventListener("scroll", _handleScroll); // scroll event listener 해제
     };
   }, [paging, loading]);
+  // console.log(ranksIF);
 
   return (
     <Fragment>
       {ranksIF?.map((item, idx) => (
         <EachPost key={idx} item={item} />
       ))}
-      <EachPost />
 
       {loading ? <InfinityScrollLoader /> : ""}
     </Fragment>
