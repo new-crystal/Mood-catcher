@@ -84,7 +84,7 @@ export const __getRepPost = createAsyncThunk(
   "GET/REPRESENTATIVE",
   async (payload, thunkAPI) => {
     try {
-      const response = await api.get(`/posts/rep?${payload}`);
+      const response = await api.get(`/posts/rep?userId=${payload}`);
       console.log(response);
       return response.data;
     } catch (err) {

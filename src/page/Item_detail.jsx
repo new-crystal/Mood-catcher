@@ -10,7 +10,7 @@ import { __getDetail } from "../redux/modules/uploadSlice";
 import { __getUser } from "../redux/modules/loginSlice";
 import DetailCommentList from "../components/detailComponents/DetailCommentList";
 import { useParams } from "react-router-dom";
-import { setCookie, deleteCookie, getCookie } from "../shared/cookie";
+import { deleteCookie, getCookie } from "../shared/cookie";
 import jwt from "jwt-decode"; // to get userId from loggedIn user's token
 
 const junsu = "/images/junsu.PNG";
