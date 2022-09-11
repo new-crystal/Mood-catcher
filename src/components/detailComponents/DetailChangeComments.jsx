@@ -3,7 +3,7 @@ import { useDispatch } from "react-redux";
 import styled from "styled-components";
 import { __changeComment } from "../../redux/modules/commentSlice";
 
-const DetailChangeComment = ({ commentData, btnState }) => {
+const DetailChangeComment = ({ commentData, btnState, postId }) => {
   const dispatch = useDispatch();
   const commentText = useRef("");
 
@@ -11,8 +11,8 @@ const DetailChangeComment = ({ commentData, btnState }) => {
   const changeComment = () => {
     dispatch(
       __changeComment({
-        postId: commentData.PostId,
-        commentId: commentData.id,
+        postId: postId,
+        commentId: commentData.commentId,
         comment: commentText.current.value,
       })
     );
@@ -20,7 +20,7 @@ const DetailChangeComment = ({ commentData, btnState }) => {
   };
 
   useEffect(() => {
-    commentText.current.value = commentData.comment;
+    commentText.current.value = commentData.content;
   }, [commentData]);
   return (
     <BackgroundDiv>
@@ -63,10 +63,10 @@ const Wrapdiv = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  width: 500px;
-  height: 500px;
+  width: 250px;
+  height: 250px;
   padding: 20px 30px;
-  background-color: var(--white);
+  background-color: #a396c9;
   opacity: 1;
   border-radius: 20px;
   box-shadow: 1px 1px 2px 2px;
@@ -81,12 +81,28 @@ const CommentChangeTextBox = styled.textarea`
   border: none;
   resize: none;
   width: 90%;
-  height: 320px;
+  height: 130px;
   margin: 10px;
   outline: none;
   overflow-y: auto;
+  font-size: 16px;
 `;
 const WrapBtn = styled.div`
   display: flex;
+  margin-left: 10px;
   gap: 20px;
+  & > button {
+    /* margin-top: 5px; */
+    text-align: center;
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    line-height: 20px;
+    width: 80px;
+    height: 30px;
+    background-color: #7b758b;
+    border-radius: 10px;
+    border: none;
+    box-shadow: 5px 5px 4px #877f92;
+  }
 `;

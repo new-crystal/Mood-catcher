@@ -27,14 +27,6 @@ const Mypage = (props) => {
   );
 };
 
-const LoginWrap = styled.div`
-  width: 100%;
-  background-color: #ffffff;
-  display: flex;
-  flex-direction: column;
-  text-align: center;
-`;
-
 const LoaderWrap = styled.div`
   position: absolute;
   margin-top: -100px;

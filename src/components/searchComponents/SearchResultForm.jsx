@@ -1,37 +1,85 @@
 import styled from "styled-components";
 import { useForm } from "react-hook-form";
-import { Fragment, useEffect, useState } from "react";
+import { Fragment, useEffect, useState, useCallback } from "react";
 import search from "../../image/search.png";
 import { useDispatch, useSelector } from "react-redux";
 import { __getSearchResult } from "../../redux/modules/searchSlice";
 import { useNavigate, useParams } from "react-router-dom";
 import more from "../../image/more.png";
+import _ from "lodash";
 
 const SearchResultForm = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { keyword } = useParams();
   const [moreBox, setMoreBox] = useState(false);
+  const { keyword } = useParams();
+  const key = keyword.split("=")[1];
+  const sort = window.location.href.split("sort=")[1];
+  const [page, setPage] = useState(4);
+  const [loading, setLoading] = useState(false);
 
+  //검색 결과 받아오기
   const searchList = useSelector((state) => state.search.searchResult);
 
+  //react-hook-form 사용하기
   const {
     register,
-    getValues,
     formState: { errors, isDirty, isSubmitting },
     handleSubmit,
   } = useForm({ criteriaMode: "all", mode: "onChange" });
 
-  //검색 결과 조회하기
-  useEffect(() => {
-    dispatch(__getSearchResult(keyword));
-  }, []);
-
   //다시 검색하기
   const onSubmit = async (data) => {
     await new Promise((r) => setTimeout(r, 300));
-    navigate(`/search/result/&{data}`);
+    navigate(`/search/result/keyword=${data.search}?sort=${data.sort}`);
   };
+
+  //검색글 불러오기
+  const getSearchList = useCallback(() => {
+    const getSearch = async () => {
+      await dispatch(__getSearchResult({ key, sort, page }));
+      setLoading(false);
+    };
+    return getSearch();
+  }, [page, searchList]);
+
+  //스크롤 위치 계산하기
+  const _scrollPosition = _.throttle(() => {
+    const scrollHeight = document.documentElement.scrollHeight;
+    const scrollTop = document.documentElement.scrollTop;
+    const clientHeight = document.documentElement.clientHeight;
+
+    if (scrollTop + clientHeight >= scrollHeight - 100 && loading === false) {
+      if (page >= 13) {
+        return;
+      }
+      setPage((pre) => pre + 1);
+      getSearchList();
+      setLoading(true);
+    }
+  }, 500);
+
+  //페이지 계산해서 get 요청 보내고 page 카운트 올리기
+  useEffect(() => {
+    if (page === 4 && searchList.length === 0) {
+      dispatch(__getSearchResult({ key, sort, page }));
+      setPage((pre) => pre + 1);
+    }
+    if (searchList.length !== 0) {
+      setPage(searchList.length / 8 + 1);
+    }
+  }, []);
+
+  //윈도우 스크롤 위치 계산하기
+  useEffect(() => {
+    if (loading) {
+      return;
+    }
+    window.addEventListener("scroll", _scrollPosition);
+    return () => {
+      window.removeEventListener("scroll", _scrollPosition);
+    };
+  }, [page, loading]);
 
   return (
     <Fragment>
@@ -40,20 +88,25 @@ const SearchResultForm = () => {
         <SearchInput
           type="search"
           name="search"
-          placeholder="제목, 내용, 닉네임으로 검색해주세요"
+          placeholder="제목이나 내용으로 검색해주세요"
           aria-invalid={!isDirty ? undefined : errors.email ? "true" : "false"}
           {...register("search", {
             required: "검색어를 입력해주세요",
             pattern: {
-              value: /^(?=.*[a-zA-Z0-9가-힣])[a-zA-Z0-9가-힣]$/,
+              value: /^[0-9|a-z|A-Z|가-힣]*$/,
               message: "검색어에는 공백이나 특수문자는 포함할 수 없습니다.",
             },
           })}
         />
         <SearchImg type="submit" disabled={isSubmitting}></SearchImg>
-        <SearchBox></SearchBox>
       </form>
-      <More onClick={() => setMoreBox(!moreBox)}></More>
+      <SearchBox>
+        <input type="radio" value="title" checked {...register("sort")} />
+        <label>제목으로 검색하기</label>
+        <input type="radio" value="writer" {...register("sort")} />
+        <label>작성자로 검색하기</label>
+      </SearchBox>
+      {/* <More onClick={() => setMoreBox(!moreBox)}></More>
       {moreBox ? (
         <MoreList>
           <Mores>
@@ -69,14 +122,23 @@ const SearchResultForm = () => {
             <p>여자 인기순</p>
           </Mores>
         </MoreList>
-      ) : null}
+      ) : null} */}
       <ImgBox>
-        <Img url="https://dimg.donga.com/wps/NEWS/IMAGE/2022/03/24/112480172.5.jpg"></Img>
-        <Img url="https://dimg.donga.com/wps/NEWS/IMAGE/2022/03/24/112480172.5.jpg"></Img>
-      </ImgBox>
-      <ImgBox>
-        <Img url="https://dimg.donga.com/wps/NEWS/IMAGE/2022/03/24/112480172.5.jpg"></Img>
-        <Img url="https://dimg.donga.com/wps/NEWS/IMAGE/2022/03/24/112480172.5.jpg"></Img>
+        {searchList.length === 0 ? (
+          <div>
+            <h1>검색 결과가 없습니다</h1>
+            <h3>다시 검색해주세요</h3>
+          </div>
+        ) : (
+          searchList.map((se) => (
+            <>
+              <Img
+                url={se.imgUrl}
+                onClick={() => navigate(`/item_detail/${se.postId}`)}
+              ></Img>
+            </>
+          ))
+        )}
       </ImgBox>
     </Fragment>
   );
@@ -91,18 +153,25 @@ const ErrorMsg = styled.p`
 
 const SearchInput = styled.input`
   background-color: rgba(0, 0, 0, 0);
-  border: 0px;
+  border: none;
   width: 350px;
   height: 50px;
   border-radius: 10px;
   margin: 10px 30px;
+  :focus {
+    outline: none;
+  }
 `;
 const SearchBox = styled.div`
   width: 348px;
   margin: 0 auto;
   border-top: 3px solid #fff;
   position: relative;
-  top: -50px;
+  top: -60px;
+  display: flex;
+  align-items: left;
+  justify-content: baseline;
+  flex-direction: row;
 `;
 
 const SearchImg = styled.button`
@@ -116,6 +185,7 @@ const SearchImg = styled.button`
   position: relative;
   left: 150px;
   top: -58px;
+  cursor: pointer;
 `;
 const More = styled.div`
   width: 30px;
@@ -133,12 +203,11 @@ const MoreList = styled.div`
   background-color: #ddd;
   border-radius: 20px;
   display: flex;
-  display: flex;
   align-items: center;
   justify-content: center;
   flex-direction: column;
   float: right;
-  z-index: 22;
+  margin-bottom: -150px;
 `;
 const Mores = styled.div`
   width: 120px;
@@ -156,18 +225,20 @@ const Mores = styled.div`
 `;
 const ImgBox = styled.div`
   display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: row;
+  flex-wrap: wrap;
+  width: 420px;
 `;
 const Img = styled.div`
-  margin-left: 10px;
-  margin-bottom: 20px;
+  flex-direction: column;
+  margin-left: 22.5px;
+  margin-bottom: 25px;
   width: 180px;
   height: 240px;
   border-radius: 20px;
   background-position: center;
   background-size: cover;
   background-image: url(${(props) => props.url});
+  /* position: relative;
+  overflow: hidden; */
 `;
 export default SearchResultForm;

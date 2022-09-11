@@ -4,21 +4,52 @@ import { api } from "../../shared/api";
 // 게시물 작성
 export const __writePost = createAsyncThunk(
   "post/writePost",
-  async (data, thunkAPI) => {
-    const response = await api.post(`/posts`, data);
+  async (payload, thunkAPI) => {
+    console.log(payload);
+    const response = await api.post(`/posts`, payload);
+    console.log(response.data.data);
+    return response.data.data;
+  }
+);
 
+// 이미지 업데이트
+export const __writeImage = createAsyncThunk(
+  "post/writePost",
+  async (payload, thunkAPI) => {
+    console.log(payload);
+    console.log(payload.postId);
+    const response = await api.put(
+      `/posts/${payload.postId}/image`,
+      payload.postImage,
+      {
+        headers: {
+          "Content-type": "multipart/form-data",
+        },
+      }
+    );
+    console.log(response);
     return response.data;
   }
 );
 
-// 상품 찾기
+// 상품 찾기(무신사)
 export const __getMusinsa = createAsyncThunk(
   "post/getMusinsa",
-  async (data, thunkAPI) => {
-    // console.log(data);
+  async (payload, thunkAPI) => {
+    const response = await api.get(`/musinsa/${payload}?page=1&count=9`);
+    console.log(response);
+    return response.data.data;
+  }
+);
 
-    const response = await api.get(`/musinsa/${data}`);
-    return response.data;
+// 게시물 상세 조회
+export const __getDetail = createAsyncThunk(
+  "post/getDetail",
+  async (payload, thunkAPI) => {
+    const response = await api.get(`/posts/detail/${payload}`);
+    console.log(response);
+    console.log(response.data.data);
+    return response.data.data;
   }
 );
 
@@ -26,22 +57,11 @@ export const __getMusinsa = createAsyncThunk(
 export const __getMyPage = createAsyncThunk(
   "GET/MYPAGE",
   async (payload, thunkAPI) => {
-    const response = await api.get(`/posts?type=${payload}`);
-    return response.data;
-  }
-);
-
-//closet 페이지 정보 가져오기
-export const __getCloset = createAsyncThunk(
-  "GET/CLOSET",
-  async (payload, thunkAPI) => {
     try {
-      const response = await api.get(
-        `/user/mycloset?${payload.userId}=&page=${payload.page}&count=${payload.count}`
-      );
+      const response = await api.get(`/posts?userId=${payload}&type=my`);
       return response.data;
     } catch (err) {
-      thunkAPI.rejectWithValue(err);
+      console.log(err);
     }
   }
 );
@@ -63,50 +83,64 @@ export const __representative = createAsyncThunk(
 export const __getRepPost = createAsyncThunk(
   "GET/REPRESENTATIVE",
   async (payload, thunkAPI) => {
-    const response = await api.get(`/posts/rep/?${payload}`);
-    return response.data;
+    try {
+      const response = await api.get(`/posts/rep?userId=${payload}`);
+      console.log(response);
+      return response.data;
+    } catch (err) {
+      console.log(err);
+    }
   }
 );
 
 const uploadSlice = createSlice({
   name: "upload",
   initialState: {
-    post: { title: "", content: "" },
+    post: {},
+    items: [],
     formdata: {},
+    selectedItems: [],
+    detailPost: {},
+    detailItems: [],
     myList: [],
     closetList: [],
     myRepPost: { postId: "" },
+    checkPostId: false,
   },
   reducers: {
-    regFormdata: (state, action) => {
-      state.formdata = action.payload;
-      // console.log(state.formdata);
-    },
     regPost: (state, action) => {
       state.post = action.payload;
-      // console.log(state.post);
+    },
+    regFormdata: (state, action) => {
+      state.formdata = action.payload;
+    },
+    selectItem: (state, action) => {
+      state.selectedItems.unshift(action.payload);
+    },
+    changeCheckPostId: (state, action) => {
+      state.checkPostId = action.payload;
     },
   },
   extraReducers: (builder) => {
     builder
       .addCase(__writePost.fulfilled, (state, action) => {
-        state.postList.unshift(action.payload.post);
+        state.post = action.payload.post;
+        state.checkPostId = true;
       })
       .addCase(__getMusinsa.fulfilled, (state, action) => {
         state.items = action.payload.items;
+        console.log(state.items);
+      })
+      .addCase(__getDetail.fulfilled, (state, action) => {
+        console.log(action.payload);
+        state.detailPost = action.payload.post;
+        state.detailItems = action.payload.items;
       })
       .addCase(__getMyPage.fulfilled, (state, action) => {
         state.myList = action.payload;
       })
       .addCase(__getMyPage.rejected, (state, action) => {
         state.myList = action.payload;
-      })
-      //옷장 정보 가져오기
-      .addCase(__getCloset.fulfilled, (state, action) => {
-        state.closetList = action.payload;
-      })
-      .addCase(__getCloset.rejected, (state, action) => {
-        state.closetList = action.payload;
       })
       //대표 게시물 지정하기
       .addCase(__representative.fulfilled, (state, action) => {
@@ -122,5 +156,6 @@ const uploadSlice = createSlice({
   },
 });
 
-export const { regFormdata, regPost } = uploadSlice.actions;
+export const { regFormdata, regPost, selectItem, changeCheckPostId } =
+  uploadSlice.actions;
 export default uploadSlice.reducer;

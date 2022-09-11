@@ -13,6 +13,8 @@ import { __getUsers } from "../redux/modules/signUpSlice";
 import { __getRepPost } from "../redux/modules/uploadSlice";
 import { __getHotPosts } from "../redux/modules/rankSlice";
 import _ from "lodash";
+import { getCookie } from "../shared/cookie";
+import jwt from "jwt-decode"; // to get userId from loggedIn user's token
 
 const upButton = "/images/upArrow.png";
 
@@ -69,7 +71,6 @@ const Main = (props) => {
   // 유저정보를 불러와서 토큰이 없다면 다시 로그인
   // 유저정보 조회해서 프로필 사진 확보
   useEffect(() => {
-    dispatch(__userInfo());
     dispatch(__getUsers());
     dispatch(__getRepPost());
     dispatch(__getHotPosts());

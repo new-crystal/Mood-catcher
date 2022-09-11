@@ -2,6 +2,8 @@ import React, { Fragment } from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import "../shared/style/TestHeader.css";
+import { deleteCookie, getCookie } from "../shared/cookie";
+import jwt from "jwt-decode"; // to get userId from loggedIn user's token
 
 const home = "/images/home.png";
 const search = "/images/search.png";
@@ -10,7 +12,10 @@ const star = "/images/star.png";
 const person = "/images/person.png";
 
 const NavigationBar = (props) => {
+  const token = getCookie("token");
+  const { userId } = jwt(token);
   const navigate = useNavigate();
+
   return (
     <Fragment>
       <NavBox>
@@ -37,14 +42,14 @@ const NavigationBar = (props) => {
         </SearchWrap>
         <SearchWrap
           onClick={() => {
-            navigate("/like/1");
+            navigate(`/like/${userId}`);
           }}
         >
           <ImageWrap style={{ backgroundImage: `url(${star})` }} />
         </SearchWrap>
         <SearchWrap
           onClick={() => {
-            navigate("/mypage/1");
+            navigate(`/mypage/${userId}`);
           }}
         >
           <ImageWrap style={{ backgroundImage: `url(${person})` }} />
