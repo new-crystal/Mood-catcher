@@ -95,11 +95,6 @@ const MyPageForm = () => {
         <GradeIcon url={gradeImg}></GradeIcon>
         <h4>{users.nickname}</h4>
       </ProfileBox>
-      {payload.userId == userId ? (
-        <ProfileEditBtn onClick={() => navigate("/edit_profile")}>
-          내 프로필 수정하기
-        </ProfileEditBtn>
-      ) : null}
       <MyPageBox>
         <MoodBox>
           <MoodHeader>
@@ -138,6 +133,11 @@ const MyPageForm = () => {
         </MoodBox>
         <PostImg url="https://img.danawa.com/prod_img/500000/946/645/img/2645946_1.jpg?shrink=330:330&_v=20160728145124"></PostImg>
       </MyPageBox>
+      {payload.userId == userId ? (
+        <ProfileEditBtn onClick={() => navigate("/edit_profile")}>
+          내 프로필 수정하기
+        </ProfileEditBtn>
+      ) : null}
       <MoodHeader>
         <p className="name">My Closet</p>
       </MoodHeader>

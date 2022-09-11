@@ -2,7 +2,7 @@ import React, { Fragment } from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import "../shared/style/TestHeader.css";
-import { setCookie, deleteCookie, getCookie } from "../shared/cookie";
+import { deleteCookie, getCookie } from "../shared/cookie";
 import jwt from "jwt-decode"; // to get userId from loggedIn user's token
 
 const home = "/images/home.png";
@@ -15,7 +15,6 @@ const NavigationBar = (props) => {
   const token = getCookie("token");
   const { userId } = jwt(token);
   const navigate = useNavigate();
-
 
   return (
     <Fragment>
