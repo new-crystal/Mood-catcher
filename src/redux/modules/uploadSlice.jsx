@@ -85,8 +85,7 @@ export const __getRepPost = createAsyncThunk(
   async (payload, thunkAPI) => {
     try {
       const response = await api.get(`/posts/rep?userId=${payload}`);
-      console.log(response);
-      return response.data;
+      return response.data.data.repPost;
     } catch (err) {
       console.log(err);
     }
@@ -104,8 +103,8 @@ const uploadSlice = createSlice({
     detailItems: [],
     myList: [],
     closetList: [],
-    myRepPost: { postId: "" },
     checkPostId: false,
+    representative: {},
   },
   reducers: {
     regPost: (state, action) => {
