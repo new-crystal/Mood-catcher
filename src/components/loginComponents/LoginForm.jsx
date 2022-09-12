@@ -57,7 +57,7 @@ const LoginForm = () => {
       <BackGround>
         <LoginBox>
           <JustifyAlign>
-            <UploadText>Log In</UploadText>
+            <UploadText>Log in</UploadText>
           </JustifyAlign>
           <LogBox onSubmit={handleSubmit(onSubmit)}>
             <div>
