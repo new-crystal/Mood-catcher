@@ -107,7 +107,6 @@ export const __getUser = createAsyncThunk(
   async (payload, thunkAPI) => {
     try {
       const response = await api.get(`/users/${payload}`);
-
       return response.data.data.userStatus;
     } catch (err) {
       console.log(err);

@@ -26,13 +26,20 @@ const GradeList = ({ setGradeList }) => {
     if (grade === "moody") {
       setMoody(true);
     }
+    if (grade === "man") {
+      setMoody(false);
+    }
+    if (grade === "woman") {
+      setMoody(false);
+    }
+    console.log(moody);
   };
 
   //유저 정보 가져오기
   useEffect(() => {
     dispatch(__getUser(userId));
     moodyStatus(grade);
-  }, []);
+  }, [grade]);
 
   //유저의 프로필 아이콘 변경하기
   const onClickMoodyBtn = () => {
@@ -57,14 +64,14 @@ const GradeList = ({ setGradeList }) => {
         <TitleBox>
           <h3>mood grade</h3>
           <MudiBtn type="button" onClick={onClickMoodyBtn}>
-            {moody === false ? "사람으로 바꾸기" : "무디로 바꾸기"}
+            {moody === true ? "사람으로 바꾸기" : "무디로 바꾸기"}
           </MudiBtn>
           <ConfirmBtn type="button" onClick={() => setGradeList(false)}>
             확인
           </ConfirmBtn>
         </TitleBox>
         <Grade>
-          {moody === false ? (
+          {moody === true ? (
             <GradeImg url={`${man1}`}></GradeImg>
           ) : (
             <GradeImg url={`${cat1}`}></GradeImg>
@@ -72,7 +79,7 @@ const GradeList = ({ setGradeList }) => {
           <h4>티셔츠</h4>
         </Grade>
         <Grade>
-          {moody === false ? (
+          {moody === true ? (
             <GradeImg url={`${man2}`}></GradeImg>
           ) : (
             <GradeImg url={`${cat2}`}></GradeImg>
@@ -83,7 +90,7 @@ const GradeList = ({ setGradeList }) => {
           </TextBox>
         </Grade>
         <Grade>
-          {moody === false ? (
+          {moody === true ? (
             <GradeImg url={`${man3}`}></GradeImg>
           ) : (
             <GradeImg url={`${cat3}`}></GradeImg>
@@ -94,7 +101,7 @@ const GradeList = ({ setGradeList }) => {
           </TextBox>
         </Grade>
         <Grade>
-          {moody === false ? (
+          {moody === true ? (
             <GradeImg url={`${man4}`}></GradeImg>
           ) : (
             <GradeImg url={`${cat4}`}></GradeImg>
@@ -105,7 +112,7 @@ const GradeList = ({ setGradeList }) => {
           </TextBox>
         </Grade>
         <Grade>
-          {moody === false ? (
+          {moody === true ? (
             <GradeImg url={`${man5}`}></GradeImg>
           ) : (
             <GradeImg url={`${cat5}`}></GradeImg>
@@ -133,7 +140,7 @@ const ListBox = styled.div`
   z-index: 222;
   position: absolute;
   left: 5%;
-  top: 10%;
+  top: 20%;
 
   h3 {
     margin: 0px;

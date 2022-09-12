@@ -26,12 +26,15 @@ import woman4 from "../../image/girl4.png";
 import woman5 from "../../image/girl5.png";
 import question from "../../image/question.png";
 import empty from "../../image/옷걸이.png";
+import hanger from "../../image/hanger.png";
+import MoodPoint from "./MoodPoint";
 
 const MyPageForm = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { userId } = useParams();
   const [gradeList, setGradeList] = useState(false);
+  const [moodPoint, setMoodPoint] = useState(false);
   const [profileImg, setProfileImg] = useState(
     "https://cdn.discordapp.com/attachments/1014169130045292625/1014194232250077264/Artboard_1.png"
   );
@@ -46,6 +49,9 @@ const MyPageForm = () => {
   //내 게시글 불러오기
   const myClosetList = useSelector((state) => state.upload.myList);
 
+  //대표 게시물 불러오기
+  const rep = useSelector((state) => state.upload.representative);
+
   const grade = users.grade?.split(" ")[1];
 
   //토큰에서 userId 가져오기
@@ -57,17 +63,11 @@ const MyPageForm = () => {
     dispatch(__getMyPage(userId));
     dispatch(__getRepPost(userId));
     gradeIcon(grade);
-  }, [gradeList, gradeImg]);
-
-  //대표 게시물 불러오기!!
-  const repList = useSelector((state) => state);
-
-  //옷장 게시물 가져오기
-  const closetList = useSelector((state) => state.upload.closetList);
+  }, [gradeList, gradeImg, grade]);
 
   //성별과 등급별로 아이콘 이미지 보여주기
-  const gradeIcon = (grade) => {
-    const icon = users.grade?.split(" ")[0];
+  const gradeIcon = async (grade) => {
+    const icon = await users.grade?.split(" ")[0];
     console.log(icon);
     const manIcon = [0, man1, man2, man3, man4, man5];
     const womanIcon = [0, woman1, woman2, woman3, woman4, woman5];
@@ -102,6 +102,10 @@ const MyPageForm = () => {
           </MoodHeader>
           <MoodBody>
             <h1>{users.moodPoint}</h1>
+            {payload.userId == userId ? (
+              <Question onClick={() => setMoodPoint(true)}></Question>
+            ) : null}
+            {moodPoint ? <MoodPoint setMoodPoint={setMoodPoint} /> : null}
           </MoodBody>
           <MoodHeader>
             <p className="name">Catch Grade</p>
@@ -131,7 +135,11 @@ const MyPageForm = () => {
             </GradeText>
           </MoodBody>
         </MoodBox>
-        <PostImg url="https://img.danawa.com/prod_img/500000/946/645/img/2645946_1.jpg?shrink=330:330&_v=20160728145124"></PostImg>
+        {rep.imgUrl === undefined ? (
+          <PostImg url={`${hanger}`}></PostImg>
+        ) : (
+          <PostImg url={rep.imgUrl}></PostImg>
+        )}
       </MyPageBox>
       {payload.userId == userId ? (
         <ProfileEditBtn onClick={() => navigate("/edit_profile")}>
@@ -285,6 +293,7 @@ const GradeQuestion = styled.div`
 const Question = styled.div`
   width: 10px;
   height: 10px;
+  margin-left: 7px;
   background-position: center;
   background-size: cover;
   background-image: url(${question});
@@ -317,7 +326,8 @@ const PostImg = styled.div`
   height: 260px;
   border-radius: 10px;
   background-position: center;
-  background-size: cover;
+  background-size: 160px 260px;
+  background-repeat: no-repeat;
   background-image: url(${(props) => props.url});
 `;
 const ClosetList = styled.div`
