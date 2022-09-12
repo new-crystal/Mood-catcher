@@ -18,7 +18,7 @@
 
 # 2. 프로젝트 설명
 
-- 개발언어 : JavaScript
+- 개발언어 : JavaScript, React
 - 배포환경 :
 - 패키지매니저 :
 - 협업 툴 : git / notion / figma
