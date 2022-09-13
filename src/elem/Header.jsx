@@ -3,11 +3,29 @@ import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 // 따로 shared에 있는 스타일을 사용합니다.
 import "../shared/style/TestHeader.css";
+import Notification from "../image/notification.png";
+import NotificationTrue from "../image/notificationTrue.png";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { __getUser } from "../redux/modules/loginSlice";
+import { getCookie } from "../shared/cookie";
+import jwt_decode from "jwt-decode";
 
 const Back = "/images/Back2.png";
 
 const Header = () => {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  const users = useSelector((state) => state.login.userStatus);
+
+  useEffect(() => {
+    const token = getCookie("token");
+    if (token !== undefined) {
+      const payload = jwt_decode(token);
+      dispatch(__getUser(payload.userId));
+    }
+  }, []);
 
   return (
     <Fragment>
@@ -33,6 +51,17 @@ const Header = () => {
             <span>Mood catcher</span>
           </HeaderLogo>
         </HeaderBox>
+        {users.isExistsNotice === 0 ? (
+          <Notifications
+            url={`${Notification}`}
+            onClick={() => navigate(`/alarm/${users.userId}`)}
+          ></Notifications>
+        ) : (
+          <Notifications
+            url={`${NotificationTrue}`}
+            onClick={() => navigate(`/alarm/${users.userId}`)}
+          ></Notifications>
+        )}
       </div>
     </Fragment>
   );
@@ -66,4 +95,19 @@ const HeaderLogo = styled.div`
   font-size: 30px;
   color: #333333;
   cursor: pointer;
+`;
+
+const Notifications = styled.div`
+  width: 40px;
+  height: 40px;
+  position: absolute;
+  right: 50%;
+  margin-right: -200px;
+  margin-top: 9px;
+  background-color: rgba(0, 0, 0, 0);
+  background-position: center;
+  background-size: cover;
+  background-image: url(${(props) => props.url});
+  opacity: 60%;
+  z-index: 11;
 `;

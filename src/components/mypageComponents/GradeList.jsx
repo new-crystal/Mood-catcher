@@ -139,7 +139,7 @@ const ListBox = styled.div`
   flex-direction: column;
   z-index: 222;
   position: absolute;
-  left: 5%;
+  left: 25%;
   top: 20%;
 
   h3 {

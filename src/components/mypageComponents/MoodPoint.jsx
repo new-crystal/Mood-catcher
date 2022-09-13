@@ -65,7 +65,7 @@ const ListBox = styled.div`
   flex-direction: column;
   z-index: 222;
   position: absolute;
-  left: 5%;
+  left: 25%;
   top: 20%;
 
   h3 {
@@ -75,7 +75,7 @@ const ListBox = styled.div`
 const TitleBox = styled.div`
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: space-between;
   flex-direction: row;
 `;
 
