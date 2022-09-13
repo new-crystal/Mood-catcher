@@ -58,12 +58,11 @@ const MyPageForm = () => {
   const payload = jwt_decode(token);
 
   useEffect(() => {
-    console.log(gradeList);
     dispatch(__getUser(userId));
     dispatch(__getMyPage(userId));
     dispatch(__getRepPost(userId));
     gradeIcon(grade);
-  }, [profileIcon, gradeList]);
+  }, [profileIcon, gradeList, users.imgUrl, users.nickname]);
 
   //성별과 등급별로 아이콘 이미지 보여주기
   const gradeIcon = useCallback(

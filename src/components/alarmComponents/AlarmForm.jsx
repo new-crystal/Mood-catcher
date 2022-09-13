@@ -29,7 +29,7 @@ const AlarmForm = () => {
         </TitleWrap>
         {alarms.length === 0 ? (
           <AlarmBox>
-            <p>아직 새로운 알람이 없습니다!</p>
+            <p>아직 새로운 알림이 없습니다!</p>
           </AlarmBox>
         ) : (
           alarms?.map((alarm, idx) => {
