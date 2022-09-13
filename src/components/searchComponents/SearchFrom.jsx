@@ -26,7 +26,7 @@ const SearchForm = () => {
   //정보 불러오기
   const recommended = useSelector((state) => state.search.recommendedPosts);
   const users = useSelector((state) => state.login.userStatus);
-  const gender = users.gender;
+  const gender = users?.gender;
 
   //react-hook-form에서 불러오기
   const {

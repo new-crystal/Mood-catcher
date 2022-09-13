@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
@@ -5,12 +6,14 @@ import { __getAlarm, __deleteAlarm } from "../../redux/modules/alarmSlice";
 
 const AlarmForm = () => {
   const dispatch = useDispatch();
+  const [alarm, setAlarm] = useState(false);
   const alarms = useSelector((state) => state.alarm.notices);
 
   const delAlarm = () => {
     const result = window.confirm("모든 알람을 지우시겠습니까?");
     if (result) {
       dispatch(__deleteAlarm());
+      setAlarm(true);
     }
   };
   useEffect(() => {

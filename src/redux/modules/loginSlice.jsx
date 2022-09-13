@@ -121,7 +121,7 @@ export const __patchUser = createAsyncThunk(
     console.log(payload);
     try {
       const response = await api.patch(`/users`, payload);
-      return response.data.userStatus;
+      return response.data.data.userStatus;
     } catch (err) {
       console.log(err);
     }
