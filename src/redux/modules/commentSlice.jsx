@@ -5,6 +5,7 @@ import { api } from "../../shared/api";
 export const __addComment = createAsyncThunk(
   "post/ADDCOMMENT_LOG",
   async (payload, thunkAPI) => {
+    console.log(payload);
     const response = await api.post(`/comments?postId=${payload.postId}`, {
       content: payload.comment,
     });

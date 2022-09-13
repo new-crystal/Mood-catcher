@@ -8,11 +8,11 @@ const EachPost = (props) => {
     <Fragment>
       <PostWrap>
         <PostImage>
-          <img src={item.imgUrl} alt="post_image"></img>
+          <img src={item?.imgUrl} alt="post_image"></img>
         </PostImage>
         <PostInfoWrap>
           <JustifyAlign>
-            <PostName>{item.name_korean}</PostName>
+            <PostName>{item?.name_korean}</PostName>
           </JustifyAlign>
         </PostInfoWrap>
       </PostWrap>

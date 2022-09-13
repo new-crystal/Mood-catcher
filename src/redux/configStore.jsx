@@ -6,6 +6,7 @@ import uploadReducer from "./modules/uploadSlice";
 import searchReducer from "./modules/searchSlice";
 import rankReducer from "./modules/rankSlice";
 import commentReducer from "./modules/commentSlice";
+import likeReducer from "./modules/likeSlice";
 
 const middlewares = [thunk];
 // 리듀서 통합
@@ -16,7 +17,7 @@ const rootReducer = combineReducers({
   search: searchReducer,
   rank: rankReducer,
   comment: commentReducer,
-
+  like: likeReducer,
 });
 // 스토어 연결
 const store = configureStore({
