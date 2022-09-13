@@ -31,6 +31,14 @@ const EditProfileForm = () => {
   const payload = jwt_decode(token);
   const userId = payload.userId;
 
+  //토큰이 없는 상태일 경우 로그인 페이지로 이동
+  useEffect(() => {
+    if (token === undefined) {
+      navigate("/login");
+    }
+  }, []);
+
+  //유저 정보 가져오기
   useEffect(() => {
     dispatch(__getUser(userId));
   }, []);
@@ -113,9 +121,9 @@ const EditProfileForm = () => {
     const formData = new FormData();
     formData.append("userValue", image.image_file);
 
-    dispatch(
-      __editProfile({ userValue: formData, nickname, gender, age })
-    ).then(navigate(`/mypage/${userId}`));
+    dispatch(__editProfile({ userValue: formData, nickname, gender, age }))
+      .then(alert("캐처님의 프로필이 수정되었습니다!"))
+      .then(navigate(`/mypage/${userId}`));
   };
 
   //로그아웃
@@ -302,14 +310,16 @@ const ChangeProfile = styled.button`
 `;
 
 const GenderAgeBox = styled.div`
+  width: 390px;
+  padding: 15px;
   display: flex;
   justify-content: space-between;
   margin-bottom: 20px;
   .gender {
-    width: 200px;
+    width: 180px;
   }
   .age {
-    width: 200px;
+    width: 180px;
   }
 `;
 const CheckBtn = styled.button`
@@ -324,6 +334,7 @@ const CheckBtn = styled.button`
   font-style: normal;
   font-weight: 700;
   font-size: 16px;
+  box-shadow: 5px 5px 4px rgba(0, 0, 0, 0.25);
 `;
 
 const LogOut = styled.div`
@@ -341,6 +352,7 @@ const LogOut = styled.div`
     font-style: normal;
     font-weight: 700;
     font-size: 16px;
+    box-shadow: 5px 5px 4px rgba(0, 0, 0, 0.25);
   }
 `;
 
@@ -357,5 +369,6 @@ const ChangeBtn = styled.button`
   font-style: normal;
   font-weight: 700;
   font-size: 16px;
+  box-shadow: 5px 5px 4px rgba(0, 0, 0, 0.25);
 `;
 export default EditProfileForm;

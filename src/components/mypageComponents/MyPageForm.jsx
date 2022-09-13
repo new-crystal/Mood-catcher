@@ -33,7 +33,6 @@ const MyPageForm = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { userId } = useParams();
-  console.log(userId);
   const [gradeList, setGradeList] = useState(false);
   const [moodPoint, setMoodPoint] = useState(false);
   const [profileImg, setProfileImg] = useState(
@@ -64,7 +63,7 @@ const MyPageForm = () => {
     dispatch(__getMyPage(userId));
     dispatch(__getRepPost(userId));
     gradeIcon(grade);
-  }, [gradeList, gradeImg, grade, users.imgUrl]);
+  }, [grade, gradeList]);
 
   //성별과 등급별로 아이콘 이미지 보여주기
   const gradeIcon = async (grade) => {

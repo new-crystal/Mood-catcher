@@ -6,7 +6,7 @@ const MoodPoint = ({ setMoodPoint }) => {
       <Shadow onClick={() => setMoodPoint(false)}></Shadow>
       <ListBox>
         <TitleBox>
-          <h3>mood Point 쌓는 방법</h3>
+          <h3>Mood Point 쌓는 방법</h3>
           <ConfirmBtn type="button" onClick={() => setMoodPoint(false)}>
             확인
           </ConfirmBtn>
@@ -71,13 +71,7 @@ const TitleBox = styled.div`
   justify-content: center;
   flex-direction: row;
 `;
-const MudiBtn = styled.button`
-  width: 100px;
-  height: 20px;
-  background-color: white;
-  color: #7b758b;
-  border: 0px;
-`;
+
 const ConfirmBtn = styled.button`
   width: 40px;
   height: 20px;
@@ -110,15 +104,6 @@ const TextBox = styled.div`
     margin: 0px;
     color: #848484;
   }
-`;
-const GradeImg = styled.div`
-  width: 45px;
-  height: 45px;
-  background-position: center;
-  background-size: cover;
-  background-image: url(${(props) => props.url});
-  margin-right: 30px;
-  margin-left: 10px;
 `;
 const Shadow = styled.div`
   position: fixed;

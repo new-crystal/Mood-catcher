@@ -13,9 +13,10 @@ const OpenForm = () => {
   useEffect(() => {
     dispatch(__getOpen());
     setTimeout(() => {
-      navigate("/");
+      navigate("/login");
     }, 3000);
   }, []);
+
   return (
     <OpenBox>
       <TextBox>
