@@ -8,7 +8,6 @@ import HotPosts from "../components/mainComponents/HotPosts";
 import AllPosts from "../components/mainComponents/AllPosts";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { __userInfo } from "../redux/modules/loginSlice";
 import { __getUsers } from "../redux/modules/signUpSlice";
 import { __getRepPost } from "../redux/modules/uploadSlice";
 import { __getHotPosts } from "../redux/modules/rankSlice";

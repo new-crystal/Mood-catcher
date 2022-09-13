@@ -16,25 +16,26 @@ const RepPost = ({ myRepPost }) => {
       </Wrap>
       <WritedClosetInfo
         onClick={() => {
-          navigate("/closet/1");
+          navigate(`/closet/${myRepPost.userId}`);
         }}
       >
         <ClosetImage>
-          <img src={junsu} />
+          <img src={myRepPost.imgUrl} />
         </ClosetImage>
         <ClosetTextWrap>
           <GridHorizon>
             <TitleText>
-              <span>내 다리 롱다리</span>
+              <span>{myRepPost.title}</span>
             </TitleText>
             <ContentText>
-              <span>
-                00/00 사진관에서 사진찍고 거울샷 찍었는데 길게 나와서 맘에든다.
-              </span>
+              {/* <span>{myRepPost?.createdAt.slice(5)}</span> */}
+              <span>{myRepPost?.createdAt}</span>
+              <br />
+              <span>{myRepPost?.content}</span>
             </ContentText>
             <HeartText>
               <img src={heart} alt="heart" />
-              <span>100+</span>
+              <span>{myRepPost?.likeCount}</span>
             </HeartText>
           </GridHorizon>
         </ClosetTextWrap>
@@ -105,7 +106,8 @@ const GridHorizon = styled.div`
 
 const TitleText = styled.p`
   margin: 0;
-  font-size: 16px;
+  margin-bottom: 10px;
+  font-size: 21px;
   font-weight: 700;
   line-height: 20px;
   color: #7b758b;
@@ -113,7 +115,7 @@ const TitleText = styled.p`
 
 const ContentText = styled.p`
   margin: 0;
-  font-size: 10px;
+  font-size: 15px;
   font-weight: 700;
   line-height: 13px;
   color: #7b758b;

@@ -1,8 +1,9 @@
 import React, { Fragment, useState, useCallback, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { __getMainAllPosts } from "../../redux/modules/rankSlice";
-import { InfinityRank } from "../../redux/modules/rankSlice";
+import { __getMyCloset } from "../../redux/modules/uploadSlice";
+import { InfinityCloset } from "../../redux/modules/uploadSlice";
 import EachPost from "./EachPost";
+import { useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
 import InfinityScrollLoader from "./InfinityScrollLoader";
 import _ from "lodash";
@@ -10,12 +11,14 @@ import _ from "lodash";
 const ClosetPosts = () => {
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(false); //데이터 받아오는동안 로딩 true로 하고 api요청 그동안 한번만되게
-  const [paging, setPaging] = useState(0); //페이지넘버
-  const ranksIF = useSelector(InfinityRank); //redux store값 받아오는부기
+  const [paging, setPaging] = useState(1); //페이지넘버
+  const ranksIF = useSelector(InfinityCloset); //redux store값 받아오는부기
 
+  const { userId } = useParams();
+  console.log(userId);
   const getInfinityList = useCallback(() => {
     async function getData() {
-      await dispatch(__getMainAllPosts(paging)); //api요청
+      await dispatch(__getMyCloset({ userId: userId, paging: paging })); //api요청
       setLoading(false); //요청하고나면 loading false로
     }
     return getData();
@@ -38,8 +41,8 @@ const ClosetPosts = () => {
   }, 500);
 
   useEffect(() => {
-    if (paging === 0 && ranksIF.length === 0) {
-      dispatch(__getMainAllPosts(paging));
+    if (paging === 1 && ranksIF.length === 0) {
+      dispatch(__getMyCloset({ userId: userId, paging: paging }));
       setPaging(paging + 1);
     } //첫렌더링시 0페이지 받아오기
     if (ranksIF.length !== 0) {
@@ -62,7 +65,6 @@ const ClosetPosts = () => {
       {ranksIF?.map((item, idx) => (
         <EachPost key={idx} item={item} />
       ))}
-      <EachPost />
 
       {loading ? <InfinityScrollLoader /> : ""}
     </Fragment>

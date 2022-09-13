@@ -58,7 +58,7 @@ export const __deleteComment = createAsyncThunk(
 
 // 대댓글 추가
 export const __addRecomment = createAsyncThunk(
-  "post/ADDCOMMENT_LOG",
+  "post/ADDRECOMMENT_LOG",
   async (payload, thunkAPI) => {
     const response = await api.post(
       `/recomments?commentId=${payload.commentId}`,
@@ -66,6 +66,7 @@ export const __addRecomment = createAsyncThunk(
         content: payload.comment,
       }
     );
+    console.log(response);
     // 추가한 댓글 하나의 Data
     return response.data;
   }
@@ -112,6 +113,11 @@ const commentSlice = createSlice({
       })
       // 댓글 추가하기
       .addCase(__addComment.fulfilled, (state, action) => {
+        // 기존 데이터에서 추가 댓글 넣기
+        state.comments = [action.payload, ...state.comments];
+      })
+      // 대댓글 추가하기
+      .addCase(__addRecomment.fulfilled, (state, action) => {
         // 기존 데이터에서 추가 댓글 넣기
         state.comments = [action.payload, ...state.comments];
       });
