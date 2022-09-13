@@ -85,7 +85,8 @@ const GridHorizon = styled.div`
 
 const TitleText = styled.p`
   margin: 0;
-  font-size: 16px;
+  margin-bottom: 10px;
+  font-size: 21px;
   font-weight: 700;
   line-height: 20px;
   color: #7b758b;
@@ -93,7 +94,7 @@ const TitleText = styled.p`
 
 const ContentText = styled.p`
   margin: 0;
-  font-size: 10px;
+  font-size: 15px;
   font-weight: 700;
   line-height: 13px;
   color: #7b758b;

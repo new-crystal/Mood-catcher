@@ -32,9 +32,9 @@ const AllPosts = () => {
     //스크롤계산 사용자의 현재위치 + 스크롤위에서부터 위치가 전체 높이보다 커지면 함수실행
     if (scrollTop + clientHeight >= scrollHeight - 100 && loading === false) {
       // 페이지 끝에 도달하면 추가 데이터를 받아온다
-      if (paging >= 13) {
-        return;
-      }
+      // if (paging >= 13) {
+      //   return;
+      // }
       setPaging(paging + 1); //다음페이지
       getInfinityList(); //api요청 실행
       setLoading(true); //실행동안 loading true로 바꾸고 요청 막기

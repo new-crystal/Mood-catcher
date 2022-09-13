@@ -18,21 +18,21 @@ const EachPost = (props) => {
         }}
       >
         <ClosetImage>
-          <img src={junsu} />
+          <img src={item?.imgUrl} />
         </ClosetImage>
         <ClosetTextWrap>
           <GridHorizon>
             <TitleText>
-              <span>내 다리 롱다리</span>
+              <span>{item?.title}</span>
             </TitleText>
             <ContentText>
-              <span>
-                00/00 사진관에서 사진찍고 거울샷 찍었는데 길게 나와서 맘에든다.
-              </span>
+              <span>{item?.createdAt.slice(5)}</span>
+              <br />
+              <span>{item?.content}</span>
             </ContentText>
             <HeartText>
               <img src={heart} alt="heart" />
-              <span>100+</span>
+              <span>{item?.likeCount}</span>
             </HeartText>
           </GridHorizon>
         </ClosetTextWrap>

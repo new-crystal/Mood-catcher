@@ -6,7 +6,7 @@ import DetailChangeComment from "./DetailChangeComments";
 import DetailRecomments from "./DetailRecomments";
 
 // 상세페이지에 댓글 list 컴포넌트
-const DetailCommentList = (props) => {
+const DetailReCommentList = (props) => {
   const dispatch = useDispatch();
   const { item } = props;
   const { postId } = props;
@@ -85,14 +85,14 @@ const DetailCommentList = (props) => {
   );
 };
 
-export default DetailCommentList;
+export default DetailReCommentList;
 
 const WrapComment = styled.div`
   display: flex;
   justify-content: space-between;
   /* padding: 0 20px; */
   margin-top: 7px;
-  /* background-color: orange; */
+  background-color: orange;
   /* border: 1px solid black; */
   border-radius: 10px;
   pre {

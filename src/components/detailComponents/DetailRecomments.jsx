@@ -1,13 +1,16 @@
 import React, { useEffect, useRef, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 import { __changeComment } from "../../redux/modules/commentSlice";
 import { __addRecomment } from "../../redux/modules/commentSlice";
-
+import DetailReCommentList from "./DetailReCommentList";
 const DetailRecomments = ({ commentData, btnState, postId }) => {
   const dispatch = useDispatch();
-  const commentText = useRef("");
+  const recommentText = useRef("");
   console.log(commentData);
+  const commentList = useSelector((state) => state.comment.comments);
+  console.log(commentData);
+  console.log(commentData.recommentId);
 
   const [profile, setProfile] = useState({
     image_file: "",
@@ -22,41 +25,52 @@ const DetailRecomments = ({ commentData, btnState, postId }) => {
   }, []);
 
   // 댓글 수정하기 이벤트
-  const changeComment = () => {
-    dispatch(
-      __changeComment({
-        postId: postId,
-        commentId: commentData.commentId,
-        comment: commentText.current.value,
-      })
-    );
-    btnState(false);
-  };
+  // const changeComment = () => {
+  //   dispatch(
+  //     __changeComment({
+  //       postId: postId,
+  //       commentId: commentData.commentId,
+  //       comment: commentText.current.value,
+  //     })
+  //   );
+  //   btnState(false);
+  // };
 
-  useEffect(() => {
-    commentText.current.value = commentData.content;
-  }, [commentData]);
+  // useEffect(() => {
+  //   recommentText.current.value = commentData.content;
+  // }, []);
 
   // 대댓글 작성하기
   const addRecomment = () => {
     dispatch(
-      __addRecomment({ comment: commentText.current.value, commentId: postId }) // , postId: postId
+      __addRecomment({
+        comment: recommentText.current.value,
+        commentId: postId,
+      }) // , postId: postId
     );
-    commentText.current.value = "";
+    recommentText.current.value = "";
   };
   return (
     <BackgroundDiv>
       <Wrapdiv>
         <h3>댓글</h3>
-        <WrapTextarea>
-          <CommentChangeTextBox ref={commentText} />
-        </WrapTextarea>
+        <CommentDataBox>
+          <CommentImg
+            url={profile.image_file ? profile.image_file : profile.preview_URL}
+          ></CommentImg>
+          <WrapCommentData>
+            <pre>{commentData.content}</pre>
+          </WrapCommentData>
+        </CommentDataBox>
+        {commentData.recommentId?.map((item, idx) => (
+          <DetailReCommentList key={idx} item={item} postId={postId} />
+        ))}
         <CommentBox>
           <CommentImg
             url={profile.image_file ? profile.image_file : profile.preview_URL}
           ></CommentImg>
           <WrapComment>
-            <Textarea placeholder="댓글을 작성해주세요." ref={commentText} />
+            <Textarea placeholder="댓글을 작성해주세요." ref={recommentText} />
           </WrapComment>
           <AddCommentButton onClick={addRecomment}>완료</AddCommentButton>
         </CommentBox>
@@ -65,7 +79,7 @@ const DetailRecomments = ({ commentData, btnState, postId }) => {
               <DetailCommentList key={idx} item={item} postId={postId} />
             ))} */}
         <WrapBtn>
-          <button onClick={changeComment}>수정하기</button>
+          {/* <button onClick={changeComment}>수정하기</button> */}
           <button
             onClick={() => {
               btnState(false);
@@ -98,8 +112,8 @@ const Wrapdiv = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  width: 250px;
-  height: 250px;
+  width: 350px;
+  height: 500px;
   padding: 20px 30px;
   background-color: #a396c9;
   opacity: 1;
@@ -108,7 +122,6 @@ const Wrapdiv = styled.div`
 `;
 
 const WrapTextarea = styled.div`
-  border: 2px solid var(--blue);
   width: 100%;
   border-radius: 20px;
 `;
@@ -147,6 +160,11 @@ const CommentBox = styled.div`
   display: flex;
 `;
 
+const CommentDataBox = styled.div`
+  display: flex;
+  background-color: orange;
+`;
+
 const CommentImg = styled.div`
   margin: 8px 6px 4px 29px;
   width: 45px;
@@ -158,8 +176,52 @@ const CommentImg = styled.div`
   box-shadow: 5px 5px 4px #877f92;
 `;
 
+const WrapCommentData = styled.div`
+  display: flex;
+  justify-content: space-between;
+  /* padding: 0 20px; */
+  margin-top: 7px;
+  /* background-color: orange; */
+  /* border: 1px solid black; */
+  border-radius: 10px;
+  pre {
+    width: 240px;
+    height: 20px;
+    background-color: royalblue;
+    /* padding-top: 7px; */
+    margin-left: 3px;
+    border: none;
+    outline: none;
+    overflow: hidden;
+    font-size: 16px;
+    /* border: 1px solid black; */
+    border-radius: 5px;
+    background-color: transparent;
+  }
+`;
+
 const WrapComment = styled.div`
-  padding: 10px;
+  display: flex;
+  justify-content: space-between;
+  /* padding: 0 20px; */
+  margin-top: 7px;
+  /* background-color: orange; */
+  /* border: 1px solid black; */
+  border-radius: 10px;
+  pre {
+    width: 240px;
+    height: 20px;
+    background-color: royalblue;
+    /* padding-top: 7px; */
+    margin-left: 3px;
+    border: none;
+    outline: none;
+    overflow: hidden;
+    font-size: 16px;
+    /* border: 1px solid black; */
+    border-radius: 5px;
+    background-color: transparent;
+  }
 `;
 
 const Textarea = styled.textarea`
