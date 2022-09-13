@@ -33,6 +33,7 @@ const MyPageForm = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { userId } = useParams();
+  console.log(userId);
   const [gradeList, setGradeList] = useState(false);
   const [moodPoint, setMoodPoint] = useState(false);
   const [profileImg, setProfileImg] = useState(
@@ -42,7 +43,7 @@ const MyPageForm = () => {
 
   //유저의 닉네임, 프로필이미지, 등급, 무드 포인트 불러오기
   const users = useSelector((state) => state.login.userStatus);
-  const img = users.imgUrl?.split(".com/")[1];
+  const img = users?.imgUrl?.split(".com/")[1];
 
   console.log(users);
 
@@ -63,12 +64,12 @@ const MyPageForm = () => {
     dispatch(__getMyPage(userId));
     dispatch(__getRepPost(userId));
     gradeIcon(grade);
-  }, [gradeList, gradeImg, grade]);
+  }, [gradeList, gradeImg, grade, users.imgUrl]);
 
   //성별과 등급별로 아이콘 이미지 보여주기
   const gradeIcon = async (grade) => {
-    const icon = await users.grade?.split(" ")[0];
-    console.log(icon);
+    const icon = await users?.grade?.split(" ")[0];
+
     const manIcon = [0, man1, man2, man3, man4, man5];
     const womanIcon = [0, woman1, woman2, woman3, woman4, woman5];
     const catIcon = [0, cat1, cat2, cat3, cat4, cat5];
@@ -89,11 +90,11 @@ const MyPageForm = () => {
       {img === "null" ? (
         <Img url={profileImg}></Img>
       ) : (
-        <Img url={users.imgUrl}></Img>
+        <Img url={users?.imgUrl}></Img>
       )}
       <ProfileBox>
         <GradeIcon url={gradeImg}></GradeIcon>
-        <h4>{users.nickname}</h4>
+        <h4>{users?.nickname}</h4>
       </ProfileBox>
       <MyPageBox>
         <MoodBox>
@@ -101,7 +102,7 @@ const MyPageForm = () => {
             <p className="name">Mood Point</p>
           </MoodHeader>
           <MoodBody>
-            <h1>{users.moodPoint}</h1>
+            <h1>{users?.moodPoint}</h1>
             {payload.userId == userId ? (
               <Question onClick={() => setMoodPoint(true)}></Question>
             ) : null}
@@ -135,10 +136,10 @@ const MyPageForm = () => {
             </GradeText>
           </MoodBody>
         </MoodBox>
-        {rep.imgUrl === undefined ? (
+        {rep?.imgUrl === undefined ? (
           <PostImg url={`${hanger}`}></PostImg>
         ) : (
-          <PostImg url={rep.imgUrl}></PostImg>
+          <PostImg url={rep?.imgUrl}></PostImg>
         )}
       </MyPageBox>
       {payload.userId == userId ? (
@@ -150,7 +151,7 @@ const MyPageForm = () => {
         <p className="name">My Closet</p>
       </MoodHeader>
       <ClosetList>
-        {myClosetList.length === 0 ? (
+        {myClosetList?.length === 0 ? (
           <>
             <EmptyCloset onClick={() => navigate("/upload")}>
               <p>{users.nickname}님의</p>
@@ -173,7 +174,7 @@ const MyPageForm = () => {
               onClick={() => navigate(`/closet/${userId}`)}
             >
               <OpenCloset>
-                <h4>{users.nickname}님의</h4>
+                <h4>{users?.nickname}님의</h4>
                 <h4>옷장 열어보기</h4>
               </OpenCloset>
             </Closet>

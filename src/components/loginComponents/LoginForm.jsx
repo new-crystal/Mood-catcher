@@ -121,7 +121,9 @@ const LoginForm = () => {
           <BtnBox>
             <p>무드캐쳐가 처음이신가요?</p>
             <LogBtn kakao onClick={() => onClickKakao()}>
-              <a href="http://3.39.0.75/api/auth/kakao">카카오 로그인</a>
+              <a href="https://moodcatchers.link/api/auth/kakao">
+                카카오 로그인
+              </a>
             </LogBtn>
             <LogBtn type="button" onClick={() => navigate("/signup")}>
               <p>이메일로 회원가입</p>
