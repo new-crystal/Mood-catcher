@@ -26,9 +26,12 @@ const Main = (props) => {
   // 유저정보 조회
   const userStatus = useSelector((state) => state.signup.userStatus);
   // 대표게시물 조회
-  const myRepPost = useSelector((state) => state.upload.myRepPost);
+  const repPost = useSelector((state) => state.upload.representative);
   // 랭크게시물 불러옴
   const hotPosts = useSelector((state) => state.rank.hotPosts);
+
+  const token = getCookie("token");
+  const { userId } = jwt(token);
 
   // profile_pic를 정하는 부분
   const [profile, setProfile] = useState({
@@ -72,7 +75,7 @@ const Main = (props) => {
   // 유저정보 조회해서 프로필 사진 확보
   useEffect(() => {
     dispatch(__getUsers());
-    dispatch(__getRepPost());
+    dispatch(__getRepPost(userId));
     dispatch(__getHotPosts());
     if (userStatus.imgUrl !== undefined) {
       setProfile({ image_file: `${userStatus.imgUrl}` });
@@ -98,7 +101,7 @@ const Main = (props) => {
               }
             ></Img>
             {/* 대표게시물 출력 */}
-            <RepPost myRepPost={myRepPost} />
+            <RepPost myRepPost={repPost} />
             {/* 랭킹게시물 출력 */}
             <HotPosts hotPosts={hotPosts} />
             <AllPosts />

@@ -20,7 +20,7 @@ export const __getMainAllPosts = createAsyncThunk(
   async (payload, thunkAPI) => {
     console.log(payload);
     const response = await api.get(
-      `/posts?userId=${payload.userId}&type=like&page=${payload.paging}&count=2`
+      `/posts?userId=${payload.userId}&page=${payload.paging}&count=2`
     );
     console.log(response.data);
     return response.data;
