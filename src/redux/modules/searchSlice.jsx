@@ -9,7 +9,6 @@ export const __getSearch = createAsyncThunk(
       const response = await api.get(
         `/posts?type=alg&page=${payload}&count=${payload}`
       );
-      console.log(response);
       return response.data;
     } catch (err) {
       console.log(err);

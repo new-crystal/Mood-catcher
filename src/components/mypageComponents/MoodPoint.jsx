@@ -14,31 +14,38 @@ const MoodPoint = ({ setMoodPoint }) => {
         <Grade>
           <TextBox>
             <h4>회원가입/로그인</h4>
-            <h6>500무드/100 무드 </h6>
-          </TextBox>
-        </Grade>
-        <Grade>
-          <TextBox>
-            <h4>mood grade 상승</h4>
-            <h6>200 무드 </h6>
+            <h6>500무드/200 무드 </h6>
           </TextBox>
         </Grade>
         <Grade>
           <TextBox>
             <h4>옷장 채우기</h4>
-            <h6> 옷장 50무드 착장정보 50무드 </h6>
+            <h6> 옷장 100무드 착장정보 100무드 </h6>
           </TextBox>
         </Grade>
         <Grade>
           <TextBox>
-            <h4>무드 받기</h4>
-            <h6>게시물 무드별 1무드</h6>
+            <h4>다른 캐처님이 캐처님의 옷장 열람</h4>
+            <h6>50무드</h6>
+          </TextBox>
+        </Grade>
+        <Grade>
+          <TextBox>
+            <h4>댓글 남기기/받기</h4>
+            <h6>남기기 30무드/받기30무드 </h6>
+          </TextBox>
+        </Grade>
+
+        <Grade>
+          <TextBox>
+            <h4>무드 보내기/받기</h4>
+            <h6>보내기 30무드/받기 10무드</h6>
           </TextBox>
         </Grade>
         <Grade>
           <TextBox>
             <h4>메인 Hot Rank 등재</h4>
-            <h6>1500무드</h6>
+            <h6>3000무드</h6>
           </TextBox>
         </Grade>
       </ListBox>

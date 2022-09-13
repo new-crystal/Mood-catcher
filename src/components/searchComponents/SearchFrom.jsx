@@ -3,6 +3,7 @@ import { useForm } from "react-hook-form";
 import { Fragment, useEffect, useState } from "react";
 import search from "../../image/search.png";
 import heart from "../../image/heart.png";
+import heartTrue from "../../image/heartTrue.png";
 import { useDispatch, useSelector } from "react-redux";
 import { __getSearch } from "../../redux/modules/searchSlice";
 import { useNavigate } from "react-router-dom";
@@ -11,12 +12,14 @@ import jwt_decode from "jwt-decode";
 import { getCookie } from "../../shared/cookie";
 import _ from "lodash";
 import { useCallback } from "react";
+import { __patchMood } from "../../redux/modules/likeSlice";
 
 const SearchForm = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const token = getCookie("token");
   const payload = jwt_decode(token);
+  const [mood, setMood] = useState(false);
   const [page, setPage] = useState(3);
   const [loading, setLoading] = useState(false);
 
@@ -114,16 +117,35 @@ const SearchForm = () => {
         <h1>Other Closet</h1>
       </ClosetBox>
       {recommended?.map((re) => (
-        <OtherClosetBox
-          key={re.postId}
-          onClick={() => navigate(`/item_detail/${re.postId}`)}
-        >
-          <ImgBox url={re.imgUrl}></ImgBox>
+        <OtherClosetBox key={re.postId}>
+          <ImgBox
+            url={re.imgUrl}
+            onClick={() => navigate(`/item_detail/${re.postId}`)}
+          ></ImgBox>
           <TextBox>
             <p>{re.title}</p>
             <h5>{re.content}</h5>
             <HeartBox>
-              <Heart></Heart>
+              {re.likeStatus === true ? (
+                <Heart
+                  type="button"
+                  url={`${heartTrue}`}
+                  onClick={() => {
+                    dispatch(__patchMood(re.postId));
+                    setMood(!mood);
+                  }}
+                ></Heart>
+              ) : (
+                <Heart
+                  type="button"
+                  url={`${heart}`}
+                  onClick={() => {
+                    dispatch(__patchMood(re.postId));
+                    setMood(!mood);
+                  }}
+                ></Heart>
+              )}
+
               <p>{re.likeCount}</p>
             </HeartBox>
           </TextBox>
@@ -240,6 +262,7 @@ const Heart = styled.div`
   height: 20px;
   background-position: center;
   background-size: cover;
-  background-image: url(${heart});
+  background-image: url(${(props) => props.url});
+  cursor: pointer;
 `;
 export default SearchForm;
