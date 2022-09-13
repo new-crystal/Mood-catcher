@@ -20,7 +20,7 @@ const GradeList = ({ setGradeList }) => {
   const [moody, setMoody] = useState(false);
   const { userId } = useParams();
   const user = useSelector((state) => state.login.userStatus);
-  const grade = user.grade?.split(" ")[0];
+  const grade = user?.grade?.split(" ")[0];
 
   const moodyStatus = (grade) => {
     if (grade === "moody") {
@@ -32,7 +32,6 @@ const GradeList = ({ setGradeList }) => {
     if (grade === "woman") {
       setMoody(false);
     }
-    console.log(moody);
   };
 
   //유저 정보 가져오기
@@ -139,7 +138,7 @@ const ListBox = styled.div`
   flex-direction: column;
   z-index: 222;
   position: absolute;
-  left: 5%;
+  left: 25%;
   top: 20%;
 
   h3 {

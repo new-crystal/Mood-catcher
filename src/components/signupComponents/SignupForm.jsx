@@ -200,7 +200,7 @@ const SigupForm = () => {
       <LoginBox>
         <p>이미 무드캐처의 캐처라면?</p>
         <LoginBtn type="button" onClick={() => navigate("/login")}>
-          로그인 페이지로 가기
+          로그인하러 가기
         </LoginBtn>
       </LoginBox>
     </Container>

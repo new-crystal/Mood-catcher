@@ -25,6 +25,7 @@ const Search_result = lazy(() => import("./page/Search_result"));
 const Item_detail = lazy(() => import("./page/Item_detail"));
 const Like = lazy(() => import("./page/Like"));
 const Open = lazy(() => import("./page/Open"));
+const Alarm = lazy(() => import("./page/Alarm"));
 
 function App() {
   const token = getCookie("token");
@@ -67,6 +68,7 @@ function App() {
           />
           <Route path="/like/:userId" element={<Like />} />
           <Route path="/main" element={<Open />} />
+          <Route path="/alarm/:userId" element={<Alarm />} />
           <Route path="*" element={<Main />} />
         </Routes>
       </Suspense>

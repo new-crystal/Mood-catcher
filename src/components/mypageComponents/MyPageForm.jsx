@@ -5,7 +5,7 @@ import styled from "styled-components";
 import { __getMyPage, __getRepPost } from "../../redux/modules/uploadSlice";
 import GradeList from "./GradeList";
 import { Fragment } from "react";
-import { __getUser } from "../../redux/modules/loginSlice";
+import loginSlice, { __getUser } from "../../redux/modules/loginSlice";
 import { getCookie } from "../../shared/cookie";
 import jwt_decode from "jwt-decode";
 
@@ -28,6 +28,7 @@ import question from "../../image/question.png";
 import empty from "../../image/옷걸이.png";
 import hanger from "../../image/hanger.png";
 import MoodPoint from "./MoodPoint";
+import { useCallback } from "react";
 
 const MyPageForm = () => {
   const dispatch = useDispatch();
@@ -35,6 +36,7 @@ const MyPageForm = () => {
   const { userId } = useParams();
   const [gradeList, setGradeList] = useState(false);
   const [moodPoint, setMoodPoint] = useState(false);
+  const [grade, setGrade] = useState("1");
   const [profileImg, setProfileImg] = useState(
     "https://cdn.discordapp.com/attachments/1014169130045292625/1014194232250077264/Artboard_1.png"
   );
@@ -42,17 +44,14 @@ const MyPageForm = () => {
 
   //유저의 닉네임, 프로필이미지, 등급, 무드 포인트 불러오기
   const users = useSelector((state) => state.login.userStatus);
+  const profileIcon = useSelector((state) => state.login.userIcon.grade);
   const img = users?.imgUrl?.split(".com/")[1];
-
-  console.log(users);
 
   //내 게시글 불러오기
   const myClosetList = useSelector((state) => state.upload.myList);
 
   //대표 게시물 불러오기
   const rep = useSelector((state) => state.upload.representative);
-
-  const grade = users.grade?.split(" ")[1];
 
   //토큰에서 userId 가져오기
   const token = getCookie("token");
@@ -63,26 +62,29 @@ const MyPageForm = () => {
     dispatch(__getMyPage(userId));
     dispatch(__getRepPost(userId));
     gradeIcon(grade);
-  }, [grade, gradeList]);
+  }, [profileIcon, gradeList, users.imgUrl, users.nickname]);
 
   //성별과 등급별로 아이콘 이미지 보여주기
-  const gradeIcon = async (grade) => {
-    const icon = await users?.grade?.split(" ")[0];
+  const gradeIcon = useCallback(
+    async (grade) => {
+      setGrade(users?.grade?.split(" ")[1]);
+      const icon = await users?.grade?.split(" ")[0];
+      const manIcon = [0, man1, man2, man3, man4, man5];
+      const womanIcon = [0, woman1, woman2, woman3, woman4, woman5];
+      const catIcon = [0, cat1, cat2, cat3, cat4, cat5];
 
-    const manIcon = [0, man1, man2, man3, man4, man5];
-    const womanIcon = [0, woman1, woman2, woman3, woman4, woman5];
-    const catIcon = [0, cat1, cat2, cat3, cat4, cat5];
-
-    if (icon === "man") {
-      setGradeImg(manIcon[grade]);
-    }
-    if (icon === "woman") {
-      setGradeImg(womanIcon[grade]);
-    }
-    if (icon === "moody") {
-      setGradeImg(catIcon[grade]);
-    }
-  };
+      if (icon === "man") {
+        setGradeImg(manIcon[parseInt(grade)]);
+      }
+      if (icon === "woman") {
+        setGradeImg(womanIcon[parseInt(grade)]);
+      }
+      if (icon === "moody") {
+        setGradeImg(catIcon[parseInt(grade)]);
+      }
+    },
+    [profileIcon, gradeList]
+  );
 
   return (
     <Fragment>
@@ -163,11 +165,11 @@ const MyPageForm = () => {
           </>
         ) : (
           <>
-            <Closet url={myClosetList[0].imgUrl}></Closet>
-            <Closet url={myClosetList[1].imgUrl}></Closet>
-            <Closet url={myClosetList[2].imgUrl}></Closet>
-            <Closet url={myClosetList[3].imgUrl}></Closet>
-            <Closet url={myClosetList[4].imgUrl}></Closet>
+            <Closet url={myClosetList[0]?.imgUrl}></Closet>
+            <Closet url={myClosetList[1]?.imgUrl}></Closet>
+            <Closet url={myClosetList[2]?.imgUrl}></Closet>
+            <Closet url={myClosetList[3]?.imgUrl}></Closet>
+            <Closet url={myClosetList[4]?.imgUrl}></Closet>
             <Closet
               url="https://m.spadegagu.com/web/product/extra/big/20200214/f614adca4a7b75279a0142f3657bfafe.jpg"
               onClick={() => navigate(`/closet/${userId}`)}
