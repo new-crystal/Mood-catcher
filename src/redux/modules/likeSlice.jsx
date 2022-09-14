@@ -32,6 +32,7 @@ const likeSlice = createSlice({
   initialState: {
     allPosts: [],
     likeCount: 0,
+    moodNum: 0,
   },
   reducers: {},
   extraReducers: (builder) =>
@@ -46,7 +47,7 @@ const likeSlice = createSlice({
       }),
 });
 
-export const {} = likeSlice.actions;
+export const { addMood } = likeSlice.actions;
 export default likeSlice.reducer;
 
 const like_Infinity = (state) => state.like.allPosts;

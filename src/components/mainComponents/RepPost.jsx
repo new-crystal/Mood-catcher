@@ -1,12 +1,45 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useState, useEffect } from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
+import heartFalse from "../../image/heart.png";
+import heartTrue from "../../image/heartTrue.png";
+import { useDispatch } from "react-redux";
+import { __patchMood } from "../../redux/modules/likeSlice";
 
 const junsu = "/images/junsu.PNG";
 const heart = "/images/heart.png";
 
 const RepPost = ({ myRepPost }) => {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [likeStatus, setLikeStatus] = useState(myRepPost?.likeStatus);
+  const [mood, setMood] = useState(`${heartFalse}`);
+  const [moodNum, setMoodNum] = useState(myRepPost?.likeCount);
+  console.log(myRepPost);
+
+  //새로고침시에도 무드 상태값 유지
+  useEffect(() => {
+    if (likeStatus === true) {
+      setMood(`${heartTrue}`);
+    }
+    if (likeStatus === false) {
+      setMood(`${heartFalse}`);
+    }
+  }, [mood, likeStatus, myRepPost]);
+
+  //무드 버튼 누르기
+  const onClickMoodBtn = () => {
+    setMoodNum(moodNum + 1);
+    setLikeStatus(true);
+    dispatch(__patchMood(myRepPost?.postId));
+  };
+
+  //무드버튼 취소하기
+  const onClickMoodCancelBtn = () => {
+    setMoodNum(moodNum - 1);
+    setLikeStatus(false);
+    dispatch(__patchMood(myRepPost?.postId));
+  };
 
   return (
     <Fragment>
@@ -14,13 +47,15 @@ const RepPost = ({ myRepPost }) => {
       <Wrap>
         <StTag>My Closet</StTag>
       </Wrap>
-      <WritedClosetInfo
-        onClick={() => {
-          navigate(`/closet/${myRepPost.userId}`);
-        }}
-      >
+      <WritedClosetInfo>
         <ClosetImage>
-          <img src={myRepPost.imgUrl} />
+          <img
+            src={myRepPost.imgUrl}
+            alt="img"
+            onClick={() => {
+              navigate(`/closet/${myRepPost.userId}`);
+            }}
+          />
         </ClosetImage>
         <ClosetTextWrap>
           <GridHorizon>
@@ -34,8 +69,20 @@ const RepPost = ({ myRepPost }) => {
               <span>{myRepPost?.content}</span>
             </ContentText>
             <HeartText>
-              <img src={heart} alt="heart" />
-              <span>{myRepPost?.likeCount}</span>
+              {likeStatus ? (
+                <img
+                  src={`${heartTrue}`}
+                  alt="heart"
+                  onClick={onClickMoodCancelBtn}
+                />
+              ) : (
+                <img
+                  src={`${heartFalse}`}
+                  alt="heart"
+                  onClick={onClickMoodBtn}
+                />
+              )}
+              <span>{moodNum}</span>
             </HeartText>
           </GridHorizon>
         </ClosetTextWrap>

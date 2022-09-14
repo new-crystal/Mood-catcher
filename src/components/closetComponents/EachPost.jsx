@@ -13,32 +13,30 @@ const EachPost = (props) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { item } = props;
-  const [likeStatus, setLikeStatus] = useState(item.likeStatus);
+  const [likeStatus, setLikeStatus] = useState(item?.likeStatus);
   const [mood, setMood] = useState(`${heartFalse}`);
-  const [likeCount, setLikeCount] = useState(item.likeCount);
+  const [moodNum, setMoodNum] = useState(item?.likeCount);
 
   //새로고침시에도 무드 상태값 유지
   useEffect(() => {
     if (likeStatus === true) {
       setMood(`${heartTrue}`);
-      setLikeCount(item.likeCount);
     }
     if (likeStatus === false) {
       setMood(`${heartFalse}`);
-      setLikeCount(item.likeCount);
     }
   }, [mood, likeStatus, item]);
 
   //무드 버튼 누르기
   const onClickMoodBtn = () => {
-    setLikeCount((prevCount) => prevCount + 1);
+    setMoodNum(moodNum + 1);
     setLikeStatus(true);
     dispatch(__patchMood(item.postId));
   };
 
   //무드버튼 취소하기
   const onClickMoodCancelBtn = () => {
-    setLikeCount((prevCount) => prevCount - 1);
+    setMoodNum(moodNum - 1);
     setLikeStatus(false);
     dispatch(__patchMood(item.postId));
   };
@@ -79,7 +77,7 @@ const EachPost = (props) => {
                   onClick={onClickMoodBtn}
                 />
               )}
-              <span>{likeCount}</span>
+              <span>{moodNum}</span>
             </HeartText>
           </GridHorizon>
         </ClosetTextWrap>
