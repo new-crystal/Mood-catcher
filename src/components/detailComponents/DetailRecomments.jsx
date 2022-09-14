@@ -24,28 +24,12 @@ const DetailRecomments = ({ commentData, btnState, postId }) => {
     }
   }, []);
 
-  // 댓글 수정하기 이벤트
-  // const changeComment = () => {
-  //   dispatch(
-  //     __changeComment({
-  //       postId: postId,
-  //       commentId: commentData.commentId,
-  //       comment: commentText.current.value,
-  //     })
-  //   );
-  //   btnState(false);
-  // };
-
-  // useEffect(() => {
-  //   recommentText.current.value = commentData.content;
-  // }, []);
-
   // 대댓글 작성하기
   const addRecomment = () => {
     dispatch(
       __addRecomment({
         comment: recommentText.current.value,
-        commentId: postId,
+        commentId: commentData.commentId,
       }) // , postId: postId
     );
     recommentText.current.value = "";
@@ -62,22 +46,25 @@ const DetailRecomments = ({ commentData, btnState, postId }) => {
             <pre>{commentData.content}</pre>
           </WrapCommentData>
         </CommentDataBox>
-        {commentData.recommentId?.map((item, idx) => (
-          <DetailReCommentList key={idx} item={item} postId={postId} />
-        ))}
         <CommentBox>
           <CommentImg
             url={profile.image_file ? profile.image_file : profile.preview_URL}
           ></CommentImg>
           <WrapComment>
-            <Textarea placeholder="댓글을 작성해주세요." ref={recommentText} />
+            <Textarea
+              placeholder="대댓글을 작성해주세요."
+              ref={recommentText}
+            />
           </WrapComment>
           <AddCommentButton onClick={addRecomment}>완료</AddCommentButton>
         </CommentBox>
-        <Line />
-        {/* {commentList?.map((item, idx) => (
-              <DetailCommentList key={idx} item={item} postId={postId} />
-            ))} */}
+        {/* <Line /> */}
+        <ReCommentListBox>
+          {commentData.recommentId?.map((item, idx) => (
+            <DetailReCommentList key={idx} item={item} postId={postId} />
+          ))}
+        </ReCommentListBox>
+
         <WrapBtn>
           {/* <button onClick={changeComment}>수정하기</button> */}
           <button
@@ -112,9 +99,9 @@ const Wrapdiv = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  width: 350px;
+  width: 370px;
   height: 500px;
-  padding: 20px 30px;
+  padding: 20px 15px;
   background-color: #a396c9;
   opacity: 1;
   border-radius: 20px;
@@ -138,7 +125,7 @@ const CommentChangeTextBox = styled.textarea`
 `;
 const WrapBtn = styled.div`
   display: flex;
-  margin-left: 10px;
+  margin-left: 135px;
   gap: 20px;
   & > button {
     /* margin-top: 5px; */
@@ -158,15 +145,17 @@ const WrapBtn = styled.div`
 
 const CommentBox = styled.div`
   display: flex;
+  border-top: 2px solid white;
+  border-bottom: 2px solid white;
 `;
 
 const CommentDataBox = styled.div`
   display: flex;
-  background-color: orange;
+  /* background-color: orange; */
 `;
 
 const CommentImg = styled.div`
-  margin: 8px 6px 4px 29px;
+  margin: 4px 6px 8px 8px;
   width: 45px;
   height: 45px;
   border-radius: 50%;
@@ -185,7 +174,7 @@ const WrapCommentData = styled.div`
   /* border: 1px solid black; */
   border-radius: 10px;
   pre {
-    width: 240px;
+    width: 300px;
     height: 20px;
     background-color: royalblue;
     /* padding-top: 7px; */
@@ -208,24 +197,10 @@ const WrapComment = styled.div`
   /* background-color: orange; */
   /* border: 1px solid black; */
   border-radius: 10px;
-  pre {
-    width: 240px;
-    height: 20px;
-    background-color: royalblue;
-    /* padding-top: 7px; */
-    margin-left: 3px;
-    border: none;
-    outline: none;
-    overflow: hidden;
-    font-size: 16px;
-    /* border: 1px solid black; */
-    border-radius: 5px;
-    background-color: transparent;
-  }
 `;
 
 const Textarea = styled.textarea`
-  width: 200px;
+  width: 240px;
   height: 25px;
   padding-top: 13px;
   border: none;
@@ -243,7 +218,7 @@ const Textarea = styled.textarea`
 `;
 
 const AddCommentButton = styled.button`
-  margin-top: 15px;
+  margin-top: 10px;
   text-align: center;
   color: white;
   font-size: 16px;
@@ -257,8 +232,14 @@ const AddCommentButton = styled.button`
   box-shadow: 5px 5px 4px #877f92;
 `;
 
-const Line = styled.div`
-  margin: 0px auto 16px;
-  width: 363px;
-  border-bottom: 2px solid white;
+// const Line = styled.div`
+//   margin: 0px auto 16px;
+//   width: 370px;
+//   border-bottom: 2px solid white;
+// `;
+
+const ReCommentListBox = styled.div`
+  overflow-y: scroll;
+  height: 300px;
+  margin-bottom: 10px;
 `;

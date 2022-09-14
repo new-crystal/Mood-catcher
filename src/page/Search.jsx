@@ -27,13 +27,13 @@ const Search = (props) => {
   );
 };
 
-const LoginWrap = styled.div`
-  width: 100%;
-  background-color: #ffffff;
-  display: flex;
-  flex-direction: column;
-  text-align: center;
-`;
+// const LoginWrap = styled.div`
+//   width: 100%;
+//   background-color: #ffffff;
+//   display: flex;
+//   flex-direction: column;
+//   text-align: center;
+// `;
 
 const LoaderWrap = styled.div`
   position: absolute;
@@ -61,7 +61,9 @@ const Grid = styled.div`
   margin-top: 60px;
   margin-bottom: 57px;
   width: 428px;
-  min-height: 928px;
+  /* min-height: 928px; */
+  min-height: 808px;
+
   background: linear-gradient(#a396c9, #c8c6d0);
 `;
 

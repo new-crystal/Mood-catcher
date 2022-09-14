@@ -74,8 +74,9 @@ export const __addRecomment = createAsyncThunk(
 
 // 대댓글 수정
 export const __changeRecomment = createAsyncThunk(
-  "comment/CHANGECOMMENT_LOG",
+  "comment/CHANGERECOMMENT_LOG",
   async (payload, thunkAPI) => {
+    console.log(payload);
     const response = await api.put(`/recomments/${payload.recommentId}`, {
       content: payload.comment,
     });
@@ -85,7 +86,7 @@ export const __changeRecomment = createAsyncThunk(
 
 // 대댓글 삭제
 export const __deleteRecomment = createAsyncThunk(
-  "comment/DELETECOMMENT_LOG",
+  "comment/DELETERECOMMENT_LOG",
   async (payload, thunkAPI) => {
     const response = await api.delete(`/recomments/${payload.recommentId}`);
     // 삭제 완료 msg alert 띄우기

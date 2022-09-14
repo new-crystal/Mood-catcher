@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { useDispatch } from "react-redux/es/exports";
-import { __deleteComment } from "../../redux/modules/commentSlice";
-import DetailChangeComment from "./DetailChangeComments";
+import { __deleteRecomment } from "../../redux/modules/commentSlice";
+import DetailChangeReComment from "./DetailChangeReComments";
 import DetailRecomments from "./DetailRecomments";
 
 // 상세페이지에 댓글 list 컴포넌트
@@ -29,18 +29,18 @@ const DetailReCommentList = (props) => {
     }
   }, []);
 
-  // 댓글 삭제 이벤트
+  // 대댓글 삭제 이벤트
   const deleteComment = () => {
     dispatch(
-      __deleteComment({
-        commentId: item.commentId,
+      __deleteRecomment({
+        recommentId: item.recommentId,
       })
     );
   };
   return (
     <>
       {changeState ? (
-        <DetailChangeComment
+        <DetailChangeReComment
           commentData={item}
           btnState={setChangeState}
           postId={postId}
@@ -92,7 +92,7 @@ const WrapComment = styled.div`
   justify-content: space-between;
   /* padding: 0 20px; */
   margin-top: 7px;
-  background-color: orange;
+  /* background-color: orange; */
   /* border: 1px solid black; */
   border-radius: 10px;
   pre {
@@ -113,10 +113,11 @@ const WrapComment = styled.div`
 
 const CommentBox = styled.div`
   display: flex;
+  /* background-color: aqua; */
 `;
 
 const CommentImg = styled.div`
-  margin: 8px 6px 4px 23px;
+  margin: 8px 6px 4px 8px;
   width: 45px;
   height: 45px;
   border-radius: 50%;
@@ -133,7 +134,7 @@ const AddCommentButton = styled.button`
   font-size: 8px;
   font-weight: bold;
   line-height: 20px;
-  width: 35px;
+  width: 50px;
   height: 30px;
   background-color: #7b758b;
   border-radius: 10px;

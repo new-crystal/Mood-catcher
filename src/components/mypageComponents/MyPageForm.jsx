@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
@@ -31,6 +31,53 @@ import MoodPoint from "./MoodPoint";
 import { useCallback } from "react";
 
 const MyPageForm = () => {
+  // scroll-x
+  const scrollRef = useRef(null);
+
+  const throttle = (func, ms) => {
+    let throttled = false;
+    return (...args) => {
+      if (!throttled) {
+        throttled = true;
+        setTimeout(() => {
+          func(...args);
+          throttled = false;
+        }, ms);
+      }
+    };
+  };
+
+  const [isDrag, setIsDrag] = useState(false);
+  const [startX, setStartX] = useState();
+
+  const onDragStart = (e) => {
+    e.preventDefault();
+    setIsDrag(true);
+    setStartX(e.pageX + scrollRef.current.scrollLeft);
+  };
+
+  const onDragEnd = () => {
+    setIsDrag(false);
+  };
+
+  const onDragMove = (e) => {
+    if (isDrag) {
+      const { scrollWidth, clientWidth, scrollLeft } = scrollRef.current;
+
+      scrollRef.current.scrollLeft = startX - e.pageX;
+
+      if (scrollLeft === 0) {
+        setStartX(e.pageX);
+      } else if (scrollWidth <= clientWidth + scrollLeft) {
+        setStartX(e.pageX + scrollLeft);
+      }
+    }
+  };
+
+  const delay = 100;
+  const onThrottleDragMove = throttle(onDragMove, delay);
+  // scroll-x
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { userId } = useParams();
@@ -151,7 +198,13 @@ const MyPageForm = () => {
       <MoodHeader>
         <p className="name">My Closet</p>
       </MoodHeader>
-      <ClosetList>
+      <ClosetList
+        ref={scrollRef}
+        onMouseDown={onDragStart}
+        onMouseMove={isDrag ? onThrottleDragMove : null}
+        onMouseUp={onDragEnd}
+        onMouseLeave={onDragEnd}
+      >
         {myClosetList?.length === 0 ? (
           <>
             <EmptyCloset onClick={() => navigate("/upload")}>
