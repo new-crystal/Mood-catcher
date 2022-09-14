@@ -7,7 +7,7 @@ export const __getAlarm = createAsyncThunk(
   async (payload, thunkAPI) => {
     try {
       const response = await api.get("/notice");
-      return response.data.data.data;
+      return response.data.data.notices;
     } catch (err) {
       console.log(err);
     }

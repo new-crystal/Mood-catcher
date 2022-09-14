@@ -105,7 +105,6 @@ export const __getMyCloset = createAsyncThunk(
       const response = await api.get(
         `/posts?userId=${payload.userId}&type=my&page=${payload.paging}&count=4`
       );
-      console.log(response);
       return response.data;
     } catch (err) {
       console.log(err);
@@ -119,7 +118,6 @@ export const __representative = createAsyncThunk(
   async (payload, thunkAPI) => {
     try {
       const response = await api.patch(`/posts/${payload}`);
-      console.log(response.data);
       return response.data;
     } catch (err) {
       thunkAPI.rejectWithValue(err);
@@ -133,8 +131,6 @@ export const __getRepPost = createAsyncThunk(
   async (payload, thunkAPI) => {
     try {
       const response = await api.get(`/posts/rep?userId=${payload}`);
-      console.log(response);
-      console.log(response.data.data.repPost);
       return response.data.data.repPost;
     } catch (err) {
       console.log(err);

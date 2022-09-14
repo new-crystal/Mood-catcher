@@ -93,6 +93,7 @@ const MyPageForm = () => {
   const users = useSelector((state) => state.login.userStatus);
   const profileIcon = useSelector((state) => state.login.userIcon.grade);
   const img = users?.imgUrl?.split(".com/")[1];
+  console.log(users);
 
   //내 게시글 불러오기
   const myClosetList = useSelector((state) => state.upload.myList);
@@ -109,7 +110,7 @@ const MyPageForm = () => {
     dispatch(__getMyPage(userId));
     dispatch(__getRepPost(userId));
     gradeIcon(grade);
-  }, [profileIcon, gradeList, users.imgUrl, users.nickname]);
+  }, [profileIcon, gradeList]);
 
   //성별과 등급별로 아이콘 이미지 보여주기
   const gradeIcon = useCallback(
@@ -218,11 +219,46 @@ const MyPageForm = () => {
           </>
         ) : (
           <>
-            <Closet url={myClosetList[0]?.imgUrl}></Closet>
-            <Closet url={myClosetList[1]?.imgUrl}></Closet>
-            <Closet url={myClosetList[2]?.imgUrl}></Closet>
-            <Closet url={myClosetList[3]?.imgUrl}></Closet>
-            <Closet url={myClosetList[4]?.imgUrl}></Closet>
+            <Closet
+              url={myClosetList[0]?.imgUrl}
+              onClick={() =>
+                navigate(
+                  `/item_detail/${myClosetList[0].postId}/${myClosetList[0].userId}`
+                )
+              }
+            ></Closet>
+            <Closet
+              url={myClosetList[1]?.imgUrl}
+              onClick={() =>
+                navigate(
+                  `/item_detail/${myClosetList[1].postId}/${myClosetList[1].userId}`
+                )
+              }
+            ></Closet>
+            <Closet
+              url={myClosetList[2]?.imgUrl}
+              onClick={() =>
+                navigate(
+                  `/item_detail/${myClosetList[2].postId}/${myClosetList[2].userId}`
+                )
+              }
+            ></Closet>
+            <Closet
+              url={myClosetList[3]?.imgUrl}
+              onClick={() =>
+                navigate(
+                  `/item_detail/${myClosetList[3].postId}/${myClosetList[3].userId}`
+                )
+              }
+            ></Closet>
+            <Closet
+              url={myClosetList[4]?.imgUrl}
+              onClick={() =>
+                navigate(
+                  `/item_detail/${myClosetList[4].postId}/${myClosetList[4].userId}`
+                )
+              }
+            ></Closet>
             <Closet
               url="https://m.spadegagu.com/web/product/extra/big/20200214/f614adca4a7b75279a0142f3657bfafe.jpg"
               onClick={() => navigate(`/closet/${userId}`)}
@@ -379,9 +415,10 @@ const HighLight = styled.div`
 const PostImg = styled.div`
   width: 180px;
   height: 260px;
-  border-radius: 10px;
+  border-radius: 12px;
+  margin-left: 20px;
   background-position: center;
-  background-size: 160px 260px;
+  background-size: 180px 260px;
   background-repeat: no-repeat;
   background-image: url(${(props) => props.url});
 `;

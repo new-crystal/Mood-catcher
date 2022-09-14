@@ -15,7 +15,7 @@ const SearchResultForm = () => {
   const { keyword } = useParams();
   const key = keyword.split("=")[1];
   const sort = window.location.href.split("sort=")[1];
-  const [page, setPage] = useState(4);
+  const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(false);
 
   //검색 결과 받아오기
@@ -61,7 +61,7 @@ const SearchResultForm = () => {
 
   //페이지 계산해서 get 요청 보내고 page 카운트 올리기
   useEffect(() => {
-    if (page === 4 && searchList.length === 0) {
+    if (page === 1 && searchList.length === 0) {
       dispatch(__getSearchResult({ key, sort, page }));
       setPage((pre) => pre + 1);
     }
@@ -106,23 +106,7 @@ const SearchResultForm = () => {
         <input type="radio" value="writer" {...register("sort")} />
         <label>작성자로 검색하기</label>
       </SearchBox>
-      {/* <More onClick={() => setMoreBox(!moreBox)}></More>
-      {moreBox ? (
-        <MoreList>
-          <Mores>
-            <p>남자 최신순</p>
-          </Mores>
-          <Mores>
-            <p>여자 최신순</p>
-          </Mores>
-          <Mores>
-            <p>남자 인기순</p>
-          </Mores>
-          <Mores>
-            <p>여자 인기순</p>
-          </Mores>
-        </MoreList>
-      ) : null} */}
+
       <ImgBox>
         {searchList.length === 0 ? (
           <div>
@@ -130,13 +114,14 @@ const SearchResultForm = () => {
             <h3>다시 검색해주세요</h3>
           </div>
         ) : (
-          searchList.map((se) => (
-            <>
-              <Img
-                url={se.imgUrl}
-                onClick={() => navigate(`/item_detail/${se.postId}`)}
-              ></Img>
-            </>
+          searchList.map((search) => (
+            <Img
+              key={search.postId}
+              url={search.imgUrl}
+              onClick={() =>
+                navigate(`/item_detail/${search.postId}/${search.userId}`)
+              }
+            ></Img>
           ))
         )}
       </ImgBox>

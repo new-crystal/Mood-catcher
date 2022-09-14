@@ -13,14 +13,15 @@ import { getCookie } from "../../shared/cookie";
 import _ from "lodash";
 import { useCallback } from "react";
 import { __patchMood } from "../../redux/modules/likeSlice";
+import SearchItem from "./SearchItem";
 
 const SearchForm = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const token = getCookie("token");
   const payload = jwt_decode(token);
-  const [mood, setMood] = useState(false);
-  const [page, setPage] = useState(3);
+  const [mood, setMood] = useState(`${heart}`);
+  const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(false);
 
   //정보 불러오기
@@ -68,14 +69,14 @@ const SearchForm = () => {
 
   //페이지 계산해서 get 요청 보내고 page 카운트 올리기
   useEffect(() => {
-    if (page === 3 && recommended.length === 0) {
+    if (page === 1 && recommended.length === 0) {
       dispatch(__getSearch(page));
       setPage((pre) => pre + 1);
     }
     if (recommended.length !== 0) {
       setPage(recommended.length / 8 + 1);
     }
-  }, []);
+  }, [mood]);
 
   //윈도우 스크롤 위치 계산하기
   useEffect(() => {
@@ -116,40 +117,8 @@ const SearchForm = () => {
       <ClosetBox>
         <h1>Other Closet</h1>
       </ClosetBox>
-      {recommended?.map((re) => (
-        <OtherClosetBox key={re.postId}>
-          <ImgBox
-            url={re.imgUrl}
-            onClick={() => navigate(`/item_detail/${re.postId}`)}
-          ></ImgBox>
-          <TextBox>
-            <p>{re.title}</p>
-            <h5>{re.content}</h5>
-            <HeartBox>
-              {re.likeStatus === true ? (
-                <Heart
-                  type="button"
-                  url={`${heartTrue}`}
-                  onClick={() => {
-                    dispatch(__patchMood(re.postId));
-                    setMood(!mood);
-                  }}
-                ></Heart>
-              ) : (
-                <Heart
-                  type="button"
-                  url={`${heart}`}
-                  onClick={() => {
-                    dispatch(__patchMood(re.postId));
-                    setMood(!mood);
-                  }}
-                ></Heart>
-              )}
-
-              <p>{re.likeCount}</p>
-            </HeartBox>
-          </TextBox>
-        </OtherClosetBox>
+      {recommended?.map((item) => (
+        <SearchItem item={item} />
       ))}
     </Fragment>
   );
@@ -214,55 +183,6 @@ const SearchImg = styled.button`
   position: relative;
   left: 330px;
   top: -58px;
-  cursor: pointer;
-`;
-const OtherClosetBox = styled.div`
-  width: 350px;
-  height: 200px;
-  margin: 10px auto;
-  background-color: #fff;
-  border-radius: 20px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: row;
-`;
-
-const ImgBox = styled.div`
-  margin-left: 10px;
-  width: 130px;
-  height: 170px;
-  border-radius: 20px;
-  background-position: center;
-  background-size: cover;
-  background-image: url(${(props) => props.url});
-`;
-const TextBox = styled.div`
-  margin-left: 30px;
-  width: 200px;
-  display: flex;
-  align-items: baseline;
-  justify-content: center;
-  flex-direction: column;
-  font-family: "Roboto";
-  font-style: normal;
-  font-weight: 800;
-  font-size: 16px;
-  color: #7b758b;
-`;
-
-const HeartBox = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: row;
-`;
-const Heart = styled.div`
-  width: 20px;
-  height: 20px;
-  background-position: center;
-  background-size: cover;
-  background-image: url(${(props) => props.url});
   cursor: pointer;
 `;
 export default SearchForm;
