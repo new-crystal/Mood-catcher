@@ -348,7 +348,7 @@ const StMusinsaImage = styled.div`
     height: 0;
   }
   .ImgDiv {
-    background-color: orange;
+    /* background-color: orange; */
     width: 100%;
     height: 75px;
     border-radius: 16px;

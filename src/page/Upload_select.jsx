@@ -18,6 +18,53 @@ import {
 const Search = "./images/search.png";
 
 const Upload_select = (props) => {
+  // scroll-x
+  const scrollRef = useRef(null);
+
+  const throttle = (func, ms) => {
+    let throttled = false;
+    return (...args) => {
+      if (!throttled) {
+        throttled = true;
+        setTimeout(() => {
+          func(...args);
+          throttled = false;
+        }, ms);
+      }
+    };
+  };
+
+  const [isDrag, setIsDrag] = useState(false);
+  const [startX, setStartX] = useState();
+
+  const onDragStart = (e) => {
+    e.preventDefault();
+    setIsDrag(true);
+    setStartX(e.pageX + scrollRef.current.scrollLeft);
+  };
+
+  const onDragEnd = () => {
+    setIsDrag(false);
+  };
+
+  const onDragMove = (e) => {
+    if (isDrag) {
+      const { scrollWidth, clientWidth, scrollLeft } = scrollRef.current;
+
+      scrollRef.current.scrollLeft = startX - e.pageX;
+
+      if (scrollLeft === 0) {
+        setStartX(e.pageX);
+      } else if (scrollWidth <= clientWidth + scrollLeft) {
+        setStartX(e.pageX + scrollLeft);
+      }
+    }
+  };
+
+  const delay = 100;
+  const onThrottleDragMove = throttle(onDragMove, delay);
+  // scroll-x
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
   // 사진 파일 미리보기를 위한 상태
@@ -123,7 +170,13 @@ const Upload_select = (props) => {
                   />
                 </div>
               </StImageBox>
-              <SliderContainer>
+              <SliderContainer
+                ref={scrollRef}
+                onMouseDown={onDragStart}
+                onMouseMove={isDrag ? onThrottleDragMove : null}
+                onMouseUp={onDragEnd}
+                onMouseLeave={onDragEnd}
+              >
                 {selectedItems?.map((item, idx) => (
                   <StMusinsaItemBox key={idx} className={searchTogle}>
                     <StMusinsaImage>
@@ -346,7 +399,7 @@ const StMusinsaImage = styled.div`
     height: 0;
   }
   .ImgDiv {
-    background-color: orange;
+    /* background-color: orange; */
     width: 100%;
     height: 75px;
     border-radius: 16px;
