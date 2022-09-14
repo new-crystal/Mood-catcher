@@ -1,11 +1,13 @@
 import { useState } from "react";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { __getAlarm, __deleteAlarm } from "../../redux/modules/alarmSlice";
 
 const AlarmForm = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [alarm, setAlarm] = useState(false);
   const alarms = useSelector((state) => state.alarm.notices);
 
@@ -18,7 +20,7 @@ const AlarmForm = () => {
   };
   useEffect(() => {
     dispatch(__getAlarm());
-  }, [alarms]);
+  }, [alarm]);
 
   return (
     <AlarmContainer>
@@ -26,6 +28,7 @@ const AlarmForm = () => {
         <TitleWrap>
           <h4>나의 알림</h4>
           <ConfirmBtn onClick={() => delAlarm()}>알림지우기</ConfirmBtn>
+          <ConfirmBtn onClick={() => navigate(-1)}>알림창 나가기</ConfirmBtn>
         </TitleWrap>
         {alarms.length === 0 ? (
           <AlarmBox>
@@ -72,16 +75,15 @@ const AlarmList = styled.div`
 const TitleWrap = styled.div`
   display: flex;
   align-items: baseline;
-  justify-content: space-between;
   flex-direction: row;
 `;
 const ConfirmBtn = styled.button`
-  width: 90px;
+  width: 100px;
   height: 20px;
   background-color: rgba(0, 0, 0, 0);
   color: #7b758b;
   border: 0px;
-  margin-left: 180px;
+  margin-left: 40px;
   font-family: Roboto;
   font-style: Bold;
   font-weight: 700;
@@ -89,13 +91,14 @@ const ConfirmBtn = styled.button`
 `;
 const AlarmBox = styled.div`
   width: 356px;
-  height: 48px;
+  height: 55px;
   background-color: white;
   border-radius: 20px;
   margin: 10px;
   text-align: center;
 
   p {
+    margin-top: 8px;
     font-family: Roboto;
     font-style: Bold;
     font-weight: 700;
