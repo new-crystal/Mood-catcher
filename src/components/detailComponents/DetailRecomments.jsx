@@ -4,13 +4,20 @@ import styled from "styled-components";
 import { __changeComment } from "../../redux/modules/commentSlice";
 import { __addRecomment } from "../../redux/modules/commentSlice";
 import DetailReCommentList from "./DetailReCommentList";
+
 const DetailRecomments = ({ commentData, btnState, postId }) => {
+  const userStatus = useSelector((state) => state.signup.userStatus);
+  console.log(userStatus);
+
   const dispatch = useDispatch();
   const recommentText = useRef("");
   console.log(commentData);
   const commentList = useSelector((state) => state.comment.comments);
   console.log(commentData);
   console.log(commentData.recommentId);
+
+  const preview_URL =
+    "https://cdn.discordapp.com/attachments/1014169130045292625/1014194232250077264/Artboard_1.png";
 
   const [profile, setProfile] = useState({
     image_file: "",
@@ -48,7 +55,12 @@ const DetailRecomments = ({ commentData, btnState, postId }) => {
         </CommentDataBox>
         <CommentBox>
           <CommentImg
-            url={profile.image_file ? profile.image_file : profile.preview_URL}
+            url={
+              userStatus.imgUrl === undefined ||
+              userStatus.imgUrl.slice(-4) === "null"
+                ? preview_URL
+                : userStatus?.imgUrl
+            }
           ></CommentImg>
           <WrapComment>
             <Textarea
@@ -242,4 +254,7 @@ const ReCommentListBox = styled.div`
   overflow-y: scroll;
   height: 300px;
   margin-bottom: 10px;
+  ::-webkit-scrollbar {
+    display: none;
+  }
 `;

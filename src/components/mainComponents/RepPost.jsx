@@ -7,6 +7,8 @@ import { useDispatch } from "react-redux";
 import { __patchMood } from "../../redux/modules/likeSlice";
 
 const junsu = "/images/junsu.PNG";
+const noimage = "/images/noimage.PNG";
+
 const heart = "/images/heart.png";
 
 const RepPost = ({ myRepPost }) => {
@@ -47,46 +49,53 @@ const RepPost = ({ myRepPost }) => {
       <Wrap>
         <StTag>My Closet</StTag>
       </Wrap>
-      <WritedClosetInfo>
-        <ClosetImage>
-          <img
-            src={myRepPost.imgUrl}
-            alt="img"
-            onClick={() => {
-              navigate(`/closet/${myRepPost.userId}`);
-            }}
-          />
-        </ClosetImage>
-        <ClosetTextWrap>
-          <GridHorizon>
-            <TitleText>
-              <span>{myRepPost.title}</span>
-            </TitleText>
-            <ContentText>
-              {/* <span>{myRepPost?.createdAt.slice(5)}</span> */}
-              <span>{myRepPost?.createdAt}</span>
-              <br />
-              <span>{myRepPost?.content}</span>
-            </ContentText>
-            <HeartText>
-              {likeStatus ? (
-                <img
-                  src={`${heartTrue}`}
-                  alt="heart"
-                  onClick={onClickMoodCancelBtn}
-                />
-              ) : (
-                <img
-                  src={`${heartFalse}`}
-                  alt="heart"
-                  onClick={onClickMoodBtn}
-                />
-              )}
-              <span>{moodNum}</span>
-            </HeartText>
-          </GridHorizon>
-        </ClosetTextWrap>
-      </WritedClosetInfo>
+      {myRepPost.userId === undefined ? (
+        <WritedClosetInfo
+          onClick={() => {
+            navigate(`/closet/${myRepPost.userId}`);
+          }}
+        >
+          <ClosetImage>
+            <img src={noimage} />
+          </ClosetImage>
+          <ClosetTextWrap>
+            <GridHorizon>
+              <TitleText>
+                <span>대표게시물</span>
+              </TitleText>
+              <ContentText>
+                {/* <span>{myRepPost?.createdAt.slice(5)}</span> */}
+                <span>{myRepPost?.createdAt}</span>
+                <br />
+                <span>지정해주세요</span>
+              </ContentText>
+            </GridHorizon>
+          </ClosetTextWrap>
+        </WritedClosetInfo>
+      ) : (
+        <WritedClosetInfo
+          onClick={() => {
+            navigate(`/closet/${myRepPost.userId}`);
+          }}
+        >
+          <ClosetImage>
+            <img src={myRepPost.imgUrl} />
+          </ClosetImage>
+          <ClosetTextWrap>
+            <GridHorizon>
+              <TitleText>
+                <span>{myRepPost.title}</span>
+              </TitleText>
+              <ContentText>
+                {/* <span>{myRepPost?.createdAt.slice(5)}</span> */}
+                <span>{myRepPost?.createdAt}</span>
+                <br />
+                <span>{myRepPost?.content}</span>
+              </ContentText>
+            </GridHorizon>
+          </ClosetTextWrap>
+        </WritedClosetInfo>
+      )}
     </Fragment>
   );
 };

@@ -11,7 +11,8 @@ export const __getHotPosts = createAsyncThunk(
   async (payload, thunkAPI) => {
     const response = await api.get(`/posts/popular`);
     console.log(response);
-    return response.data;
+    console.log(response.data.data.hotPosts);
+    return response.data.data.hotPosts;
   }
 );
 
