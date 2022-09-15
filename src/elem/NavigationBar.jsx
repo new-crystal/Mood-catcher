@@ -69,7 +69,8 @@ const NavBox = styled.div`
   left: 0;
   right: 0;
   height: 50px;
-  width: 428px;
+  max-width: 428px;
+  width: 100vw;
   background-color: #ffffff;
   font-family: "GmarketSansM";
   justify-content: space-around;

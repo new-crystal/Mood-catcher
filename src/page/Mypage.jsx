@@ -15,8 +15,8 @@ const Mypage = (props) => {
           </LoaderWrap>
         }
       >
-        <Header />
         <Container>
+          <Header />
           <Grid>
             <MyPageForm />
           </Grid>
@@ -38,6 +38,7 @@ const LoaderWrap = styled.div`
 const Container = styled.div`
   display: flex;
   flex-direction: column;
+
   /* height: 926px; */
   & > span {
     display: -webkit-box;
@@ -52,7 +53,9 @@ const Grid = styled.div`
   margin: 0 auto;
   margin-top: 60px;
   margin-bottom: 57px;
-  width: 428px;
+  max-width: 428px;
+  width: 100%;
+  height: 100vh;
   background: linear-gradient(#a396c9, #ffffff);
 `;
 

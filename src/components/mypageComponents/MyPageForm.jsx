@@ -101,6 +101,9 @@ const MyPageForm = () => {
   //대표 게시물 불러오기
   const rep = useSelector((state) => state.upload.representative);
 
+  //유저의 프로필 수정  여부 가져오기
+  const changeUser = useSelector((state) => state.login.changeStatus);
+
   //토큰에서 userId 가져오기
   const token = getCookie("token");
   const payload = jwt_decode(token);
@@ -110,7 +113,7 @@ const MyPageForm = () => {
     dispatch(__getMyPage(userId));
     dispatch(__getRepPost(userId));
     gradeIcon(grade);
-  }, [profileIcon, gradeList]);
+  }, [profileIcon, gradeList, changeUser]);
 
   //성별과 등급별로 아이콘 이미지 보여주기
   const gradeIcon = useCallback(
@@ -136,144 +139,182 @@ const MyPageForm = () => {
 
   return (
     <Fragment>
-      {img === "null" ? (
-        <Img url={profileImg}></Img>
-      ) : (
-        <Img url={users?.imgUrl}></Img>
-      )}
-      <ProfileBox>
-        <GradeIcon url={gradeImg}></GradeIcon>
-        <h4>{users?.nickname}</h4>
-      </ProfileBox>
-      <MyPageBox>
-        <MoodBox>
-          <MoodHeader>
-            <p className="name">Mood Point</p>
-          </MoodHeader>
-          <MoodBody>
-            <h1>{users?.moodPoint}</h1>
-            {payload.userId == userId ? (
-              <Question onClick={() => setMoodPoint(true)}></Question>
-            ) : null}
-            {moodPoint ? <MoodPoint setMoodPoint={setMoodPoint} /> : null}
-          </MoodBody>
-          <MoodHeader>
-            <p className="name">Catch Grade</p>
-          </MoodHeader>
-          <MoodBody>
-            <GradeImg url={gradeImg}></GradeImg>
-            <GradeText>
-              <GradeQuestion>
-                {grade === "1" && <h6>티셔츠</h6>}
-                {grade === "2" && <h6>와이셔츠</h6>}
-                {grade === "3" && <h6>넥타이</h6>}
-                {grade === "4" && <h6>조끼</h6>}
-                {grade === "5" && <h6>자켓</h6>}
-                {payload.userId == userId ? (
-                  <Question onClick={() => setGradeList(true)}></Question>
-                ) : null}
-                {gradeList ? <GradeList setGradeList={setGradeList} /> : null}
-              </GradeQuestion>
-              <Progress>
-                <HighLight width={(grade / 5) * 100 + "%"}>
-                  {grade === "2" && <h6>2단계</h6>}
-                  {grade === "3" && <h6>3단계</h6>}
-                  {grade === "4" && <h6>4단계</h6>}
-                  {grade === "5" && <h6>5단계</h6>}
-                </HighLight>
-              </Progress>
-            </GradeText>
-          </MoodBody>
-        </MoodBox>
-        {rep?.imgUrl === undefined ? (
-          <PostImg url={`${hanger}`}></PostImg>
+      <Wrap>
+        {img === "null" ? (
+          <Img url={profileImg}></Img>
         ) : (
-          <PostImg url={rep?.imgUrl}></PostImg>
+          <Img url={users?.imgUrl}></Img>
         )}
-      </MyPageBox>
-      {payload.userId == userId ? (
-        <ProfileEditBtn onClick={() => navigate("/edit_profile")}>
-          내 프로필 수정하기
-        </ProfileEditBtn>
-      ) : null}
-      <MoodHeader>
-        <p className="name">My Closet</p>
-      </MoodHeader>
-      <ClosetList
-        ref={scrollRef}
-        onMouseDown={onDragStart}
-        onMouseMove={isDrag ? onThrottleDragMove : null}
-        onMouseUp={onDragEnd}
-        onMouseLeave={onDragEnd}
-      >
-        {myClosetList?.length === 0 ? (
-          <>
-            <EmptyCloset onClick={() => navigate("/upload")}>
-              <p>{users.nickname}님의</p>
-              <p>옷장이 비어있습니다</p>
-            </EmptyCloset>
-            <EmptyCloset onClick={() => navigate("/upload")}>
-              <p>옷장도 꾸미고</p>
-              <p>무드도 캐치하세요</p>
-            </EmptyCloset>
-          </>
-        ) : (
-          <>
-            <Closet
-              url={myClosetList[0]?.imgUrl}
-              onClick={() =>
-                navigate(
-                  `/item_detail/${myClosetList[0].postId}/${myClosetList[0].userId}`
-                )
-              }
-            ></Closet>
-            <Closet
-              url={myClosetList[1]?.imgUrl}
-              onClick={() =>
-                navigate(
-                  `/item_detail/${myClosetList[1].postId}/${myClosetList[1].userId}`
-                )
-              }
-            ></Closet>
-            <Closet
-              url={myClosetList[2]?.imgUrl}
-              onClick={() =>
-                navigate(
-                  `/item_detail/${myClosetList[2].postId}/${myClosetList[2].userId}`
-                )
-              }
-            ></Closet>
-            <Closet
-              url={myClosetList[3]?.imgUrl}
-              onClick={() =>
-                navigate(
-                  `/item_detail/${myClosetList[3].postId}/${myClosetList[3].userId}`
-                )
-              }
-            ></Closet>
-            <Closet
-              url={myClosetList[4]?.imgUrl}
-              onClick={() =>
-                navigate(
-                  `/item_detail/${myClosetList[4].postId}/${myClosetList[4].userId}`
-                )
-              }
-            ></Closet>
-            <Closet
-              url="https://m.spadegagu.com/web/product/extra/big/20200214/f614adca4a7b75279a0142f3657bfafe.jpg"
-              onClick={() => navigate(`/closet/${userId}`)}
-            >
-              <OpenCloset>
-                <h4>{users?.nickname}님의</h4>
-                <h4>옷장 열어보기</h4>
-              </OpenCloset>
-            </Closet>
-          </>
-        )}
-      </ClosetList>
+        <ProfileBox>
+          <GradeIcon url={gradeImg}></GradeIcon>
+          <h4>{users?.nickname}</h4>
+        </ProfileBox>
+        <MyPageBox>
+          <MoodBox>
+            <MoodHeader>
+              <p className="name">Mood Point</p>
+            </MoodHeader>
+            <MoodBody>
+              <h1>{users?.moodPoint}</h1>
+              {payload.userId == userId ? (
+                <Question onClick={() => setMoodPoint(true)}></Question>
+              ) : null}
+              {moodPoint ? <MoodPoint setMoodPoint={setMoodPoint} /> : null}
+            </MoodBody>
+            <MoodHeader>
+              <p className="name">Catch Grade</p>
+            </MoodHeader>
+            <MoodBody>
+              <GradeImg url={gradeImg}></GradeImg>
+              <GradeText>
+                <GradeQuestion>
+                  {grade === "1" && <h6>티셔츠</h6>}
+                  {grade === "2" && <h6>와이셔츠</h6>}
+                  {grade === "3" && <h6>넥타이</h6>}
+                  {grade === "4" && <h6>조끼</h6>}
+                  {grade === "5" && <h6>자켓</h6>}
+                  {payload.userId == userId ? (
+                    <Question onClick={() => setGradeList(true)}></Question>
+                  ) : null}
+                  {gradeList ? <GradeList setGradeList={setGradeList} /> : null}
+                </GradeQuestion>
+                <Progress>
+                  <HighLight width={(grade / 5) * 100 + "%"}>
+                    {grade === "2" && <h6>2단계</h6>}
+                    {grade === "3" && <h6>3단계</h6>}
+                    {grade === "4" && <h6>4단계</h6>}
+                    {grade === "5" && <h6>5단계</h6>}
+                  </HighLight>
+                </Progress>
+              </GradeText>
+            </MoodBody>
+          </MoodBox>
+          {rep?.imgUrl === undefined ? (
+            <PostImg url={`${hanger}`}></PostImg>
+          ) : (
+            <PostImg url={rep?.imgUrl}></PostImg>
+          )}
+        </MyPageBox>
+        {payload.userId == userId ? (
+          <ProfileEditBtn onClick={() => navigate("/edit_profile")}>
+            내 프로필 수정하기
+          </ProfileEditBtn>
+        ) : null}
+        <MoodHeader>
+          <p className="name">My Closet</p>
+        </MoodHeader>
+        <ClosetList
+          ref={scrollRef}
+          onMouseDown={onDragStart}
+          onMouseMove={isDrag ? onThrottleDragMove : null}
+          onMouseUp={onDragEnd}
+          onMouseLeave={onDragEnd}
+        >
+          {myClosetList?.length === 0 ? (
+            <>
+              <EmptyCloset onClick={() => navigate("/upload")}>
+                <p>{users.nickname}님의</p>
+                <p>옷장이 비어있습니다</p>
+              </EmptyCloset>
+              <EmptyCloset onClick={() => navigate("/upload")}>
+                <p>옷장도 꾸미고</p>
+                <p>무드도 캐치하세요</p>
+              </EmptyCloset>
+            </>
+          ) : (
+            <>
+              {myClosetList?.length === 1 && (
+                <>
+                  <Closet url={myClosetList[0]?.imgUrl}></Closet>
+                  <Closet
+                    url="https://m.spadegagu.com/web/product/extra/big/20200214/f614adca4a7b75279a0142f3657bfafe.jpg"
+                    onClick={() => navigate(`/closet/${userId}`)}
+                  >
+                    <OpenCloset>
+                      <h4>{users?.nickname}님의</h4>
+                      <h4>옷장 열어보기</h4>
+                    </OpenCloset>
+                  </Closet>
+                </>
+              )}
+              {myClosetList?.length === 2 && (
+                <>
+                  <Closet url={myClosetList[0]?.imgUrl}></Closet>
+                  <Closet url={myClosetList[1]?.imgUrl}></Closet>
+                  <Closet
+                    url="https://m.spadegagu.com/web/product/extra/big/20200214/f614adca4a7b75279a0142f3657bfafe.jpg"
+                    onClick={() => navigate(`/closet/${userId}`)}
+                  >
+                    <OpenCloset>
+                      <h4>{users?.nickname}님의</h4>
+                      <h4>옷장 열어보기</h4>
+                    </OpenCloset>
+                  </Closet>
+                </>
+              )}
+              {myClosetList?.length === 3 && (
+                <>
+                  <Closet url={myClosetList[0]?.imgUrl}></Closet>
+                  <Closet url={myClosetList[1]?.imgUrl}></Closet>
+                  <Closet url={myClosetList[2]?.imgUrl}></Closet>
+                  <Closet
+                    url="https://m.spadegagu.com/web/product/extra/big/20200214/f614adca4a7b75279a0142f3657bfafe.jpg"
+                    onClick={() => navigate(`/closet/${userId}`)}
+                  >
+                    <OpenCloset>
+                      <h4>{users?.nickname}님의</h4>
+                      <h4>옷장 열어보기</h4>
+                    </OpenCloset>
+                  </Closet>
+                </>
+              )}
+              {myClosetList?.length === 4 && (
+                <>
+                  <Closet url={myClosetList[0]?.imgUrl}></Closet>
+                  <Closet url={myClosetList[1]?.imgUrl}></Closet>
+                  <Closet url={myClosetList[2]?.imgUrl}></Closet>
+                  <Closet url={myClosetList[3]?.imgUrl}></Closet>
+                  <Closet
+                    url="https://m.spadegagu.com/web/product/extra/big/20200214/f614adca4a7b75279a0142f3657bfafe.jpg"
+                    onClick={() => navigate(`/closet/${userId}`)}
+                  >
+                    <OpenCloset>
+                      <h4>{users?.nickname}님의</h4>
+                      <h4>옷장 열어보기</h4>
+                    </OpenCloset>
+                  </Closet>
+                </>
+              )}
+              {myClosetList?.length === 5 && (
+                <>
+                  <Closet url={myClosetList[0]?.imgUrl}></Closet>
+                  <Closet url={myClosetList[1]?.imgUrl}></Closet>
+                  <Closet url={myClosetList[2]?.imgUrl}></Closet>
+                  <Closet url={myClosetList[3]?.imgUrl}></Closet>
+                  <Closet url={myClosetList[4]?.imgUrl}></Closet>
+                  <Closet
+                    url="https://m.spadegagu.com/web/product/extra/big/20200214/f614adca4a7b75279a0142f3657bfafe.jpg"
+                    onClick={() => navigate(`/closet/${userId}`)}
+                  >
+                    <OpenCloset>
+                      <h4>{users?.nickname}님의</h4>
+                      <h4>옷장 열어보기</h4>
+                    </OpenCloset>
+                  </Closet>
+                </>
+              )}
+            </>
+          )}
+        </ClosetList>
+      </Wrap>
     </Fragment>
   );
 };
+
+const Wrap = styled.div`
+  max-width: 428px;
+  width: 100%;
+`;
 
 const Img = styled.div`
   width: 107px;
@@ -423,7 +464,8 @@ const PostImg = styled.div`
   background-image: url(${(props) => props.url});
 `;
 const ClosetList = styled.div`
-  width: 400px;
+  max-width: 400px;
+  width: 100%;
   height: 230px;
   background-color: #fff;
   border-radius: 10px;

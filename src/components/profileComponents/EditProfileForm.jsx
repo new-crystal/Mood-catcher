@@ -54,6 +54,7 @@ const EditProfileForm = () => {
   } = useForm({ criteriaMode: "all", mode: "onChange" });
 
   let inputRef;
+
   //닉네임 중복확인을 눌렀을 때
   useEffect(() => {
     if (checkNickname === true) {
@@ -117,13 +118,16 @@ const EditProfileForm = () => {
   //수정된 프로필 이미지, 닉네임, 성별, 나이 전송하기
   const onSubmit = async () => {
     const nickname = getValues("nickname");
+    if (nickname && gender && age && image.image_file) {
+      const formData = new FormData();
+      formData.append("userValue", image.image_file);
 
-    const formData = new FormData();
-    formData.append("userValue", image.image_file);
-
-    dispatch(__editProfile({ userValue: formData, nickname, gender, age }))
-      .then(alert("캐처님의 프로필이 수정되었습니다!"))
-      .then(navigate(`/mypage/${userId}`));
+      dispatch(__editProfile({ userValue: formData, nickname, gender, age }))
+        .then(alert("캐처님의 프로필이 수정되었습니다!"))
+        .then(navigate(`/mypage/${userId}`));
+    } else {
+      alert("수정하실 프로필을 모두 입력해주세요");
+    }
   };
 
   //로그아웃

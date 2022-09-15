@@ -57,7 +57,7 @@ const SearchForm = () => {
       if (page >= 13) {
         return;
       }
-      setPage((pre) => pre + 1);
+      setPage(page + 1);
       getRecommendedList();
       setLoading(true);
     }
@@ -67,7 +67,7 @@ const SearchForm = () => {
   useEffect(() => {
     if (page === 1 && recommended.length === 0) {
       dispatch(__getSearch(page));
-      setPage((pre) => pre + 1);
+      setPage(page + 1);
     }
     if (recommended.length !== 0) {
       setPage(recommended.length / 8 + 1);
