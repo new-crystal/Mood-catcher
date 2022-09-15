@@ -10,7 +10,9 @@ const DetailCommentList = (props) => {
   const dispatch = useDispatch();
   const { item } = props;
   const { postId } = props;
-  console.log(item);
+
+  const preview_URL =
+    "https://cdn.discordapp.com/attachments/1014169130045292625/1014194232250077264/Artboard_1.png";
 
   // profile_pic를 정하는 부분
   const [profile, setProfile] = useState({
@@ -57,13 +59,19 @@ const DetailCommentList = (props) => {
 
       <CommentBox>
         <CommentImg
-          url={profile.image_file ? profile.image_file : profile.preview_URL}
+          url={
+            item.imgUrl === undefined || item.imgUrl.slice(-4) === "null"
+              ? preview_URL
+              : item?.imgUrl
+          }
         ></CommentImg>
         <WrapComment
           onClick={() => {
             setRecommentState(true);
           }}
         >
+          <span>{item.createdAt}</span>
+          <span>작성자 : {item.nickname}</span>
           <pre>{item.content}</pre>
         </WrapComment>
         <AddCommentButton
@@ -88,16 +96,21 @@ const DetailCommentList = (props) => {
 export default DetailCommentList;
 
 const WrapComment = styled.div`
-  display: flex;
+  /* display: flex; */
   justify-content: space-between;
   /* padding: 0 20px; */
-  margin-top: 7px;
+  /* margin-top: 7px; */
   /* background-color: orange; */
   /* border: 1px solid black; */
   border-radius: 10px;
+  span {
+    font-size: 5px;
+    margin-left: 5px;
+  }
   pre {
     width: 240px;
-    height: 20px;
+    margin-top: 5px;
+    height: 16px;
     background-color: royalblue;
     /* padding-top: 7px; */
     margin-left: 3px;

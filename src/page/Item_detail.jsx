@@ -22,6 +22,56 @@ const junsu = "/images/junsu.PNG";
 const home = "/images/more.png";
 
 const Item_detail = (props) => {
+  // scroll-x
+  const scrollRef = useRef(null);
+
+  const throttle = (func, ms) => {
+    let throttled = false;
+    return (...args) => {
+      if (!throttled) {
+        throttled = true;
+        setTimeout(() => {
+          func(...args);
+          throttled = false;
+        }, ms);
+      }
+    };
+  };
+
+  const [isDrag, setIsDrag] = useState(false);
+  const [startX, setStartX] = useState();
+
+  const onDragStart = (e) => {
+    e.preventDefault();
+    setIsDrag(true);
+    setStartX(e.pageX + scrollRef.current.scrollLeft);
+  };
+
+  const onDragEnd = () => {
+    setIsDrag(false);
+  };
+
+  const onDragMove = (e) => {
+    if (isDrag) {
+      const { scrollWidth, clientWidth, scrollLeft } = scrollRef.current;
+
+      scrollRef.current.scrollLeft = startX - e.pageX;
+
+      if (scrollLeft === 0) {
+        setStartX(e.pageX);
+      } else if (scrollWidth <= clientWidth + scrollLeft) {
+        setStartX(e.pageX + scrollLeft);
+      }
+    }
+  };
+
+  const delay = 100;
+  const onThrottleDragMove = throttle(onDragMove, delay);
+  // scroll-x
+
+  const preview_URL =
+    "https://cdn.discordapp.com/attachments/1014169130045292625/1014194232250077264/Artboard_1.png";
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const commentList = useSelector((state) => state.comment.comments);
@@ -31,6 +81,7 @@ const Item_detail = (props) => {
   const detailPost = useSelector((state) => state.upload.detailPost);
   const detailItems = useSelector((state) => state.upload.detailItems);
   const userStatus = useSelector((state) => state.login.userStatus);
+  const userStatusMe = useSelector((state) => state.signup.userStatus);
   const comments = useSelector((state) => state.comment.comments);
 
   const [myPageIsOpen, myPageRef, myPageHandler] = useDetectClose(false);
@@ -97,7 +148,10 @@ const Item_detail = (props) => {
             <ProfileBox>
               <ProfileImg
                 url={
-                  profile.image_file ? profile.image_file : profile.preview_URL
+                  userStatus.imgUrl === undefined ||
+                  userStatus.imgUrl.slice(-4) === "null"
+                    ? preview_URL
+                    : userStatus?.imgUrl
                 }
               ></ProfileImg>
               <span>{userStatus.nickname}</span>
@@ -131,7 +185,13 @@ const Item_detail = (props) => {
             </DetailImage>
             <ContentText>{detailPost.content}</ContentText>
             <Line />
-            <SliderContainer>
+            <SliderContainer
+              ref={scrollRef}
+              onMouseDown={onDragStart}
+              onMouseMove={isDrag ? onThrottleDragMove : null}
+              onMouseUp={onDragEnd}
+              onMouseLeave={onDragEnd}
+            >
               {detailItems?.map((item, idx) => (
                 <StMusinsaItemBox key={idx}>
                   <StMusinsaImage>
@@ -158,7 +218,10 @@ const Item_detail = (props) => {
             <CommentBox>
               <CommentImg
                 url={
-                  profile.image_file ? profile.image_file : profile.preview_URL
+                  userStatusMe.imgUrl === undefined ||
+                  userStatusMe.imgUrl.slice(-4) === "null"
+                    ? preview_URL
+                    : userStatusMe?.imgUrl
                 }
               ></CommentImg>
               <WrapComment>

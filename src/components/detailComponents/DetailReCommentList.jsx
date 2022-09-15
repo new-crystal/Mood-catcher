@@ -64,6 +64,8 @@ const DetailReCommentList = (props) => {
             setRecommentState(true);
           }}
         >
+          <span>{item.createdAt}</span>
+          <span>작성자 : {item.nickname}</span>
           <pre>{item.content}</pre>
         </WrapComment>
         <AddCommentButton
@@ -88,16 +90,22 @@ const DetailReCommentList = (props) => {
 export default DetailReCommentList;
 
 const WrapComment = styled.div`
-  display: flex;
+  /* display: flex; */
   justify-content: space-between;
   /* padding: 0 20px; */
-  margin-top: 7px;
+  /* margin-top: 7px; */
   /* background-color: orange; */
   /* border: 1px solid black; */
   border-radius: 10px;
+  span {
+    margin-top: 0px;
+    font-size: 5px;
+    margin-left: 5px;
+  }
   pre {
-    width: 240px;
-    height: 20px;
+    width: 190px;
+    margin-top: 5px;
+    height: 16px;
     background-color: royalblue;
     /* padding-top: 7px; */
     margin-left: 3px;
@@ -129,12 +137,13 @@ const CommentImg = styled.div`
 
 const AddCommentButton = styled.button`
   margin-top: 15px;
+  margin-left: 10px;
   text-align: center;
   color: white;
   font-size: 8px;
   font-weight: bold;
   line-height: 20px;
-  width: 50px;
+  width: 40px;
   height: 30px;
   background-color: #7b758b;
   border-radius: 10px;

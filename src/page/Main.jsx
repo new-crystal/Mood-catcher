@@ -31,13 +31,14 @@ const Main = (props) => {
 
   const token = getCookie("token");
   const { userId } = jwt(token);
-
+  const preview_URL =
+    "https://cdn.discordapp.com/attachments/1014169130045292625/1014194232250077264/Artboard_1.png";
   // profile_pic를 정하는 부분
-  const [profile, setProfile] = useState({
-    image_file: "",
-    preview_URL:
-      "https://cdn.discordapp.com/attachments/1014169130045292625/1014194232250077264/Artboard_1.png",
-  });
+  // const [profile, setProfile] = useState({
+  //   image_file: "",
+  //   preview_URL:
+  //     "https://cdn.discordapp.com/attachments/1014169130045292625/1014194232250077264/Artboard_1.png",
+  // });
 
   // toTop버튼
   const showTopButton = () => {
@@ -73,12 +74,9 @@ const Main = (props) => {
   // 유저정보를 불러와서 토큰이 없다면 다시 로그인
   // 유저정보 조회해서 프로필 사진 확보
   useEffect(() => {
-    dispatch(__getUsers());
+    dispatch(__getUsers(userId));
     dispatch(__getRepPost(userId));
     dispatch(__getHotPosts());
-    if (userStatus.imgUrl !== undefined) {
-      setProfile({ image_file: `${userStatus.imgUrl}` });
-    }
   }, []);
 
   return (
@@ -93,12 +91,18 @@ const Main = (props) => {
         <Header />
         <Container>
           <Grid>
-            {/* image_file이 있으면 image_file을 출력 */}
-            <Img
+            {/* imgUrl 있으면 imgUrl 출력 */}
+            {userStatus.imgUrl === undefined ||
+            userStatus.imgUrl.slice(-4) === "null" ? (
+              <Img url={preview_URL}></Img>
+            ) : (
+              <Img url={userStatus?.imgUrl}></Img>
+            )}
+            {/* <Img
               url={
                 profile.image_file ? profile.image_file : profile.preview_URL
               }
-            ></Img>
+            ></Img> */}
             {/* 대표게시물 출력 */}
             <RepPost myRepPost={repPost} />
             {/* 랭킹게시물 출력 */}
