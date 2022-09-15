@@ -14,12 +14,18 @@ const Signup = lazy(() => import("./page/Signup"));
 const Edit_profile = lazy(() => import("./page/Edit_profile"));
 const Upload = lazy(() => import("./page/Upload"));
 const Upload_select = lazy(() => import("./page/Upload_select"));
+
+const Edit_post = lazy(() => import("./page/Edit_post"));
+const Edit_post_select = lazy(() => import("./page/Edit_post_select"));
+
 const MyPage = lazy(() => import("./page/Mypage"));
 const Closet = lazy(() => import("./page/Closet"));
 const Search = lazy(() => import("./page/Search"));
 const Search_result = lazy(() => import("./page/Search_result"));
 const Item_detail = lazy(() => import("./page/Item_detail"));
 const Like = lazy(() => import("./page/Like"));
+const Open = lazy(() => import("./page/Open"));
+const Alarm = lazy(() => import("./page/Alarm"));
 
 function App() {
   const token = getCookie("token");
@@ -45,6 +51,13 @@ function App() {
           <Route path="/edit_profile" element={<Edit_profile />} />
           <Route path="/upload" element={<Upload />} />
           <Route path="/upload_select" element={<Upload_select />} />
+
+          <Route path="/edit_post/:postId" element={<Edit_post />} />
+          <Route
+            path="/edit_post_select/:postId"
+            element={<Edit_post_select />}
+          />
+
           <Route path="/mypage/:userId" element={<MyPage />} />
           <Route path="/closet/:userId" element={<Closet />} />
           <Route path="/search" element={<Search />} />
@@ -54,6 +67,8 @@ function App() {
             element={<Item_detail />}
           />
           <Route path="/like/:userId" element={<Like />} />
+          <Route path="/main" element={<Open />} />
+          <Route path="/alarm/:userId" element={<Alarm />} />
           <Route path="*" element={<Main />} />
         </Routes>
       </Suspense>

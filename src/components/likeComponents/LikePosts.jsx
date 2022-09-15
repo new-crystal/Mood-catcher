@@ -1,7 +1,7 @@
 import React, { Fragment, useState, useCallback, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { __getMainAllPosts } from "../../redux/modules/rankSlice";
-import { InfinityRank } from "../../redux/modules/rankSlice";
+import { __getLikeAllPosts } from "../../redux/modules/likeSlice";
+import { InfinityLike } from "../../redux/modules/likeSlice";
 import EachPost from "./EachPost";
 import styled from "styled-components";
 import InfinityScrollLoader from "./InfinityScrollLoader";
@@ -13,7 +13,7 @@ const LikePosts = () => {
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(false); //데이터 받아오는동안 로딩 true로 하고 api요청 그동안 한번만되게
   const [paging, setPaging] = useState(1); //페이지넘버
-  const ranksIF = useSelector(InfinityRank); //redux store값 받아오는부기
+  const likesIF = useSelector(InfinityLike); //redux store값 받아오는부기
 
   // 토큰 decode를 통해서 현재 로그인한 유저 id 가져오기
   const token = getCookie("token");
@@ -23,11 +23,11 @@ const LikePosts = () => {
 
   const getInfinityList = useCallback(() => {
     async function getData() {
-      await dispatch(__getMainAllPosts({ paging: paging, userId: userId })); //api요청
+      await dispatch(__getLikeAllPosts({ paging: paging, userId: userId })); //api요청
       setLoading(false); //요청하고나면 loading false로
     }
     return getData();
-  }, [paging, ranksIF]); //usecallback의 deps에 페이지랑 맥주목록 바뀔때마다 실행되게
+  }, [paging, likesIF]); //usecallback의 deps에 페이지랑 맥주목록 바뀔때마다 실행되게
 
   const _handleScroll = _.throttle(() => {
     const scrollHeight = document.documentElement.scrollHeight;
@@ -46,15 +46,15 @@ const LikePosts = () => {
   }, 500);
 
   useEffect(() => {
-    console.log(paging, userId, ranksIF);
+    console.log(paging, userId, likesIF);
 
-    if (paging === 1 && ranksIF.length === 0) {
+    if (paging === 1 && likesIF.length === 0) {
       console.log(paging, userId);
-      dispatch(__getMainAllPosts({ paging: paging, userId: userId }));
+      dispatch(__getLikeAllPosts({ paging: paging, userId: userId }));
       setPaging(paging + 1);
     } //첫렌더링시 0페이지 받아오기
-    if (ranksIF.length !== 0) {
-      setPaging(ranksIF.length / 8 + 1);
+    if (likesIF.length !== 0) {
+      setPaging(likesIF.length);
     } //다른컴포넌트 갔다 올때 렌더링시 페이지넘버 계산
   }, []);
 
@@ -71,7 +71,7 @@ const LikePosts = () => {
 
   return (
     <Fragment>
-      {ranksIF?.map((item, idx) => (
+      {likesIF?.map((item, idx) => (
         <EachPost key={idx} item={item} />
       ))}
 

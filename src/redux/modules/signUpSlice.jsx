@@ -32,8 +32,16 @@ export const __getUsers = createAsyncThunk(
   async (payload, thunkAPI) => {
     const response = await api.get(`/users/${payload}`);
     if (response.status === 200) {
-      return response.data;
+      return response.data.data.userStatus;
     }
+  }
+);
+//초기화면 조회
+export const __getOpen = createAsyncThunk(
+  "GET/OPEN",
+  async (payload, thunkAPI) => {
+    const response = await api.get("/start");
+    return response.data.data.startMsg;
   }
 );
 
@@ -41,6 +49,7 @@ const initialState = {
   checkEmail: false,
   is_signup: null,
   userStatus: {},
+  startMsg: null,
 };
 
 //리듀서
@@ -73,6 +82,10 @@ const signUpSlice = createSlice({
       //유저정보 조회
       .addCase(__getUsers.fulfilled, (state, action) => {
         state.userStatus = action.payload;
+      })
+      //스타트문구조회
+      .addCase(__getOpen.fulfilled, (state, action) => {
+        state.startMsg = action.payload;
       }),
 });
 

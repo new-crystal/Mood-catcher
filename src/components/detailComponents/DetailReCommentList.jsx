@@ -1,18 +1,16 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { useDispatch } from "react-redux/es/exports";
-import { __deleteComment } from "../../redux/modules/commentSlice";
-import DetailChangeComment from "./DetailChangeComments";
+import { __deleteRecomment } from "../../redux/modules/commentSlice";
+import DetailChangeReComment from "./DetailChangeReComments";
 import DetailRecomments from "./DetailRecomments";
 
 // 상세페이지에 댓글 list 컴포넌트
-const DetailCommentList = (props) => {
+const DetailReCommentList = (props) => {
   const dispatch = useDispatch();
   const { item } = props;
   const { postId } = props;
-
-  const preview_URL =
-    "https://cdn.discordapp.com/attachments/1014169130045292625/1014194232250077264/Artboard_1.png";
+  console.log(item);
 
   // profile_pic를 정하는 부분
   const [profile, setProfile] = useState({
@@ -31,18 +29,18 @@ const DetailCommentList = (props) => {
     }
   }, []);
 
-  // 댓글 삭제 이벤트
+  // 대댓글 삭제 이벤트
   const deleteComment = () => {
     dispatch(
-      __deleteComment({
-        commentId: item.commentId,
+      __deleteRecomment({
+        recommentId: item.recommentId,
       })
     );
   };
   return (
     <>
       {changeState ? (
-        <DetailChangeComment
+        <DetailChangeReComment
           commentData={item}
           btnState={setChangeState}
           postId={postId}
@@ -59,11 +57,7 @@ const DetailCommentList = (props) => {
 
       <CommentBox>
         <CommentImg
-          url={
-            item.imgUrl === undefined || item.imgUrl.slice(-4) === "null"
-              ? preview_URL
-              : item?.imgUrl
-          }
+          url={profile.image_file ? profile.image_file : profile.preview_URL}
         ></CommentImg>
         <WrapComment
           onClick={() => {
@@ -93,7 +87,7 @@ const DetailCommentList = (props) => {
   );
 };
 
-export default DetailCommentList;
+export default DetailReCommentList;
 
 const WrapComment = styled.div`
   /* display: flex; */
@@ -104,11 +98,12 @@ const WrapComment = styled.div`
   /* border: 1px solid black; */
   border-radius: 10px;
   span {
+    margin-top: 0px;
     font-size: 5px;
     margin-left: 5px;
   }
   pre {
-    width: 240px;
+    width: 190px;
     margin-top: 5px;
     height: 16px;
     background-color: royalblue;
@@ -126,10 +121,11 @@ const WrapComment = styled.div`
 
 const CommentBox = styled.div`
   display: flex;
+  /* background-color: aqua; */
 `;
 
 const CommentImg = styled.div`
-  margin: 8px 6px 4px 23px;
+  margin: 8px 6px 4px 8px;
   width: 45px;
   height: 45px;
   border-radius: 50%;
@@ -141,12 +137,13 @@ const CommentImg = styled.div`
 
 const AddCommentButton = styled.button`
   margin-top: 15px;
+  margin-left: 10px;
   text-align: center;
   color: white;
   font-size: 8px;
   font-weight: bold;
   line-height: 20px;
-  width: 35px;
+  width: 40px;
   height: 30px;
   background-color: #7b758b;
   border-radius: 10px;

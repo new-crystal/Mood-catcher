@@ -3,68 +3,21 @@ import styled from "styled-components";
 import Loader from "../shared/Loader";
 import Header from "../elem/Header";
 import NavigationBar from "../elem/NavigationBar";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import "../shared/style/myBeer.css";
 import EachMusinsa from "../components/uploadCompnents/EachMusinsa";
 
 import {
   __getMusinsa,
-  __writePost,
+  __putPost,
   __writeImage,
   changeCheckPostId,
 } from "../redux/modules/uploadSlice";
 
 const Search = "./images/search.png";
 
-const Upload_select = (props) => {
-  // scroll-x
-  const scrollRef = useRef(null);
-
-  const throttle = (func, ms) => {
-    let throttled = false;
-    return (...args) => {
-      if (!throttled) {
-        throttled = true;
-        setTimeout(() => {
-          func(...args);
-          throttled = false;
-        }, ms);
-      }
-    };
-  };
-
-  const [isDrag, setIsDrag] = useState(false);
-  const [startX, setStartX] = useState();
-
-  const onDragStart = (e) => {
-    e.preventDefault();
-    setIsDrag(true);
-    setStartX(e.pageX + scrollRef.current.scrollLeft);
-  };
-
-  const onDragEnd = () => {
-    setIsDrag(false);
-  };
-
-  const onDragMove = (e) => {
-    if (isDrag) {
-      const { scrollWidth, clientWidth, scrollLeft } = scrollRef.current;
-
-      scrollRef.current.scrollLeft = startX - e.pageX;
-
-      if (scrollLeft === 0) {
-        setStartX(e.pageX);
-      } else if (scrollWidth <= clientWidth + scrollLeft) {
-        setStartX(e.pageX + scrollLeft);
-      }
-    }
-  };
-
-  const delay = 100;
-  const onThrottleDragMove = throttle(onDragMove, delay);
-  // scroll-x
-
+const Edit_post_select = (props) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   // 사진 파일 미리보기를 위한 상태
@@ -94,6 +47,8 @@ const Upload_select = (props) => {
     postImage: formdata,
   });
 
+  const { postId } = useParams();
+
   React.useEffect(() => {
     setTotalPost({ ...totalPost, post: post, items: selectedItems });
     setImagePost({ ...imagePost, postImage: formdata, postId: post.postId });
@@ -119,8 +74,8 @@ const Upload_select = (props) => {
   }, [searchTogle]);
 
   const writeTotalPost = () => {
-    dispatch(__writePost(totalPost));
-    console.log(post);
+    console.log(totalPost);
+    dispatch(__putPost({ postId: postId, totalPost: totalPost }));
   };
   React.useEffect(() => {
     if (checkPostId === true) {
@@ -170,13 +125,7 @@ const Upload_select = (props) => {
                   />
                 </div>
               </StImageBox>
-              <SliderContainer
-                ref={scrollRef}
-                onMouseDown={onDragStart}
-                onMouseMove={isDrag ? onThrottleDragMove : null}
-                onMouseUp={onDragEnd}
-                onMouseLeave={onDragEnd}
-              >
+              <SliderContainer>
                 {selectedItems?.map((item, idx) => (
                   <StMusinsaItemBox key={idx} className={searchTogle}>
                     <StMusinsaImage>
@@ -254,7 +203,7 @@ const Upload_select = (props) => {
   );
 };
 
-export default Upload_select;
+export default Edit_post_select;
 
 const LoaderWrap = styled.div`
   position: absolute;

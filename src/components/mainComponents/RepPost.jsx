@@ -1,12 +1,47 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useState, useEffect } from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
+import heartFalse from "../../image/heart.png";
+import heartTrue from "../../image/heartTrue.png";
+import { useDispatch } from "react-redux";
+import { __patchMood } from "../../redux/modules/likeSlice";
 
 const junsu = "/images/junsu.PNG";
+const noimage = "/images/noimage.PNG";
+
 const heart = "/images/heart.png";
 
 const RepPost = ({ myRepPost }) => {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [likeStatus, setLikeStatus] = useState(myRepPost?.likeStatus);
+  const [mood, setMood] = useState(`${heartFalse}`);
+  const [moodNum, setMoodNum] = useState(myRepPost?.likeCount);
+  console.log(myRepPost);
+
+  //새로고침시에도 무드 상태값 유지
+  useEffect(() => {
+    if (likeStatus === true) {
+      setMood(`${heartTrue}`);
+    }
+    if (likeStatus === false) {
+      setMood(`${heartFalse}`);
+    }
+  }, [mood, likeStatus, myRepPost]);
+
+  //무드 버튼 누르기
+  const onClickMoodBtn = () => {
+    setMoodNum(moodNum + 1);
+    setLikeStatus(true);
+    dispatch(__patchMood(myRepPost?.postId));
+  };
+
+  //무드버튼 취소하기
+  const onClickMoodCancelBtn = () => {
+    setMoodNum(moodNum - 1);
+    setLikeStatus(false);
+    dispatch(__patchMood(myRepPost?.postId));
+  };
 
   return (
     <Fragment>
@@ -14,31 +49,53 @@ const RepPost = ({ myRepPost }) => {
       <Wrap>
         <StTag>My Closet</StTag>
       </Wrap>
-      <WritedClosetInfo
-        onClick={() => {
-          navigate("/closet/1");
-        }}
-      >
-        <ClosetImage>
-          <img src={junsu} />
-        </ClosetImage>
-        <ClosetTextWrap>
-          <GridHorizon>
-            <TitleText>
-              <span>내 다리 롱다리</span>
-            </TitleText>
-            <ContentText>
-              <span>
-                00/00 사진관에서 사진찍고 거울샷 찍었는데 길게 나와서 맘에든다.
-              </span>
-            </ContentText>
-            <HeartText>
-              <img src={heart} alt="heart" />
-              <span>100+</span>
-            </HeartText>
-          </GridHorizon>
-        </ClosetTextWrap>
-      </WritedClosetInfo>
+      {myRepPost.userId === undefined ? (
+        <WritedClosetInfo
+          onClick={() => {
+            navigate(`/closet/${myRepPost.userId}`);
+          }}
+        >
+          <ClosetImage>
+            <img src={noimage} />
+          </ClosetImage>
+          <ClosetTextWrap>
+            <GridHorizon>
+              <TitleText>
+                <span>대표게시물</span>
+              </TitleText>
+              <ContentText>
+                {/* <span>{myRepPost?.createdAt.slice(5)}</span> */}
+                <span>{myRepPost?.createdAt}</span>
+                <br />
+                <span>지정해주세요</span>
+              </ContentText>
+            </GridHorizon>
+          </ClosetTextWrap>
+        </WritedClosetInfo>
+      ) : (
+        <WritedClosetInfo
+          onClick={() => {
+            navigate(`/closet/${myRepPost.userId}`);
+          }}
+        >
+          <ClosetImage>
+            <img src={myRepPost.imgUrl} />
+          </ClosetImage>
+          <ClosetTextWrap>
+            <GridHorizon>
+              <TitleText>
+                <span>{myRepPost.title}</span>
+              </TitleText>
+              <ContentText>
+                {/* <span>{myRepPost?.createdAt.slice(5)}</span> */}
+                <span>{myRepPost?.createdAt}</span>
+                <br />
+                <span>{myRepPost?.content}</span>
+              </ContentText>
+            </GridHorizon>
+          </ClosetTextWrap>
+        </WritedClosetInfo>
+      )}
     </Fragment>
   );
 };
@@ -105,7 +162,8 @@ const GridHorizon = styled.div`
 
 const TitleText = styled.p`
   margin: 0;
-  font-size: 16px;
+  margin-bottom: 10px;
+  font-size: 21px;
   font-weight: 700;
   line-height: 20px;
   color: #7b758b;
@@ -113,7 +171,7 @@ const TitleText = styled.p`
 
 const ContentText = styled.p`
   margin: 0;
-  font-size: 10px;
+  font-size: 15px;
   font-weight: 700;
   line-height: 13px;
   color: #7b758b;

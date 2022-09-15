@@ -16,8 +16,8 @@ const Edit_profile = (props) => {
           </LoaderWrap>
         }
       >
-        <Header />
         <Container>
+          <Header />
           <Grid>
             <LoginWrap>
               <EditProfileForm />
@@ -43,7 +43,7 @@ const LoaderWrap = styled.div`
 const Container = styled.div`
   display: flex;
   height: 984px;
-  background-color: orange;
+  /* background-color: orange; */
   flex-direction: column;
   bottom: 110px;
   & > span {

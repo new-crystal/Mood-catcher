@@ -1,21 +1,77 @@
 import React, { useEffect, useState, Fragment, Suspense, useRef } from "react";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import Loader from "../shared/Loader";
 import Header from "../elem/Header";
 import NavigationBar from "../elem/NavigationBar";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { __addComment, __getComments } from "../redux/modules/commentSlice";
-import { __getDetail } from "../redux/modules/uploadSlice";
+import {
+  __getDetail,
+  __representative,
+  __deletePost,
+} from "../redux/modules/uploadSlice";
 import { __getUser } from "../redux/modules/loginSlice";
 import DetailCommentList from "../components/detailComponents/DetailCommentList";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { deleteCookie, getCookie } from "../shared/cookie";
 import jwt from "jwt-decode"; // to get userId from loggedIn user's token
+import useDetectClose from "../elem/useDetectClose";
 
 const junsu = "/images/junsu.PNG";
+const home = "/images/more.png";
 
 const Item_detail = (props) => {
+  // scroll-x
+  const scrollRef = useRef(null);
+
+  const throttle = (func, ms) => {
+    let throttled = false;
+    return (...args) => {
+      if (!throttled) {
+        throttled = true;
+        setTimeout(() => {
+          func(...args);
+          throttled = false;
+        }, ms);
+      }
+    };
+  };
+
+  const [isDrag, setIsDrag] = useState(false);
+  const [startX, setStartX] = useState();
+
+  const onDragStart = (e) => {
+    e.preventDefault();
+    setIsDrag(true);
+    setStartX(e.pageX + scrollRef.current.scrollLeft);
+  };
+
+  const onDragEnd = () => {
+    setIsDrag(false);
+  };
+
+  const onDragMove = (e) => {
+    if (isDrag) {
+      const { scrollWidth, clientWidth, scrollLeft } = scrollRef.current;
+
+      scrollRef.current.scrollLeft = startX - e.pageX;
+
+      if (scrollLeft === 0) {
+        setStartX(e.pageX);
+      } else if (scrollWidth <= clientWidth + scrollLeft) {
+        setStartX(e.pageX + scrollLeft);
+      }
+    }
+  };
+
+  const delay = 100;
+  const onThrottleDragMove = throttle(onDragMove, delay);
+  // scroll-x
+
+  const preview_URL =
+    "https://cdn.discordapp.com/attachments/1014169130045292625/1014194232250077264/Artboard_1.png";
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const commentList = useSelector((state) => state.comment.comments);
@@ -25,7 +81,10 @@ const Item_detail = (props) => {
   const detailPost = useSelector((state) => state.upload.detailPost);
   const detailItems = useSelector((state) => state.upload.detailItems);
   const userStatus = useSelector((state) => state.login.userStatus);
+  const userStatusMe = useSelector((state) => state.signup.userStatus);
   const comments = useSelector((state) => state.comment.comments);
+
+  const [myPageIsOpen, myPageRef, myPageHandler] = useDetectClose(false);
 
   console.log(postId);
   console.log(userId);
@@ -52,6 +111,18 @@ const Item_detail = (props) => {
     );
     commentText.current.value = "";
   };
+  // 대표 게시물 지정하기
+  const patchRep = () => {
+    dispatch(__representative(postId));
+  };
+  // 게시물 수정하기
+  const putPost = () => {
+    navigate(`/edit_post/${postId}`);
+  };
+  // 게시물 삭제하기
+  const deletePost = () => {
+    dispatch(__deletePost(postId));
+  };
 
   useEffect(() => {
     dispatch(__getDetail(postId));
@@ -77,10 +148,35 @@ const Item_detail = (props) => {
             <ProfileBox>
               <ProfileImg
                 url={
-                  profile.image_file ? profile.image_file : profile.preview_URL
+                  userStatus.imgUrl === undefined ||
+                  userStatus.imgUrl.slice(-4) === "null"
+                    ? preview_URL
+                    : userStatus?.imgUrl
                 }
               ></ProfileImg>
               <span>{userStatus.nickname}</span>
+              <DropdownContainer>
+                <DropdownButton onClick={myPageHandler} ref={myPageRef}>
+                  <StLoginList />
+                </DropdownButton>
+                <Menu isDropped={myPageIsOpen}>
+                  <Ul>
+                    <Li>
+                      <LinkWrapper href="#1-1">
+                        <AddCommentButton2 onClick={patchRep}>
+                          대표 게시물 지정하기
+                        </AddCommentButton2>
+                        <AddCommentButton2 onClick={putPost}>
+                          수정하기
+                        </AddCommentButton2>
+                        <AddCommentButton2 onClick={deletePost}>
+                          삭제하기
+                        </AddCommentButton2>
+                      </LinkWrapper>
+                    </Li>
+                  </Ul>
+                </Menu>
+              </DropdownContainer>
             </ProfileBox>
             {/* <TitleText>{detailPost.title}</TitleText> */}
 
@@ -89,7 +185,13 @@ const Item_detail = (props) => {
             </DetailImage>
             <ContentText>{detailPost.content}</ContentText>
             <Line />
-            <SliderContainer>
+            <SliderContainer
+              ref={scrollRef}
+              onMouseDown={onDragStart}
+              onMouseMove={isDrag ? onThrottleDragMove : null}
+              onMouseUp={onDragEnd}
+              onMouseLeave={onDragEnd}
+            >
               {detailItems?.map((item, idx) => (
                 <StMusinsaItemBox key={idx}>
                   <StMusinsaImage>
@@ -116,7 +218,10 @@ const Item_detail = (props) => {
             <CommentBox>
               <CommentImg
                 url={
-                  profile.image_file ? profile.image_file : profile.preview_URL
+                  userStatusMe.imgUrl === undefined ||
+                  userStatusMe.imgUrl.slice(-4) === "null"
+                    ? preview_URL
+                    : userStatusMe?.imgUrl
                 }
               ></CommentImg>
               <WrapComment>
@@ -140,6 +245,15 @@ const Item_detail = (props) => {
 };
 
 export default Item_detail;
+
+const StLoginList = styled.div`
+  background-image: url(${home});
+  width: 40px;
+  height: 40px;
+  background-position: center;
+  background-size: cover;
+  cursor: pointer;
+`;
 
 const LoaderWrap = styled.div`
   position: absolute;
@@ -191,6 +305,80 @@ const ProfileImg = styled.div`
   background-size: cover;
   background-image: url(${(props) => props.url});
   box-shadow: 5px 5px 4px #877f92;
+`;
+
+const DropdownContainer = styled.div`
+  position: relative;
+  text-align: center;
+  margin-left: 220px;
+`;
+
+const DropdownButton = styled.div`
+  cursor: pointer;
+`;
+
+const Menu = styled.div`
+  background: gray;
+  position: absolute;
+  top: 52px;
+  left: -75%;
+  width: 200px;
+  text-align: center;
+  box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.2);
+  border-radius: 3px;
+  opacity: 0;
+  visibility: hidden;
+  transform: translate(-50%, -20px);
+  transition: opacity 0.4s ease, transform 0.4s ease, visibility 0.4s;
+  z-index: 9;
+
+  &:after {
+    content: "";
+    height: 0;
+    width: 0;
+    position: absolute;
+    top: -3px;
+    left: 50%;
+    transform: translate(150%, -50%);
+    border: 12px solid transparent;
+    border-top-width: 0;
+    border-bottom-color: gray;
+  }
+
+  ${({ isDropped }) =>
+    isDropped &&
+    css`
+      opacity: 1;
+      visibility: visible;
+      transform: translate(-50%, 0);
+      left: -75%;
+    `};
+`;
+
+const Ul = styled.ul`
+  & > li {
+    margin-bottom: 10px;
+  }
+
+  & > li:first-of-type {
+    margin-top: 10px;
+  }
+
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+`;
+
+const Li = styled.li``;
+
+const LinkWrapper = styled.div`
+  font-size: 16px;
+  text-decoration: none;
+  color: white;
 `;
 
 // const TitleText = styled.div`
@@ -326,13 +514,28 @@ const AddCommentButton = styled.button`
   box-shadow: 5px 5px 4px #877f92;
 `;
 
+const AddCommentButton2 = styled.button`
+  margin-top: 15px;
+  text-align: center;
+  color: black;
+  font-size: 16px;
+  font-weight: bold;
+  line-height: 20px;
+  width: 180px;
+  height: 30px;
+  background-color: white;
+  border-radius: 10px;
+  border: none;
+  box-shadow: 5px 5px 4px #877f92;
+`;
+
 const StMusinsaImage = styled.div`
   margin: 13px 12px 12px;
   width: 75px;
   height: 75px;
   border-radius: 15px;
   .ImgDiv {
-    background-color: orange;
+    /* background-color: orange; */
     width: 100%;
     height: 75px;
     border-radius: 16px;

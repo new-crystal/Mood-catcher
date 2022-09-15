@@ -121,7 +121,7 @@ export const __patchUser = createAsyncThunk(
     console.log(payload);
     try {
       const response = await api.patch(`/users`, payload);
-      return response.data.userStatus;
+      return response.data.data.userStatus;
     } catch (err) {
       console.log(err);
     }
@@ -139,6 +139,7 @@ const initialState = {
   userStatus: {},
   check: false,
   userIcon: {},
+  changeStatus: false,
 };
 
 const loginSlice = createSlice({
@@ -180,11 +181,16 @@ const loginSlice = createSlice({
         state.checkNickname = action.payload;
       })
       //프로필 수정
+      .addCase(__editProfile.pending, (state, action) => {
+        state.changeStatus = false;
+      })
       .addCase(__editProfile.fulfilled, (state, action) => {
         state.changeUser = action.payload;
+        state.changeStatus = true;
       })
       .addCase(__editProfile.rejected, (state, action) => {
         state.changeUser = action.payload;
+        state.changeStatus = false;
       })
       //회원탈퇴
       .addCase(__delUser.fulfilled, (state, action) => {})

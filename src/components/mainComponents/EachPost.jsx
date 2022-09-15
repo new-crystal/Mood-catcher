@@ -1,18 +1,24 @@
 import React, { Fragment, useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
 const EachPost = (props) => {
+  const navigate = useNavigate();
   const { item } = props;
   return (
     <Fragment>
-      <PostWrap>
+      <PostWrap
+        onClick={() => {
+          navigate(`/item_detail/${item.postId}/${item.userId}`);
+        }}
+      >
         <PostImage>
-          <img src={item.imgUrl} alt="post_image"></img>
+          <img src={item?.imgUrl} alt="post_image"></img>
         </PostImage>
         <PostInfoWrap>
           <JustifyAlign>
-            <PostName>{item.name_korean}</PostName>
+            <PostName>{item?.name_korean}</PostName>
           </JustifyAlign>
         </PostInfoWrap>
       </PostWrap>
@@ -31,14 +37,14 @@ const PostWrap = styled.div`
 
 const PostImage = styled.div`
   width: 148px;
-  height: 148px;
+  height: 196px;
   border-radius: 13px;
   background-color: #f7f7f7;
   background-size: cover;
   cursor: pointer;
   & > img {
     width: 130px;
-    height: 130px;
+    height: 172px;
     margin: 9px;
   }
   @media (img: img) {

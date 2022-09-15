@@ -1,11 +1,11 @@
-import React, { Fragment, Suspense } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import React, { useState, Fragment, Suspense, useEffect } from "react";
 import styled from "styled-components";
 import Loader from "../shared/Loader";
 import Header from "../elem/Header";
-import SignupForm from "../components/signupComponents/SignupForm";
+import NavigationBar from "../elem/NavigationBar";
+import OpenForm from "../components/openComponents/OpenForm";
 
-const Signup = () => {
+const Mypage = (props) => {
   return (
     <Fragment>
       <Suspense
@@ -15,12 +15,9 @@ const Signup = () => {
           </LoaderWrap>
         }
       >
-        <Header />
         <Container>
           <Grid>
-            <LoginWrap>
-              <SignupForm />
-            </LoginWrap>
+            <OpenForm />
           </Grid>
         </Container>
       </Suspense>
@@ -28,22 +25,18 @@ const Signup = () => {
   );
 };
 
-export default Signup;
-
 const LoaderWrap = styled.div`
   position: absolute;
-  top: 50%;
-  left: 50%;
   margin-top: -100px;
   margin-left: -100px;
+  top: 50%;
+  left: 50%;
 `;
 
 const Container = styled.div`
   display: flex;
-  height: 984px;
-  /* background-color: orange; */
   flex-direction: column;
-  bottom: 110px;
+  /* height: 926px; */
   & > span {
     display: -webkit-box;
     -webkit-box-orient: vertical;
@@ -54,19 +47,11 @@ const Container = styled.div`
 `;
 
 const Grid = styled.div`
-  //width: 100%;
-  width: 428px;
   margin: 0 auto;
-  background-color: royalblue;
   margin-top: 60px;
-  margin-bottom: 500px;
-`;
-
-const LoginWrap = styled.div`
-  width: 100%;
-  background-color: #ffffff;
-  display: flex;
-  flex-direction: column;
-  text-align: center;
+  margin-bottom: 57px;
+  width: 428px;
   background: linear-gradient(#a396c9, #ffffff);
 `;
+
+export default Mypage;

@@ -1,4 +1,8 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import {
+  createAsyncThunk,
+  createSlice,
+  createSelector,
+} from "@reduxjs/toolkit";
 import { api } from "../../shared/api";
 
 // 게시물 작성
@@ -9,6 +13,32 @@ export const __writePost = createAsyncThunk(
     const response = await api.post(`/posts`, payload);
     console.log(response.data.data);
     return response.data.data;
+  }
+);
+
+// 게시물 수정
+export const __putPost = createAsyncThunk(
+  "put/putPost",
+  async (payload, thunkAPI) => {
+    console.log(payload);
+    console.log(payload.totalPost);
+    const response = await api.put(
+      `/posts/${payload.postId}`,
+      payload.totalPost
+    );
+    console.log(response.data.data);
+    return response.data.data;
+  }
+);
+
+// 게시물 삭제
+export const __deletePost = createAsyncThunk(
+  "delete/deletePost",
+  async (payload, thunkAPI) => {
+    console.log(payload);
+    const response = await api.delete(`/posts/${payload}`);
+    console.log(response);
+    return response;
   }
 );
 
@@ -53,12 +83,28 @@ export const __getDetail = createAsyncThunk(
   }
 );
 
-//냐의 옷장 게시물 가져오기
+//나의 옷장 게시물 가져오기
 export const __getMyPage = createAsyncThunk(
   "GET/MYPAGE",
   async (payload, thunkAPI) => {
     try {
       const response = await api.get(`/posts?userId=${payload}&type=my`);
+      return response.data;
+    } catch (err) {
+      console.log(err);
+    }
+  }
+);
+
+//나의 옷장 게시물 가져오기 (옷장페이지)
+export const __getMyCloset = createAsyncThunk(
+  "GET/MYCLOSET",
+  async (payload, thunkAPI) => {
+    try {
+      console.log(payload);
+      const response = await api.get(
+        `/posts?userId=${payload.userId}&type=my&page=${payload.paging}&count=4`
+      );
       return response.data;
     } catch (err) {
       console.log(err);
@@ -102,7 +148,7 @@ const uploadSlice = createSlice({
     detailPost: {},
     detailItems: [],
     myList: [],
-    closetList: [],
+    myCloset: [],
     checkPostId: false,
     representative: {},
   },
@@ -126,6 +172,14 @@ const uploadSlice = createSlice({
         state.post = action.payload.post;
         state.checkPostId = true;
       })
+      .addCase(__putPost.fulfilled, (state, action) => {
+        state.post = action.payload.post;
+        state.checkPostId = true;
+      })
+      .addCase(__deletePost.fulfilled, (state, action) => {
+        state.post = action.payload.post;
+        state.checkPostId = true;
+      })
       .addCase(__getMusinsa.fulfilled, (state, action) => {
         state.items = action.payload.items;
         console.log(state.items);
@@ -140,6 +194,9 @@ const uploadSlice = createSlice({
       })
       .addCase(__getMyPage.rejected, (state, action) => {
         state.myList = action.payload;
+      })
+      .addCase(__getMyCloset.fulfilled, (state, action) => {
+        state.myCloset = [...state.myCloset, ...action.payload];
       })
       //대표 게시물 지정하기
       .addCase(__representative.fulfilled, (state, action) => {
@@ -158,3 +215,12 @@ const uploadSlice = createSlice({
 export const { regFormdata, regPost, selectItem, changeCheckPostId } =
   uploadSlice.actions;
 export default uploadSlice.reducer;
+
+const closet_Infinity = (state) => state.upload.myCloset;
+
+export const InfinityCloset = createSelector(
+  closet_Infinity,
+  (closet_Infinity) => {
+    return closet_Infinity;
+  }
+);

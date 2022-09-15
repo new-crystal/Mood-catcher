@@ -2,37 +2,82 @@ import React, { Fragment, useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
+import { __patchMood } from "../../redux/modules/likeSlice";
+import heartFalse from "../../image/heart.png";
+import heartTrue from "../../image/heartTrue.png";
 
 const junsu = "/images/junsu.PNG";
 const heart = "/images/heart.png";
 
 const EachPost = (props) => {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
-
   const { item } = props;
+  const [likeStatus, setLikeStatus] = useState(item?.likeStatus);
+  const [mood, setMood] = useState(`${heartFalse}`);
+  const [moodNum, setMoodNum] = useState(item?.likeCount);
+
+  //새로고침시에도 무드 상태값 유지
+  useEffect(() => {
+    if (likeStatus === true) {
+      setMood(`${heartTrue}`);
+    }
+    if (likeStatus === false) {
+      setMood(`${heartFalse}`);
+    }
+  }, [mood, likeStatus, item]);
+
+  //무드 버튼 누르기
+  const onClickMoodBtn = () => {
+    setMoodNum(moodNum + 1);
+    setLikeStatus(true);
+    dispatch(__patchMood(item.postId));
+  };
+
+  //무드버튼 취소하기
+  const onClickMoodCancelBtn = () => {
+    setMoodNum(moodNum - 1);
+    setLikeStatus(false);
+    dispatch(__patchMood(item.postId));
+  };
+
   return (
     <Fragment>
-      <WritedClosetInfo
-        onClick={() => {
-          navigate("/closet/1");
-        }}
-      >
+      <WritedClosetInfo>
         <ClosetImage>
-          <img src={junsu} />
+          <img
+            src={item?.imgUrl}
+            alt="img"
+            onClick={() => {
+              navigate(`/item_detail/${item.postId}/${item.userId}`);
+            }}
+          />
         </ClosetImage>
         <ClosetTextWrap>
           <GridHorizon>
             <TitleText>
-              <span>내 다리 롱다리</span>
+              <span>{item?.title}</span>
             </TitleText>
             <ContentText>
-              <span>
-                00/00 사진관에서 사진찍고 거울샷 찍었는데 길게 나와서 맘에든다.
-              </span>
+              <span>{item?.createdAt.slice(5)}</span>
+              <br />
+              <span>{item?.content}</span>
             </ContentText>
             <HeartText>
-              <img src={heart} alt="heart" />
-              <span>100+</span>
+              {likeStatus ? (
+                <img
+                  src={`${heartTrue}`}
+                  alt="heart"
+                  onClick={onClickMoodCancelBtn}
+                />
+              ) : (
+                <img
+                  src={`${heartFalse}`}
+                  alt="heart"
+                  onClick={onClickMoodBtn}
+                />
+              )}
+              <span>{moodNum}</span>
             </HeartText>
           </GridHorizon>
         </ClosetTextWrap>
