@@ -9,6 +9,7 @@ import { useDispatch } from "react-redux";
 import { regFormdata, regPost } from "../redux/modules/uploadSlice";
 
 const junsu = "./images/junsu.PNG";
+const preview_URL = "/images/noimage.PNG";
 
 const Upload = (props) => {
   const dispatch = useDispatch();
@@ -87,7 +88,7 @@ const Upload = (props) => {
                 />
                 <div className="ImgDiv">
                   <img
-                    src={attachment ? attachment : junsu}
+                    src={attachment ? attachment : preview_URL}
                     alt=""
                     className="default"
                   />
@@ -95,11 +96,21 @@ const Upload = (props) => {
               </StImageBox>
               <StText>제목</StText>
               <StTitleInput>
-                <input id="title" required onChange={changeInput} />
+                <input
+                  id="title"
+                  maxLength={17}
+                  required
+                  onChange={changeInput}
+                />
               </StTitleInput>
               <StText>내용</StText>
               <StContentInput>
-                <input id="content" required onChange={changeInput} />
+                <input
+                  id="content"
+                  maxLength={25}
+                  required
+                  onChange={changeInput}
+                />
               </StContentInput>
             </StUploadBox>
           </Grid>
@@ -244,7 +255,7 @@ const StTitleInput = styled.div`
   border-radius: 15px;
   outline: none;
   & > input {
-    width: 250px;
+    width: 300px;
     height: 50px;
     border: none;
     outline: none;
@@ -261,7 +272,7 @@ const StContentInput = styled.div`
   border-radius: 15px;
   outline: none;
   & > input {
-    width: 250px;
+    width: 300px;
     height: 90px;
     border: none;
     outline: none;

@@ -178,14 +178,10 @@ const Upload_select = (props) => {
                 onMouseLeave={onDragEnd}
               >
                 {selectedItems?.map((item, idx) => (
-                  <StMusinsaItemBox key={idx} className={searchTogle}>
+                  <StMusinsaItemBox key={idx}>
                     <StMusinsaImage>
                       <div className="ImgDiv">
-                        <img
-                          src={item.imgUrl}
-                          alt=""
-                          className={searchTogle.toString()}
-                        />
+                        <img src={item.imgUrl} alt="" />
                       </div>
                     </StMusinsaImage>
                     <StTextBox>
@@ -207,8 +203,9 @@ const Upload_select = (props) => {
               <StSearchInput>
                 <input
                   type="text"
-                  onClick={() => {
-                    setSearchTogle((togle) => !togle);
+                  onClick={(e) => {
+                    if (searchTogle === false)
+                      setSearchTogle((togle) => !togle);
                   }}
                   onChange={(e) => {
                     setSearch(e.target.value);
@@ -216,11 +213,13 @@ const Upload_select = (props) => {
                   onKeyPress={(e) => {
                     if (e.key === "Enter" && search === "") {
                       window.alert("검색 키워드를 입력해주세요!");
-                      setSearch("");
-                    } else if (e.key === "Enter") {
+                    } else if (e.key === "Enter" && searchTogle === false) {
+                      setSearchTogle((togle) => !togle);
                       e.preventDefault();
                       dispatch(__getMusinsa(search));
-                      setSearch("");
+                    } else if (e.key === "Enter" && searchTogle === true) {
+                      e.preventDefault();
+                      dispatch(__getMusinsa(search));
                     }
                   }}
                 ></input>
@@ -230,19 +229,29 @@ const Upload_select = (props) => {
                     onClick={(e) => {
                       if (search === "") {
                         window.alert("검색 키워드를 입력해주세요!");
-                        setSearch("");
-                      } else {
+                      } else if (searchTogle === false) {
+                        setSearchTogle((togle) => !togle);
                         e.preventDefault();
                         dispatch(__getMusinsa(search));
-                        setSearch("");
+                      } else if (searchTogle === true) {
+                        e.preventDefault();
+                        dispatch(__getMusinsa(search));
                       }
                     }}
                   />
                 </ButtonWrap>
               </StSearchInput>
+              <MusinsaButton
+                className={!searchTogle}
+                onClick={(e) => {
+                  setSearchTogle((togle) => !togle);
+                }}
+              >
+                무신사 선택 완료
+              </MusinsaButton>
               <List className={searchTogle}>
                 {items?.map((item, idx) => (
-                  <EachMusinsa key={idx} item={item} />
+                  <EachMusinsa idx={idx} item={item} />
                 ))}
               </List>
             </StUploadBox>
@@ -383,7 +392,7 @@ const StMusinsaItemBox = styled.div`
   font-size: 20px;
   outline: none;
   text-align: center;
-  cursor: pointer;
+  /* cursor: pointer; */
   &.true {
     height: 0;
   }
@@ -438,12 +447,13 @@ const StSearchInput = styled.div`
     margin-left: 20px;
     margin-top: 3px;
     width: 250px;
-    height: 47px;
+    height: 40px;
     border: none;
     outline: none;
     background: #e6e5ea;
     outline: none;
     font-size: 30px;
+    font-family: "Noto Sans KR", sans-serif;
   }
 `;
 
@@ -470,4 +480,21 @@ const List = styled.div`
     display: flex;
   }
   transition: 0.5s;
+`;
+
+const MusinsaButton = styled.button`
+  text-align: center;
+  margin: 0 20px 5px;
+  color: white;
+  font-size: 16px;
+  font-weight: bold;
+  line-height: 20px;
+  width: 350px;
+  height: 30px;
+  background-color: #7b758b;
+  border-radius: 10px;
+  border: none;
+  &.true {
+    display: none;
+  }
 `;

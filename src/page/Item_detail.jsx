@@ -72,6 +72,11 @@ const Item_detail = (props) => {
   const preview_URL =
     "https://cdn.discordapp.com/attachments/1014169130045292625/1014194232250077264/Artboard_1.png";
 
+  const token = getCookie("token");
+  // console.log(jwt(token));
+  const payload = jwt(token);
+  // console.log(ranksIF);
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const commentList = useSelector((state) => state.comment.comments);
@@ -110,10 +115,16 @@ const Item_detail = (props) => {
       __addComment({ comment: commentText.current.value, postId: postId }) // , postId: postId
     );
     commentText.current.value = "";
+    // window.location.reload();
   };
   // 대표 게시물 지정하기
   const patchRep = () => {
-    dispatch(__representative(postId));
+    if (window.confirm("이 게시물을 대표게시물로 지정하겠습니까?")) {
+      dispatch(__representative(postId));
+      alert("대표게시물 지정에 성공했습니다.");
+    } else {
+      alert("취소합니다.");
+    }
   };
   // 게시물 수정하기
   const putPost = () => {
@@ -121,7 +132,12 @@ const Item_detail = (props) => {
   };
   // 게시물 삭제하기
   const deletePost = () => {
-    dispatch(__deletePost(postId));
+    if (window.confirm("이 게시물을 삭제하시겠습니까?")) {
+      dispatch(__deletePost(postId));
+      alert("대표게시물 삭제에 성공했습니다.");
+    } else {
+      alert("취소합니다.");
+    }
   };
 
   useEffect(() => {
@@ -147,6 +163,9 @@ const Item_detail = (props) => {
           <Grid>
             <ProfileBox>
               <ProfileImg
+                onClick={() => {
+                  navigate(`/closet/${userId}`);
+                }}
                 url={
                   userStatus.imgUrl === undefined ||
                   userStatus.imgUrl.slice(-4) === "null"
@@ -154,29 +173,37 @@ const Item_detail = (props) => {
                     : userStatus?.imgUrl
                 }
               ></ProfileImg>
-              <span>{userStatus.nickname}</span>
-              <DropdownContainer>
-                <DropdownButton onClick={myPageHandler} ref={myPageRef}>
-                  <StLoginList />
-                </DropdownButton>
-                <Menu isDropped={myPageIsOpen}>
-                  <Ul>
-                    <Li>
-                      <LinkWrapper href="#1-1">
-                        <AddCommentButton2 onClick={patchRep}>
-                          대표 게시물 지정하기
-                        </AddCommentButton2>
-                        <AddCommentButton2 onClick={putPost}>
-                          수정하기
-                        </AddCommentButton2>
-                        <AddCommentButton2 onClick={deletePost}>
-                          삭제하기
-                        </AddCommentButton2>
-                      </LinkWrapper>
-                    </Li>
-                  </Ul>
-                </Menu>
-              </DropdownContainer>
+              <span
+                onClick={() => {
+                  navigate(`/closet/${userId}`);
+                }}
+              >
+                {userStatus.nickname}
+              </span>
+              {payload.userId == userId ? (
+                <DropdownContainer>
+                  <DropdownButton onClick={myPageHandler} ref={myPageRef}>
+                    <StLoginList />
+                  </DropdownButton>
+                  <Menu isDropped={myPageIsOpen}>
+                    <Ul>
+                      <Li>
+                        <LinkWrapper href="#1-1">
+                          <AddCommentButton2 onClick={patchRep}>
+                            대표 게시물 지정하기
+                          </AddCommentButton2>
+                          <AddCommentButton2 onClick={putPost}>
+                            수정하기
+                          </AddCommentButton2>
+                          <AddCommentButton2 onClick={deletePost}>
+                            삭제하기
+                          </AddCommentButton2>
+                        </LinkWrapper>
+                      </Li>
+                    </Ul>
+                  </Menu>
+                </DropdownContainer>
+              ) : null}
             </ProfileBox>
             {/* <TitleText>{detailPost.title}</TitleText> */}
 
@@ -234,7 +261,12 @@ const Item_detail = (props) => {
             </CommentBox>
             <Line />
             {commentList?.map((item, idx) => (
-              <DetailCommentList key={idx} item={item} postId={postId} />
+              <DetailCommentList
+                key={idx}
+                item={item}
+                postId={postId}
+                userId={userId}
+              />
             ))}
           </Grid>
         </Container>
