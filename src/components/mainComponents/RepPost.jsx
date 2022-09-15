@@ -3,6 +3,8 @@ import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 
 const junsu = "/images/junsu.PNG";
+const noimage = "/images/noimage.PNG";
+
 const heart = "/images/heart.png";
 
 const RepPost = ({ myRepPost }) => {
@@ -14,32 +16,53 @@ const RepPost = ({ myRepPost }) => {
       <Wrap>
         <StTag>My Closet</StTag>
       </Wrap>
-      <WritedClosetInfo
-        onClick={() => {
-          navigate(`/closet/${myRepPost.userId}`);
-        }}
-      >
-        <ClosetImage>
-          <img src={myRepPost.imgUrl} />
-        </ClosetImage>
-        <ClosetTextWrap>
-          <GridHorizon>
-            <TitleText>
-              <span>{myRepPost.title}</span>
-            </TitleText>
-            <ContentText>
-              {/* <span>{myRepPost?.createdAt.slice(5)}</span> */}
-              <span>{myRepPost?.createdAt}</span>
-              <br />
-              <span>{myRepPost?.content}</span>
-            </ContentText>
-            <HeartText>
-              <img src={heart} alt="heart" />
-              <span>{myRepPost?.likeCount}</span>
-            </HeartText>
-          </GridHorizon>
-        </ClosetTextWrap>
-      </WritedClosetInfo>
+      {myRepPost.userId === undefined ? (
+        <WritedClosetInfo
+          onClick={() => {
+            navigate(`/closet/${myRepPost.userId}`);
+          }}
+        >
+          <ClosetImage>
+            <img src={noimage} />
+          </ClosetImage>
+          <ClosetTextWrap>
+            <GridHorizon>
+              <TitleText>
+                <span>대표게시물</span>
+              </TitleText>
+              <ContentText>
+                {/* <span>{myRepPost?.createdAt.slice(5)}</span> */}
+                <span>{myRepPost?.createdAt}</span>
+                <br />
+                <span>지정해주세요</span>
+              </ContentText>
+            </GridHorizon>
+          </ClosetTextWrap>
+        </WritedClosetInfo>
+      ) : (
+        <WritedClosetInfo
+          onClick={() => {
+            navigate(`/closet/${myRepPost.userId}`);
+          }}
+        >
+          <ClosetImage>
+            <img src={myRepPost.imgUrl} />
+          </ClosetImage>
+          <ClosetTextWrap>
+            <GridHorizon>
+              <TitleText>
+                <span>{myRepPost.title}</span>
+              </TitleText>
+              <ContentText>
+                {/* <span>{myRepPost?.createdAt.slice(5)}</span> */}
+                <span>{myRepPost?.createdAt}</span>
+                <br />
+                <span>{myRepPost?.content}</span>
+              </ContentText>
+            </GridHorizon>
+          </ClosetTextWrap>
+        </WritedClosetInfo>
+      )}
     </Fragment>
   );
 };

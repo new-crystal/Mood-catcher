@@ -67,7 +67,7 @@ const AlarmList = styled.div`
   h4 {
     font-family: Roboto;
     font-style: Bold;
-    font-size: 20px;
+    font-size: 17px;
     font-weight: 700;
     margin: 10px;
   }
@@ -87,7 +87,7 @@ const ConfirmBtn = styled.button`
   font-family: Roboto;
   font-style: Bold;
   font-weight: 700;
-  font-size: 16px;
+  font-size: 13px;
 `;
 const AlarmBox = styled.div`
   width: 356px;

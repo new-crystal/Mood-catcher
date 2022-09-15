@@ -66,7 +66,7 @@ const SearchResultForm = () => {
       setPage((pre) => pre + 1);
     }
     if (searchList.length !== 0) {
-      setPage(searchList.length / 8 + 1);
+      setPage(searchList.length);
     }
   }, []);
 

@@ -32,7 +32,7 @@ export const __getUsers = createAsyncThunk(
   async (payload, thunkAPI) => {
     const response = await api.get(`/users/${payload}`);
     if (response.status === 200) {
-      return response.data;
+      return response.data.data.userStatus;
     }
   }
 );
