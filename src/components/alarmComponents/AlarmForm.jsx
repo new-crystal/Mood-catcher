@@ -22,6 +22,8 @@ const AlarmForm = () => {
     dispatch(__getAlarm());
   }, [alarm]);
 
+  console.log(alarms);
+
   return (
     <AlarmContainer>
       <AlarmList>
@@ -39,6 +41,7 @@ const AlarmForm = () => {
             return (
               <AlarmBox key={idx}>
                 <p>{alarm.msg}</p>
+                {alarm.duplecation > 1 && <h5>{alarm.duplecation}</h5>}
               </AlarmBox>
             );
           })
@@ -103,6 +106,12 @@ const AlarmBox = styled.div`
     font-style: Bold;
     font-weight: 700;
     font-size: 16px;
+    white-space: pre-wrap;
+  }
+  h5 {
+    position: relative;
+    top: -50px;
+    left: 160px;
   }
 `;
 export default AlarmForm;
