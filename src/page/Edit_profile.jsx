@@ -16,8 +16,8 @@ const Edit_profile = (props) => {
           </LoaderWrap>
         }
       >
-        <Header />
         <Container>
+          <Header />
           <Grid>
             <LoginWrap>
               <EditProfileForm />

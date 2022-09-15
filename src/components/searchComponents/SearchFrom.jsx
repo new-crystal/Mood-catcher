@@ -1,18 +1,14 @@
 import styled from "styled-components";
 import { useForm } from "react-hook-form";
-import { Fragment, useEffect, useState } from "react";
+import { Fragment, useEffect, useState, useCallback } from "react";
 import search from "../../image/search.png";
 import heart from "../../image/heart.png";
-import heartTrue from "../../image/heartTrue.png";
 import { useDispatch, useSelector } from "react-redux";
 import { __getSearch } from "../../redux/modules/searchSlice";
 import { useNavigate } from "react-router-dom";
-import { __getUser } from "../../redux/modules/loginSlice";
 import jwt_decode from "jwt-decode";
 import { getCookie } from "../../shared/cookie";
 import _ from "lodash";
-import { useCallback } from "react";
-import { __patchMood } from "../../redux/modules/likeSlice";
 import SearchItem from "./SearchItem";
 
 const SearchForm = () => {
@@ -61,7 +57,7 @@ const SearchForm = () => {
       if (page >= 13) {
         return;
       }
-      setPage((pre) => pre + 1);
+      setPage(page + 1);
       getRecommendedList();
       setLoading(true);
     }
@@ -71,7 +67,7 @@ const SearchForm = () => {
   useEffect(() => {
     if (page === 1 && recommended.length === 0) {
       dispatch(__getSearch(page));
-      setPage((pre) => pre + 1);
+      setPage(page + 1);
     }
     if (recommended.length !== 0) {
       setPage(recommended.length / 8 + 1);

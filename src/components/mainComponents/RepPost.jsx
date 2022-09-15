@@ -1,6 +1,10 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useState, useEffect } from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
+import heartFalse from "../../image/heart.png";
+import heartTrue from "../../image/heartTrue.png";
+import { useDispatch } from "react-redux";
+import { __patchMood } from "../../redux/modules/likeSlice";
 
 const junsu = "/images/junsu.PNG";
 const noimage = "/images/noimage.PNG";
@@ -8,7 +12,36 @@ const noimage = "/images/noimage.PNG";
 const heart = "/images/heart.png";
 
 const RepPost = ({ myRepPost }) => {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [likeStatus, setLikeStatus] = useState(myRepPost?.likeStatus);
+  const [mood, setMood] = useState(`${heartFalse}`);
+  const [moodNum, setMoodNum] = useState(myRepPost?.likeCount);
+  console.log(myRepPost);
+
+  //새로고침시에도 무드 상태값 유지
+  useEffect(() => {
+    if (likeStatus === true) {
+      setMood(`${heartTrue}`);
+    }
+    if (likeStatus === false) {
+      setMood(`${heartFalse}`);
+    }
+  }, [mood, likeStatus, myRepPost]);
+
+  //무드 버튼 누르기
+  const onClickMoodBtn = () => {
+    setMoodNum(moodNum + 1);
+    setLikeStatus(true);
+    dispatch(__patchMood(myRepPost?.postId));
+  };
+
+  //무드버튼 취소하기
+  const onClickMoodCancelBtn = () => {
+    setMoodNum(moodNum - 1);
+    setLikeStatus(false);
+    dispatch(__patchMood(myRepPost?.postId));
+  };
 
   return (
     <Fragment>

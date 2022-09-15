@@ -1,39 +1,39 @@
 import { useState, useEffect } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import heart from "../../image/heart.png";
 import heartTrue from "../../image/heartTrue.png";
-import { __patchMood } from "../../redux/modules/likeSlice";
+import { addMood, __patchMood } from "../../redux/modules/likeSlice";
 
 const SearchItem = ({ item }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [mood, setMood] = useState(`${heart}`);
   const [likeStatus, setLikeStatus] = useState(item.likeStatus);
-  const [likeCount, setLikeCount] = useState(item.likeCount);
+  const [moodNum, setMoodNum] = useState(item.likeCount);
 
   //새로고침시에도 무드 상태값 유지
   useEffect(() => {
     if (likeStatus === true) {
       setMood(`${heartTrue}`);
-      setLikeCount(item.likeCount);
     }
     if (likeStatus === false) {
       setMood(`${heart}`);
-      setLikeCount(item.likeCount);
     }
-  }, [mood, likeStatus, item]);
+  }, [mood, likeStatus]);
 
+  //무드 등록
   const onClickMoodBtn = () => {
-    setLikeCount((prevCount) => prevCount + 1);
     setLikeStatus(true);
+    setMoodNum(moodNum + 1);
     dispatch(__patchMood(item.postId));
   };
 
+  //무드 취소
   const onClickMoodCancelBtn = () => {
-    setLikeCount((prevCount) => prevCount - 1);
     setLikeStatus(false);
+    setMoodNum(moodNum - 1);
     dispatch(__patchMood(item.postId));
   };
 
@@ -53,7 +53,7 @@ const SearchItem = ({ item }) => {
             <Heart url={`${heart}`} onClick={onClickMoodBtn}></Heart>
           )}
 
-          <p>{likeCount}</p>
+          <p>{moodNum}</p>
         </HeartBox>
       </TextBox>
     </OtherClosetBox>
