@@ -108,22 +108,29 @@ const SearchResultForm = () => {
       </SearchBox>
 
       <ImgBox>
-        {searchList.length === 0 ? (
-          <div>
+        {sort === "title" && searchList?.length === 0 && (
+          <div style={{ margin: "30px auto" }}>
             <h1>검색 결과가 없습니다</h1>
             <h3>다시 검색해주세요</h3>
           </div>
-        ) : (
-          searchList.map((search) => (
-            <Img
-              key={search.postId}
-              url={search.imgUrl}
-              onClick={() =>
-                navigate(`/item_detail/${search.postId}/${search.userId}`)
-              }
-            ></Img>
-          ))
         )}
+        {sort === "writer" && searchList?.length === 0 && (
+          <div style={{ margin: "30px auto" }}>
+            <h1>검색하신 작성자의 </h1>
+            <h1> 대표게시물이 없습니다</h1>
+            <h3>다시 검색해주세요</h3>
+          </div>
+        )}
+
+        {searchList?.map((search) => (
+          <Img
+            key={search.postId}
+            url={search.imgUrl}
+            onClick={() =>
+              navigate(`/item_detail/${search.postId}/${search.userId}`)
+            }
+          ></Img>
+        ))}
       </ImgBox>
     </Fragment>
   );
@@ -212,6 +219,7 @@ const ImgBox = styled.div`
   display: flex;
   flex-wrap: wrap;
   width: 420px;
+  white-space: pre-wrap;
 `;
 const Img = styled.div`
   flex-direction: column;

@@ -1,11 +1,11 @@
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef, useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
 import { __getMyPage, __getRepPost } from "../../redux/modules/uploadSlice";
 import GradeList from "./GradeList";
 import { Fragment } from "react";
-import loginSlice, { __getUser } from "../../redux/modules/loginSlice";
+import { __getUser } from "../../redux/modules/loginSlice";
 import { getCookie } from "../../shared/cookie";
 import jwt_decode from "jwt-decode";
 
@@ -28,7 +28,6 @@ import question from "../../image/question.png";
 import empty from "../../image/옷걸이.png";
 import hanger from "../../image/hanger.png";
 import MoodPoint from "./MoodPoint";
-import { useCallback } from "react";
 
 const MyPageForm = () => {
   // scroll-x
@@ -118,8 +117,9 @@ const MyPageForm = () => {
   //성별과 등급별로 아이콘 이미지 보여주기
   const gradeIcon = useCallback(
     async (grade) => {
+      await dispatch(__getUser(userId));
       setGrade(users?.grade?.split(" ")[1]);
-      const icon = await users?.grade?.split(" ")[0];
+      const icon = users?.grade?.split(" ")[0];
       const manIcon = [0, man1, man2, man3, man4, man5];
       const womanIcon = [0, woman1, woman2, woman3, woman4, woman5];
       const catIcon = [0, cat1, cat2, cat3, cat4, cat5];
@@ -134,7 +134,7 @@ const MyPageForm = () => {
         setGradeImg(catIcon[parseInt(grade)]);
       }
     },
-    [profileIcon, gradeList]
+    [profileIcon, gradeList, users]
   );
 
   return (
@@ -197,7 +197,7 @@ const MyPageForm = () => {
         </MyPageBox>
         {payload.userId == userId ? (
           <ProfileEditBtn onClick={() => navigate("/edit_profile")}>
-            내 프로필 수정하기
+            내 프로필 수정
           </ProfileEditBtn>
         ) : null}
         <MoodHeader>

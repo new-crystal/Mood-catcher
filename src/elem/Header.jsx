@@ -1,4 +1,4 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useState } from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 // 따로 shared에 있는 스타일을 사용합니다.
@@ -16,6 +16,7 @@ const Back = "/images/Back2.png";
 const Header = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [isLogin, setIsLogin] = useState(false);
 
   const users = useSelector((state) => state.login.userStatus);
 
@@ -23,6 +24,7 @@ const Header = () => {
     const token = getCookie("token");
     if (token !== undefined) {
       const payload = jwt_decode(token);
+      setIsLogin(true);
       dispatch(__getUser(payload.userId));
     }
   }, []);
@@ -51,17 +53,19 @@ const Header = () => {
             <span>Mood catcher</span>
           </HeaderLogo>
         </HeaderBox>
-        {users.isExistsNotice === 0 ? (
-          <Notifications
-            url={`${Notification}`}
-            onClick={() => navigate(`/alarm/${users.userId}`)}
-          ></Notifications>
-        ) : (
-          <Notifications
-            url={`${NotificationTrue}`}
-            onClick={() => navigate(`/alarm/${users.userId}`)}
-          ></Notifications>
-        )}
+        {isLogin ? (
+          users?.isExistsNotice === 0 ? (
+            <Notifications
+              url={`${Notification}`}
+              onClick={() => navigate(`/alarm/${users.userId}`)}
+            ></Notifications>
+          ) : (
+            <Notifications
+              url={`${NotificationTrue}`}
+              onClick={() => navigate(`/alarm/${users.userId}`)}
+            ></Notifications>
+          )
+        ) : null}
       </div>
     </Fragment>
   );

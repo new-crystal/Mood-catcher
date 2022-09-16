@@ -114,7 +114,7 @@ const SearchForm = () => {
         <h1>Other Closet</h1>
       </ClosetBox>
       {recommended?.map((item) => (
-        <SearchItem item={item} />
+        <SearchItem key={item.postId} item={item} />
       ))}
     </Fragment>
   );
