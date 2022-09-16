@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef, useCallback } from "react";
+import React, { useEffect, useState, useRef, useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
@@ -114,6 +114,21 @@ const MyPageForm = () => {
     gradeIcon(grade);
   }, [profileIcon, gradeList, changeUser]);
 
+  //새로고침 방지하기
+  const preventClose = (e) => {
+    e.preventDefault();
+    e.returnValue = "";
+  };
+  //새로고침 방지하기
+  useEffect(() => {
+    (() => {
+      window.addEventListener("beforeunload", preventClose);
+    })();
+    return () => {
+      window.removeEventListener("beforeunload", preventClose);
+    };
+  }, []);
+
   //성별과 등급별로 아이콘 이미지 보여주기
   const gradeIcon = useCallback(
     async (grade) => {
@@ -192,7 +207,12 @@ const MyPageForm = () => {
           {rep?.imgUrl === undefined ? (
             <PostImg url={`${hanger}`}></PostImg>
           ) : (
-            <PostImg url={rep?.imgUrl}></PostImg>
+            <PostImg
+              url={rep?.imgUrl}
+              onClick={() =>
+                navigate(`/item_detail/${users.repPostId}/${users.userId}`)
+              }
+            ></PostImg>
           )}
         </MyPageBox>
         {payload.userId == userId ? (
@@ -551,4 +571,4 @@ const ProfileEditBtn = styled.button`
   text-align: center;
 `;
 
-export default MyPageForm;
+export default React.memo(MyPageForm);

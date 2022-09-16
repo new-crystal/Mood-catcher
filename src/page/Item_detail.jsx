@@ -94,6 +94,7 @@ const Item_detail = (props) => {
 
   const [mood, setMood] = useState(`${heartFalse}`);
   const [likeStatus, setLikeStatus] = useState(detailPost.likeStatus);
+  const [moodNum, setMoodNum] = useState(detailPost?.likeCount);
 
   const [myPageIsOpen, myPageRef, myPageHandler] = useDetectClose(false);
 
@@ -167,12 +168,14 @@ const Item_detail = (props) => {
 
   //무드 버튼 누르기
   const onClickMoodBtn = () => {
+    setMoodNum(moodNum + 1);
     setLikeStatus(true);
     dispatch(__patchMood(detailPost.postId));
   };
 
   //무드버튼 취소하기
   const onClickMoodCancelBtn = () => {
+    setMoodNum(moodNum - 1);
     setLikeStatus(false);
     dispatch(__patchMood(detailPost.postId));
   };
@@ -193,6 +196,7 @@ const Item_detail = (props) => {
               <ProfileImg
                 onClick={() => {
                   navigate(`/closet/${userId}`);
+                  window.location.reload();
                 }}
                 url={
                   userStatus.imgUrl === undefined ||
@@ -204,6 +208,7 @@ const Item_detail = (props) => {
               <span
                 onClick={() => {
                   navigate(`/closet/${userId}`);
+                  window.location.reload();
                 }}
               >
                 {userStatus.nickname}
@@ -253,6 +258,7 @@ const Item_detail = (props) => {
                 onClick={onClickMoodBtn}
               />
             )}
+            <span className="heartNum">{moodNum}</span>
             <ContentText>{detailPost.content}</ContentText>
             <Line />
             <SliderContainer
@@ -361,11 +367,16 @@ const Grid = styled.div`
   background: linear-gradient(#a396c9, #c8c6d0);
 
   .heart {
-    width: 50px;
-    height: 50px;
+    width: 40px;
+    height: 40px;
     position: relative;
-    top: -60px;
+    top: 0px;
     left: 50px;
+  }
+  .heartNum {
+    position: relative;
+    top: -10px;
+    left: 55px;
   }
 `;
 

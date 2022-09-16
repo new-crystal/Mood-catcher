@@ -1,7 +1,7 @@
 import React, { Fragment, useState, useCallback, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import heart from "../../image/heart.png";
 import { __getMainAllPosts } from "../../redux/modules/rankSlice";
-import { InfinityRank } from "../../redux/modules/rankSlice";
 import EachPost from "./EachPost";
 import styled from "styled-components";
 import InfinityScrollLoader from "./InfinityScrollLoader";
@@ -13,17 +13,20 @@ const AllPosts = () => {
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(false); //데이터 받아오는동안 로딩 true로 하고 api요청 그동안 한번만되게
   const [paging, setPaging] = useState(1); //페이지넘버
-  const ranksIF = useSelector(InfinityRank); //redux store값 받아오는부기
+  const [mood, setMood] = useState(`${heart}`);
   const token = getCookie("token");
   const { userId } = jwt(token);
 
-  const getInfinityList = useCallback(() => {
-    async function getData() {
+  const allMainPosts = useSelector((state) => state.rank.allPosts);
+
+  const getMainList = useCallback(() => {
+    const getMainData = async () => {
       await dispatch(__getMainAllPosts({ paging: paging, userId: userId })); //api요청
       setLoading(false); //요청하고나면 loading false로
-    }
-    return getData();
-  }, [paging, ranksIF]); //usecallback의 deps에 페이지랑 맥주목록 바뀔때마다 실행되게
+    };
+
+    return getMainData();
+  }, [paging, allMainPosts]); //usecallback의 deps에 페이지랑 맥주목록 바뀔때마다 실행되게
 
   const _handleScroll = _.throttle(() => {
     const scrollHeight = document.documentElement.scrollHeight;
@@ -36,20 +39,20 @@ const AllPosts = () => {
         return;
       }
       setPaging(paging + 1); //다음페이지
-      getInfinityList(); //api요청 실행
+      getMainList(); //api요청 실행
       setLoading(true); //실행동안 loading true로 바꾸고 요청 막기
     }
   }, 500);
 
   useEffect(() => {
-    if (paging === 1 && ranksIF.length === 0) {
+    if (paging === 1 && allMainPosts.length === 0) {
       dispatch(__getMainAllPosts({ paging: paging, userId: userId }));
       setPaging(paging + 1);
     } //첫렌더링시 0페이지 받아오기
-    if (ranksIF.length !== 0) {
-      setPaging(ranksIF.length);
+    if (allMainPosts.length !== 0) {
+      setPaging(allMainPosts.length);
     } //다른컴포넌트 갔다 올때 렌더링시 페이지넘버 계산
-  }, []);
+  }, [mood]);
 
   useEffect(() => {
     if (loading) {
@@ -64,7 +67,7 @@ const AllPosts = () => {
   return (
     <Fragment>
       <List>
-        {ranksIF?.map((item, idx) => (
+        {allMainPosts?.map((item, idx) => (
           <EachPost key={idx} item={item} />
         ))}
       </List>

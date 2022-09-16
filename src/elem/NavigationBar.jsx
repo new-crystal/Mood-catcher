@@ -22,6 +22,7 @@ const NavigationBar = (props) => {
         <SearchWrap
           onClick={() => {
             navigate("/");
+            window.location.reload();
           }}
         >
           <ImageWrap style={{ backgroundImage: `url(${home})` }} />
@@ -43,6 +44,7 @@ const NavigationBar = (props) => {
         <SearchWrap
           onClick={() => {
             navigate(`/like/${userId}`);
+            window.location.reload();
           }}
         >
           <ImageWrap style={{ backgroundImage: `url(${star})` }} />

@@ -17,6 +17,7 @@ const DetailChangeComment = ({ commentData, btnState, postId }) => {
       })
     );
     btnState(false);
+    window.location.reload();
   };
 
   useEffect(() => {

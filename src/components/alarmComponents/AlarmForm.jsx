@@ -38,8 +38,18 @@ const AlarmForm = () => {
           </AlarmBox>
         ) : (
           alarms?.map((alarm, idx) => {
-            return (
+            return alarms?.postId === -1 ? (
               <AlarmBox key={idx}>
+                <p>{alarm.msg}</p>
+                {alarm.duplecation > 1 && <h5>{alarm.duplecation}</h5>}
+              </AlarmBox>
+            ) : (
+              <AlarmBox
+                key={idx}
+                onClick={() =>
+                  navigate(`/item_detail/${alarm.postId}/${alarm.userId}`)
+                }
+              >
                 <p>{alarm.msg}</p>
                 {alarm.duplecation > 1 && <h5>{alarm.duplecation}</h5>}
               </AlarmBox>
