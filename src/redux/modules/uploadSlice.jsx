@@ -162,6 +162,12 @@ const uploadSlice = createSlice({
     selectItem: (state, action) => {
       state.selectedItems.unshift(action.payload);
     },
+    deleteItem: (state, action) => {
+      const delete_list = state.selectedItems.filter((v) => {
+        return String(v.name) === action.payload ? false : true;
+      });
+      state.selectedItems = delete_list;
+    },
     changeCheckPostId: (state, action) => {
       state.checkPostId = action.payload;
     },
@@ -212,8 +218,13 @@ const uploadSlice = createSlice({
   },
 });
 
-export const { regFormdata, regPost, selectItem, changeCheckPostId } =
-  uploadSlice.actions;
+export const {
+  regFormdata,
+  regPost,
+  selectItem,
+  changeCheckPostId,
+  deleteItem,
+} = uploadSlice.actions;
 export default uploadSlice.reducer;
 
 const closet_Infinity = (state) => state.upload.myCloset;
