@@ -4,6 +4,8 @@ import { useDispatch } from "react-redux/es/exports";
 import { __deleteRecomment } from "../../redux/modules/commentSlice";
 import DetailChangeReComment from "./DetailChangeReComments";
 import DetailRecomments from "./DetailRecomments";
+import { getCookie } from "../../shared/cookie";
+import jwt_decode from "jwt-decode";
 
 // 상세페이지에 댓글 list 컴포넌트
 const DetailReCommentList = (props) => {
@@ -11,6 +13,8 @@ const DetailReCommentList = (props) => {
   const { item } = props;
   const { postId } = props;
   console.log(item);
+  const token = getCookie("token");
+  const payload = jwt_decode(token);
 
   // profile_pic를 정하는 부분
   const [profile, setProfile] = useState({
@@ -68,20 +72,24 @@ const DetailReCommentList = (props) => {
           <span>작성자 : {item.nickname}</span>
           <pre>{item.content}</pre>
         </WrapComment>
-        <AddCommentButton
-          onClick={() => {
-            setChangeState(true);
-          }}
-        >
-          수정
-        </AddCommentButton>
-        <AddCommentButton
-          onClick={() => {
-            deleteComment();
-          }}
-        >
-          삭제
-        </AddCommentButton>
+        {payload.userId == item.userId ? (
+          <>
+            <AddCommentButton
+              onClick={() => {
+                setChangeState(true);
+              }}
+            >
+              수정
+            </AddCommentButton>
+            <AddCommentButton
+              onClick={() => {
+                deleteComment();
+              }}
+            >
+              삭제
+            </AddCommentButton>
+          </>
+        ) : null}
       </CommentBox>
     </>
   );

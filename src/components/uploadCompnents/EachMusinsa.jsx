@@ -1,15 +1,20 @@
 import React, { Fragment, useEffect, useState } from "react";
 import styled from "styled-components";
-import { useSelector, useDispatch } from "react-redux";
-import { selectItem } from "../../redux/modules/uploadSlice";
+import { useDispatch } from "react-redux";
+import { selectItem, deleteItem } from "../../redux/modules/uploadSlice";
 const EachMusinsa = (props) => {
   const dispatch = useDispatch();
+
+  const { idx } = props;
   const { item } = props;
-  // console.log(item);
+
+  const [selected, setSelected] = useState(false);
+  console.log(item);
+  console.log(idx);
 
   return (
     <Fragment>
-      <RecomandMusinsaWrap>
+      <RecomandMusinsaWrap className={selected}>
         <MusinsaImage>
           <img src={item.imgUrl} alt="" />
         </MusinsaImage>
@@ -24,13 +29,25 @@ const EachMusinsa = (props) => {
             <MusinsaPrice>{item.price}</MusinsaPrice>
           )}
         </MusinsaInfoWrap>
-        <MusinsaCheckButton
-          onClick={() => {
-            dispatch(selectItem(item));
-          }}
-        >
-          선택
-        </MusinsaCheckButton>
+        {selected === false ? (
+          <MusinsaCheckButton
+            onClick={() => {
+              dispatch(selectItem(item));
+              setSelected((selected) => !selected);
+            }}
+          >
+            선택
+          </MusinsaCheckButton>
+        ) : (
+          <MusinsaCheckButton
+            onClick={() => {
+              dispatch(deleteItem(item.name));
+              setSelected((selected) => !selected);
+            }}
+          >
+            해제
+          </MusinsaCheckButton>
+        )}
       </RecomandMusinsaWrap>
     </Fragment>
   );
@@ -40,8 +57,13 @@ export default EachMusinsa;
 
 const RecomandMusinsaWrap = styled.div`
   width: 350px;
-  margin-bottom: 20px;
+  padding-bottom: 10px;
+  margin-bottom: 10px;
   display: flex;
+  border-radius: 10px;
+  &.true {
+    background-color: grey;
+  }
 `;
 
 const MusinsaImage = styled.div`
@@ -51,7 +73,7 @@ const MusinsaImage = styled.div`
   border-radius: 13px;
   background-color: #f7f7f7;
   background-size: cover;
-  cursor: pointer;
+  /* cursor: pointer; */
   & > img {
     width: 75px;
     height: 75px;

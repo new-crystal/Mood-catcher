@@ -28,6 +28,7 @@ const Main = (props) => {
   const repPost = useSelector((state) => state.upload.representative);
   // 랭크게시물 불러옴
   const hotPosts = useSelector((state) => state.rank.hotPosts);
+  console.log(hotPosts);
 
   const token = getCookie("token");
   const { userId } = jwt(token);

@@ -9,8 +9,9 @@ export const __addComment = createAsyncThunk(
     const response = await api.post(`/comments?postId=${payload.postId}`, {
       content: payload.comment,
     });
+    console.log(response.data.data.comment.createComment);
     // 추가한 댓글 하나의 Data
-    return response.data;
+    return response.data.data.comment.createComment;
   }
 );
 

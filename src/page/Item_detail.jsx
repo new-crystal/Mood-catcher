@@ -17,6 +17,9 @@ import { Link, useParams } from "react-router-dom";
 import { deleteCookie, getCookie } from "../shared/cookie";
 import jwt from "jwt-decode"; // to get userId from loggedIn user's token
 import useDetectClose from "../elem/useDetectClose";
+import heartFalse from "../image/heart.png";
+import heartTrue from "../image/heartTrue.png";
+import { __patchMood } from "../redux/modules/likeSlice";
 
 const junsu = "/images/junsu.PNG";
 const home = "/images/more.png";
@@ -72,6 +75,11 @@ const Item_detail = (props) => {
   const preview_URL =
     "https://cdn.discordapp.com/attachments/1014169130045292625/1014194232250077264/Artboard_1.png";
 
+  const token = getCookie("token");
+  // console.log(jwt(token));
+  const payload = jwt(token);
+  // console.log(ranksIF);
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const commentList = useSelector((state) => state.comment.comments);
@@ -84,12 +92,15 @@ const Item_detail = (props) => {
   const userStatusMe = useSelector((state) => state.signup.userStatus);
   const comments = useSelector((state) => state.comment.comments);
 
+  const [mood, setMood] = useState(`${heartFalse}`);
+  const [likeStatus, setLikeStatus] = useState(detailPost.likeStatus);
+
   const [myPageIsOpen, myPageRef, myPageHandler] = useDetectClose(false);
 
   console.log(postId);
   console.log(userId);
 
-  console.log(detailPost);
+  console.log("detail", detailPost);
   console.log(detailItems);
   console.log(userStatus);
   console.log(comments);
@@ -110,10 +121,16 @@ const Item_detail = (props) => {
       __addComment({ comment: commentText.current.value, postId: postId }) // , postId: postId
     );
     commentText.current.value = "";
+    // window.location.reload();
   };
   // 대표 게시물 지정하기
   const patchRep = () => {
-    dispatch(__representative(postId));
+    if (window.confirm("이 게시물을 대표게시물로 지정하겠습니까?")) {
+      dispatch(__representative(postId));
+      alert("대표게시물 지정에 성공했습니다.");
+    } else {
+      alert("취소합니다.");
+    }
   };
   // 게시물 수정하기
   const putPost = () => {
@@ -121,7 +138,12 @@ const Item_detail = (props) => {
   };
   // 게시물 삭제하기
   const deletePost = () => {
-    dispatch(__deletePost(postId));
+    if (window.confirm("이 게시물을 삭제하시겠습니까?")) {
+      dispatch(__deletePost(postId));
+      alert("대표게시물 삭제에 성공했습니다.");
+    } else {
+      alert("취소합니다.");
+    }
   };
 
   useEffect(() => {
@@ -132,6 +154,28 @@ const Item_detail = (props) => {
       setProfile({ image_file: `${userStatus.imgUrl}` });
     }
   }, []);
+
+  //새로고침시에도 무드 상태값 유지
+  useEffect(() => {
+    if (likeStatus === true) {
+      setMood(`${heartTrue}`);
+    }
+    if (likeStatus === false) {
+      setMood(`${heartFalse}`);
+    }
+  }, [mood, likeStatus]);
+
+  //무드 버튼 누르기
+  const onClickMoodBtn = () => {
+    setLikeStatus(true);
+    dispatch(__patchMood(detailPost.postId));
+  };
+
+  //무드버튼 취소하기
+  const onClickMoodCancelBtn = () => {
+    setLikeStatus(false);
+    dispatch(__patchMood(detailPost.postId));
+  };
 
   return (
     <Fragment>
@@ -147,6 +191,9 @@ const Item_detail = (props) => {
           <Grid>
             <ProfileBox>
               <ProfileImg
+                onClick={() => {
+                  navigate(`/closet/${userId}`);
+                }}
                 url={
                   userStatus.imgUrl === undefined ||
                   userStatus.imgUrl.slice(-4) === "null"
@@ -154,35 +201,58 @@ const Item_detail = (props) => {
                     : userStatus?.imgUrl
                 }
               ></ProfileImg>
-              <span>{userStatus.nickname}</span>
-              <DropdownContainer>
-                <DropdownButton onClick={myPageHandler} ref={myPageRef}>
-                  <StLoginList />
-                </DropdownButton>
-                <Menu isDropped={myPageIsOpen}>
-                  <Ul>
-                    <Li>
-                      <LinkWrapper href="#1-1">
-                        <AddCommentButton2 onClick={patchRep}>
-                          대표 게시물 지정하기
-                        </AddCommentButton2>
-                        <AddCommentButton2 onClick={putPost}>
-                          수정하기
-                        </AddCommentButton2>
-                        <AddCommentButton2 onClick={deletePost}>
-                          삭제하기
-                        </AddCommentButton2>
-                      </LinkWrapper>
-                    </Li>
-                  </Ul>
-                </Menu>
-              </DropdownContainer>
+              <span
+                onClick={() => {
+                  navigate(`/closet/${userId}`);
+                }}
+              >
+                {userStatus.nickname}
+              </span>
+              {payload.userId == userId ? (
+                <DropdownContainer>
+                  <DropdownButton onClick={myPageHandler} ref={myPageRef}>
+                    <StLoginList />
+                  </DropdownButton>
+                  <Menu isDropped={myPageIsOpen}>
+                    <Ul>
+                      <Li>
+                        <LinkWrapper href="#1-1">
+                          <AddCommentButton2 onClick={patchRep}>
+                            대표 게시물 지정하기
+                          </AddCommentButton2>
+                          <AddCommentButton2 onClick={putPost}>
+                            수정하기
+                          </AddCommentButton2>
+                          <AddCommentButton2 onClick={deletePost}>
+                            삭제하기
+                          </AddCommentButton2>
+                        </LinkWrapper>
+                      </Li>
+                    </Ul>
+                  </Menu>
+                </DropdownContainer>
+              ) : null}
             </ProfileBox>
             {/* <TitleText>{detailPost.title}</TitleText> */}
 
             <DetailImage>
               <img src={detailPost.imgUrl} />
             </DetailImage>
+            {likeStatus ? (
+              <img
+                className="heart"
+                src={`${heartTrue}`}
+                alt="heart"
+                onClick={onClickMoodCancelBtn}
+              />
+            ) : (
+              <img
+                className="heart"
+                src={`${heartFalse}`}
+                alt="heart"
+                onClick={onClickMoodBtn}
+              />
+            )}
             <ContentText>{detailPost.content}</ContentText>
             <Line />
             <SliderContainer
@@ -234,7 +304,12 @@ const Item_detail = (props) => {
             </CommentBox>
             <Line />
             {commentList?.map((item, idx) => (
-              <DetailCommentList key={idx} item={item} postId={postId} />
+              <DetailCommentList
+                key={idx}
+                item={item}
+                postId={postId}
+                userId={userId}
+              />
             ))}
           </Grid>
         </Container>
@@ -284,6 +359,14 @@ const Grid = styled.div`
   min-height: 926px;
 
   background: linear-gradient(#a396c9, #c8c6d0);
+
+  .heart {
+    width: 50px;
+    height: 50px;
+    position: relative;
+    top: -60px;
+    left: 50px;
+  }
 `;
 
 const ProfileBox = styled.div`

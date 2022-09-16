@@ -18,15 +18,15 @@ const EditProfileForm = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [editNickname, setEditNickname] = useState(false);
-  const [gender, setGender] = useState("");
-  const [age, setAge] = useState("");
+  const checkNickname = useSelector((state) => state.login.checkNickname);
+  const users = useSelector((state) => state.login.userStatus);
+  const [gender, setGender] = useState(users?.gender);
+  const [age, setAge] = useState(users?.age);
   const [image, setImage] = useState({
     image_file: "",
     preview_URL:
       "https://cdn.discordapp.com/attachments/1014169130045292625/1014194232250077264/Artboard_1.png",
   });
-  const checkNickname = useSelector((state) => state.login.checkNickname);
-  const users = useSelector((state) => state.login.userStatus);
   const token = getCookie("token");
   const payload = jwt_decode(token);
   const userId = payload.userId;
@@ -118,25 +118,26 @@ const EditProfileForm = () => {
   //수정된 프로필 이미지, 닉네임, 성별, 나이 전송하기
   const onSubmit = async () => {
     const nickname = getValues("nickname");
-    if (nickname && gender && age && image.image_file) {
-      const formData = new FormData();
-      formData.append("userValue", image.image_file);
-
+    const formData = new FormData();
+    formData.append("userValue", image.image_file);
+    if (editNickname === false || nickname.errors === undefined) {
       dispatch(__editProfile({ userValue: formData, nickname, gender, age }))
         .then(alert("캐처님의 프로필이 수정되었습니다!"))
         .then(navigate(`/mypage/${userId}`));
     } else {
-      alert("수정하실 프로필을 모두 입력해주세요");
+      setError(
+        "nickname",
+        { message: "닉네임 중복확인을 해주세요." },
+        { shouldFocus: true }
+      );
     }
   };
 
   //로그아웃
   const onClickLogOut = () => {
-    const result = window.confirm("정말 로그아웃을 하시겠습니까?");
-    if (result) {
-      deleteCookie("token");
-      navigate("/login");
-    }
+    alert("로그아웃 되셨습니다");
+    deleteCookie("token");
+    navigate("/login");
   };
 
   //회원탍퇴
@@ -146,6 +147,16 @@ const EditProfileForm = () => {
     );
     if (result) {
       dispatch(__delUser);
+    }
+  };
+
+  //닉네임 변경하기 전에 확인받기
+  const onClickEditNickname = () => {
+    const result = window.confirm(
+      `${users.nickname}님의 현재 닉네임을 사용하실 수 없습니다. 변경하시겠습니까?`
+    );
+    if (result) {
+      setEditNickname(true);
     }
   };
 
@@ -168,34 +179,42 @@ const EditProfileForm = () => {
         프로필 사진 변경하기
       </ChangeProfile>
       <form onSubmit={handleSubmit(onSubmit)}>
-        {errors.nickname && <p>{errors.nickname.message}</p>}
-        <input
-          type="text"
-          placeholder={users.nickname}
-          name="nickname"
-          aria-invalid={
-            !isDirty ? undefined : errors.nickname ? "true" : "false"
-          }
-          {...register("nickname", {
-            onChange: () => onChangeNickname(),
-            minLength: {
-              value: 2,
-              message: "닉네임을 2자 이상 작성해주세요",
-            },
-            maxLength: {
-              value: 16,
-              message: "닉네임을 16자 이하로 작성해주세요",
-            },
-            pattern: {
-              value: /^(?=.*[a-z0-9가-힣])[a-z0-9가-힣]{2,16}$/,
-              message:
-                "닉네임은 영문 대소문자, 글자 단위 한글, 숫자만 가능합니다.",
-            },
-          })}
-        />
-        <CheckBtn onClick={(e) => onClickCheckBtnHandler(e)}>
-          중복 확인
-        </CheckBtn>
+        {editNickname ? (
+          <>
+            {errors.nickname && <p>{errors.nickname.message}</p>}
+            <input
+              type="text"
+              placeholder={users.nickname}
+              name="nickname"
+              aria-invalid={
+                !isDirty ? undefined : errors.nickname ? "true" : "false"
+              }
+              {...register("nickname", {
+                onChange: () => onChangeNickname(),
+                minLength: {
+                  value: 2,
+                  message: "닉네임을 2자 이상 작성해주세요",
+                },
+                maxLength: {
+                  value: 16,
+                  message: "닉네임을 16자 이하로 작성해주세요",
+                },
+                pattern: {
+                  value: /^(?=.*[a-z0-9가-힣])[a-z0-9가-힣]{2,16}$/,
+                  message:
+                    "닉네임은 영문 대소문자, 글자 단위 한글, 숫자만 가능합니다.",
+                },
+              })}
+            />
+            <CheckBtn type="button" onClick={(e) => onClickCheckBtnHandler(e)}>
+              중복 확인
+            </CheckBtn>
+          </>
+        ) : (
+          <EditNicknameBtn type="button" onClick={onClickEditNickname}>
+            닉네임 변경하기
+          </EditNicknameBtn>
+        )}
         <GenderAgeBox>
           <div>
             <div>
@@ -212,8 +231,8 @@ const EditProfileForm = () => {
                   autoWidth
                   label="Age"
                 >
-                  <MenuItem value={"남자"}>Male</MenuItem>
-                  <MenuItem value={"여자"}>Female</MenuItem>
+                  <MenuItem value={"남자"}>남자</MenuItem>
+                  <MenuItem value={"여자"}>여자</MenuItem>
                 </Select>
               </FormControl>
             </div>
@@ -252,8 +271,8 @@ const EditProfileForm = () => {
         <h3>계정 설정</h3>
       </ProfileBox>
       <LogOut>
-        <button onClick={() => onClickLogOut()}>로그아웃</button>
-        <button onClick={() => onClickDelBtn()}>계정탈퇴</button>
+        <button onClick={onClickLogOut}>로그아웃</button>
+        <button onClick={onClickDelBtn}>계정탈퇴</button>
       </LogOut>
     </Container>
   );
@@ -310,9 +329,23 @@ const ChangeProfile = styled.button`
   font-family: "Roboto";
   font-style: normal;
   font-weight: 700;
-  font-size: 10px;
+  font-size: 12px;
 `;
-
+const EditNicknameBtn = styled.button`
+  background: linear-gradient(78.32deg, #7b758b 41.41%, #ffffff 169.58%);
+  border: 0px;
+  border-radius: 10px;
+  width: 200px;
+  height: 40px;
+  margin: 20px auto;
+  color: white;
+  display: block;
+  font-family: "Roboto";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 16px;
+  box-shadow: 5px 5px 4px rgba(0, 0, 0, 0.25);
+`;
 const GenderAgeBox = styled.div`
   width: 390px;
   padding: 15px;

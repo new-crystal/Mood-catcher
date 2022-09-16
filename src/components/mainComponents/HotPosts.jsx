@@ -1,9 +1,18 @@
 import React, { Fragment } from "react";
 import styled from "styled-components";
+import { getCookie } from "../../shared/cookie";
+import jwt from "jwt-decode"; // to get userId from loggedIn user's token
+import { useNavigate } from "react-router-dom";
 
 const junsu = "./images/junsu.PNG";
 
 const HotPosts = ({ hotPosts }) => {
+  console.log(hotPosts);
+  const navigate = useNavigate();
+  const token = getCookie("token");
+  // console.log(jwt(token));
+  const { userId } = jwt(token);
+  // console.log(ranksIF);
   return (
     <Fragment>
       <Wrap>
@@ -11,17 +20,38 @@ const HotPosts = ({ hotPosts }) => {
       </Wrap>
       <WritedHotInfo>
         <HotImage1>
-          <img src={hotPosts[0]?.imgUrl} />
+          <img
+            src={hotPosts[0]?.imgUrl}
+            onClick={() => {
+              navigate(
+                `/item_detail/${hotPosts[0].postId}/${hotPosts[0].userId}`
+              );
+            }}
+          />
         </HotImage1>
         <HotWrap>
           <GridHorizonHot>
             <HotImage2>
-              <img src={hotPosts[1]?.imgUrl} />
+              <img
+                src={hotPosts[1]?.imgUrl}
+                onClick={() => {
+                  navigate(
+                    `/item_detail/${hotPosts[1].postId}/${hotPosts[1].userId}`
+                  );
+                }}
+              />
             </HotImage2>
           </GridHorizonHot>
           <GridHorizonHot>
             <HotImage3>
-              <img src={hotPosts[2]?.imgUrl} />
+              <img
+                src={hotPosts[2]?.imgUrl}
+                onClick={() => {
+                  navigate(
+                    `/item_detail/${hotPosts[2].postId}/${hotPosts[2].userId}`
+                  );
+                }}
+              />
             </HotImage3>
           </GridHorizonHot>
         </HotWrap>

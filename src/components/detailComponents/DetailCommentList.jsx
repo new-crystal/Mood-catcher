@@ -4,12 +4,29 @@ import { useDispatch } from "react-redux/es/exports";
 import { __deleteComment } from "../../redux/modules/commentSlice";
 import DetailChangeComment from "./DetailChangeComments";
 import DetailRecomments from "./DetailRecomments";
+import { getCookie } from "../../shared/cookie";
+import jwt from "jwt-decode"; // to get userId from loggedIn user's token
+
 
 // 상세페이지에 댓글 list 컴포넌트
 const DetailCommentList = (props) => {
   const dispatch = useDispatch();
   const { item } = props;
   const { postId } = props;
+  const { userId } = props;
+  console.log(item);
+
+  const token = getCookie("token");
+  // console.log(jwt(token));
+  const payload = jwt(token);
+  console.log(payload.userId);
+  console.log(userId);
+  console.log(postId);
+  console.log(item);
+
+  // console.log(ranksIF);
+  // console.log(item.data.comment.createComment.imgUrl);
+
 
   const preview_URL =
     "https://cdn.discordapp.com/attachments/1014169130045292625/1014194232250077264/Artboard_1.png";
@@ -74,20 +91,25 @@ const DetailCommentList = (props) => {
           <span>작성자 : {item.nickname}</span>
           <pre>{item.content}</pre>
         </WrapComment>
-        <AddCommentButton
-          onClick={() => {
-            setChangeState(true);
-          }}
-        >
-          수정
-        </AddCommentButton>
-        <AddCommentButton
-          onClick={() => {
-            deleteComment();
-          }}
-        >
-          삭제
-        </AddCommentButton>
+        {payload.userId == item.userId ? (
+
+          <AddCommentButton
+            onClick={() => {
+              setChangeState(true);
+            }}
+          >
+            수정
+          </AddCommentButton>
+        ) : null}
+        {payload.userId == item.userId ? (
+          <AddCommentButton
+            onClick={() => {
+              deleteComment();
+            }}
+          >
+            삭제
+          </AddCommentButton>
+        ) : null}
       </CommentBox>
     </>
   );
