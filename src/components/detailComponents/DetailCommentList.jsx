@@ -6,10 +6,12 @@ import DetailChangeComment from "./DetailChangeComments";
 import DetailRecomments from "./DetailRecomments";
 import { getCookie } from "../../shared/cookie";
 import jwt from "jwt-decode"; // to get userId from loggedIn user's token
-
+import { useNavigate } from "react-router-dom";
 
 // 상세페이지에 댓글 list 컴포넌트
 const DetailCommentList = (props) => {
+  const navigate = useNavigate();
+
   const dispatch = useDispatch();
   const { item } = props;
   const { postId } = props;
@@ -26,7 +28,6 @@ const DetailCommentList = (props) => {
 
   // console.log(ranksIF);
   // console.log(item.data.comment.createComment.imgUrl);
-
 
   const preview_URL =
     "https://cdn.discordapp.com/attachments/1014169130045292625/1014194232250077264/Artboard_1.png";
@@ -76,6 +77,10 @@ const DetailCommentList = (props) => {
 
       <CommentBox>
         <CommentImg
+          onClick={() => {
+            navigate(`/closet/${item.userId}`);
+            window.location.reload();
+          }}
           url={
             item.imgUrl === undefined || item.imgUrl.slice(-4) === "null"
               ? preview_URL
@@ -92,7 +97,6 @@ const DetailCommentList = (props) => {
           <pre>{item.content}</pre>
         </WrapComment>
         {payload.userId == item.userId ? (
-
           <AddCommentButton
             onClick={() => {
               setChangeState(true);
@@ -104,7 +108,13 @@ const DetailCommentList = (props) => {
         {payload.userId == item.userId ? (
           <AddCommentButton
             onClick={() => {
-              deleteComment();
+              if (window.confirm("이 댓글을 삭제하시겠습니까?")) {
+                deleteComment();
+                alert("댓글 삭제에 성공했습니다.");
+              } else {
+                alert("취소합니다.");
+              }
+              window.location.reload();
             }}
           >
             삭제

@@ -193,6 +193,7 @@ const Item_detail = (props) => {
               <ProfileImg
                 onClick={() => {
                   navigate(`/closet/${userId}`);
+                  window.location.reload();
                 }}
                 url={
                   userStatus.imgUrl === undefined ||
@@ -204,6 +205,7 @@ const Item_detail = (props) => {
               <span
                 onClick={() => {
                   navigate(`/closet/${userId}`);
+                  window.location.reload();
                 }}
               >
                 {userStatus.nickname}
