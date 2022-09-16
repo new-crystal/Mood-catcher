@@ -64,7 +64,7 @@ const Grid = styled.div`
   /* min-height: 928px; */
   min-height: 808px;
 
-  background: linear-gradient(#a396c9, #c8c6d0);
+  background: linear-gradient(#a396c9, #ffffff);
 `;
 
 export default Search;
