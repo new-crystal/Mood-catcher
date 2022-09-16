@@ -41,7 +41,7 @@ const SearchResultForm = () => {
       setLoading(false);
     };
     return getSearch();
-  }, [page, searchList]);
+  }, [page, searchList, keyword]);
 
   //스크롤 위치 계산하기
   const _scrollPosition = _.throttle(() => {
@@ -101,22 +101,35 @@ const SearchResultForm = () => {
         <SearchImg type="submit" disabled={isSubmitting}></SearchImg>
       </form>
       <SearchBox>
-        <input type="radio" value="title" checked {...register("sort")} />
-        <label>제목으로 검색하기</label>
-        <input type="radio" value="writer" {...register("sort")} />
-        <label>작성자로 검색하기</label>
+        {sort === "title" && (
+          <>
+            <input type="radio" value="title" checked {...register("sort")} />
+            <label>제목으로 검색하기</label>
+            <input type="radio" value="writer" {...register("sort")} />
+            <label>작성자로 검색하기</label>
+          </>
+        )}
+        {sort === "writer" && (
+          <>
+            <input type="radio" value="title" {...register("sort")} />
+            <label>제목으로 검색하기</label>
+            <input type="radio" value="writer" checked {...register("sort")} />
+            <label>작성자로 검색하기</label>
+          </>
+        )}
       </SearchBox>
 
       <ImgBox>
         {sort === "title" && searchList?.length === 0 && (
           <div style={{ margin: "30px auto" }}>
-            <h1>검색 결과가 없습니다</h1>
+            <h1>검색하신 {key}의 </h1>
+            <h1>결과가 없습니다</h1>
             <h3>다시 검색해주세요</h3>
           </div>
         )}
         {sort === "writer" && searchList?.length === 0 && (
           <div style={{ margin: "30px auto" }}>
-            <h1>검색하신 작성자의 </h1>
+            <h1>검색하신 {key}님의 </h1>
             <h1> 대표게시물이 없습니다</h1>
             <h3>다시 검색해주세요</h3>
           </div>
