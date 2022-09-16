@@ -7,6 +7,7 @@ import DetailRecomments from "./DetailRecomments";
 import { getCookie } from "../../shared/cookie";
 import jwt from "jwt-decode"; // to get userId from loggedIn user's token
 
+
 // 상세페이지에 댓글 list 컴포넌트
 const DetailCommentList = (props) => {
   const dispatch = useDispatch();
@@ -25,6 +26,7 @@ const DetailCommentList = (props) => {
 
   // console.log(ranksIF);
   // console.log(item.data.comment.createComment.imgUrl);
+
 
   const preview_URL =
     "https://cdn.discordapp.com/attachments/1014169130045292625/1014194232250077264/Artboard_1.png";
@@ -90,6 +92,7 @@ const DetailCommentList = (props) => {
           <pre>{item.content}</pre>
         </WrapComment>
         {payload.userId == item.userId ? (
+
           <AddCommentButton
             onClick={() => {
               setChangeState(true);

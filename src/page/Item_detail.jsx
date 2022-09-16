@@ -17,6 +17,9 @@ import { Link, useParams } from "react-router-dom";
 import { deleteCookie, getCookie } from "../shared/cookie";
 import jwt from "jwt-decode"; // to get userId from loggedIn user's token
 import useDetectClose from "../elem/useDetectClose";
+import heartFalse from "../image/heart.png";
+import heartTrue from "../image/heartTrue.png";
+import { __patchMood } from "../redux/modules/likeSlice";
 
 const junsu = "/images/junsu.PNG";
 const home = "/images/more.png";
@@ -89,12 +92,15 @@ const Item_detail = (props) => {
   const userStatusMe = useSelector((state) => state.signup.userStatus);
   const comments = useSelector((state) => state.comment.comments);
 
+  const [mood, setMood] = useState(`${heartFalse}`);
+  const [likeStatus, setLikeStatus] = useState(detailPost.likeStatus);
+
   const [myPageIsOpen, myPageRef, myPageHandler] = useDetectClose(false);
 
   console.log(postId);
   console.log(userId);
 
-  console.log(detailPost);
+  console.log("detail", detailPost);
   console.log(detailItems);
   console.log(userStatus);
   console.log(comments);
@@ -148,6 +154,28 @@ const Item_detail = (props) => {
       setProfile({ image_file: `${userStatus.imgUrl}` });
     }
   }, []);
+
+  //새로고침시에도 무드 상태값 유지
+  useEffect(() => {
+    if (likeStatus === true) {
+      setMood(`${heartTrue}`);
+    }
+    if (likeStatus === false) {
+      setMood(`${heartFalse}`);
+    }
+  }, [mood, likeStatus]);
+
+  //무드 버튼 누르기
+  const onClickMoodBtn = () => {
+    setLikeStatus(true);
+    dispatch(__patchMood(detailPost.postId));
+  };
+
+  //무드버튼 취소하기
+  const onClickMoodCancelBtn = () => {
+    setLikeStatus(false);
+    dispatch(__patchMood(detailPost.postId));
+  };
 
   return (
     <Fragment>
@@ -210,6 +238,21 @@ const Item_detail = (props) => {
             <DetailImage>
               <img src={detailPost.imgUrl} />
             </DetailImage>
+            {likeStatus ? (
+              <img
+                className="heart"
+                src={`${heartTrue}`}
+                alt="heart"
+                onClick={onClickMoodCancelBtn}
+              />
+            ) : (
+              <img
+                className="heart"
+                src={`${heartFalse}`}
+                alt="heart"
+                onClick={onClickMoodBtn}
+              />
+            )}
             <ContentText>{detailPost.content}</ContentText>
             <Line />
             <SliderContainer
@@ -316,6 +359,14 @@ const Grid = styled.div`
   min-height: 926px;
 
   background: linear-gradient(#a396c9, #c8c6d0);
+
+  .heart {
+    width: 50px;
+    height: 50px;
+    position: relative;
+    top: -60px;
+    left: 50px;
+  }
 `;
 
 const ProfileBox = styled.div`
