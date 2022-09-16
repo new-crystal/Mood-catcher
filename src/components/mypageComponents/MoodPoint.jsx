@@ -11,6 +11,7 @@ const MoodPoint = ({ setMoodPoint }) => {
             확인
           </ConfirmBtn>
         </TitleBox>
+        <h6>(Mood Point는 매일 자정에 업데이트 됩니다)</h6>
         <Grade>
           <TextBox>
             <h4>회원가입/로그인</h4>
@@ -69,6 +70,9 @@ const ListBox = styled.div`
   top: 20%;
 
   h3 {
+    margin: 0px;
+  }
+  h6 {
     margin: 0px;
   }
 `;

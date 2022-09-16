@@ -117,19 +117,37 @@ const EditProfileForm = () => {
 
   //수정된 프로필 이미지, 닉네임, 성별, 나이 전송하기
   const onSubmit = async () => {
-    const nickname = getValues("nickname");
-    const formData = new FormData();
-    formData.append("userValue", image.image_file);
-    if (editNickname === false || nickname.errors === undefined) {
-      dispatch(__editProfile({ userValue: formData, nickname, gender, age }))
-        .then(alert("캐처님의 프로필이 수정되었습니다!"))
-        .then(navigate(`/mypage/${userId}`));
+    console.log(editNickname);
+    if (image.image_file === "") {
+      alert("새로운 프로필 사진을 입력해주세요!");
     } else {
-      setError(
-        "nickname",
-        { message: "닉네임 중복확인을 해주세요." },
-        { shouldFocus: true }
-      );
+      const nickname = getValues("nickname");
+      const formData = new FormData();
+      formData.append("userValue", image.image_file);
+      if (editNickname === false && errors.nickname === undefined) {
+        dispatch(
+          __editProfile({
+            userValue: formData,
+            nickname: users.nickname,
+            gender,
+            age,
+          })
+        )
+          .then(alert("캐처님의 프로필이 수정되었습니다!"))
+          .then(navigate(`/mypage/${userId}`));
+      }
+      if (editNickname === true && errors.nickname === undefined) {
+        dispatch(__editProfile({ userValue: formData, nickname, gender, age }))
+          .then(alert("캐처님의 프로필이 수정되었습니다!"))
+          .then(navigate(`/mypage/${userId}`));
+      }
+      if (editNickname === true && errors.nickname !== undefined) {
+        setError(
+          "nickname",
+          { message: "닉네임 중복확인을 해주세요." },
+          { shouldFocus: true }
+        );
+      }
     }
   };
 
