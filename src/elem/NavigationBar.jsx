@@ -10,6 +10,7 @@ const search = "/images/search.png";
 const add_circle = "/images/add_circle.png";
 const star = "/images/star.png";
 const person = "/images/person.png";
+const heart = "/images/heart.png";
 
 const NavigationBar = (props) => {
   const token = getCookie("token");
@@ -20,12 +21,19 @@ const NavigationBar = (props) => {
     <Fragment>
       <NavBox>
         <SearchWrap
-          onClick={() => {
-            navigate("/");
-            window.location.reload();
-          }}
+        // onClick={() => {
+        //   navigate("/");
+        // }}
         >
-          <ImageWrap style={{ backgroundImage: `url(${home})` }} />
+          <a
+            href="javascript:void(0);"
+            onClick={() => {
+              let pageUrl = `/`;
+              document.location.href = pageUrl;
+            }}
+          >
+            <ImageWrap style={{ backgroundImage: `url(${home})` }} />
+          </a>
         </SearchWrap>
         <SearchWrap
           onClick={() => {
@@ -42,12 +50,19 @@ const NavigationBar = (props) => {
           <ImageWrap style={{ backgroundImage: `url(${add_circle})` }} />
         </SearchWrap>
         <SearchWrap
-          onClick={() => {
-            navigate(`/like/${userId}`);
-            window.location.reload();
-          }}
+        // onClick={() => {
+        //   navigate(`/like/${userId}`);
+        // }}
         >
-          <ImageWrap style={{ backgroundImage: `url(${star})` }} />
+          <a
+            href="javascript:void(0);"
+            onClick={() => {
+              let pageUrl = `/like/${userId}`;
+              document.location.href = pageUrl;
+            }}
+          >
+            <ImageWrap style={{ backgroundImage: `url(${heart})` }} />
+          </a>
         </SearchWrap>
         <SearchWrap
           onClick={() => {
