@@ -26,6 +26,7 @@ const HotPosts = ({ hotPosts }) => {
               navigate(
                 `/item_detail/${hotPosts[0].postId}/${hotPosts[0].userId}`
               );
+              window.location.reload();
             }}
           />
         </HotImage1>
@@ -38,6 +39,7 @@ const HotPosts = ({ hotPosts }) => {
                   navigate(
                     `/item_detail/${hotPosts[1].postId}/${hotPosts[1].userId}`
                   );
+                  window.location.reload();
                 }}
               />
             </HotImage2>
@@ -50,6 +52,7 @@ const HotPosts = ({ hotPosts }) => {
                   navigate(
                     `/item_detail/${hotPosts[2].postId}/${hotPosts[2].userId}`
                   );
+                  window.location.reload();
                 }}
               />
             </HotImage3>

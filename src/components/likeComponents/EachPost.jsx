@@ -51,6 +51,7 @@ const EachPost = (props) => {
             alt="test"
             onClick={() => {
               navigate(`/item_detail/${item.postId}/${item.userId}`);
+              window.location.reload();
             }}
           />
         </ClosetImage>

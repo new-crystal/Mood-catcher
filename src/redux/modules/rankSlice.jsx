@@ -20,12 +20,14 @@ export const __getHotPosts = createAsyncThunk(
 export const __getMainAllPosts = createAsyncThunk(
   "GET/MAINALLPOSTS",
   async (payload, thunkAPI) => {
-    console.log(payload);
-    const response = await api.get(
-      `/posts?userId=${payload.userId}&page=${payload.paging}&count=2`
-    );
-    console.log(response.data);
-    return response.data;
+    try {
+      const response = await api.get(
+        `/posts?userId=${payload.userId}&type=all&page=${payload.paging}&count=2`
+      );
+      return response.data;
+    } catch (err) {
+      console.log(err);
+    }
   }
 );
 
@@ -50,9 +52,3 @@ const rankSlice = createSlice({
 
 export const {} = rankSlice.actions;
 export default rankSlice.reducer;
-
-const rank_Infinity = (state) => state.rank.allPosts;
-
-export const InfinityRank = createSelector(rank_Infinity, (rank_Infinity) => {
-  return rank_Infinity;
-});

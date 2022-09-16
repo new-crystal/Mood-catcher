@@ -40,6 +40,7 @@ const DetailRecomments = ({ commentData, btnState, postId }) => {
       }) // , postId: postId
     );
     recommentText.current.value = "";
+    window.location.reload();
   };
   return (
     <BackgroundDiv>
@@ -47,7 +48,12 @@ const DetailRecomments = ({ commentData, btnState, postId }) => {
         <h3>댓글</h3>
         <CommentDataBox>
           <CommentImg
-            url={profile.image_file ? profile.image_file : profile.preview_URL}
+            url={
+              commentData.imgUrl === undefined ||
+              commentData.imgUrl.slice(-4) === "null"
+                ? preview_URL
+                : commentData?.imgUrl
+            }
           ></CommentImg>
           <WrapCommentData>
             <pre>{commentData.content}</pre>

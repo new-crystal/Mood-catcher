@@ -1,7 +1,7 @@
 import React, { Fragment, useState, useCallback, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import heart from "../../image/heart.png";
 import { __getLikeAllPosts } from "../../redux/modules/likeSlice";
-import { InfinityLike } from "../../redux/modules/likeSlice";
 import EachPost from "./EachPost";
 import styled from "styled-components";
 import InfinityScrollLoader from "./InfinityScrollLoader";
@@ -11,9 +11,12 @@ import jwt from "jwt-decode"; // to get userId from loggedIn user's token
 
 const LikePosts = () => {
   const dispatch = useDispatch();
+  const [mood, setMood] = useState(`${heart}`);
+
   const [loading, setLoading] = useState(false); //데이터 받아오는동안 로딩 true로 하고 api요청 그동안 한번만되게
   const [paging, setPaging] = useState(1); //페이지넘버
-  const likesIF = useSelector(InfinityLike); //redux store값 받아오는부기
+
+  const allLikePosts = useSelector((state) => state.like.allPosts);
 
   // 토큰 decode를 통해서 현재 로그인한 유저 id 가져오기
   const token = getCookie("token");
@@ -21,13 +24,13 @@ const LikePosts = () => {
   const { userId } = jwt(token);
   // console.log(ranksIF);
 
-  const getInfinityList = useCallback(() => {
-    async function getData() {
+  const getLikeList = useCallback(() => {
+    const getLikeData = async () => {
       await dispatch(__getLikeAllPosts({ paging: paging, userId: userId })); //api요청
       setLoading(false); //요청하고나면 loading false로
-    }
-    return getData();
-  }, [paging, likesIF]); //usecallback의 deps에 페이지랑 맥주목록 바뀔때마다 실행되게
+    };
+    return getLikeData();
+  }, [paging, allLikePosts]); //usecallback의 deps에 페이지랑 맥주목록 바뀔때마다 실행되게
 
   const _handleScroll = _.throttle(() => {
     const scrollHeight = document.documentElement.scrollHeight;
@@ -40,23 +43,23 @@ const LikePosts = () => {
         return;
       }
       setPaging(paging + 1); //다음페이지
-      getInfinityList(); //api요청 실행
+      getLikeList(); //api요청 실행
       setLoading(true); //실행동안 loading true로 바꾸고 요청 막기
     }
   }, 500);
 
   useEffect(() => {
-    console.log(paging, userId, likesIF);
+    console.log(paging, userId, allLikePosts);
 
-    if (paging === 1 && likesIF.length === 0) {
+    if (paging === 1 && allLikePosts.length === 0) {
       console.log(paging, userId);
       dispatch(__getLikeAllPosts({ paging: paging, userId: userId }));
       setPaging(paging + 1);
     } //첫렌더링시 0페이지 받아오기
-    if (likesIF.length !== 0) {
-      setPaging(likesIF.length);
+    if (allLikePosts.length !== 0) {
+      setPaging(allLikePosts.length);
     } //다른컴포넌트 갔다 올때 렌더링시 페이지넘버 계산
-  }, []);
+  }, [mood]);
 
   useEffect(() => {
     if (loading) {
@@ -71,7 +74,7 @@ const LikePosts = () => {
 
   return (
     <Fragment>
-      {likesIF?.map((item, idx) => (
+      {allLikePosts?.map((item, idx) => (
         <EachPost key={idx} item={item} />
       ))}
 

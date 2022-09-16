@@ -16,6 +16,9 @@ const DetailReCommentList = (props) => {
   const token = getCookie("token");
   const payload = jwt_decode(token);
 
+  const preview_URL =
+    "https://cdn.discordapp.com/attachments/1014169130045292625/1014194232250077264/Artboard_1.png";
+
   // profile_pic를 정하는 부분
   const [profile, setProfile] = useState({
     image_file: "",
@@ -61,7 +64,11 @@ const DetailReCommentList = (props) => {
 
       <CommentBox>
         <CommentImg
-          url={profile.image_file ? profile.image_file : profile.preview_URL}
+          url={
+            item.imgUrl === undefined || item.imgUrl.slice(-4) === "null"
+              ? preview_URL
+              : item?.imgUrl
+          }
         ></CommentImg>
         <WrapComment
           onClick={() => {
@@ -83,7 +90,13 @@ const DetailReCommentList = (props) => {
             </AddCommentButton>
             <AddCommentButton
               onClick={() => {
-                deleteComment();
+                if (window.confirm("이 대댓글을 삭제하시겠습니까?")) {
+                  deleteComment();
+                  alert("대댓글 삭제에 성공했습니다.");
+                  window.location.reload();
+                } else {
+                  alert("취소합니다.");
+                }
               }}
             >
               삭제
