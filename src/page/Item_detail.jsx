@@ -12,6 +12,8 @@ import {
   __deletePost,
 } from "../redux/modules/uploadSlice";
 import { __getUser } from "../redux/modules/loginSlice";
+import { __getUsers } from "../redux/modules/signUpSlice";
+
 import DetailCommentList from "../components/detailComponents/DetailCommentList";
 import { Link, useParams } from "react-router-dom";
 import { deleteCookie, getCookie } from "../shared/cookie";
@@ -104,6 +106,7 @@ const Item_detail = (props) => {
   // console.log("detail", detailPost);
   // console.log(detailItems);
   // console.log(userStatus);
+  // console.log(userStatusMe);
   // console.log(comments);
 
   // 댓글 input
@@ -150,6 +153,7 @@ const Item_detail = (props) => {
   useEffect(() => {
     dispatch(__getDetail(postId));
     dispatch(__getUser(userId));
+    dispatch(__getUsers(payload.userId));
     dispatch(__getComments(postId));
     if (userStatus.imgUrl !== undefined) {
       setProfile({ image_file: `${userStatus.imgUrl}` });
@@ -302,10 +306,10 @@ const Item_detail = (props) => {
             <CommentBox>
               <CommentImg
                 url={
-                  userStatus.imgUrl === undefined ||
-                  userStatus.imgUrl.slice(-4) === "null"
+                  userStatusMe.imgUrl === undefined ||
+                  userStatusMe.imgUrl.slice(-4) === "null"
                     ? preview_URL
-                    : userStatus?.imgUrl
+                    : userStatusMe?.imgUrl
                 }
               ></CommentImg>
               <WrapComment>

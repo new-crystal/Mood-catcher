@@ -139,7 +139,7 @@ const AlarmBox = styled.div`
   }
   h5 {
     position: relative;
-    top: -50px;
+    top: -35px;
     left: 160px;
   }
 

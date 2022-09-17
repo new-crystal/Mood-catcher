@@ -21,15 +21,14 @@ const NavigationBar = (props) => {
     <Fragment>
       <NavBox>
         <SearchWrap
-          onClick={() => {
-            navigate("/main");
-            window.location.reload();
-          }}
+        // onClick={() => {
+        //   navigate("/main");
+        //   window.location.reload();
+        // }}
 
         // onClick={() => {
         //   navigate("/");
         // }}
-
         >
           <a
             href="javascript:void(0);"
