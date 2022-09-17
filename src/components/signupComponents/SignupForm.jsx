@@ -21,7 +21,7 @@ const SigupForm = () => {
   useEffect(() => {
     const token = getCookie("token");
     if (token !== undefined) {
-      navigate("/");
+      navigate("/main");
     }
   }, []);
 

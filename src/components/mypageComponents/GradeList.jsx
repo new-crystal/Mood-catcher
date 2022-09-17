@@ -62,15 +62,12 @@ const GradeList = ({ setGradeList }) => {
       <ListBox>
         <TitleBox>
           <h3>mood grade</h3>
-          <MudiBtn type="button" onClick={onClickMoodyBtn}>
-            {moody === true ? "사람으로 바꾸기" : "무디로 바꾸기"}
-          </MudiBtn>
           <ConfirmBtn type="button" onClick={() => setGradeList(false)}>
-            확인
+            ✖️
           </ConfirmBtn>
         </TitleBox>
         <Grade>
-          {moody === true ? (
+          {moody === false ? (
             <GradeImg url={`${man1}`}></GradeImg>
           ) : (
             <GradeImg url={`${cat1}`}></GradeImg>
@@ -78,7 +75,7 @@ const GradeList = ({ setGradeList }) => {
           <h4>티셔츠</h4>
         </Grade>
         <Grade>
-          {moody === true ? (
+          {moody === false ? (
             <GradeImg url={`${man2}`}></GradeImg>
           ) : (
             <GradeImg url={`${cat2}`}></GradeImg>
@@ -89,7 +86,7 @@ const GradeList = ({ setGradeList }) => {
           </TextBox>
         </Grade>
         <Grade>
-          {moody === true ? (
+          {moody === false ? (
             <GradeImg url={`${man3}`}></GradeImg>
           ) : (
             <GradeImg url={`${cat3}`}></GradeImg>
@@ -100,7 +97,7 @@ const GradeList = ({ setGradeList }) => {
           </TextBox>
         </Grade>
         <Grade>
-          {moody === true ? (
+          {moody === false ? (
             <GradeImg url={`${man4}`}></GradeImg>
           ) : (
             <GradeImg url={`${cat4}`}></GradeImg>
@@ -111,7 +108,7 @@ const GradeList = ({ setGradeList }) => {
           </TextBox>
         </Grade>
         <Grade>
-          {moody === true ? (
+          {moody === false ? (
             <GradeImg url={`${man5}`}></GradeImg>
           ) : (
             <GradeImg url={`${cat5}`}></GradeImg>
@@ -121,6 +118,9 @@ const GradeList = ({ setGradeList }) => {
             <h6>(100000 무드 이상)</h6>
           </TextBox>
         </Grade>
+        <MudiBtn type="button" onClick={onClickMoodyBtn}>
+          {moody === true ? "사람으로 바꾸기" : "무디로 바꾸기"}
+        </MudiBtn>
       </ListBox>
     </>
   );
@@ -146,17 +146,21 @@ const ListBox = styled.div`
   }
 `;
 const TitleBox = styled.div`
+  width: 270px;
   display: flex;
-  align-items: center;
-  justify-content: center;
+  align-items: baseline;
+  justify-content: space-between;
   flex-direction: row;
 `;
 const MudiBtn = styled.button`
-  width: 100px;
+  width: 170px;
   height: 20px;
-  background-color: white;
-  color: #7b758b;
+  background-color: rgba(0, 0, 0, 0);
+  font-weight: 700;
+  font-size: 15px;
+  color: #3f3c47;
   border: 0px;
+  margin-left: 170px;
 `;
 const ConfirmBtn = styled.button`
   width: 40px;
@@ -164,7 +168,6 @@ const ConfirmBtn = styled.button`
   background-color: white;
   color: #7b758b;
   border: 0px;
-  margin-right: -20px;
 `;
 const Grade = styled.div`
   width: 280px;

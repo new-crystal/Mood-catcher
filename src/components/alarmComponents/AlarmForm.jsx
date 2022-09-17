@@ -22,15 +22,15 @@ const AlarmForm = () => {
     dispatch(__getAlarm());
   }, [alarm]);
 
-  console.log(alarms);
-
   return (
     <AlarmContainer>
       <AlarmList>
         <TitleWrap>
           <h4>나의 알림</h4>
-          <ConfirmBtn onClick={() => delAlarm()}>알림지우기</ConfirmBtn>
-          <ConfirmBtn onClick={() => navigate(-1)}>알림창 나가기</ConfirmBtn>
+          <BtnWrap>
+            <ConfirmBtn onClick={() => delAlarm()}>전체알림지우기</ConfirmBtn>
+            <BackBtn onClick={() => navigate(-1)}>✖️</BackBtn>
+          </BtnWrap>
         </TitleWrap>
         {alarms.length === 0 ? (
           <AlarmBox>
@@ -38,7 +38,7 @@ const AlarmForm = () => {
           </AlarmBox>
         ) : (
           alarms?.map((alarm, idx) => {
-            return alarms?.postId !== -1 ? (
+            return alarm?.postId === -1 ? (
               <AlarmBox key={idx}>
                 <p>{alarm.msg}</p>
                 {alarm.duplecation > 1 && <h5>{alarm.duplecation}</h5>}
@@ -47,10 +47,11 @@ const AlarmForm = () => {
               <AlarmBox
                 key={idx}
                 onClick={() =>
-                  navigate(`/item_detail/${alarms.postId}/${alarms.userId}`)
+                  navigate(`/item_detail/${alarm.postId}/${alarm.userId}`)
                 }
               >
                 <p>{alarm.msg}</p>
+                <h6>해당 게시글로 이동하기</h6>
                 {alarm.duplecation > 1 && <h5>{alarm.duplecation}</h5>}
               </AlarmBox>
             );
@@ -90,13 +91,31 @@ const TitleWrap = styled.div`
   align-items: baseline;
   flex-direction: row;
 `;
+const BtnWrap = styled.div`
+  display: flex;
+  flex-direction: row;
+  margin-left: 160px;
+  padding: 0px;
+`;
 const ConfirmBtn = styled.button`
-  width: 100px;
+  width: 110px;
   height: 20px;
   background-color: rgba(0, 0, 0, 0);
   color: #7b758b;
   border: 0px;
-  margin-left: 40px;
+  margin: 0px;
+  font-family: Roboto;
+  font-style: Bold;
+  font-weight: 700;
+  font-size: 13px;
+`;
+const BackBtn = styled.button`
+  width: 20px;
+  height: 20px;
+  background-color: rgba(0, 0, 0, 0);
+  color: #7b758b;
+  border: 0px;
+  margin: 0px;
   font-family: Roboto;
   font-style: Bold;
   font-weight: 700;
@@ -122,6 +141,13 @@ const AlarmBox = styled.div`
     position: relative;
     top: -50px;
     left: 160px;
+  }
+
+  h6 {
+    position: relative;
+    top: -30px;
+    left: 120px;
+    cursor: pointer;
   }
 `;
 export default AlarmForm;

@@ -94,7 +94,7 @@ const Item_detail = (props) => {
 
   const [mood, setMood] = useState(`${heartFalse}`);
   const [likeStatus, setLikeStatus] = useState(detailPost.likeStatus);
-  const [moodNum, setMoodNum] = useState(detailPost?.likeCount);
+  const [moodNum, setMoodNum] = useState(detailPost.likeCount);
 
   const [myPageIsOpen, myPageRef, myPageHandler] = useDetectClose(false);
 
@@ -258,7 +258,7 @@ const Item_detail = (props) => {
                 onClick={onClickMoodBtn}
               />
             )}
-            <span className="heartNum">{moodNum}</span>
+            {/* <span className="heartNum">{moodNum}</span> */}
             <ContentText>{detailPost.content}</ContentText>
             <Line />
             <SliderContainer

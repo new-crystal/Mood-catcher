@@ -47,7 +47,7 @@ const Header = () => {
           <HeaderLogo
             style={{ top: "12px" }}
             onClick={() => {
-              navigate("/");
+              navigate("/main");
             }}
           >
             <span>Mood catcher</span>

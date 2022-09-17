@@ -21,7 +21,7 @@ const NavigationBar = (props) => {
       <NavBox>
         <SearchWrap
           onClick={() => {
-            navigate("/");
+            navigate("/main");
             window.location.reload();
           }}
         >
