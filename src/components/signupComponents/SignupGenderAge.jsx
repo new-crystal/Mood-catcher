@@ -104,7 +104,7 @@ const SignupGenderAge = (location) => {
 
   //성별, 나이, 닉네임 보내기
   const onClickGenderHandler = async (key) => {
-    console.log(key.target.innerText);
+    // console.log(key.target.innerText);
     const keyGender = await key.target.innerText;
     const nickname = getValues("nickname");
     dispatch(__detail({ age, gender: keyGender, nickname })).then(

@@ -9,9 +9,9 @@ import { api } from "../../shared/api";
 export const __writePost = createAsyncThunk(
   "post/writePost",
   async (payload, thunkAPI) => {
-    console.log(payload);
+    //console.log(payload);
     const response = await api.post(`/posts`, payload);
-    console.log(response.data.data);
+    //console.log(response.data.data);
     return response.data.data;
   }
 );
@@ -20,13 +20,13 @@ export const __writePost = createAsyncThunk(
 export const __putPost = createAsyncThunk(
   "put/putPost",
   async (payload, thunkAPI) => {
-    console.log(payload);
-    console.log(payload.totalPost);
+    //console.log(payload);
+    //console.log(payload.totalPost);
     const response = await api.put(
       `/posts/${payload.postId}`,
       payload.totalPost
     );
-    console.log(response.data.data);
+    //console.log(response.data.data);
     return response.data.data;
   }
 );
@@ -35,9 +35,9 @@ export const __putPost = createAsyncThunk(
 export const __deletePost = createAsyncThunk(
   "delete/deletePost",
   async (payload, thunkAPI) => {
-    console.log(payload);
+    //console.log(payload);
     const response = await api.delete(`/posts/${payload}`);
-    console.log(response);
+    //console.log(response);
     return response;
   }
 );
@@ -46,8 +46,8 @@ export const __deletePost = createAsyncThunk(
 export const __writeImage = createAsyncThunk(
   "post/writePost",
   async (payload, thunkAPI) => {
-    console.log(payload);
-    console.log(payload.postId);
+    //console.log(payload);
+    //console.log(payload.postId);
     const response = await api.put(
       `/posts/${payload.postId}/image`,
       payload.postImage,
@@ -57,7 +57,7 @@ export const __writeImage = createAsyncThunk(
         },
       }
     );
-    console.log(response);
+    //console.log(response);
     return response.data;
   }
 );
@@ -67,7 +67,7 @@ export const __getMusinsa = createAsyncThunk(
   "post/getMusinsa",
   async (payload, thunkAPI) => {
     const response = await api.get(`/musinsa/${payload}?page=1&count=9`);
-    console.log(response);
+    //console.log(response);
     return response.data.data;
   }
 );
@@ -77,8 +77,8 @@ export const __getDetail = createAsyncThunk(
   "post/getDetail",
   async (payload, thunkAPI) => {
     const response = await api.get(`/posts/detail/${payload}`);
-    console.log(response);
-    console.log(response.data.data);
+    //console.log(response);
+    //console.log(response.data.data);
     return response.data.data;
   }
 );
@@ -91,7 +91,7 @@ export const __getMyPage = createAsyncThunk(
       const response = await api.get(`/posts?userId=${payload}&type=my`);
       return response.data;
     } catch (err) {
-      console.log(err);
+      //console.log(err);
     }
   }
 );
@@ -101,13 +101,13 @@ export const __getMyCloset = createAsyncThunk(
   "GET/MYCLOSET",
   async (payload, thunkAPI) => {
     try {
-      console.log(payload);
+      //console.log(payload);
       const response = await api.get(
         `/posts?userId=${payload.userId}&type=my&page=${payload.paging}&count=4`
       );
       return response.data;
     } catch (err) {
-      console.log(err);
+      //console.log(err);
     }
   }
 );
@@ -133,7 +133,7 @@ export const __getRepPost = createAsyncThunk(
       const response = await api.get(`/posts/rep?userId=${payload}`);
       return response.data.data.repPost;
     } catch (err) {
-      console.log(err);
+      //console.log(err);
     }
   }
 );
@@ -188,10 +188,10 @@ const uploadSlice = createSlice({
       })
       .addCase(__getMusinsa.fulfilled, (state, action) => {
         state.items = action.payload.items;
-        console.log(state.items);
+        //console.log(state.items);
       })
       .addCase(__getDetail.fulfilled, (state, action) => {
-        console.log(action.payload);
+        //console.log(action.payload);
         state.detailPost = action.payload.post;
         state.detailItems = action.payload.items;
       })

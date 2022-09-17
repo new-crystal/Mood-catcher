@@ -11,7 +11,7 @@ export const __getLikeAllPosts = createAsyncThunk(
       );
       return response.data;
     } catch (err) {
-      console.log(err);
+      //console.log(err);
     }
   }
 );

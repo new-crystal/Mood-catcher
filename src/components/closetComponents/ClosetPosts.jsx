@@ -15,7 +15,7 @@ const ClosetPosts = () => {
   const ranksIF = useSelector(InfinityCloset); //redux store값 받아오는부기
 
   const { userId } = useParams();
-  console.log(userId);
+  // console.log(userId);
   const getInfinityList = useCallback(() => {
     async function getData() {
       await dispatch(__getMyCloset({ userId: userId, paging: paging })); //api요청
