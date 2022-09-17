@@ -12,6 +12,7 @@ import { getCookie } from "../shared/cookie";
 import jwt_decode from "jwt-decode";
 
 const Back = "/images/Back2.png";
+const arrow_back = "/images/arrow_back.png";
 
 const Header = () => {
   const dispatch = useDispatch();
@@ -37,7 +38,7 @@ const Header = () => {
         <HeaderBox style={{ marginTop: "0" }}>
           {/* 뒤로가기 이미지와 뒤로가기 기능 */}
           <GoBack
-            style={{ backgroundImage: `url(${Back})` }}
+            style={{ backgroundImage: `url(${arrow_back})` }}
             onClick={() => {
               navigate(-1);
             }}
@@ -82,10 +83,10 @@ const HeaderBox = styled.div`
 
 const GoBack = styled.div`
   display: inline-block;
-  width: 40px;
-  height: 40px;
+  width: 30px;
+  height: 30px;
   background-size: cover;
-  margin: 10px 0 0 12px;
+  margin: 15px 0 0 20px;
   cursor: pointer;
 `;
 
@@ -94,8 +95,8 @@ const HeaderLogo = styled.div`
   position: absolute;
   top: 12px;
   left: 50%;
-  margin-left: -160px;
-  margin-top: 2px;
+  margin-left: -165px;
+  margin-top: 1px;
   font-size: 30px;
   color: #333333;
   cursor: pointer;

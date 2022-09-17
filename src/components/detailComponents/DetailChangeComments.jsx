@@ -67,7 +67,7 @@ const Wrapdiv = styled.div`
   width: 250px;
   height: 250px;
   padding: 20px 30px;
-  background-color: #a396c9;
+  background-color: #eeeeee;
   opacity: 1;
   border-radius: 20px;
   box-shadow: 1px 1px 2px 2px;
@@ -87,6 +87,7 @@ const CommentChangeTextBox = styled.textarea`
   outline: none;
   overflow-y: auto;
   font-size: 16px;
+  border-radius: 10px;
 `;
 const WrapBtn = styled.div`
   display: flex;
