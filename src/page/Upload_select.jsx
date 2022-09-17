@@ -83,7 +83,7 @@ const Upload_select = (props) => {
   const selectedItems = useSelector((state) => state.upload.selectedItems);
   // postId 잘 가져왔는지 확인합니다.
   const checkPostId = useSelector((state) => state.upload.checkPostId);
-  console.log(checkPostId);
+  // console.log(checkPostId);
   const [totalPost, setTotalPost] = useState({
     post: {},
     items: [],
@@ -120,7 +120,7 @@ const Upload_select = (props) => {
 
   const writeTotalPost = () => {
     dispatch(__writePost(totalPost));
-    console.log(post);
+    // console.log(post);
   };
   React.useEffect(() => {
     if (checkPostId === true) {

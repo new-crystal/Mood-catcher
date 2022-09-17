@@ -98,13 +98,13 @@ const Item_detail = (props) => {
 
   const [myPageIsOpen, myPageRef, myPageHandler] = useDetectClose(false);
 
-  console.log(postId);
-  console.log(userId);
+  // console.log(postId);
+  // console.log(userId);
 
-  console.log("detail", detailPost);
-  console.log(detailItems);
-  console.log(userStatus);
-  console.log(comments);
+  // console.log("detail", detailPost);
+  // console.log(detailItems);
+  // console.log(userStatus);
+  // console.log(comments);
 
   // 댓글 input
   let commentText = useRef("");

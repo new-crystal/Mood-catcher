@@ -6,7 +6,7 @@ import styled from "styled-components";
 const EachPost = (props) => {
   const navigate = useNavigate();
   const { item } = props;
-  console.log(item);
+  // console.log(item);
   return (
     <Fragment>
       <PostWrap

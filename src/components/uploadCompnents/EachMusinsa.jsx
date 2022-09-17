@@ -9,8 +9,8 @@ const EachMusinsa = (props) => {
   const { item } = props;
 
   const [selected, setSelected] = useState(false);
-  console.log(item);
-  console.log(idx);
+  // console.log(item);
+  // console.log(idx);
 
   return (
     <Fragment>

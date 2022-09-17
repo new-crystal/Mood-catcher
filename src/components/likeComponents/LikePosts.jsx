@@ -49,10 +49,10 @@ const LikePosts = () => {
   }, 500);
 
   useEffect(() => {
-    console.log(paging, userId, allLikePosts);
+    // console.log(paging, userId, allLikePosts);
 
     if (paging === 1 && allLikePosts.length === 0) {
-      console.log(paging, userId);
+      // console.log(paging, userId);
       dispatch(__getLikeAllPosts({ paging: paging, userId: userId }));
       setPaging(paging + 1);
     } //첫렌더링시 0페이지 받아오기

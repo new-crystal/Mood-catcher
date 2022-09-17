@@ -82,7 +82,7 @@ const ImgBox = styled.div`
   background-image: url(${(props) => props.url});
 `;
 const TextBox = styled.div`
-  margin-left: 30px;
+  margin-left: 10px;
   width: 200px;
   display: flex;
   align-items: baseline;

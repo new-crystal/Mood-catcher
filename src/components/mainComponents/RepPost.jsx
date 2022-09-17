@@ -17,7 +17,7 @@ const RepPost = ({ myRepPost }) => {
   const [likeStatus, setLikeStatus] = useState(myRepPost?.likeStatus);
   const [mood, setMood] = useState(`${heartFalse}`);
   const [moodNum, setMoodNum] = useState(myRepPost?.likeCount);
-  console.log(myRepPost);
+  // console.log(myRepPost);
 
   //새로고침시에도 무드 상태값 유지
   useEffect(() => {

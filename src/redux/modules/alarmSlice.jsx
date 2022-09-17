@@ -9,7 +9,7 @@ export const __getAlarm = createAsyncThunk(
       const response = await api.get("/notice");
       return response.data.data.notices;
     } catch (err) {
-      console.log(err);
+      // console.log(err);
     }
   }
 );

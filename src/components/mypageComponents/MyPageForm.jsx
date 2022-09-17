@@ -92,7 +92,7 @@ const MyPageForm = () => {
   const users = useSelector((state) => state.login.userStatus);
   const profileIcon = useSelector((state) => state.login.userIcon.grade);
   const img = users?.imgUrl?.split(".com/")[1];
-  console.log(users);
+  // console.log(users);
 
   //내 게시글 불러오기
   const myClosetList = useSelector((state) => state.upload.myList);

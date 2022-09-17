@@ -9,7 +9,7 @@ export const __getSearch = createAsyncThunk(
       const response = await api.get(`/posts?type=alg&page=${payload}&count=4`);
       return response.data;
     } catch (err) {
-      console.log(err);
+      //console.log(err);
     }
   }
 );
@@ -26,7 +26,7 @@ export const __getSearchResult = createAsyncThunk(
       );
       return response.data;
     } catch (err) {
-      console.log(err);
+      //console.log(err);
     }
   }
 );
