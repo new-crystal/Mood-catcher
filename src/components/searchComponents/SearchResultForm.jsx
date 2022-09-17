@@ -7,6 +7,7 @@ import { __getSearchResult } from "../../redux/modules/searchSlice";
 import { useNavigate, useParams } from "react-router-dom";
 import more from "../../image/more.png";
 import _ from "lodash";
+import { __getUser } from "../../redux/modules/loginSlice";
 
 const SearchResultForm = () => {
   const dispatch = useDispatch();
@@ -18,8 +19,10 @@ const SearchResultForm = () => {
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(false);
 
-  //검색 결과 받아오기
+  //검색 결과 받아오기/유저 정보 불러오기
   const searchList = useSelector((state) => state.search.searchResult);
+
+  console.log(searchList);
 
   //react-hook-form 사용하기
   const {
@@ -83,7 +86,7 @@ const SearchResultForm = () => {
 
   return (
     <Fragment>
-      <form onSubmit={handleSubmit(onSubmit)}>
+      <Form onSubmit={handleSubmit(onSubmit)}>
         {errors.search && <ErrorMsg>{errors.search.message}</ErrorMsg>}
         <SearchInput
           type="search"
@@ -99,7 +102,7 @@ const SearchResultForm = () => {
           })}
         />
         <SearchImg type="submit" disabled={isSubmitting}></SearchImg>
-      </form>
+      </Form>
       <SearchBox>
         {sort === "title" && (
           <>
@@ -134,20 +137,39 @@ const SearchResultForm = () => {
             <h3>다시 검색해주세요</h3>
           </div>
         )}
-
-        {searchList?.map((search) => (
-          <Img
-            key={search.postId}
-            url={search.imgUrl}
-            onClick={() =>
-              navigate(`/item_detail/${search.postId}/${search.userId}`)
-            }
-          ></Img>
-        ))}
+        {sort === "title" &&
+          searchList?.map((search) => (
+            <Img
+              key={search.postId}
+              url={search.imgUrl}
+              onClick={() =>
+                navigate(`/item_detail/${search.postId}/${search.userId}`)
+              }
+            ></Img>
+          ))}
+        {sort === "writer" &&
+          searchList?.map((search) => (
+            <NickImgBox>
+              <Nickname>{search.nickname} 님의</Nickname>
+              <Nickname> 대표게시물</Nickname>
+              <Img
+                key={search.postId}
+                url={search.imgUrl}
+                onClick={() =>
+                  navigate(`/item_detail/${search.postId}/${search.userId}`)
+                }
+              ></Img>
+            </NickImgBox>
+          ))}
       </ImgBox>
     </Fragment>
   );
 };
+
+const Form = styled.form`
+  height: 110px;
+  margin-bottom: 0px;
+`;
 
 const ErrorMsg = styled.p`
   color: #c60000;
@@ -247,4 +269,23 @@ const Img = styled.div`
   /* position: relative;
   overflow: hidden; */
 `;
+const NickImgBox = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  margin-top: 0px;
+  position: relative;
+  top: -30px;
+`;
+const Nickname = styled.p`
+  margin: 0px;
+  text-align: center;
+  font-family: "Roboto";
+  font-style: normal;
+  font-weight: 800;
+  font-size: 16px;
+  color: #4b4950;
+`;
+
 export default SearchResultForm;

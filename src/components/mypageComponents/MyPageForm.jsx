@@ -114,20 +114,20 @@ const MyPageForm = () => {
     gradeIcon(grade);
   }, [profileIcon, gradeList, changeUser]);
 
-  //새로고침 방지하기
-  const preventClose = (e) => {
-    e.preventDefault();
-    e.returnValue = "";
-  };
-  //새로고침 방지하기
-  useEffect(() => {
-    (() => {
-      window.addEventListener("beforeunload", preventClose);
-    })();
-    return () => {
-      window.removeEventListener("beforeunload", preventClose);
-    };
-  }, []);
+  // //새로고침 방지하기
+  // const preventClose = (e) => {
+  //   e.preventDefault();
+  //   e.returnValue = "";
+  // };
+  // //새로고침 방지하기
+  // useEffect(() => {
+  //   (() => {
+  //     window.addEventListener("beforeunload", preventClose);
+  //   })();
+  //   return () => {
+  //     window.removeEventListener("beforeunload", preventClose);
+  //   };
+  // }, []);
 
   //성별과 등급별로 아이콘 이미지 보여주기
   const gradeIcon = useCallback(
@@ -306,6 +306,24 @@ const MyPageForm = () => {
                 </>
               )}
               {myClosetList?.length === 5 && (
+                <>
+                  <Closet url={myClosetList[0]?.imgUrl}></Closet>
+                  <Closet url={myClosetList[1]?.imgUrl}></Closet>
+                  <Closet url={myClosetList[2]?.imgUrl}></Closet>
+                  <Closet url={myClosetList[3]?.imgUrl}></Closet>
+                  <Closet url={myClosetList[4]?.imgUrl}></Closet>
+                  <Closet
+                    url="https://m.spadegagu.com/web/product/extra/big/20200214/f614adca4a7b75279a0142f3657bfafe.jpg"
+                    onClick={() => navigate(`/closet/${userId}`)}
+                  >
+                    <OpenCloset>
+                      <h4>{users?.nickname}님의</h4>
+                      <h4>옷장 열어보기</h4>
+                    </OpenCloset>
+                  </Closet>
+                </>
+              )}
+              {myClosetList?.length > 5 && (
                 <>
                   <Closet url={myClosetList[0]?.imgUrl}></Closet>
                   <Closet url={myClosetList[1]?.imgUrl}></Closet>
@@ -567,7 +585,6 @@ const ProfileEditBtn = styled.button`
   font-style: normal;
   font-weight: 800;
   font-size: 16px;
-  color: #7b758b;
   text-align: center;
 `;
 

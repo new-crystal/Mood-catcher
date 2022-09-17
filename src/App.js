@@ -44,7 +44,7 @@ function App() {
         }
       >
         <Routes>
-          <Route path="/" element={<Main />} />
+          <Route path="/main" element={<Main />} />
           <Route path="/login" element={<Login />} />
           <Route path="/login/detail" element={<SignupGenderAge />} />
           <Route path="/signup" element={<Signup />} />
@@ -67,7 +67,7 @@ function App() {
             element={<Item_detail />}
           />
           <Route path="/like/:userId" element={<Like />} />
-          <Route path="/main" element={<Open />} />
+          <Route path="/" element={<Open />} />
           <Route path="/alarm/:userId" element={<Alarm />} />
           <Route path="*" element={<Main />} />
         </Routes>

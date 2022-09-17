@@ -342,7 +342,7 @@ const ChangeProfile = styled.button`
   background-color: rgba(0, 0, 0, 0);
   text-align: center;
   border: 0px;
-  color: #7b758b;
+  color: #6a6578;
   margin-top: -20px;
   font-family: "Roboto";
   font-style: normal;

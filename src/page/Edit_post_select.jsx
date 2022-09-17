@@ -81,7 +81,7 @@ const Edit_post_select = (props) => {
     if (checkPostId === true) {
       dispatch(__writeImage({ postId: post.postId, postImage: formdata }));
       dispatch(changeCheckPostId(false));
-      navigate("/");
+      navigate("/main");
     }
   }, [checkPostId]);
 
