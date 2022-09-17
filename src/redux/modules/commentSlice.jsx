@@ -5,11 +5,11 @@ import { api } from "../../shared/api";
 export const __addComment = createAsyncThunk(
   "post/ADDCOMMENT_LOG",
   async (payload, thunkAPI) => {
-    console.log(payload);
+    // console.log(payload);
     const response = await api.post(`/comments?postId=${payload.postId}`, {
       content: payload.comment,
     });
-    console.log(response.data.data.comment.createComment);
+    //console.log(response.data.data.comment.createComment);
     // 추가한 댓글 하나의 Data
     return response.data.data.comment.createComment;
   }
@@ -19,14 +19,14 @@ export const __addComment = createAsyncThunk(
 export const __getComments = createAsyncThunk(
   "get/GETCOMMENTS",
   async (payload, thunkAPI) => {
-    console.log(payload);
+    //console.log(payload);
     const response = await api.get(
       // `/comments?${payload.postId}&page=${payload.page}&count=${payload.count}`
       `/comments?postId=${payload}`
     );
-    console.log(response);
-    console.log(response.data);
-    console.log(response.data.data);
+    // console.log(response);
+    // console.log(response.data);
+    // console.log(response.data.data);
 
     return response.data.data;
   }
@@ -67,7 +67,7 @@ export const __addRecomment = createAsyncThunk(
         content: payload.comment,
       }
     );
-    console.log(response);
+    //console.log(response);
     // 추가한 댓글 하나의 Data
     return response.data;
   }
@@ -77,7 +77,7 @@ export const __addRecomment = createAsyncThunk(
 export const __changeRecomment = createAsyncThunk(
   "comment/CHANGERECOMMENT_LOG",
   async (payload, thunkAPI) => {
-    console.log(payload);
+    //console.log(payload);
     const response = await api.put(`/recomments/${payload.recommentId}`, {
       content: payload.comment,
     });
@@ -110,7 +110,7 @@ const commentSlice = createSlice({
       // 댓글 정보 가져오기
       .addCase(__getComments.fulfilled, (state, action) => {
         // 받아온 댓글 리스트 전체 받아오기
-        console.log(action.payload.comments);
+        //console.log(action.payload.comments);
         state.comments = action.payload.comments;
       })
       // 댓글 추가하기

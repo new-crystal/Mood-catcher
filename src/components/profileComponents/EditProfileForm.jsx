@@ -117,7 +117,7 @@ const EditProfileForm = () => {
 
   //수정된 프로필 이미지, 닉네임, 성별, 나이 전송하기
   const onSubmit = async () => {
-    console.log(editNickname);
+    // console.log(editNickname);
     if (image.image_file === "") {
       alert("새로운 프로필 사진을 입력해주세요!");
     } else {
@@ -342,7 +342,7 @@ const ChangeProfile = styled.button`
   background-color: rgba(0, 0, 0, 0);
   text-align: center;
   border: 0px;
-  color: #7b758b;
+  color: #6a6578;
   margin-top: -20px;
   font-family: "Roboto";
   font-style: normal;

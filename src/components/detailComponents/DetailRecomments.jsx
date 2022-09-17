@@ -7,14 +7,14 @@ import DetailReCommentList from "./DetailReCommentList";
 
 const DetailRecomments = ({ commentData, btnState, postId }) => {
   const userStatus = useSelector((state) => state.signup.userStatus);
-  console.log(userStatus);
+  // console.log(userStatus);
 
   const dispatch = useDispatch();
   const recommentText = useRef("");
-  console.log(commentData);
+  // console.log(commentData);
   const commentList = useSelector((state) => state.comment.comments);
-  console.log(commentData);
-  console.log(commentData.recommentId);
+  // console.log(commentData);
+  // console.log(commentData.recommentId);
 
   const preview_URL =
     "https://cdn.discordapp.com/attachments/1014169130045292625/1014194232250077264/Artboard_1.png";
@@ -120,7 +120,7 @@ const Wrapdiv = styled.div`
   width: 370px;
   height: 500px;
   padding: 20px 15px;
-  background-color: #a396c9;
+  background-color: #eeeeee;
   opacity: 1;
   border-radius: 20px;
   box-shadow: 1px 1px 2px 2px;
@@ -163,8 +163,8 @@ const WrapBtn = styled.div`
 
 const CommentBox = styled.div`
   display: flex;
-  border-top: 2px solid white;
-  border-bottom: 2px solid white;
+  border-top: 2px solid #a396c9;
+  border-bottom: 2px solid #a396c9;
 `;
 
 const CommentDataBox = styled.div`
@@ -221,7 +221,6 @@ const Textarea = styled.textarea`
   width: 240px;
   height: 25px;
   padding-top: 13px;
-  border: none;
   outline: none;
   font-size: 16px;
   border: 1px solid var(--grey);

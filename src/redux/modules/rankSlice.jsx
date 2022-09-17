@@ -10,8 +10,8 @@ export const __getHotPosts = createAsyncThunk(
   "GET/HOTPOST",
   async (payload, thunkAPI) => {
     const response = await api.get(`/posts/popular`);
-    console.log(response);
-    console.log(response.data.data.hotPosts);
+    //console.log(response);
+    //console.log(response.data.data.hotPosts);
     return response.data.data.hotPosts;
   }
 );
@@ -26,7 +26,7 @@ export const __getMainAllPosts = createAsyncThunk(
       );
       return response.data;
     } catch (err) {
-      console.log(err);
+      //console.log(err);
     }
   }
 );

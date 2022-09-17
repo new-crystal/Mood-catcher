@@ -28,7 +28,7 @@ const Main = (props) => {
   const repPost = useSelector((state) => state.upload.representative);
   // 랭크게시물 불러옴
   const hotPosts = useSelector((state) => state.rank.hotPosts);
-  console.log(hotPosts);
+  // console.log(hotPosts);
 
   const token = getCookie("token");
   const { userId } = jwt(token);
@@ -146,7 +146,8 @@ const Grid = styled.div`
   margin-top: 60px;
   margin-bottom: 57px;
   width: 428px;
-  background: linear-gradient(#a396c9, #c8c6d0);
+  background: linear-gradient(#a396c9, #ffffff);
+  /* background: #a396c9; */
 `;
 
 const Img = styled.div`

@@ -21,7 +21,7 @@ const SigupForm = () => {
   useEffect(() => {
     const token = getCookie("token");
     if (token !== undefined) {
-      navigate("/");
+      navigate("/main");
     }
   }, []);
 
@@ -50,7 +50,7 @@ const SigupForm = () => {
   const onClickCheckBtnHandler = async () => {
     const email = await getValues("email");
     if (email !== "" && errors.email === undefined) {
-      console.log(email);
+      // console.log(email);
       dispatch(__checkEmail(email));
       if (checkEmail === false) {
         setError(

@@ -83,7 +83,7 @@ const Upload_select = (props) => {
   const selectedItems = useSelector((state) => state.upload.selectedItems);
   // postId 잘 가져왔는지 확인합니다.
   const checkPostId = useSelector((state) => state.upload.checkPostId);
-  console.log(checkPostId);
+  // console.log(checkPostId);
   const [totalPost, setTotalPost] = useState({
     post: {},
     items: [],
@@ -120,7 +120,7 @@ const Upload_select = (props) => {
 
   const writeTotalPost = () => {
     dispatch(__writePost(totalPost));
-    console.log(post);
+    // console.log(post);
   };
   React.useEffect(() => {
     if (checkPostId === true) {
@@ -193,7 +193,13 @@ const Upload_select = (props) => {
                       ) : (
                         <Fragment>
                           <StText>{item.name}</StText>
-                          <StText>{item.price}</StText>
+                          {item.price.indexOf(" ") !== -1 ? (
+                            <StText>
+                              {item.price.slice(item.price.indexOf(" "))}
+                            </StText>
+                          ) : (
+                            <StText>{item.price}</StText>
+                          )}
                         </Fragment>
                       )}
                     </StTextBox>
@@ -293,7 +299,7 @@ const Grid = styled.div`
   margin-top: 40px;
   margin-bottom: 57px;
   width: 428px;
-  background: linear-gradient(#a396c9, #c8c6d0);
+  background: linear-gradient(#a396c9, #ffffff);
   /* background-color: royalblue; */
 `;
 
@@ -432,7 +438,8 @@ const StTextBox = styled.div`
 
 const StText = styled.span`
   margin-top: 18px;
-  font-size: 16px;
+  margin-right: 6px;
+  font-size: 8px;
   color: #7b758b;
   font-weight: bold;
 `;

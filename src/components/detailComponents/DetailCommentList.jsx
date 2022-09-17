@@ -16,15 +16,15 @@ const DetailCommentList = (props) => {
   const { item } = props;
   const { postId } = props;
   const { userId } = props;
-  console.log(item);
+  // console.log(item);
 
   const token = getCookie("token");
   // console.log(jwt(token));
   const payload = jwt(token);
-  console.log(payload.userId);
-  console.log(userId);
-  console.log(postId);
-  console.log(item);
+  // console.log(payload.userId);
+  // console.log(userId);
+  // console.log(postId);
+  // console.log(item);
 
   // console.log(ranksIF);
   // console.log(item.data.comment.createComment.imgUrl);

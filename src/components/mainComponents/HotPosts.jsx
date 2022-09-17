@@ -7,7 +7,7 @@ import { useNavigate } from "react-router-dom";
 const junsu = "./images/junsu.PNG";
 
 const HotPosts = ({ hotPosts }) => {
-  console.log(hotPosts);
+  // console.log(hotPosts);
   const navigate = useNavigate();
   const token = getCookie("token");
   // console.log(jwt(token));

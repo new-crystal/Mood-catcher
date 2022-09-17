@@ -8,7 +8,7 @@ const MoodPoint = ({ setMoodPoint }) => {
         <TitleBox>
           <h3>Mood Point 쌓는 방법</h3>
           <ConfirmBtn type="button" onClick={() => setMoodPoint(false)}>
-            확인
+            ✖️
           </ConfirmBtn>
         </TitleBox>
         <h6>(Mood Point는 매일 자정에 업데이트 됩니다)</h6>
@@ -89,7 +89,7 @@ const ConfirmBtn = styled.button`
   background-color: white;
   color: #7b758b;
   border: 0px;
-  margin-right: -20px;
+  margin-right: -30px;
 `;
 const Grade = styled.div`
   width: 280px;
