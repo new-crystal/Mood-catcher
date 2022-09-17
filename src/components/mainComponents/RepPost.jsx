@@ -85,12 +85,15 @@ const RepPost = ({ myRepPost }) => {
           </ClosetImage>
           <ClosetTextWrap>
             <GridHorizon>
+              <CreatedText>
+                <span>{myRepPost?.createdAt.slice(0, 10)}</span>
+              </CreatedText>
               <TitleText>
                 <span>{myRepPost.title}</span>
               </TitleText>
               <ContentText>
                 {/* <span>{myRepPost?.createdAt.slice(5)}</span> */}
-                <span>{myRepPost?.createdAt}</span>
+
                 <br />
                 <span>{myRepPost?.content}</span>
               </ContentText>
@@ -149,8 +152,9 @@ const ClosetImage = styled.div`
 `;
 
 const ClosetTextWrap = styled.div`
-  margin: 66px 0 30px 50px;
-  width: 145px;
+  margin: 12px 0 30px 50px;
+  width: 180px;
+  height: 150px;
   word-break: break-all;
   word-wrap: break-word;
 `;
@@ -162,20 +166,27 @@ const GridHorizon = styled.div`
   height: 20px;
 `;
 
-const TitleText = styled.p`
-  margin: 0;
-  margin-bottom: 10px;
+const CreatedText = styled.div`
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 20px;
+  text-align: end;
+  color: #7b758b;
+`;
+
+const TitleText = styled.div`
+  margin-top: 30px;
   font-size: 21px;
   font-weight: 700;
   line-height: 20px;
   color: #7b758b;
 `;
 
-const ContentText = styled.p`
+const ContentText = styled.div`
   margin: 0;
   font-size: 15px;
   font-weight: 700;
-  line-height: 13px;
+  line-height: 15px;
   color: #7b758b;
 `;
 

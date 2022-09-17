@@ -205,14 +205,16 @@ const Item_detail = (props) => {
                     : userStatus?.imgUrl
                 }
               ></ProfileImg>
-              <span
+              <NickTitle
                 onClick={() => {
                   navigate(`/closet/${userId}`);
                   window.location.reload();
                 }}
               >
-                {userStatus.nickname}
-              </span>
+                <span>{detailPost.title}</span>
+                <span className="nickname">{userStatus.nickname}</span>
+              </NickTitle>
+
               {payload.userId == userId ? (
                 <DropdownContainer>
                   <DropdownButton onClick={myPageHandler} ref={myPageRef}>
@@ -284,7 +286,13 @@ const Item_detail = (props) => {
                     ) : (
                       <Fragment>
                         <StText>{item.name}</StText>
-                        <StText>{item.price}</StText>
+                        {item.price.indexOf(" ") !== -1 ? (
+                          <StText>
+                            {item.price.slice(item.price.indexOf(" "))}
+                          </StText>
+                        ) : (
+                          <StText>{item.price}</StText>
+                        )}
                       </Fragment>
                     )}
                   </StTextBox>
@@ -294,10 +302,10 @@ const Item_detail = (props) => {
             <CommentBox>
               <CommentImg
                 url={
-                  userStatusMe.imgUrl === undefined ||
-                  userStatusMe.imgUrl.slice(-4) === "null"
+                  userStatus.imgUrl === undefined ||
+                  userStatus.imgUrl.slice(-4) === "null"
                     ? preview_URL
-                    : userStatusMe?.imgUrl
+                    : userStatus?.imgUrl
                 }
               ></CommentImg>
               <WrapComment>
@@ -329,8 +337,9 @@ export default Item_detail;
 
 const StLoginList = styled.div`
   background-image: url(${home});
-  width: 40px;
-  height: 40px;
+  width: 30px;
+  height: 30px;
+  /* margin-right: 50px; */
   background-position: center;
   background-size: cover;
   cursor: pointer;
@@ -364,7 +373,7 @@ const Grid = styled.div`
   width: 428px;
   min-height: 926px;
 
-  background: linear-gradient(#a396c9, #c8c6d0);
+  background: linear-gradient(#a396c9, #ffffff);
 
   .heart {
     width: 40px;
@@ -384,10 +393,6 @@ const ProfileBox = styled.div`
   display: flex;
   align-items: center;
   flex-direction: row;
-  & > span {
-    font-size: 16px;
-    color: black;
-  }
 `;
 
 const ProfileImg = styled.div`
@@ -401,10 +406,23 @@ const ProfileImg = styled.div`
   box-shadow: 5px 5px 4px #877f92;
 `;
 
+const NickTitle = styled.div`
+  width: 260px;
+  display: flex;
+  flex-direction: column;
+  & > span {
+    font-size: 16px;
+    color: black;
+  }
+  .nickname {
+    font-size: 12px;
+    color: black;
+  }
+`;
+
 const DropdownContainer = styled.div`
   position: relative;
   text-align: center;
-  margin-left: 220px;
 `;
 
 const DropdownButton = styled.div`
@@ -544,7 +562,7 @@ const StMusinsaItemBox = styled.div`
   display: flex;
   width: 200px;
   height: 100px;
-  background-color: #e6e5ea;
+  background-color: white;
   border-radius: 15px;
   font-size: 20px;
   outline: none;
@@ -650,7 +668,8 @@ const StTextBox = styled.div`
 
 const StText = styled.span`
   margin-top: 18px;
-  font-size: 16px;
+  margin-right: 6px;
+  font-size: 8px;
   color: #7b758b;
   font-weight: bold;
 `;

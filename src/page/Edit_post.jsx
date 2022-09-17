@@ -141,7 +141,7 @@ const Grid = styled.div`
   margin-top: 40px;
   margin-bottom: 57px;
   width: 428px;
-  background: linear-gradient(#a396c9, #c8c6d0);
+  background: linear-gradient(#a396c9, #ffffff);
 
   /* background-color: royalblue; */
 `;
