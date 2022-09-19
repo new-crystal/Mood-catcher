@@ -11,12 +11,9 @@ import {
   Select,
 } from "@material-ui/core";
 import { useDispatch, useSelector } from "react-redux";
-import { __detail } from "../../redux/modules/loginSlice";
+import { __detail } from "../../redux/async/loginSlice";
 import { useForm } from "react-hook-form";
-import {
-  __checkNickname,
-  changeNickname,
-} from "../../redux/modules/loginSlice";
+import { __checkNickname, changeNickname } from "../../redux/async/loginSlice";
 import male from "../../image/5man.png";
 import female from "../../image/girl5.png";
 import board from "../../image/board.png";

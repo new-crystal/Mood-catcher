@@ -12,3 +12,12 @@ export const getCookie = (name) => {
 export const deleteCookie = (name) => {
   return cookies.remove(name);
 };
+
+export const getToken = async () => {
+  const token = getCookie("token");
+  if (token) {
+    return `Bearer ${token}`;
+  } else {
+    return null;
+  }
+};

@@ -5,7 +5,7 @@ import {
   __checkEmail,
   __signUp,
   changeEmail,
-} from "../../redux/modules/signUpSlice";
+} from "../../redux/async/signUpSlice";
 import crypto from "crypto-js";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";

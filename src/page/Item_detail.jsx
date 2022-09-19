@@ -5,14 +5,14 @@ import Header from "../elem/Header";
 import NavigationBar from "../elem/NavigationBar";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { __addComment, __getComments } from "../redux/modules/commentSlice";
+import { __addComment, __getComments } from "../redux/async/comment";
 import {
   __getDetail,
-  __representative,
+  __editRepresentative,
   __deletePost,
-} from "../redux/modules/uploadSlice";
-import { __getUser } from "../redux/modules/loginSlice";
-import { __getUsers } from "../redux/modules/signUpSlice";
+} from "../redux/async/upload";
+import { __getUser } from "../redux/async/loginSlice";
+import { __getUsers } from "../redux/async/signUpSlice";
 
 import DetailCommentList from "../components/detailComponents/DetailCommentList";
 import { Link, useParams } from "react-router-dom";
@@ -21,7 +21,7 @@ import jwt from "jwt-decode"; // to get userId from loggedIn user's token
 import useDetectClose from "../elem/useDetectClose";
 import heartFalse from "../image/heart.png";
 import heartTrue from "../image/heartTrue.png";
-import { __patchMood } from "../redux/modules/likeSlice";
+import { __patchMood } from "../redux/async/like";
 
 const junsu = "/images/junsu.PNG";
 const home = "/images/more.png";
@@ -130,7 +130,7 @@ const Item_detail = (props) => {
   // 대표 게시물 지정하기
   const patchRep = () => {
     if (window.confirm("이 게시물을 대표게시물로 지정하겠습니까?")) {
-      dispatch(__representative(postId));
+      dispatch(__editRepresentative(postId));
       alert("대표게시물 지정에 성공했습니다.");
     } else {
       alert("취소합니다.");

@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
-import { __login, __socialLogin } from "../../redux/modules/loginSlice";
+import { __login, __socialLogin } from "../../redux/async/loginSlice";
 import { useNavigate } from "react-router-dom";
 import crypto from "crypto-js";
 import { Fragment } from "react";

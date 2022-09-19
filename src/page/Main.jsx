@@ -8,9 +8,9 @@ import HotPosts from "../components/mainComponents/HotPosts";
 import AllPosts from "../components/mainComponents/AllPosts";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { __getUsers } from "../redux/modules/signUpSlice";
-import { __getRepPost } from "../redux/modules/uploadSlice";
-import { __getHotPosts } from "../redux/modules/rankSlice";
+import { __getUsers } from "../redux/async/signUpSlice";
+import { __getRepresentative } from "../redux/async/upload";
+import { __getHotPosts } from "../redux/async/rank";
 import _ from "lodash";
 import { getCookie } from "../shared/cookie";
 import jwt from "jwt-decode"; // to get userId from loggedIn user's token
@@ -76,7 +76,7 @@ const Main = (props) => {
   // 유저정보 조회해서 프로필 사진 확보
   useEffect(() => {
     dispatch(__getUsers(userId));
-    dispatch(__getRepPost(userId));
+    dispatch(__getRepresentative(userId));
     dispatch(__getHotPosts());
   }, []);
 

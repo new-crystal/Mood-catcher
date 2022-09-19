@@ -2,10 +2,10 @@ import React, { useEffect, useState, useRef, useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
-import { __getMyPage, __getRepPost } from "../../redux/modules/uploadSlice";
+import { __getMyPage, __getRepresentative } from "../../redux/async/upload";
 import GradeList from "./GradeList";
 import { Fragment } from "react";
-import { __getUser } from "../../redux/modules/loginSlice";
+import { __getUser } from "../../redux/async/loginSlice";
 import { getCookie } from "../../shared/cookie";
 import jwt_decode from "jwt-decode";
 
@@ -110,7 +110,7 @@ const MyPageForm = () => {
   useEffect(() => {
     dispatch(__getUser(userId));
     dispatch(__getMyPage(userId));
-    dispatch(__getRepPost(userId));
+    dispatch(__getRepresentative(userId));
     gradeIcon(grade);
   }, [profileIcon, gradeList, changeUser]);
 

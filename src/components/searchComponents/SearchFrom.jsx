@@ -4,7 +4,7 @@ import { Fragment, useEffect, useState, useCallback } from "react";
 import search from "../../image/search.png";
 import heart from "../../image/heart.png";
 import { useDispatch, useSelector } from "react-redux";
-import { __getSearch } from "../../redux/modules/searchSlice";
+import { __getSearch } from "../../redux/async/searchSlice";
 import { useNavigate } from "react-router-dom";
 import jwt_decode from "jwt-decode";
 import { getCookie } from "../../shared/cookie";

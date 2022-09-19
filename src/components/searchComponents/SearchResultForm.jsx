@@ -3,11 +3,11 @@ import { useForm } from "react-hook-form";
 import { Fragment, useEffect, useState, useCallback } from "react";
 import search from "../../image/search.png";
 import { useDispatch, useSelector } from "react-redux";
-import { __getSearchResult } from "../../redux/modules/searchSlice";
+import { __getSearchResult } from "../../redux/async/searchSlice";
 import { useNavigate, useParams } from "react-router-dom";
 import more from "../../image/more.png";
 import _ from "lodash";
-import { __getUser } from "../../redux/modules/loginSlice";
+import { __getUser } from "../../redux/async/loginSlice";
 
 const SearchResultForm = () => {
   const dispatch = useDispatch();

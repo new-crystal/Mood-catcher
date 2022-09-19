@@ -1,6 +1,6 @@
 import React, { Fragment, useState, useCallback, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { __getMyCloset } from "../../redux/modules/uploadSlice";
+import { __getMyCloset } from "../../redux/async/upload";
 import { InfinityCloset } from "../../redux/modules/uploadSlice";
 import EachPost from "./EachPost";
 import { useNavigate, useParams } from "react-router-dom";

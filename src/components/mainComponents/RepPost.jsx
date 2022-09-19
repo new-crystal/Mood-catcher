@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import heartFalse from "../../image/heart.png";
 import heartTrue from "../../image/heartTrue.png";
 import { useDispatch } from "react-redux";
-import { __patchMood } from "../../redux/modules/likeSlice";
+import { __patchMood } from "../../redux/async/like";
 
 const junsu = "/images/junsu.PNG";
 const noimage = "/images/noimage.PNG";

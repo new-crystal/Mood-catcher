@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import openCloset from "../../image/6565656.png";
-import { __getOpen } from "../../redux/modules/signUpSlice";
+import { __getOpen } from "../../redux/async/signUpSlice";
 
 const OpenForm = () => {
   const dispatch = useDispatch();

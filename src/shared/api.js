@@ -1,18 +1,155 @@
 import axios from "axios";
-import { getCookie } from "./cookie";
+import { getToken, setCookie, deleteCookie } from "./cookie";
+import Swal from "sweetalert2";
 
-// axios 기본 주소 & header 타입 세팅
-export const api = axios.create({
+// // axios 기본 주소 & header 타입 세팅
+// export const api = axios.create({
+//   baseURL: process.env.REACT_APP_ENDPOINT,
+// });
+
+// // 매 실행 시 토큰값 넣기, 없으면 null값이 들어간다
+// api.interceptors.request.use(function (config) {
+//   const accessToken = getCookie("token");
+//   config.headers.common["authorization"] = `Bearer ${accessToken}`;
+//   return config;
+// });
+
+// Axios 인스턴스 설정
+const instance = axios.create({
   baseURL: process.env.REACT_APP_ENDPOINT,
-  headers: {
-    "content-type": "application/json;charset=UTF-8",
-    accept: "application/json,",
-  },
 });
 
-// 매 실행 시 토큰값 넣기, 없으면 null값이 들어간다
-api.interceptors.request.use(function (config) {
-  const accessToken = getCookie("token");
-  config.headers.common["authorization"] = `Bearer ${accessToken}`;
+//┏----------interceptor를 통한 header 설정----------┓
+instance.interceptors.request.use(async (config) => {
+  config.headers["content-type"] = "application/json; charset=utf-8";
+  config.headers["X-Requested-With"] = "XMLHttpRequest";
+  config.headers["Accept"] = "*/*";
+  //getToken는 로컬 스토리지에 토큰이 있다면 반환한다 없다면 null 값 반환
+  config.headers["authorization"] = await getToken();
   return config;
 });
+
+// ┏----------interceptor를 통한 response 설정----------┓
+instance.interceptors.response.use(
+  async (response) => {
+    if (response.data.message === "new token") {
+      const { config } = response;
+      const originalRequest = config;
+
+      const newAccessToken = response.data.myNewToken;
+      setCookie("token", newAccessToken);
+
+      axios.defaults.headers.common.authorization = `Bearer ${newAccessToken}`;
+      originalRequest.headers.authorization = `Bearer ${newAccessToken}`;
+      return axios(originalRequest);
+    }
+
+    return response;
+  },
+  async (error) => {
+    const {
+      config,
+      response: { status },
+    } = error;
+
+    if (
+      status === 401 &&
+      error.response.data.message !== "비밀번호가 틀렸습니다."
+    ) {
+      deleteCookie("token");
+      Swal.fire("로그인", "로그인 시간이 만료되었습니다.", "error");
+    }
+    return Promise.reject(error);
+  }
+);
+
+// 게시물 조회 관련 axios API 통신
+// rankSlice
+export const rankApi = {
+  // 인기 게시물 조회하기
+  getHotPosts: () => instance.get("/posts/popular"),
+  // 게시물 조회하기 (메인페이지)
+  getMainAllPosts: (data) =>
+    instance.get(
+      `/posts?userId=${data.userId}&type=all&page=${data.paging}&count=2`
+    ),
+};
+
+// 좋아요 관련 axios API 통신
+// likeSlice
+export const likeApi = {
+  // 게시물 조회하기 (좋아요페이지)
+  getLikeAllPosts: (data) =>
+    instance.get(
+      `/posts?userId=${data.userId}&type=like&page=${data.paging}&count=2`
+    ),
+  // 무드(좋아요) 등록/취소
+  patchMood: (postId) => instance.patch(`/like?postId=${postId}`),
+};
+
+// 업로드 관련 axios API 통신
+// uploadSlice
+export const uploadApi = {
+  // 게시물 작성하기
+  addPost: (post) => instance.post("/posts", post),
+  // 게시물 수정하기
+  editPost: (post) => instance.put(`/posts/${post.postId}`, post.totalPost),
+  // 게시물 삭제하기
+  deletePost: (post_id) => instance.delete(`/posts/${post_id}`),
+  // 이미지 업로드하기
+  uploadImage: (data) =>
+    instance.put(`/posts/${data.postId}/image`, data.postImage, {
+      headers: {
+        "Content-type": "multipart/form-data",
+      },
+    }),
+  // 상품 찾기(무신사)
+  getMusinsa: (data) => instance.get(`/musinsa/${data}?page=1&count=9`),
+  // 게시물 상세 조회하기
+  getDetail: (postId) => instance.get(`/posts/detail/${postId}`),
+  // 옷장 게시물 가져오기
+  getMyPage: (userId) => instance.get(`/posts?userId=${userId}&type=my`),
+  // 옷장 게시물 가져오기 (옷장페이지)
+  getMyCloset: (data) =>
+    instance.get(
+      `/posts?userId=${data.userId}&type=my&page=${data.paging}&count=4`
+    ),
+  // 대표 게시물 조회하기
+  getRepresentative: (userId) => instance.get(`/posts/rep?userId=${userId}`),
+  // 대표 게시물 지정 및 수정하기
+  editRepresentative: (postId) => instance.patch(`/posts/${postId}`),
+};
+
+// 댓글 관련 axios API 통신
+// commentSlice
+export const commentApi = {
+  // 댓글 조회하기
+  getComments: (postId) => instance.get(`/comments?postId=${postId}`),
+  // 댓글 작성하기
+  addComment: (data) =>
+    instance.post(`/comments?postId=${data.postId}`, {
+      content: data.comment,
+    }),
+  // 댓글 수정하기
+  editComment: (comment) =>
+    instance.put(`/comments/${comment.commentId}`, {
+      content: comment.comment,
+    }),
+  // 댓글 삭제하기
+  deleteComment: (comment) => instance.delete(`/comments/${comment.commentId}`),
+  // 대댓글 작성하기
+  addRecomment: (reComment) =>
+    instance.post(`/recomments?commentId=${reComment.commentId}`, {
+      content: reComment.comment,
+    }),
+  // 대댓글 수정하기
+  editRecomment: (reComment) =>
+    instance.put(`/recomments/${reComment.recommentId}`, {
+      content: reComment.comment,
+    }),
+  // 대댓글 삭제하기
+  deleteRecomment: (reComment) =>
+    instance.delete(`/recomments/${reComment.recommentId}`),
+};
+
+export default instance;
