@@ -48,7 +48,7 @@ const PostImage = styled.div`
     width: 140px;
     height: 185px;
     border-radius: 20px;
-    box-shadow: 5px 5px 4px #877f92;
+    //box-shadow: 5px 5px 4px #877f92;
   }
   /* @media (img: img) {
     & > img {

@@ -19,6 +19,8 @@ const SearchForm = () => {
   const [mood, setMood] = useState(`${heart}`);
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(false);
+  const [title, setTitle] = useState(true);
+  const [writer, setWriter] = useState(false);
 
   //정보 불러오기
   const recommended = useSelector((state) => state.search.recommendedPosts);
@@ -85,6 +87,18 @@ const SearchForm = () => {
     };
   }, [page, loading]);
 
+  //제목으로 검색 눌렀을 때
+  const onChangeTitle = () => {
+    setTitle(true);
+    setWriter(false);
+  };
+
+  //작성작로 검색 눌렀을 때
+  const onChangeWriter = () => {
+    setTitle(false);
+    setWriter(true);
+  };
+
   return (
     <Fragment>
       <form onSubmit={handleSubmit(onSubmit)}>
@@ -105,10 +119,29 @@ const SearchForm = () => {
         <SearchImg type="submit" disabled={isSubmitting}></SearchImg>
       </form>
       <SearchBox>
-        <input type="radio" value="title" checked {...register("sort")} />
-        <label>제목으로 검색하기</label>
-        <input type="radio" value="writer" {...register("sort")} />
-        <label>작성자로 검색하기</label>
+        {title && !writer ? <CheckBox></CheckBox> : null}
+        <label htmlFor={search.sort} onClick={onChangeTitle}>
+          <input
+            hidden
+            id={search.sort}
+            type="radio"
+            value="title"
+            checked
+            {...register("sort")}
+          />
+          제목으로 검색하기
+        </label>
+        {!title && writer ? <CheckBox></CheckBox> : null}
+        <label htmlFor={search.sort} onClick={onChangeWriter}>
+          <input
+            hidden
+            id={search.sort}
+            type="radio"
+            value="writer"
+            {...register("sort")}
+          />
+          작성자로 검색하기
+        </label>
       </SearchBox>
       <ClosetBox>
         <h1>Other Closet</h1>
@@ -135,11 +168,27 @@ const SearchBox = styled.div`
   align-items: left;
   justify-content: baseline;
   flex-direction: row;
+  font-family: "Unna";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 15px;
+  color: #2d273f;
 
   .check {
     background-color: transparent;
     border: none;
   }
+  label {
+    margin-left: 20px;
+  }
+`;
+const CheckBox = styled.div`
+  margin-left: 15px;
+  width: 15px;
+  height: 15px;
+  background-position: center;
+  background-size: cover;
+  background-image: url("https://cdn.pixabay.com/photo/2021/02/18/09/20/icon-6026642__340.png");
 `;
 
 const SearchInput = styled.input`

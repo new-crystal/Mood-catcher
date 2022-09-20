@@ -158,7 +158,7 @@ const Img = styled.div`
   background-position: center;
   background-size: cover;
   background-image: url(${(props) => props.url});
-  box-shadow: 5px 5px 4px #877f92;
+  //box-shadow: 5px 5px 4px #877f92;
 `;
 
 const TopButton = styled.div`

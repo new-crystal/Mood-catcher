@@ -92,7 +92,7 @@ const MyPageForm = () => {
   const users = useSelector((state) => state.login.userStatus);
   const profileIcon = useSelector((state) => state.login.userIcon.grade);
   const img = users?.imgUrl?.split(".com/")[1];
-  // console.log(users);
+  console.log(users);
 
   //내 게시글 불러오기
   const myClosetList = useSelector((state) => state.upload.myList);
@@ -172,7 +172,7 @@ const MyPageForm = () => {
             <MoodBody>
               <h1>{users?.moodPoint}</h1>
               {payload.userId == userId ? (
-                <Question onClick={() => setMoodPoint(true)}></Question>
+                <MoodQuestion onClick={() => setMoodPoint(true)}></MoodQuestion>
               ) : null}
               {moodPoint ? <MoodPoint setMoodPoint={setMoodPoint} /> : null}
             </MoodBody>
@@ -221,7 +221,7 @@ const MyPageForm = () => {
           </ProfileEditBtn>
         ) : null}
         <MoodHeader>
-          <p className="name">My Closet</p>
+          <MyClosetText>My Closet</MyClosetText>
         </MoodHeader>
         <ClosetList
           ref={scrollRef}
@@ -377,7 +377,7 @@ const ProfileBox = styled.div`
     font-weight: 800;
     font-size: 16px;
     text-align: center;
-    color: #7b758b;
+    color: #2d273f;
   }
 `;
 
@@ -411,14 +411,24 @@ const MoodHeader = styled.div`
   margin: 10px auto;
   box-shadow: 5px 5px 4px rgba(0, 0, 0, 0.25);
   border-radius: 17px;
+
   .name {
     font-family: "Unna";
     font-style: normal;
     font-weight: 700;
     font-size: 18px;
-    margin-top: 6px;
     color: white;
+    margin-top: 5px;
   }
+`;
+const MyClosetText = styled.p`
+  font-family: "Unna";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 18px;
+  color: white;
+  position: relative;
+  top: 4px;
 `;
 
 const MoodBody = styled.div`
@@ -464,6 +474,16 @@ const Question = styled.div`
   width: 10px;
   height: 10px;
   margin-left: 7px;
+  background-position: center;
+  background-size: cover;
+  background-image: url(${question});
+`;
+const MoodQuestion = styled.div`
+  width: 10px;
+  height: 10px;
+  position: relative;
+  top: 25px;
+  left: 15px;
   background-position: center;
   background-size: cover;
   background-image: url(${question});

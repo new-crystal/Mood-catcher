@@ -19,17 +19,14 @@ export const __login = createAsyncThunk("LOGIN", async (payload, thunkAPI) => {
 export const __checkNickname = createAsyncThunk(
   "CHECKNICKNAME",
   async (payload, thunkAPI) => {
-    //console.log(payload);
     try {
       const response = await api.get(
         `/auth/checkNickname?nickname=${encodeURI(payload)}`
       );
-      //console.log(response);
       if (response.status === 200) {
         return true;
       }
     } catch (err) {
-      //console.log(err);
       return false;
     }
   }
@@ -40,12 +37,10 @@ export const __detail = createAsyncThunk(
   "DETAIL",
   async (payload, thunkAPI) => {
     try {
-      //console.log(payload);
       const response = await api.post("/auth/detail", payload);
-      //console.log(response);
       return response.data;
     } catch (err) {
-      //console.log(err);
+      thunkAPI.rejectWithValue(err);
     }
   }
 );
@@ -59,8 +54,7 @@ export const __socialLogin = createAsyncThunk(
       setCookie("token", response.data.url.split("=")[2]);
       thunkAPI.fulfillWithValue(response.data);
     } catch (err) {
-      //console.log(err);
-      //hunkAPI.rejectWithValue(err);
+      thunkAPI.rejectWithValue(err);
     }
   }
 );
@@ -109,7 +103,7 @@ export const __getUser = createAsyncThunk(
       const response = await api.get(`/users/${payload}`);
       return response.data.data.userStatus;
     } catch (err) {
-      //console.log(err);
+      thunkAPI.rejectWithValue(err);
     }
   }
 );
@@ -157,7 +151,7 @@ const loginSlice = createSlice({
       .addCase(__login.fulfilled, (state, action) => {
         state.loading = false;
         state.exist = action.payload;
-        // alert("무드캐처로 입장하셨습니다!");
+        alert("무드캐처로 입장하셨습니다!");
       })
       .addCase(__login.rejected, (state, action) => {
         state.loading = false;

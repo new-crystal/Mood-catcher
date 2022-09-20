@@ -9,7 +9,7 @@ export const __getAlarm = createAsyncThunk(
       const response = await api.get("/notice");
       return response.data.data.notices;
     } catch (err) {
-      // console.log(err);
+      thunkAPI.rejectWithValue(err);
     }
   }
 );
@@ -24,18 +24,28 @@ export const __deleteAlarm = createAsyncThunk(
 );
 const initialState = {
   notices: [],
+  status: "idle",
+  error: null,
 };
 
 //리듀서
 const alarmSlice = createSlice({
-  name: "search",
+  name: "alarm",
   initialState,
   reducers: {},
   extraReducers: (builder) =>
     builder
       //알람 조회하기
+      .addCase(__getAlarm.pending, (state, action) => {
+        state.status = "loading";
+      })
       .addCase(__getAlarm.fulfilled, (state, action) => {
+        state.status = "succeeded";
         state.notices = [...action.payload];
+      })
+      .addCase(__getAlarm.rejected, (state, action) => {
+        state.status = "failed";
+        state.error = action.error.message;
       }),
 });
 

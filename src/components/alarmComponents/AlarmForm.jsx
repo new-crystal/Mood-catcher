@@ -10,6 +10,8 @@ const AlarmForm = () => {
   const navigate = useNavigate();
   const [alarm, setAlarm] = useState(false);
   const alarms = useSelector((state) => state.alarm.notices);
+  const alarmStatus = useSelector((state) => state.alarm.status);
+  const error = useSelector((state) => state.alarm.error);
 
   const delAlarm = () => {
     const result = window.confirm("모든 알람을 지우시겠습니까?");
@@ -18,9 +20,22 @@ const AlarmForm = () => {
       setAlarm(true);
     }
   };
+
   useEffect(() => {
-    dispatch(__getAlarm());
-  }, [alarm]);
+    if (alarmStatus === "idle") {
+      dispatch(__getAlarm());
+    }
+  }, [alarmStatus]);
+
+  let content;
+
+  //로딩중과 에러 발생했을 때 처리
+  if (alarmStatus === "loading") {
+    content = <div> Loading ...</div>;
+  }
+  if (alarmStatus === "failed") {
+    content = <div>{error}</div>;
+  }
 
   return (
     <AlarmContainer>
@@ -32,6 +47,7 @@ const AlarmForm = () => {
             <BackBtn onClick={() => navigate(-1)}>✖️</BackBtn>
           </BtnWrap>
         </TitleWrap>
+        {alarmStatus !== "succeeded" ? <AlarmBox>{content}</AlarmBox> : null}
         {alarms.length === 0 ? (
           <AlarmBox>
             <p>아직 새로운 알림이 없습니다!</p>
@@ -139,7 +155,7 @@ const AlarmBox = styled.div`
   }
   h5 {
     position: relative;
-    top: -50px;
+    top: -35px;
     left: 160px;
   }
 
