@@ -509,7 +509,7 @@ const DetailImage = styled.div`
     width: 341px;
     height: 452px;
     border-radius: 20px;
-    box-shadow: 5px 5px 4px #877f92;
+    //box-shadow: 5px 5px 4px #877f92;
   }
 `;
 

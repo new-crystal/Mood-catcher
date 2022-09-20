@@ -22,6 +22,7 @@ const Header = () => {
   const [headerText, setHeaderText] = useState("Mood Catcher");
   const [detail, setDetail] = useState(true);
   const [headerLine, setHeaderLine] = useState(false);
+  const [main, setMain] = useState(true);
 
   const users = useSelector((state) => state.login.userStatus);
 
@@ -56,10 +57,9 @@ const Header = () => {
     }
     if (window.location.pathname === "/main") {
       setHeaderLine(true);
+      setMain(false);
     }
   }, []);
-
-  console.log(headerLine);
 
   return (
     <Fragment>
@@ -69,24 +69,37 @@ const Header = () => {
         <HeaderBox style={{ marginTop: "0" }}>
           {headerLine ? <MainHeaderLine> </MainHeaderLine> : null}
           {/* 뒤로가기 이미지와 뒤로가기 기능 */}
-          {isLogin ? (
-            <GoBack
-              style={{ backgroundImage: `url(${arrow_back})` }}
+          {isLogin && main ? (
+            <>
+              <GoBack
+                style={{ backgroundImage: `url(${arrow_back})` }}
+                onClick={() => {
+                  navigate(-1);
+                }}
+              ></GoBack>
+              <HeaderLogo
+                margin="-165px"
+                style={{ top: "12px" }}
+                onClick={() => {
+                  navigate("/main");
+                }}
+              >
+                <span>{headerText}</span>
+              </HeaderLogo>
+            </>
+          ) : (
+            <HeaderLogo
+              margin="-185px"
+              style={{ top: "12px" }}
               onClick={() => {
-                navigate(-1);
+                navigate("/main");
               }}
-            ></GoBack>
-          ) : null}
+            >
+              <span>{headerText}</span>
+            </HeaderLogo>
+          )}
           {/* 로고는 span을 이용해 그냥 텍스트로 처리하고
           누르면 main으로 갈 수 있게 합니다. */}
-          <HeaderLogo
-            style={{ top: "12px" }}
-            onClick={() => {
-              navigate("/main");
-            }}
-          >
-            <span>{headerText}</span>
-          </HeaderLogo>
         </HeaderBox>
         {isLogin && detail ? (
           users?.isExistsNotice === 0 ? (
@@ -137,7 +150,7 @@ const HeaderLogo = styled.div`
   position: absolute;
   top: 12px;
   left: 50%;
-  margin-left: -165px;
+  margin-left: ${(props) => props.margin};
   margin-top: 1px;
   font-size: 30px;
   color: #fff;
@@ -145,12 +158,12 @@ const HeaderLogo = styled.div`
 `;
 
 const Notifications = styled.div`
-  width: 35px;
-  height: 35px;
+  width: 30px;
+  height: 30px;
   position: absolute;
   right: 50%;
-  margin-right: -190px;
-  margin-top: 14px;
+  margin-right: -195px;
+  margin-top: 17px;
   background-color: rgba(0, 0, 0, 0);
   background-position: center;
   background-size: cover;
