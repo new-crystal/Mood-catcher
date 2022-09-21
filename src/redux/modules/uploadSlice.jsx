@@ -166,7 +166,7 @@ const uploadSlice = createSlice({
         state.isFetching = false;
         state.errorMessage = null;
       })
-      .addCase(__getRepresentative.pending, (state, action) => {
+      .addCase(__editRepresentative.pending, (state, action) => {
         state.isFetching = true;
       })
       .addCase(__editRepresentative.rejected, (state, action) => {

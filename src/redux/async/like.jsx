@@ -8,7 +8,7 @@ export const __getLikeAllPosts = createAsyncThunk(
   async (data, thunkAPI) => {
     try {
       const response = await likeApi.getLikeAllPosts(data);
-      if (response.data.ok) {
+      if (response.status === 200) {
         return response.data;
       }
     } catch (err) {
@@ -24,7 +24,7 @@ export const __patchMood = createAsyncThunk(
   async (data, thunkAPI) => {
     try {
       const response = await likeApi.patchMood(data);
-      if (response.data.ok) {
+      if (response.status === 201) {
         return response.data.data.likeCount;
       }
     } catch (err) {

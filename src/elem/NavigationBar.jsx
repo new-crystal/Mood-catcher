@@ -33,7 +33,7 @@ const NavigationBar = (props) => {
           <a
             href="javascript:void(0);"
             onClick={() => {
-              let pageUrl = `/`;
+              let pageUrl = `/main`;
               document.location.href = pageUrl;
             }}
           >

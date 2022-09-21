@@ -8,7 +8,7 @@ export const __getComments = createAsyncThunk(
   async (data, thunkAPI) => {
     try {
       const response = await commentApi.getComments(data);
-      if (response.data.ok) {
+      if (response.status === 200) {
         return response.data.data;
       }
     } catch (err) {
@@ -24,7 +24,7 @@ export const __addComment = createAsyncThunk(
   async (data, thunkAPI) => {
     try {
       const response = await commentApi.addComment(data);
-      if (response.data.ok) {
+      if (response.status === 201) {
         return response.data.data.comment.createComment;
       }
     } catch (err) {
@@ -40,7 +40,7 @@ export const __editComment = createAsyncThunk(
   async (data, thunkAPI) => {
     try {
       const response = await commentApi.editComment(data);
-      if (response.data.ok) {
+      if (response.status === 201) {
         return response.data;
       }
     } catch (err) {
@@ -56,7 +56,7 @@ export const __deleteComment = createAsyncThunk(
   async (data, thunkAPI) => {
     try {
       const response = await commentApi.deleteComment(data);
-      if (response.data.ok) {
+      if (response.status === 200) {
         if (response.request.status === 200) {
           alert(response.data.msg);
         }
@@ -75,7 +75,7 @@ export const __addRecomment = createAsyncThunk(
   async (data, thunkAPI) => {
     try {
       const response = await commentApi.addRecomment(data);
-      if (response.data.ok) {
+      if (response.status === 201) {
         return response.data;
       }
     } catch (err) {
@@ -91,7 +91,7 @@ export const __editRecomment = createAsyncThunk(
   async (data, thunkAPI) => {
     try {
       const response = await commentApi.editRecomment(data);
-      if (response.data.ok) {
+      if (response.status === 201) {
         return response.data;
       }
     } catch (err) {
@@ -107,7 +107,7 @@ export const __deleteRecomment = createAsyncThunk(
   async (data, thunkAPI) => {
     try {
       const response = await commentApi.deleteRecomment(data);
-      if (response.data.ok) {
+      if (response.status === 200) {
         if (response.request.status === 200) {
           alert(response.data.msg);
         }

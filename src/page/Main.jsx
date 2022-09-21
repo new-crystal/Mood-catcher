@@ -8,7 +8,7 @@ import HotPosts from "../components/mainComponents/HotPosts";
 import AllPosts from "../components/mainComponents/AllPosts";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { __getUsers } from "../redux/async/signUpSlice";
+import { __getUsers } from "../redux/async/signup";
 import { __getRepresentative } from "../redux/async/upload";
 import { __getHotPosts } from "../redux/async/rank";
 import _ from "lodash";

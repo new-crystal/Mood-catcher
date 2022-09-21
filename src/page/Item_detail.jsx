@@ -11,8 +11,8 @@ import {
   __editRepresentative,
   __deletePost,
 } from "../redux/async/upload";
-import { __getUser } from "../redux/async/loginSlice";
-import { __getUsers } from "../redux/async/signUpSlice";
+import { __getUser } from "../redux/async/login";
+import { __getUsers } from "../redux/async/signup";
 
 import DetailCommentList from "../components/detailComponents/DetailCommentList";
 import { Link, useParams } from "react-router-dom";

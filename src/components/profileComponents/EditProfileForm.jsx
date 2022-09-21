@@ -7,9 +7,9 @@ import {
   __delUser,
   __editProfile,
   __checkNickname,
-  changeNickname,
   __getUser,
-} from "../../redux/async/loginSlice";
+} from "../../redux/async/login";
+import { changeNickname } from "../../redux/modules/loginSlice";
 import { deleteCookie, getCookie } from "../../shared/cookie";
 import { useNavigate } from "react-router-dom";
 import jwt_decode from "jwt-decode";

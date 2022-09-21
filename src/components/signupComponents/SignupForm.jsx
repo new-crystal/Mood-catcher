@@ -1,11 +1,9 @@
 import styled from "styled-components";
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  __checkEmail,
-  __signUp,
-  changeEmail,
-} from "../../redux/async/signUpSlice";
+import { __checkEmail, __signUp } from "../../redux/async/signup";
+import { changeEmail } from "../../redux/modules/signUpSlice";
+
 import crypto from "crypto-js";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";

@@ -7,7 +7,7 @@ import Notification from "../image/notification.png";
 import NotificationTrue from "../image/notificationTrue.png";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { __getUser } from "../redux/async/loginSlice";
+import { __getUser } from "../redux/async/login";
 import { getCookie } from "../shared/cookie";
 import jwt_decode from "jwt-decode";
 

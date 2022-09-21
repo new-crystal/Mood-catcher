@@ -5,7 +5,7 @@ import styled from "styled-components";
 import { __getMyPage, __getRepresentative } from "../../redux/async/upload";
 import GradeList from "./GradeList";
 import { Fragment } from "react";
-import { __getUser } from "../../redux/async/loginSlice";
+import { __getUser } from "../../redux/async/login";
 import { getCookie } from "../../shared/cookie";
 import jwt_decode from "jwt-decode";
 

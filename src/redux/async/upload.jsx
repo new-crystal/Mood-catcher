@@ -8,7 +8,7 @@ export const __addPost = createAsyncThunk(
   async (data, thunkAPI) => {
     try {
       const response = await uploadApi.addPost(data);
-      if (response.data.ok) {
+      if (response.status === 201) {
         return response.data.data;
       }
     } catch (err) {
@@ -24,7 +24,7 @@ export const __editPost = createAsyncThunk(
   async (data, thunkAPI) => {
     try {
       const response = await uploadApi.editPost(data);
-      if (response.data.ok) {
+      if (response.status === 201) {
         return response.data.data;
       }
     } catch (err) {
@@ -40,7 +40,7 @@ export const __deletePost = createAsyncThunk(
   async (data, thunkAPI) => {
     try {
       const response = await uploadApi.deletePost(data);
-      if (response.data.ok) {
+      if (response.status === 200) {
         return response;
       }
     } catch (err) {
@@ -56,7 +56,7 @@ export const __uploadImage = createAsyncThunk(
   async (data, thunkAPI) => {
     try {
       const response = await uploadApi.uploadImage(data);
-      if (response.data.ok) {
+      if (response.status === 201) {
         return response.data;
       }
     } catch (err) {
@@ -72,7 +72,7 @@ export const __getMusinsa = createAsyncThunk(
   async (data, thunkAPI) => {
     try {
       const response = await uploadApi.getMusinsa(data);
-      if (response.data.ok) {
+      if (response.status === 200) {
         return response.data.data;
       }
     } catch (err) {
@@ -88,7 +88,7 @@ export const __getDetail = createAsyncThunk(
   async (data, thunkAPI) => {
     try {
       const response = await uploadApi.getDetail(data);
-      if (response.data.ok) {
+      if (response.status === 200) {
         return response.data.data;
       }
     } catch (err) {
@@ -104,7 +104,7 @@ export const __getMyPage = createAsyncThunk(
   async (data, thunkAPI) => {
     try {
       const response = await uploadApi.getMyPage(data);
-      if (response.data.ok) {
+      if (response.status === 200) {
         return response.data;
       }
     } catch (err) {
@@ -121,7 +121,7 @@ export const __getMyCloset = createAsyncThunk(
     try {
       //console.log(payload);
       const response = await uploadApi.getMyPage(data);
-      if (response.data.ok) {
+      if (response.status === 200) {
         return response.data;
       }
     } catch (err) {
@@ -137,7 +137,7 @@ export const __getRepresentative = createAsyncThunk(
   async (data, thunkAPI) => {
     try {
       const response = await uploadApi.getRepresentative(data);
-      if (response.data.ok) {
+      if (response.status === 200) {
         return response.data.data.repPost;
       }
     } catch (err) {
