@@ -1,18 +1,18 @@
 import React, { Fragment } from "react";
 import styled from "styled-components";
-import { getCookie } from "../../shared/cookie";
-import jwt from "jwt-decode"; // to get userId from loggedIn user's token
 import { useNavigate } from "react-router-dom";
-
-const junsu = "./images/junsu.PNG";
+import { useCallback } from "react";
 
 const HotPosts = ({ hotPosts }) => {
-  // console.log(hotPosts);
   const navigate = useNavigate();
-  const token = getCookie("token");
-  // console.log(jwt(token));
-  const { userId } = jwt(token);
-  // console.log(ranksIF);
+
+  const onClickHandler = useCallback(
+    (hotPosts) => {
+      navigate(`/item_detail/${hotPosts.postId}/${hotPosts.userId}`);
+    },
+    [navigate]
+  );
+
   return (
     <Fragment>
       <Wrap>
@@ -23,10 +23,7 @@ const HotPosts = ({ hotPosts }) => {
           <img
             src={hotPosts[0]?.imgUrl}
             onClick={() => {
-              navigate(
-                `/item_detail/${hotPosts[0].postId}/${hotPosts[0].userId}`
-              );
-              window.location.reload();
+              onClickHandler(hotPosts[0]);
             }}
           />
         </HotImage1>
@@ -36,10 +33,7 @@ const HotPosts = ({ hotPosts }) => {
               <img
                 src={hotPosts[1]?.imgUrl}
                 onClick={() => {
-                  navigate(
-                    `/item_detail/${hotPosts[1].postId}/${hotPosts[1].userId}`
-                  );
-                  window.location.reload();
+                  onClickHandler(hotPosts[1]);
                 }}
               />
             </HotImage2>
@@ -49,10 +43,7 @@ const HotPosts = ({ hotPosts }) => {
               <img
                 src={hotPosts[2]?.imgUrl}
                 onClick={() => {
-                  navigate(
-                    `/item_detail/${hotPosts[2].postId}/${hotPosts[2].userId}`
-                  );
-                  window.location.reload();
+                  onClickHandler(hotPosts[2]);
                 }}
               />
             </HotImage3>

@@ -19,68 +19,19 @@ import { Link, useParams } from "react-router-dom";
 import { deleteCookie, getCookie } from "../shared/cookie";
 import jwt from "jwt-decode"; // to get userId from loggedIn user's token
 import useDetectClose from "../elem/useDetectClose";
+import ScrollX from "../elem/ScrollX";
 import heartFalse from "../image/heart.png";
 import heartTrue from "../image/heartTrue.png";
 import { __patchMood } from "../redux/async/like";
 
-const junsu = "/images/junsu.PNG";
 const home = "/images/more.png";
 
 const Item_detail = (props) => {
-  // scroll-x
-  const scrollRef = useRef(null);
-
-  const throttle = (func, ms) => {
-    let throttled = false;
-    return (...args) => {
-      if (!throttled) {
-        throttled = true;
-        setTimeout(() => {
-          func(...args);
-          throttled = false;
-        }, ms);
-      }
-    };
-  };
-
-  const [isDrag, setIsDrag] = useState(false);
-  const [startX, setStartX] = useState();
-
-  const onDragStart = (e) => {
-    e.preventDefault();
-    setIsDrag(true);
-    setStartX(e.pageX + scrollRef.current.scrollLeft);
-  };
-
-  const onDragEnd = () => {
-    setIsDrag(false);
-  };
-
-  const onDragMove = (e) => {
-    if (isDrag) {
-      const { scrollWidth, clientWidth, scrollLeft } = scrollRef.current;
-
-      scrollRef.current.scrollLeft = startX - e.pageX;
-
-      if (scrollLeft === 0) {
-        setStartX(e.pageX);
-      } else if (scrollWidth <= clientWidth + scrollLeft) {
-        setStartX(e.pageX + scrollLeft);
-      }
-    }
-  };
-
-  const delay = 100;
-  const onThrottleDragMove = throttle(onDragMove, delay);
-  // scroll-x
-
   const preview_URL =
     "https://cdn.discordapp.com/attachments/1014169130045292625/1014194232250077264/Artboard_1.png";
 
   const token = getCookie("token");
-  // console.log(jwt(token));
   const payload = jwt(token);
-  // console.log(ranksIF);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -97,17 +48,9 @@ const Item_detail = (props) => {
   const [mood, setMood] = useState(`${heartFalse}`);
   const [likeStatus, setLikeStatus] = useState(detailPost.likeStatus);
   const [moodNum, setMoodNum] = useState(detailPost.likeCount);
-
   const [myPageIsOpen, myPageRef, myPageHandler] = useDetectClose(false);
-
-  // console.log(postId);
-  // console.log(userId);
-
-  // console.log("detail", detailPost);
-  // console.log(detailItems);
-  // console.log(userStatus);
-  // console.log(userStatusMe);
-  // console.log(comments);
+  const [scrollRef, isDrag, onDragStart, onDragEnd, onThrottleDragMove] =
+    ScrollX();
 
   // 댓글 input
   let commentText = useRef("");

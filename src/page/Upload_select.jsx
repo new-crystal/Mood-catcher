@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import "../shared/style/myBeer.css";
 import EachMusinsa from "../components/uploadCompnents/EachMusinsa";
+import ScrollX from "../elem/ScrollX";
 
 import { __getMusinsa, __addPost, __uploadImage } from "../redux/async/upload";
 import { changeCheckPostId } from "../redux/modules/uploadSlice";
@@ -14,53 +15,6 @@ import { changeCheckPostId } from "../redux/modules/uploadSlice";
 const Search = "./images/search.png";
 
 const Upload_select = (props) => {
-  // scroll-x
-  const scrollRef = useRef(null);
-
-  const throttle = (func, ms) => {
-    let throttled = false;
-    return (...args) => {
-      if (!throttled) {
-        throttled = true;
-        setTimeout(() => {
-          func(...args);
-          throttled = false;
-        }, ms);
-      }
-    };
-  };
-
-  const [isDrag, setIsDrag] = useState(false);
-  const [startX, setStartX] = useState();
-
-  const onDragStart = (e) => {
-    e.preventDefault();
-    setIsDrag(true);
-    setStartX(e.pageX + scrollRef.current.scrollLeft);
-  };
-
-  const onDragEnd = () => {
-    setIsDrag(false);
-  };
-
-  const onDragMove = (e) => {
-    if (isDrag) {
-      const { scrollWidth, clientWidth, scrollLeft } = scrollRef.current;
-
-      scrollRef.current.scrollLeft = startX - e.pageX;
-
-      if (scrollLeft === 0) {
-        setStartX(e.pageX);
-      } else if (scrollWidth <= clientWidth + scrollLeft) {
-        setStartX(e.pageX + scrollLeft);
-      }
-    }
-  };
-
-  const delay = 100;
-  const onThrottleDragMove = throttle(onDragMove, delay);
-  // scroll-x
-
   const dispatch = useDispatch();
   const navigate = useNavigate();
   // 사진 파일 미리보기를 위한 상태
@@ -84,11 +38,12 @@ const Upload_select = (props) => {
     post: {},
     items: [],
   });
-
   const [imagePost, setImagePost] = useState({
     postId: "",
     postImage: formdata,
   });
+  const [scrollRef, isDrag, onDragStart, onDragEnd, onThrottleDragMove] =
+    ScrollX();
 
   React.useEffect(() => {
     setTotalPost({ ...totalPost, post: post, items: selectedItems });
@@ -116,7 +71,6 @@ const Upload_select = (props) => {
 
   const writeTotalPost = () => {
     dispatch(__addPost(totalPost));
-    // console.log(post);
   };
   React.useEffect(() => {
     if (checkPostId === true) {
@@ -125,20 +79,6 @@ const Upload_select = (props) => {
       navigate("/");
     }
   }, [checkPostId]);
-
-  // const writeImage = () => {
-  //   console.log("test");
-  //   if (checkPostId === true) {
-  //     console.log("test2");
-  //     console.log(post.postId);
-
-  //     setImagePost({ ...imagePost, postId: 3 });
-  //     console.log(imagePost);
-  //     dispatch(__uploadImage(imagePost));
-  //     dispatch(changeCheckPostId(false));
-  //     navigate("/");
-  //   }
-  // };
 
   return (
     <Fragment>

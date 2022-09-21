@@ -13,21 +13,21 @@ const AllPosts = () => {
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(false); //데이터 받아오는동안 로딩 true로 하고 api요청 그동안 한번만되게
   const [paging, setPaging] = useState(1); //페이지넘버
-  const [mood, setMood] = useState(`${heart}`);
   const token = getCookie("token");
   const { userId } = jwt(token);
-
   const allMainPosts = useSelector((state) => state.rank.allPosts);
+  const last = useSelector((state) => state.rank.postLast);
+  console.log(paging);
 
   const getMainList = useCallback(() => {
-    const getMainData = async () => {
+    async function getMainData() {
       await dispatch(__getMainAllPosts({ paging: paging, userId: userId })); //api요청
       setLoading(false); //요청하고나면 loading false로
-    };
-
+    }
     return getMainData();
   }, [paging, allMainPosts]); //usecallback의 deps에 페이지랑 맥주목록 바뀔때마다 실행되게
 
+  // 스크롤위치 계산
   const _handleScroll = _.throttle(() => {
     const scrollHeight = document.documentElement.scrollHeight;
     const scrollTop = document.documentElement.scrollTop;
@@ -35,7 +35,7 @@ const AllPosts = () => {
     //스크롤계산 사용자의 현재위치 + 스크롤위에서부터 위치가 전체 높이보다 커지면 함수실행
     if (scrollTop + clientHeight >= scrollHeight - 100 && loading === false) {
       // 페이지 끝에 도달하면 추가 데이터를 받아온다
-      if (paging >= 13) {
+      if (paging > 13) {
         return;
       }
       setPaging(paging + 1); //다음페이지
@@ -52,7 +52,7 @@ const AllPosts = () => {
     if (allMainPosts.length !== 0) {
       setPaging(allMainPosts.length);
     } //다른컴포넌트 갔다 올때 렌더링시 페이지넘버 계산
-  }, [mood]);
+  }, []);
 
   useEffect(() => {
     if (loading) {

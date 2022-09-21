@@ -1,5 +1,4 @@
 import React, { Fragment, Suspense } from "react";
-import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import Loader from "../shared/Loader";
 import Header from "../elem/Header";
@@ -41,7 +40,6 @@ const LoaderWrap = styled.div`
 const Container = styled.div`
   display: flex;
   height: 984px;
-  /* background-color: orange; */
   flex-direction: column;
   bottom: 110px;
   & > span {
@@ -54,7 +52,6 @@ const Container = styled.div`
 `;
 
 const Grid = styled.div`
-  //width: 100%;
   width: 428px;
   margin: 0 auto;
   background-color: royalblue;

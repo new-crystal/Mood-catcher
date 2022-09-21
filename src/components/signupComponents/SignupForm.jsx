@@ -10,8 +10,8 @@ import { useEffect } from "react";
 import { getCookie } from "../../shared/cookie";
 
 const SigupForm = () => {
-  const navigate = useNavigate();
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const checkEmail = useSelector((state) => state.signup.checkEmail);
 

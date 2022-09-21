@@ -157,7 +157,7 @@ export const rankApi = {
   // 게시물 조회하기 (메인페이지)
   getMainAllPosts: (data) =>
     instance.get(
-      `/posts?userId=${data.userId}&type=all&page=${data.paging}&count=2`
+      `/posts?userId=${data.userId}&type=all&page=${data.paging}&count=8`
     ),
 };
 

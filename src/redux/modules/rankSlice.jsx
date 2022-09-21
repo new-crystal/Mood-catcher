@@ -4,6 +4,7 @@ import { __getHotPosts, __getMainAllPosts } from "../async/rank";
 const initialState = {
   hotPosts: [],
   allPosts: [],
+  postLast: null,
   isFetching: false,
   errorMessage: null,
 };
@@ -37,6 +38,7 @@ const rankSlice = createSlice({
         state.isFetching = true;
       })
       .addCase(__getMainAllPosts.rejected, (state, action) => {
+        state.postLast = "lastPage";
         state.isFetching = false;
         state.errorMessage = action.errorMessage;
       }),
