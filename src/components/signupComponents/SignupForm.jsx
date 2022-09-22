@@ -1,21 +1,22 @@
 import styled from "styled-components";
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  __checkEmail,
-  __signUp,
-  changeEmail,
-} from "../../redux/modules/signUpSlice";
+import { __checkEmail, __postEmail, __signUp } from "../../redux/async/signup";
+import { changeEmail } from "../../redux/modules/signUpSlice";
+
 import crypto from "crypto-js";
 import { useNavigate } from "react-router-dom";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { getCookie } from "../../shared/cookie";
+import Swal from "sweetalert2";
 
 const SigupForm = () => {
-  const navigate = useNavigate();
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const [sendEmail, setSendEmail] = useState(false);
 
   const checkEmail = useSelector((state) => state.signup.checkEmail);
+  const sendEmailNum = useSelector((state) => state.signup.sendEmail);
 
   //로그인 한 경우
   useEffect(() => {
@@ -90,7 +91,7 @@ const SigupForm = () => {
       const pwpwpw = cipher.key.words[0];
 
       //비밀번호 값과 비밀번호 확인 값이 같을 때만
-      if (data.password === data.confirmPw) {
+      if (data.password === data.confirmPw && data.sendEmail === sendEmailNum) {
         await new Promise((r) => setTimeout(r, 300));
 
         const password = pwpwpw.toString();
@@ -100,13 +101,34 @@ const SigupForm = () => {
         dispatch(__signUp({ email, password, confirmPw })).then(
           navigate("/login")
         );
-      } else {
+      }
+      if (data.password !== data.confirmPw) {
         setError(
           "confirmPw",
           { message: "비밀번호가 일치하지 않습니다." },
           { shouldFocus: true }
         );
       }
+      if (data.sendEmail !== sendEmailNum) {
+        setError(
+          "sendEmail",
+          { message: "이메일 인증번호를 확인해주세요" },
+          { shouldFocus: true }
+        );
+      }
+    }
+  };
+
+  //이메일 인증번호 발송하기
+  const onClickSendEmail = () => {
+    const email = getValues("email");
+    if (!checkEmail) {
+      Swal.fire("에러", "이메일 중복확인을 확인해주세요!", "error");
+    }
+    if (checkEmail) {
+      alert("이메일로 인증번호가 발송되었습니다!");
+      setSendEmail(true);
+      dispatch(__postEmail({ email }));
     }
   };
 
@@ -149,6 +171,29 @@ const SigupForm = () => {
           <ConfirmBtn type="button" onClick={() => onClickCheckBtnHandler()}>
             중복확인
           </ConfirmBtn>
+        </div>
+        <div>
+          <TextBox>
+            <h4>인증번호</h4>
+            {errors.sendEmail && <p>{errors.sendEmail.message}</p>}
+          </TextBox>
+          {!sendEmail ? (
+            <SendEmailBtn onClick={() => onClickSendEmail()}>
+              인증번호 발송하기
+            </SendEmailBtn>
+          ) : (
+            <input
+              name="sendEmail"
+              type="sendEmail"
+              placeholder="이메일로 발송 된 인증번호를 입력해주세요"
+              aria-invalid={
+                !isDirty ? undefined : errors.sendEmail ? "true" : "false"
+              }
+              {...register("sendEmail", {
+                required: "인증번호는 필수 입력입니다.",
+              })}
+            />
+          )}
         </div>
         <div>
           <TextBox>
@@ -210,6 +255,7 @@ const SigupForm = () => {
 const Container = styled.form`
   width: 428px;
   height: 926px;
+  margin-left: 10px;
 
   .email {
     width: 250px;
@@ -241,6 +287,20 @@ const ConfirmBtn = styled.button`
   color: white;
   border-radius: 10px;
   margin-left: 20px;
+  font-family: "Roboto";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 16px;
+  cursor: pointer;
+`;
+
+const SendEmailBtn = styled.button`
+  background: linear-gradient(78.32deg, #7b758b 41.41%, #ffffff 169.58%);
+  border: 0px;
+  width: 350px;
+  height: 50px;
+  border-radius: 10px;
+  color: white;
   font-family: "Roboto";
   font-style: normal;
   font-weight: 700;

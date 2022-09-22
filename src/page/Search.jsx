@@ -15,9 +15,9 @@ const Search = (props) => {
           </LoaderWrap>
         }
       >
-        <Header />
         <Container>
           <Grid>
+            <Header />
             <SearchForm />
           </Grid>
         </Container>
@@ -26,14 +26,6 @@ const Search = (props) => {
     </Fragment>
   );
 };
-
-// const LoginWrap = styled.div`
-//   width: 100%;
-//   background-color: #ffffff;
-//   display: flex;
-//   flex-direction: column;
-//   text-align: center;
-// `;
 
 const LoaderWrap = styled.div`
   position: absolute;
@@ -60,11 +52,12 @@ const Grid = styled.div`
   margin: 0 auto;
   margin-top: 60px;
   margin-bottom: 57px;
-  width: 428px;
+  max-width: 428px;
+  width: 100vw;
   /* min-height: 928px; */
-  min-height: 808px;
-
+  /* min-height: 808px; */
   background: linear-gradient(#a396c9, #ffffff);
+  height: calc(var(--vh, 1vh) * 100 + 50px);
 `;
 
 export default Search;

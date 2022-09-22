@@ -4,7 +4,7 @@ import { Fragment, useEffect, useState, useCallback } from "react";
 import search from "../../image/search.png";
 import heart from "../../image/heart.png";
 import { useDispatch, useSelector } from "react-redux";
-import { __getSearch } from "../../redux/modules/searchSlice";
+import { __getSearch } from "../../redux/async/search";
 import { useNavigate } from "react-router-dom";
 import jwt_decode from "jwt-decode";
 import { getCookie } from "../../shared/cookie";
@@ -19,11 +19,14 @@ const SearchForm = () => {
   const [mood, setMood] = useState(`${heart}`);
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(false);
+  const [title, setTitle] = useState(true);
+  const [writer, setWriter] = useState(false);
 
   //정보 불러오기
   const recommended = useSelector((state) => state.search.recommendedPosts);
   const users = useSelector((state) => state.login.userStatus);
   const gender = users?.gender;
+  const last = useSelector((state) => state.search.postLast);
 
   //react-hook-form에서 불러오기
   const {
@@ -54,7 +57,7 @@ const SearchForm = () => {
     const clientHeight = document.documentElement.clientHeight;
 
     if (scrollTop + clientHeight >= scrollHeight - 100 && loading === false) {
-      if (page >= 13) {
+      if (last) {
         return;
       }
       setPage(page + 1);
@@ -85,6 +88,18 @@ const SearchForm = () => {
     };
   }, [page, loading]);
 
+  //제목으로 검색 눌렀을 때
+  const onChangeTitle = () => {
+    setTitle(true);
+    setWriter(false);
+  };
+
+  //작성작로 검색 눌렀을 때
+  const onChangeWriter = () => {
+    setTitle(false);
+    setWriter(true);
+  };
+
   return (
     <Fragment>
       <form onSubmit={handleSubmit(onSubmit)}>
@@ -105,10 +120,65 @@ const SearchForm = () => {
         <SearchImg type="submit" disabled={isSubmitting}></SearchImg>
       </form>
       <SearchBox>
-        <input type="radio" value="title" checked {...register("sort")} />
-        <label>제목으로 검색하기</label>
-        <input type="radio" value="writer" {...register("sort")} />
-        <label>작성자로 검색하기</label>
+        {title && !writer && (
+          <>
+            <CheckBox>
+              <LabelTitle htmlFor={search.sort} onClick={onChangeTitle}>
+                <input
+                  hidden
+                  id={search.sort}
+                  type="radio"
+                  value="title"
+                  checked
+                  {...register("sort")}
+                />
+                제목으로 검색하기
+              </LabelTitle>
+            </CheckBox>
+            <NotCheckBox>
+              <LabelWriter htmlFor={search.sort} onClick={onChangeWriter}>
+                <input
+                  hidden
+                  id={search.sort}
+                  type="radio"
+                  value="writer"
+                  {...register("sort")}
+                />
+                작성자로 검색하기
+              </LabelWriter>
+            </NotCheckBox>
+          </>
+        )}
+
+        {!title && writer && (
+          <>
+            <NotCheckBox>
+              <LabelTitle htmlFor={search.sort} onClick={onChangeTitle}>
+                <input
+                  hidden
+                  id={search.sort}
+                  type="radio"
+                  value="title"
+                  checked
+                  {...register("sort")}
+                />
+                제목으로 검색하기
+              </LabelTitle>
+            </NotCheckBox>
+            <CheckBox>
+              <LabelWriter htmlFor={search.sort} onClick={onChangeWriter}>
+                <input
+                  hidden
+                  id={search.sort}
+                  type="radio"
+                  value="writer"
+                  {...register("sort")}
+                />
+                작성자로 검색하기
+              </LabelWriter>
+            </CheckBox>
+          </>
+        )}
       </SearchBox>
       <ClosetBox>
         <h1>Other Closet</h1>
@@ -129,17 +199,41 @@ const SearchBox = styled.div`
   width: 348px;
   margin: 0 auto;
   border-top: 3px solid #fff;
+  padding-top: 7px;
   position: relative;
   top: -60px;
   display: flex;
   align-items: left;
   justify-content: baseline;
   flex-direction: row;
+  font-family: "Unna";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 15px;
+  color: #2d273f;
 
   .check {
     background-color: transparent;
     border: none;
   }
+`;
+const LabelTitle = styled.label`
+  color: #2d273f;
+`;
+const LabelWriter = styled.label`
+  display: block;
+  color: #2d273f;
+`;
+const CheckBox = styled.div`
+  width: 110px;
+  height: 15px;
+  padding: 5px;
+  border-bottom: 2px solid #fff;
+`;
+const NotCheckBox = styled.div`
+  width: 110px;
+  height: 15px;
+  padding: 5px;
 `;
 
 const SearchInput = styled.input`
@@ -148,7 +242,7 @@ const SearchInput = styled.input`
   height: 50px;
   border: none;
   border-radius: 10px;
-  margin: 10px 30px;
+  margin: 10px 40px;
   :focus {
     outline: none;
   }
@@ -169,15 +263,15 @@ const ClosetBox = styled.div`
 `;
 
 const SearchImg = styled.button`
-  width: 40px;
-  height: 40px;
+  width: 30px;
+  height: 30px;
   border: 0;
   background-color: rgba(0, 0, 0, 0);
   background-position: center;
   background-size: cover;
   background-image: url(${search});
   position: relative;
-  left: 330px;
+  left: 345px;
   top: -58px;
   cursor: pointer;
 `;

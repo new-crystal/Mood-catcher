@@ -2,7 +2,7 @@ import React, { Fragment, useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import { __patchMood } from "../../redux/modules/likeSlice";
+import { __patchMood } from "../../redux/async/like";
 import heartFalse from "../../image/heart.png";
 import heartTrue from "../../image/heartTrue.png";
 
@@ -112,7 +112,7 @@ const ClosetImage = styled.div`
     width: 131px;
     height: 174px;
     border-radius: 20px;
-    box-shadow: 5px 5px 4px #877f92;
+    //box-shadow: 5px 5px 4px #877f92;
   }
 `;
 

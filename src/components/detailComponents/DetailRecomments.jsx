@@ -1,8 +1,8 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
-import { __changeComment } from "../../redux/modules/commentSlice";
-import { __addRecomment } from "../../redux/modules/commentSlice";
+import { __editComment } from "../../redux/async/comment";
+import { __addRecomment } from "../../redux/async/comment";
 import DetailReCommentList from "./DetailReCommentList";
 
 const DetailRecomments = ({ commentData, btnState, postId }) => {

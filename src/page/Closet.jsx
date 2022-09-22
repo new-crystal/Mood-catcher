@@ -15,9 +15,9 @@ const Closet = (props) => {
           </LoaderWrap>
         }
       >
-        <Header />
         <Container>
           <Grid>
+            <Header />
             <ClosetPosts />
           </Grid>
         </Container>
@@ -54,7 +54,9 @@ const Grid = styled.div`
   margin: 0 auto;
   margin-top: 60px;
   margin-bottom: 57px;
-  width: 428px;
+  max-width: 428px;
+  width: 100vw;
+  height: calc(var(--vh, 1vh) * 100);
   min-height: 926px;
   background: linear-gradient(#a396c9, #ffffff);
 `;

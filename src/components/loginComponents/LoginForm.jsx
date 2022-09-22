@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
-import { __login, __socialLogin } from "../../redux/modules/loginSlice";
+import { __login, __socialLogin } from "../../redux/async/login";
 import { useNavigate } from "react-router-dom";
 import crypto from "crypto-js";
 import { Fragment } from "react";
@@ -127,6 +127,9 @@ const LoginForm = () => {
             </LogBtn>
             <LogBtn type="button" onClick={() => navigate("/signup")}>
               <p>이메일로 회원가입</p>
+            </LogBtn>
+            <LogBtn type="button" onClick={() => navigate("/edit_password")}>
+              <p>비밀번호 찾기</p>
             </LogBtn>
           </BtnBox>
         </LoginBox>

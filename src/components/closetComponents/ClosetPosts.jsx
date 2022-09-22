@@ -1,6 +1,6 @@
 import React, { Fragment, useState, useCallback, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { __getMyCloset } from "../../redux/modules/uploadSlice";
+import { __getMyCloset } from "../../redux/async/upload";
 import { InfinityCloset } from "../../redux/modules/uploadSlice";
 import EachPost from "./EachPost";
 import { useNavigate, useParams } from "react-router-dom";
@@ -13,6 +13,7 @@ const ClosetPosts = () => {
   const [loading, setLoading] = useState(false); //데이터 받아오는동안 로딩 true로 하고 api요청 그동안 한번만되게
   const [paging, setPaging] = useState(1); //페이지넘버
   const ranksIF = useSelector(InfinityCloset); //redux store값 받아오는부기
+  const last = useSelector((state) => state.upload.postLast);
 
   const { userId } = useParams();
   // console.log(userId);
@@ -31,7 +32,7 @@ const ClosetPosts = () => {
     //스크롤계산 사용자의 현재위치 + 스크롤위에서부터 위치가 전체 높이보다 커지면 함수실행
     if (scrollTop + clientHeight >= scrollHeight - 100 && loading === false) {
       // 페이지 끝에 도달하면 추가 데이터를 받아온다
-      if (paging >= 13) {
+      if (last) {
         return;
       }
       setPaging(paging + 1); //다음페이지

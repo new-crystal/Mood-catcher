@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { useDispatch } from "react-redux/es/exports";
-import { __deleteRecomment } from "../../redux/modules/commentSlice";
+import { __deleteRecomment } from "../../redux/async/comment";
 import DetailChangeReComment from "./DetailChangeReComments";
 import DetailRecomments from "./DetailRecomments";
 import { getCookie } from "../../shared/cookie";

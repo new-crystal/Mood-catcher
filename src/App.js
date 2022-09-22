@@ -26,13 +26,22 @@ const Item_detail = lazy(() => import("./page/Item_detail"));
 const Like = lazy(() => import("./page/Like"));
 const Open = lazy(() => import("./page/Open"));
 const Alarm = lazy(() => import("./page/Alarm"));
+const Edit_password = lazy(() => import("./page/Edit_password"));
 
 function App() {
   const token = getCookie("token");
   const navigate = useNavigate();
   useEffect(() => {
     if (token === undefined) navigate("/login");
+    setScreenSize();
+    window.addEventListener("resize", () => setScreenSize());
   }, []);
+
+  //화면 사이즈 받아오기
+  const setScreenSize = () => {
+    const vh = window.innerHeight * 0.01;
+    document.documentElement.style.setProperty("--vh", `${vh}px`);
+  };
   return (
     <Fragment>
       {/* Suspense이용 최적화 및 Loading중에는 Loader가 작동*/}
@@ -46,18 +55,16 @@ function App() {
         <Routes>
           <Route path="/main" element={<Main />} />
           <Route path="/login" element={<Login />} />
-          <Route path="/login/detail" element={<SignupGenderAge />} />
           <Route path="/signup" element={<Signup />} />
+          <Route path="/login/detail" element={<SignupGenderAge />} />
           <Route path="/edit_profile" element={<Edit_profile />} />
           <Route path="/upload" element={<Upload />} />
           <Route path="/upload_select" element={<Upload_select />} />
-
           <Route path="/edit_post/:postId" element={<Edit_post />} />
           <Route
             path="/edit_post_select/:postId"
             element={<Edit_post_select />}
           />
-
           <Route path="/mypage/:userId" element={<MyPage />} />
           <Route path="/closet/:userId" element={<Closet />} />
           <Route path="/search" element={<Search />} />
@@ -69,6 +76,7 @@ function App() {
           <Route path="/like/:userId" element={<Like />} />
           <Route path="/" element={<Open />} />
           <Route path="/alarm/:userId" element={<Alarm />} />
+          <Route path="/edit_password" element={<Edit_password />} />
           <Route path="*" element={<Main />} />
         </Routes>
       </Suspense>
@@ -83,6 +91,9 @@ const GlobalStyle = createGlobalStyle`
   body{
     margin: 0;
     font-family: 'Noto Sans KR', sans-serif;
+  }
+  :root {
+    --vh:100%
   }
 `;
 

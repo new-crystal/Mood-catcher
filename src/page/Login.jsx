@@ -14,9 +14,9 @@ export default function Login(props) {
           </LoaderWrap>
         }
       >
-        <Header />
         <LoginWrap>
           <Container>
+            <Header />
             <LoginForm />
           </Container>
         </LoginWrap>
@@ -41,7 +41,9 @@ const LoginWrap = styled.div`
 `;
 
 const Container = styled.div`
-  width: 428px;
+  max-width: 428px;
+  width: 100vw;
+  height: calc(var(--vh, 1vh) * 100 + 50px);
   margin: 0 auto;
   margin-top: 60px;
   background: linear-gradient(#a396c9, #ffffff);

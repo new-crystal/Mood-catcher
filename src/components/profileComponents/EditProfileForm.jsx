@@ -7,9 +7,9 @@ import {
   __delUser,
   __editProfile,
   __checkNickname,
-  changeNickname,
   __getUser,
-} from "../../redux/modules/loginSlice";
+} from "../../redux/async/login";
+import { changeNickname } from "../../redux/modules/loginSlice";
 import { deleteCookie, getCookie } from "../../shared/cookie";
 import { useNavigate } from "react-router-dom";
 import jwt_decode from "jwt-decode";
@@ -289,6 +289,9 @@ const EditProfileForm = () => {
         <h3>계정 설정</h3>
       </ProfileBox>
       <LogOut>
+        <button onClick={() => navigate("/edit_password")}>
+          비밀번호 변경하기
+        </button>
         <button onClick={onClickLogOut}>로그아웃</button>
         <button onClick={onClickDelBtn}>계정탈퇴</button>
       </LogOut>

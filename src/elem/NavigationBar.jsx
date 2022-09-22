@@ -1,9 +1,10 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useState } from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import "../shared/style/TestHeader.css";
-import { deleteCookie, getCookie } from "../shared/cookie";
+import { getCookie } from "../shared/cookie";
 import jwt from "jwt-decode"; // to get userId from loggedIn user's token
+import { useEffect } from "react";
 
 const home = "/images/home.png";
 const search = "/images/search.png";
@@ -16,35 +17,54 @@ const NavigationBar = (props) => {
   const token = getCookie("token");
   const { userId } = jwt(token);
   const navigate = useNavigate();
+  const [main, setMain] = useState(false);
+  const [searching, setSearching] = useState(false);
+  const [upload, setUpload] = useState(false);
+  const [like, setLike] = useState(false);
+  const [myPage, setMyPage] = useState(false);
+
+  useEffect(() => {
+    if (window.location.pathname === "/main") {
+      setMain(true);
+    }
+    if (
+      window.location.pathname === "/search" ||
+      window.location.pathname.split("/")[1] === "search"
+    ) {
+      setSearching(true);
+    }
+    if (
+      window.location.pathname === "/upload" ||
+      window.location.pathname === "/upload_select"
+    ) {
+      setUpload(true);
+    }
+    if (window.location.pathname.split("/")[1] === "like") {
+      setLike(true);
+    }
+    if (window.location.pathname.split("/")[1] === "mypage") {
+      setMyPage(true);
+    }
+  }, []);
 
   return (
     <Fragment>
       <NavBox>
         <SearchWrap
-        // onClick={() => {
-        //   navigate("/main");
-        //   window.location.reload();
-        // }}
-
-        // onClick={() => {
-        //   navigate("/");
-        // }}
+          onClick={() => {
+            navigate("/main");
+            window.location.reload();
+          }}
         >
-          <a
-            href="javascript:void(0);"
-            onClick={() => {
-              let pageUrl = `/`;
-              document.location.href = pageUrl;
-            }}
-          >
-            <ImageWrap style={{ backgroundImage: `url(${home})` }} />
-          </a>
+          {main ? <Navigate></Navigate> : null}
+          <ImageWrap style={{ backgroundImage: `url(${home})` }} />
         </SearchWrap>
         <SearchWrap
           onClick={() => {
             navigate("/search");
           }}
         >
+          {searching ? <Navigate></Navigate> : null}
           <ImageWrap style={{ backgroundImage: `url(${search})` }} />
         </SearchWrap>
         <SearchWrap
@@ -52,28 +72,24 @@ const NavigationBar = (props) => {
             navigate("/upload");
           }}
         >
+          {upload ? <Navigate></Navigate> : null}
           <ImageWrap style={{ backgroundImage: `url(${add_circle})` }} />
         </SearchWrap>
         <SearchWrap
-        // onClick={() => {
-        //   navigate(`/like/${userId}`);
-        // }}
+          onClick={() => {
+            navigate(`/like/${userId}`);
+            window.location.reload();
+          }}
         >
-          <a
-            href="javascript:void(0);"
-            onClick={() => {
-              let pageUrl = `/like/${userId}`;
-              document.location.href = pageUrl;
-            }}
-          >
-            <ImageWrap style={{ backgroundImage: `url(${heart})` }} />
-          </a>
+          {like ? <Navigate></Navigate> : null}
+          <ImageWrap style={{ backgroundImage: `url(${heart})` }} />
         </SearchWrap>
         <SearchWrap
           onClick={() => {
             navigate(`/mypage/${userId}`);
           }}
         >
+          {myPage ? <Navigate></Navigate> : null}
           <ImageWrap style={{ backgroundImage: `url(${person})` }} />
         </SearchWrap>
       </NavBox>
@@ -112,4 +128,10 @@ const ImageWrap = styled.div`
   width: 22px;
   height: 22px;
   background-size: cover;
+`;
+
+const Navigate = styled.div`
+  width: 85px;
+  height: 2px;
+  background-color: #7b758b;
 `;

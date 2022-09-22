@@ -4,9 +4,8 @@ import { useNavigate } from "react-router-dom";
 import heartFalse from "../../image/heart.png";
 import heartTrue from "../../image/heartTrue.png";
 import { useDispatch } from "react-redux";
-import { __patchMood } from "../../redux/modules/likeSlice";
+import { __patchMood } from "../../redux/async/like";
 
-const junsu = "/images/junsu.PNG";
 const noimage = "/images/noimage.PNG";
 
 const heart = "/images/heart.png";
@@ -17,7 +16,6 @@ const RepPost = ({ myRepPost }) => {
   const [likeStatus, setLikeStatus] = useState(myRepPost?.likeStatus);
   const [mood, setMood] = useState(`${heartFalse}`);
   const [moodNum, setMoodNum] = useState(myRepPost?.likeCount);
-  // console.log(myRepPost);
 
   //새로고침시에도 무드 상태값 유지
   useEffect(() => {
@@ -76,12 +74,12 @@ const RepPost = ({ myRepPost }) => {
       ) : (
         <WritedClosetInfo
           onClick={() => {
-            navigate(`/closet/${myRepPost.userId}`);
+            navigate(`/closet/${myRepPost?.userId}`);
             window.location.reload();
           }}
         >
           <ClosetImage>
-            <img src={myRepPost.imgUrl} />
+            <img src={myRepPost?.imgUrl} />
           </ClosetImage>
           <ClosetTextWrap>
             <GridHorizon>
@@ -89,11 +87,9 @@ const RepPost = ({ myRepPost }) => {
                 <span>{myRepPost?.createdAt.slice(0, 10)}</span>
               </CreatedText>
               <TitleText>
-                <span>{myRepPost.title}</span>
+                <span>{myRepPost?.title}</span>
               </TitleText>
               <ContentText>
-                {/* <span>{myRepPost?.createdAt.slice(5)}</span> */}
-
                 <br />
                 <span>{myRepPost?.content}</span>
               </ContentText>
@@ -111,18 +107,21 @@ const Wrap = styled.div`
 `;
 
 const StTag = styled.div`
-  margin-bottom: 10px;
+  margin-bottom: -10px;
   width: 200px;
   height: 40px;
   border-radius: 17px;
-  background: linear-gradient(to right, #7b758b 50%, #c8c6d0);
+  //background: linear-gradient(to right, #7b758b 50%, #c8c6d0);
   text-align: center;
   line-height: 40px;
+  margin-left: -25px;
   font-size: 30px;
-  font-weight: bold;
+  font-style: normal;
+  font-weight: 700;
   font-family: "Unna";
-  color: white;
-  box-shadow: 5px 5px 4px #877f92;
+  line-height: 35px;
+  color: #2d273f;
+  //box-shadow: 5px 5px 4px #877f92;
 `;
 
 const WritedClosetInfo = styled.div`
@@ -147,7 +146,7 @@ const ClosetImage = styled.div`
     width: 131px;
     height: 174px;
     border-radius: 20px;
-    box-shadow: 5px 5px 4px #877f92;
+    //box-shadow: 5px 5px 4px #877f92;
   }
 `;
 

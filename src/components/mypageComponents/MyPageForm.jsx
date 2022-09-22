@@ -2,12 +2,13 @@ import React, { useEffect, useState, useRef, useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
-import { __getMyPage, __getRepPost } from "../../redux/modules/uploadSlice";
+import { __getMyPage, __getRepresentative } from "../../redux/async/upload";
 import GradeList from "./GradeList";
 import { Fragment } from "react";
-import { __getUser } from "../../redux/modules/loginSlice";
+import { __getUser } from "../../redux/async/login";
 import { getCookie } from "../../shared/cookie";
 import jwt_decode from "jwt-decode";
+import ScrollX from "../../elem/ScrollX";
 
 import man1 from "../../image/1man.png";
 import man2 from "../../image/2man.png";
@@ -30,53 +31,8 @@ import hanger from "../../image/hanger.png";
 import MoodPoint from "./MoodPoint";
 
 const MyPageForm = () => {
-  // scroll-x
-  const scrollRef = useRef(null);
-
-  const throttle = (func, ms) => {
-    let throttled = false;
-    return (...args) => {
-      if (!throttled) {
-        throttled = true;
-        setTimeout(() => {
-          func(...args);
-          throttled = false;
-        }, ms);
-      }
-    };
-  };
-
-  const [isDrag, setIsDrag] = useState(false);
-  const [startX, setStartX] = useState();
-
-  const onDragStart = (e) => {
-    e.preventDefault();
-    setIsDrag(true);
-    setStartX(e.pageX + scrollRef.current.scrollLeft);
-  };
-
-  const onDragEnd = () => {
-    setIsDrag(false);
-  };
-
-  const onDragMove = (e) => {
-    if (isDrag) {
-      const { scrollWidth, clientWidth, scrollLeft } = scrollRef.current;
-
-      scrollRef.current.scrollLeft = startX - e.pageX;
-
-      if (scrollLeft === 0) {
-        setStartX(e.pageX);
-      } else if (scrollWidth <= clientWidth + scrollLeft) {
-        setStartX(e.pageX + scrollLeft);
-      }
-    }
-  };
-
-  const delay = 100;
-  const onThrottleDragMove = throttle(onDragMove, delay);
-  // scroll-x
-
+  const [scrollRef, isDrag, onDragStart, onDragEnd, onThrottleDragMove] =
+    ScrollX();
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { userId } = useParams();
@@ -92,7 +48,7 @@ const MyPageForm = () => {
   const users = useSelector((state) => state.login.userStatus);
   const profileIcon = useSelector((state) => state.login.userIcon.grade);
   const img = users?.imgUrl?.split(".com/")[1];
-  // console.log(users);
+  console.log(users);
 
   //내 게시글 불러오기
   const myClosetList = useSelector((state) => state.upload.myList);
@@ -110,7 +66,7 @@ const MyPageForm = () => {
   useEffect(() => {
     dispatch(__getUser(userId));
     dispatch(__getMyPage(userId));
-    dispatch(__getRepPost(userId));
+    dispatch(__getRepresentative(userId));
     gradeIcon(grade);
   }, [profileIcon, gradeList, changeUser]);
 
@@ -172,7 +128,7 @@ const MyPageForm = () => {
             <MoodBody>
               <h1>{users?.moodPoint}</h1>
               {payload.userId == userId ? (
-                <Question onClick={() => setMoodPoint(true)}></Question>
+                <MoodQuestion onClick={() => setMoodPoint(true)}></MoodQuestion>
               ) : null}
               {moodPoint ? <MoodPoint setMoodPoint={setMoodPoint} /> : null}
             </MoodBody>
@@ -215,13 +171,8 @@ const MyPageForm = () => {
             ></PostImg>
           )}
         </MyPageBox>
-        {payload.userId == userId ? (
-          <ProfileEditBtn onClick={() => navigate("/edit_profile")}>
-            내 프로필 수정
-          </ProfileEditBtn>
-        ) : null}
         <MoodHeader>
-          <p className="name">My Closet</p>
+          <MyClosetText>My Closet</MyClosetText>
         </MoodHeader>
         <ClosetList
           ref={scrollRef}
@@ -377,13 +328,13 @@ const ProfileBox = styled.div`
     font-weight: 800;
     font-size: 16px;
     text-align: center;
-    color: #7b758b;
+    color: #2d273f;
   }
 `;
 
 const GradeIcon = styled.div`
-  width: 50px;
-  height: 50px;
+  width: 40px;
+  height: 40px;
   background-position: center;
   background-size: cover;
   background-image: url(${(props) => props.url});
@@ -411,14 +362,24 @@ const MoodHeader = styled.div`
   margin: 10px auto;
   box-shadow: 5px 5px 4px rgba(0, 0, 0, 0.25);
   border-radius: 17px;
+
   .name {
     font-family: "Unna";
     font-style: normal;
     font-weight: 700;
     font-size: 18px;
-    margin-top: 6px;
     color: white;
+    margin-top: 5px;
   }
+`;
+const MyClosetText = styled.p`
+  font-family: "Unna";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 18px;
+  color: white;
+  position: relative;
+  top: 4px;
 `;
 
 const MoodBody = styled.div`
@@ -435,7 +396,7 @@ const MoodBody = styled.div`
     font-family: "Unna";
     font-style: normal;
     font-weight: 700;
-    font-size: 60px;
+    font-size: 50px;
     text-align: center;
     color: #7b758b;
   }
@@ -464,6 +425,17 @@ const Question = styled.div`
   width: 10px;
   height: 10px;
   margin-left: 7px;
+  background-position: center;
+  background-size: cover;
+  background-image: url(${question});
+`;
+const MoodQuestion = styled.div`
+  width: 23px;
+  height: 23px;
+  position: relative;
+  top: 7px;
+  left: 15px;
+  opacity: 70%;
   background-position: center;
   background-size: cover;
   background-image: url(${question});
@@ -571,21 +543,6 @@ const EmptyCloset = styled.div`
     text-align: center;
     color: #534b67;
   }
-`;
-
-const ProfileEditBtn = styled.button`
-  width: 135px;
-  height: 20px;
-  background-color: rgba(0, 0, 0, 0);
-  color: #7b758b;
-  font-size: 16px;
-  border: 0px;
-  margin-left: 150px;
-  font-family: "Roboto";
-  font-style: normal;
-  font-weight: 800;
-  font-size: 16px;
-  text-align: center;
 `;
 
 export default React.memo(MyPageForm);
