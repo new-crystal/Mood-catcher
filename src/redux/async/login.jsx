@@ -26,7 +26,7 @@ export const __checkNickname = createAsyncThunk(
   async (data, thunkAPI) => {
     try {
       const response = await loginApi.checkNickname(data);
-      if (response.status === 201) {
+      if (response.status === 200) {
         return true;
       }
     } catch (err) {
