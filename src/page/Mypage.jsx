@@ -16,8 +16,8 @@ const Mypage = (props) => {
         }
       >
         <Container>
-          <Header />
           <Grid>
+            <Header />
             <MyPageForm />
           </Grid>
         </Container>
@@ -54,8 +54,8 @@ const Grid = styled.div`
   margin-top: 60px;
   margin-bottom: 57px;
   max-width: 428px;
-  width: 100%;
-  /* height: 100vh; */
+  width: 100vw;
+  height: calc(var(--vh, 1vh) * 100 + 50px);
   background: linear-gradient(#a396c9, #ffffff);
 `;
 

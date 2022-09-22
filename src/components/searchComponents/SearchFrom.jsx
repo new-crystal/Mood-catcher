@@ -227,7 +227,7 @@ const CheckBox = styled.div`
   width: 110px;
   height: 15px;
   padding: 5px;
-  border-bottom: 1px dotted #fff;
+  border-bottom: 2px solid #fff;
 `;
 const NotCheckBox = styled.div`
   width: 110px;

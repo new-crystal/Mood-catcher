@@ -11,6 +11,7 @@ import { __getUser } from "../redux/modules/loginSlice";
 import { getCookie } from "../shared/cookie";
 import jwt_decode from "jwt-decode";
 import { set } from "lodash";
+import Setting from "../image/settings.png";
 
 const Back = "/images/Back2.png";
 const arrow_back = "/images/arrow_back.png";
@@ -23,22 +24,34 @@ const Header = () => {
   const [detail, setDetail] = useState(true);
   const [headerLine, setHeaderLine] = useState(false);
   const [main, setMain] = useState(true);
+  const [settings, setSettings] = useState(false);
 
   const users = useSelector((state) => state.login.userStatus);
+  const [userId, setUserId] = useState(users.userId);
 
+  //토큰이 있을 경우 확인하기
   useEffect(() => {
+    checkLogin();
+  }, []);
+
+  const checkLogin = () => {
     const token = getCookie("token");
     if (token !== undefined) {
       const payload = jwt_decode(token);
+      setUserId(payload.userId);
       setIsLogin(true);
       dispatch(__getUser(payload.userId));
     }
-  }, []);
+  };
 
-  //헤더 글자 바꾸기
+  //url의 주소를 조건으로 헤더의 상세 부분 변경하기
   useEffect(() => {
-    if (window.location.pathname.split("/")[1] === "mypage") {
+    if (
+      window.location.pathname.split("/")[1] === "mypage" &&
+      window.location.pathname.split("/")[2] == userId
+    ) {
       setHeaderText("My Page");
+      setSettings(true);
     }
     if (window.location.pathname.split("/")[1] === "like") {
       setHeaderText("Like");
@@ -64,7 +77,7 @@ const Header = () => {
   return (
     <Fragment>
       {/* position은 fixed이며 z-index값을 높게 줍니다. */}
-      <div className={"header"}>
+      <Headers className={"header"}>
         {/* marginTop을 0으로 줘서 제일 위에 붙을 수 있게 합니다. */}
         <HeaderBox style={{ marginTop: "0" }}>
           {headerLine ? <MainHeaderLine> </MainHeaderLine> : null}
@@ -88,52 +101,71 @@ const Header = () => {
               </HeaderLogo>
             </>
           ) : (
-            <HeaderLogo
-              margin="-185px"
-              style={{ top: "12px" }}
-              onClick={() => {
-                navigate("/main");
-              }}
-            >
-              <span>{headerText}</span>
-            </HeaderLogo>
+            <>
+              <GoBack></GoBack>
+              <HeaderLogo
+                margin="-185px"
+                style={{ top: "12px" }}
+                onClick={() => {
+                  navigate("/main");
+                }}
+              >
+                <span>{headerText}</span>
+              </HeaderLogo>
+            </>
           )}
           {/* 로고는 span을 이용해 그냥 텍스트로 처리하고
           누르면 main으로 갈 수 있게 합니다. */}
+          {isLogin && detail && !settings ? (
+            users?.isExistsNotice === 0 ? (
+              <Notifications
+                url={`${Notification}`}
+                onClick={() => navigate(`/alarm/${users.userId}`)}
+              ></Notifications>
+            ) : (
+              <Notifications
+                url={`${NotificationTrue}`}
+                onClick={() => navigate(`/alarm/${users.userId}`)}
+              ></Notifications>
+            )
+          ) : null}
+          {settings && (
+            <Notifications
+              url={`${Setting}`}
+              onClick={() => navigate("/edit_profile")}
+            ></Notifications>
+          )}
         </HeaderBox>
-        {isLogin && detail ? (
-          users?.isExistsNotice === 0 ? (
-            <Notifications
-              url={`${Notification}`}
-              onClick={() => navigate(`/alarm/${users.userId}`)}
-            ></Notifications>
-          ) : (
-            <Notifications
-              url={`${NotificationTrue}`}
-              onClick={() => navigate(`/alarm/${users.userId}`)}
-            ></Notifications>
-          )
-        ) : null}
-      </div>
+      </Headers>
     </Fragment>
   );
 };
 
 export default Header;
-
+const Headers = styled.div`
+  max-width: 428px;
+  width: 100vw;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-direction: row;
+  background: #a396c9;
+`;
 const MainHeaderLine = styled.div`
-  width: 380px;
+  max-width: 380px;
+  width: 90vw;
   border-bottom: 2px solid #fff;
   position: relative;
-  top: 55px;
+  top: 80px;
   left: 23px;
 `;
 
 const HeaderBox = styled.div`
-  width: 428px;
+  /* max-width: 428px; */
+  width: 100vw;
   z-index: 10;
+
   /* background: linear-gradient(#a396c9, white); */
-  background: #a396c9;
 `;
 
 const GoBack = styled.div`
@@ -143,15 +175,17 @@ const GoBack = styled.div`
   background-size: cover;
   margin: 20px 0 0 25px;
   cursor: pointer;
+  opacity: 60%;
 `;
 
 const HeaderLogo = styled.div`
   font-family: "Unna";
-  position: absolute;
+  /* position: absolute;
   top: 12px;
-  left: 50%;
-  margin-left: ${(props) => props.margin};
-  margin-top: 1px;
+  left: 50%; */
+  //margin-left: ${(props) => props.margin};
+  margin-top: 0px;
+  margin-left: 40px;
   font-size: 30px;
   color: #fff;
   cursor: pointer;
@@ -160,13 +194,13 @@ const HeaderLogo = styled.div`
 const Notifications = styled.div`
   width: 30px;
   height: 30px;
-  position: absolute;
-  right: 50%;
+  margin-right: 30px;
+  /* position: relative;
   margin-right: -195px;
-  margin-top: 17px;
+  margin-top: 17px; */
   background-color: rgba(0, 0, 0, 0);
   background-position: center;
   background-size: cover;
   background-image: url(${(props) => props.url});
-  z-index: 11;
+  z-index: 20;
 `;

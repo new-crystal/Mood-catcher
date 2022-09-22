@@ -215,11 +215,6 @@ const MyPageForm = () => {
             ></PostImg>
           )}
         </MyPageBox>
-        {payload.userId == userId ? (
-          <ProfileEditBtn onClick={() => navigate("/edit_profile")}>
-            내 프로필 수정
-          </ProfileEditBtn>
-        ) : null}
         <MoodHeader>
           <MyClosetText>My Closet</MyClosetText>
         </MoodHeader>
@@ -382,8 +377,8 @@ const ProfileBox = styled.div`
 `;
 
 const GradeIcon = styled.div`
-  width: 50px;
-  height: 50px;
+  width: 40px;
+  height: 40px;
   background-position: center;
   background-size: cover;
   background-image: url(${(props) => props.url});
@@ -445,7 +440,7 @@ const MoodBody = styled.div`
     font-family: "Unna";
     font-style: normal;
     font-weight: 700;
-    font-size: 60px;
+    font-size: 50px;
     text-align: center;
     color: #7b758b;
   }
@@ -479,11 +474,12 @@ const Question = styled.div`
   background-image: url(${question});
 `;
 const MoodQuestion = styled.div`
-  width: 10px;
-  height: 10px;
+  width: 23px;
+  height: 23px;
   position: relative;
-  top: 25px;
+  top: 7px;
   left: 15px;
+  opacity: 70%;
   background-position: center;
   background-size: cover;
   background-image: url(${question});
@@ -591,21 +587,6 @@ const EmptyCloset = styled.div`
     text-align: center;
     color: #534b67;
   }
-`;
-
-const ProfileEditBtn = styled.button`
-  width: 135px;
-  height: 20px;
-  background-color: rgba(0, 0, 0, 0);
-  color: #7b758b;
-  font-size: 16px;
-  border: 0px;
-  margin-left: 150px;
-  font-family: "Roboto";
-  font-style: normal;
-  font-weight: 800;
-  font-size: 16px;
-  text-align: center;
 `;
 
 export default React.memo(MyPageForm);

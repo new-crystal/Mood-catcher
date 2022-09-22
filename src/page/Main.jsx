@@ -89,9 +89,9 @@ const Main = (props) => {
           </LoaderWrap>
         }
       >
-        <Header />
         <Container>
           <Grid>
+            <Header />
             {/* imgUrl 있으면 imgUrl 출력 */}
             {userStatus.imgUrl === undefined ||
             userStatus.imgUrl.slice(-4) === "null" ? (
@@ -145,7 +145,9 @@ const Grid = styled.div`
   margin: 0 auto;
   margin-top: 60px;
   margin-bottom: 57px;
-  width: 428px;
+  max-width: 428px;
+  width: 100vw;
+  height: calc(var(--vh, 1vh) * 100 + 50px);
   background: linear-gradient(#a396c9, #ffffff);
   /* background: #a396c9; */
 `;

@@ -32,7 +32,15 @@ function App() {
   const navigate = useNavigate();
   useEffect(() => {
     if (token === undefined) navigate("/login");
+    setScreenSize();
+    window.addEventListener("resize", () => setScreenSize());
   }, []);
+
+  //화면 사이즈 받아오기
+  const setScreenSize = () => {
+    const vh = window.innerHeight * 0.01;
+    document.documentElement.style.setProperty("--vh", `${vh}px`);
+  };
   return (
     <Fragment>
       {/* Suspense이용 최적화 및 Loading중에는 Loader가 작동*/}
@@ -83,6 +91,9 @@ const GlobalStyle = createGlobalStyle`
   body{
     margin: 0;
     font-family: 'Noto Sans KR', sans-serif;
+  }
+  :root {
+    --vh:100%
   }
 `;
 
