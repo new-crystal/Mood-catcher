@@ -2,7 +2,7 @@ import React, { Fragment } from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import "../shared/style/TestHeader.css";
-import { deleteCookie, getCookie } from "../shared/cookie";
+import { getCookie } from "../shared/cookie";
 import jwt from "jwt-decode"; // to get userId from loggedIn user's token
 
 const home = "/images/home.png";
@@ -21,24 +21,12 @@ const NavigationBar = (props) => {
     <Fragment>
       <NavBox>
         <SearchWrap
-        // onClick={() => {
-        //   navigate("/main");
-        //   window.location.reload();
-        // }}
-
-        // onClick={() => {
-        //   navigate("/");
-        // }}
+          onClick={() => {
+            navigate("/main");
+            window.location.reload();
+          }}
         >
-          <a
-            href="javascript:void(0);"
-            onClick={() => {
-              let pageUrl = `/`;
-              document.location.href = pageUrl;
-            }}
-          >
-            <ImageWrap style={{ backgroundImage: `url(${home})` }} />
-          </a>
+          <ImageWrap style={{ backgroundImage: `url(${home})` }} />
         </SearchWrap>
         <SearchWrap
           onClick={() => {
@@ -55,19 +43,12 @@ const NavigationBar = (props) => {
           <ImageWrap style={{ backgroundImage: `url(${add_circle})` }} />
         </SearchWrap>
         <SearchWrap
-        // onClick={() => {
-        //   navigate(`/like/${userId}`);
-        // }}
+          onClick={() => {
+            navigate(`/like/${userId}`);
+            window.location.reload();
+          }}
         >
-          <a
-            href="javascript:void(0);"
-            onClick={() => {
-              let pageUrl = `/like/${userId}`;
-              document.location.href = pageUrl;
-            }}
-          >
-            <ImageWrap style={{ backgroundImage: `url(${heart})` }} />
-          </a>
+          <ImageWrap style={{ backgroundImage: `url(${heart})` }} />
         </SearchWrap>
         <SearchWrap
           onClick={() => {

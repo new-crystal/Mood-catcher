@@ -1,157 +1,35 @@
+import { createSlice, createSelector } from "@reduxjs/toolkit";
 import {
-  createAsyncThunk,
-  createSlice,
-  createSelector,
-} from "@reduxjs/toolkit";
-import { api } from "../../shared/api";
+  __addPost,
+  __editPost,
+  __deletePost,
+  __uploadImage,
+  __getMusinsa,
+  __getDetail,
+  __getMyPage,
+  __getMyCloset,
+  __getRepresentative,
+  __editRepresentative,
+} from "../async/upload";
 
-// 게시물 작성
-export const __writePost = createAsyncThunk(
-  "post/writePost",
-  async (payload, thunkAPI) => {
-    //console.log(payload);
-    const response = await api.post(`/posts`, payload);
-    //console.log(response.data.data);
-    return response.data.data;
-  }
-);
-
-// 게시물 수정
-export const __putPost = createAsyncThunk(
-  "put/putPost",
-  async (payload, thunkAPI) => {
-    //console.log(payload);
-    //console.log(payload.totalPost);
-    const response = await api.put(
-      `/posts/${payload.postId}`,
-      payload.totalPost
-    );
-    //console.log(response.data.data);
-    return response.data.data;
-  }
-);
-
-// 게시물 삭제
-export const __deletePost = createAsyncThunk(
-  "delete/deletePost",
-  async (payload, thunkAPI) => {
-    //console.log(payload);
-    const response = await api.delete(`/posts/${payload}`);
-    //console.log(response);
-    return response;
-  }
-);
-
-// 이미지 업데이트
-export const __writeImage = createAsyncThunk(
-  "post/writePost",
-  async (payload, thunkAPI) => {
-    //console.log(payload);
-    //console.log(payload.postId);
-    const response = await api.put(
-      `/posts/${payload.postId}/image`,
-      payload.postImage,
-      {
-        headers: {
-          "Content-type": "multipart/form-data",
-        },
-      }
-    );
-    //console.log(response);
-    return response.data;
-  }
-);
-
-// 상품 찾기(무신사)
-export const __getMusinsa = createAsyncThunk(
-  "post/getMusinsa",
-  async (payload, thunkAPI) => {
-    const response = await api.get(`/musinsa/${payload}?page=1&count=9`);
-    //console.log(response);
-    return response.data.data;
-  }
-);
-
-// 게시물 상세 조회
-export const __getDetail = createAsyncThunk(
-  "post/getDetail",
-  async (payload, thunkAPI) => {
-    const response = await api.get(`/posts/detail/${payload}`);
-    //console.log(response);
-    //console.log(response.data.data);
-    return response.data.data;
-  }
-);
-
-//나의 옷장 게시물 가져오기
-export const __getMyPage = createAsyncThunk(
-  "GET/MYPAGE",
-  async (payload, thunkAPI) => {
-    try {
-      const response = await api.get(`/posts?userId=${payload}&type=my`);
-      return response.data;
-    } catch (err) {
-      //console.log(err);
-    }
-  }
-);
-
-//나의 옷장 게시물 가져오기 (옷장페이지)
-export const __getMyCloset = createAsyncThunk(
-  "GET/MYCLOSET",
-  async (payload, thunkAPI) => {
-    try {
-      //console.log(payload);
-      const response = await api.get(
-        `/posts?userId=${payload.userId}&type=my&page=${payload.paging}&count=4`
-      );
-      return response.data;
-    } catch (err) {
-      //console.log(err);
-    }
-  }
-);
-
-//대표 게시물 지정하기
-export const __representative = createAsyncThunk(
-  "PATCH/REPRESENTATIVE",
-  async (payload, thunkAPI) => {
-    try {
-      const response = await api.patch(`/posts/${payload}`);
-      return response.data;
-    } catch (err) {
-      thunkAPI.rejectWithValue(err);
-    }
-  }
-);
-
-//대표 게시물 조회하기
-export const __getRepPost = createAsyncThunk(
-  "GET/REPRESENTATIVE",
-  async (payload, thunkAPI) => {
-    try {
-      const response = await api.get(`/posts/rep?userId=${payload}`);
-      return response.data.data.repPost;
-    } catch (err) {
-      //console.log(err);
-    }
-  }
-);
+const initialState = {
+  post: {},
+  items: [],
+  formdata: {},
+  selectedItems: [],
+  detailPost: {},
+  detailItems: [],
+  myList: [],
+  myCloset: [],
+  checkPostId: false,
+  representative: {},
+  isFetching: false,
+  errorMessage: null,
+};
 
 const uploadSlice = createSlice({
   name: "upload",
-  initialState: {
-    post: {},
-    items: [],
-    formdata: {},
-    selectedItems: [],
-    detailPost: {},
-    detailItems: [],
-    myList: [],
-    myCloset: [],
-    checkPostId: false,
-    representative: {},
-  },
+  initialState: initialState,
   reducers: {
     regPost: (state, action) => {
       state.post = action.payload;
@@ -174,46 +52,125 @@ const uploadSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      .addCase(__writePost.fulfilled, (state, action) => {
+      // 게시물 작성하기
+      .addCase(__addPost.fulfilled, (state, action) => {
         state.post = action.payload.post;
         state.checkPostId = true;
+        state.isFetching = false;
+        state.errorMessage = null;
       })
-      .addCase(__putPost.fulfilled, (state, action) => {
+      .addCase(__addPost.pending, (state, action) => {
+        state.isFetching = true;
+      })
+      .addCase(__addPost.rejected, (state, action) => {
+        state.isFetching = false;
+        state.errorMessage = action.errorMessage;
+      })
+      // 게시물 수정하기
+      .addCase(__editPost.fulfilled, (state, action) => {
         state.post = action.payload.post;
         state.checkPostId = true;
+        state.isFetching = false;
+        state.errorMessage = null;
       })
+      .addCase(__editPost.pending, (state, action) => {
+        state.isFetching = true;
+      })
+      .addCase(__editPost.rejected, (state, action) => {
+        state.isFetching = false;
+        state.errorMessage = action.errorMessage;
+      })
+      // 게시물 삭제하기
       .addCase(__deletePost.fulfilled, (state, action) => {
         state.post = action.payload.post;
         state.checkPostId = true;
+        state.isFetching = false;
+        state.errorMessage = null;
       })
+      .addCase(__deletePost.pending, (state, action) => {
+        state.isFetching = true;
+      })
+      .addCase(__deletePost.rejected, (state, action) => {
+        state.isFetching = false;
+        state.errorMessage = action.errorMessage;
+      })
+      // 상품 찾기(무신사)
       .addCase(__getMusinsa.fulfilled, (state, action) => {
         state.items = action.payload.items;
-        //console.log(state.items);
+        state.isFetching = false;
+        state.errorMessage = null;
       })
+      .addCase(__getMusinsa.pending, (state, action) => {
+        state.isFetching = true;
+      })
+      .addCase(__getMusinsa.rejected, (state, action) => {
+        state.isFetching = false;
+        state.errorMessage = action.errorMessage;
+      })
+      // 게시물 상세 조회하기
       .addCase(__getDetail.fulfilled, (state, action) => {
-        //console.log(action.payload);
         state.detailPost = action.payload.post;
         state.detailItems = action.payload.items;
+        state.isFetching = false;
+        state.errorMessage = null;
       })
+      .addCase(__getDetail.pending, (state, action) => {
+        state.isFetching = true;
+      })
+      .addCase(__getDetail.rejected, (state, action) => {
+        state.isFetching = false;
+        state.errorMessage = action.errorMessage;
+      })
+      // 옷장 게시물 가져오기
       .addCase(__getMyPage.fulfilled, (state, action) => {
         state.myList = action.payload;
+        state.isFetching = false;
+        state.errorMessage = null;
+      })
+      .addCase(__getMyPage.pending, (state, action) => {
+        state.isFetching = true;
       })
       .addCase(__getMyPage.rejected, (state, action) => {
-        state.myList = action.payload;
+        state.isFetching = false;
+        state.errorMessage = action.errorMessage;
       })
+      // 나의 옷장 게시물 가져오기 (옷장페이지)
       .addCase(__getMyCloset.fulfilled, (state, action) => {
         state.myCloset = [...state.myCloset, ...action.payload];
+        state.isFetching = false;
+        state.errorMessage = null;
       })
-      //대표 게시물 지정하기
-      .addCase(__representative.fulfilled, (state, action) => {
-        state.representative.postId = action.payload;
+      .addCase(__getMyCloset.pending, (state, action) => {
+        state.isFetching = true;
       })
-      .addCase(__representative.rejected, (state, action) => {
-        state.representative.postId = action.payload;
+      .addCase(__getMyCloset.rejected, (state, action) => {
+        state.isFetching = false;
+        state.errorMessage = action.errorMessage;
       })
       //대표 게시물 조회하기
-      .addCase(__getRepPost.fulfilled, (state, action) => {
+      .addCase(__getRepresentative.fulfilled, (state, action) => {
         state.representative = action.payload;
+        state.isFetching = false;
+        state.errorMessage = null;
+      })
+      .addCase(__getRepresentative.pending, (state, action) => {
+        state.isFetching = true;
+      })
+      .addCase(__getRepresentative.rejected, (state, action) => {
+        state.isFetching = false;
+        state.errorMessage = action.errorMessage;
+      })
+      //대표 게시물 지정하기
+      .addCase(__editRepresentative.fulfilled, (state, action) => {
+        state.representative.postId = action.payload;
+        state.isFetching = false;
+        state.errorMessage = null;
+      })
+      .addCase(__editRepresentative.pending, (state, action) => {
+        state.isFetching = true;
+      })
+      .addCase(__editRepresentative.rejected, (state, action) => {
+        state.representative.postId = action.payload;
       });
   },
 });

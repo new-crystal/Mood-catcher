@@ -1,19 +1,17 @@
 import styled from "styled-components";
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  __checkEmail,
-  __signUp,
-  changeEmail,
-} from "../../redux/modules/signUpSlice";
+import { __checkEmail, __signUp } from "../../redux/async/signup";
+import { changeEmail } from "../../redux/modules/signUpSlice";
+
 import crypto from "crypto-js";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import { getCookie } from "../../shared/cookie";
 
 const SigupForm = () => {
-  const navigate = useNavigate();
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const checkEmail = useSelector((state) => state.signup.checkEmail);
 

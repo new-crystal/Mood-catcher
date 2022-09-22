@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from "react";
 import { useDispatch } from "react-redux";
 import styled from "styled-components";
-import { __changeComment } from "../../redux/modules/commentSlice";
+import { __editComment } from "../../redux/async/comment";
 
 const DetailChangeComment = ({ commentData, btnState, postId }) => {
   const dispatch = useDispatch();
@@ -10,7 +10,7 @@ const DetailChangeComment = ({ commentData, btnState, postId }) => {
   // 댓글 수정하기 이벤트
   const changeComment = () => {
     dispatch(
-      __changeComment({
+      __editComment({
         postId: postId,
         commentId: commentData.commentId,
         comment: commentText.current.value,

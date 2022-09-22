@@ -1,47 +1,45 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { api } from "../../shared/api";
+import { createSlice } from "@reduxjs/toolkit";
+import { __getLikeAllPosts, __patchMood } from "../async/like";
 
-// 게시물 전체 조회(좋아요페이지)
-export const __getLikeAllPosts = createAsyncThunk(
-  "GET/MAINALLPOSTS",
-  async (payload, thunkAPI) => {
-    try {
-      const response = await api.get(
-        `/posts?userId=${payload.userId}&type=like&page=${payload.paging}&count=2`
-      );
-      return response.data;
-    } catch (err) {
-      //console.log(err);
-    }
-  }
-);
-
-//무드(좋아요) 등록/취소
-export const __patchMood = createAsyncThunk(
-  "PATCH/MOOD",
-  async (payload, thunkAPI) => {
-    const response = await api.patch(`/like?postId=${payload}`);
-    return response.data.data.likeCount;
-  }
-);
+const initialState = {
+  allPosts: [],
+  likeCount: 0,
+  moodNum: 0,
+  isFetching: false,
+  errorMessage: null,
+};
 
 const likeSlice = createSlice({
   name: "like",
-  initialState: {
-    allPosts: [],
-    likeCount: 0,
-    moodNum: 0,
-  },
+  initialState: initialState,
   reducers: {},
   extraReducers: (builder) =>
     builder
-      // 게시물 전체 조회(좋아요페이지)
+      // 게시물 조회하기 (좋아요페이지)
       .addCase(__getLikeAllPosts.fulfilled, (state, action) => {
         state.allPosts = [...state.allPosts, ...action.payload];
+        state.isFetching = false;
+        state.errorMessage = null;
       })
-      //무드 등록/취소
+      .addCase(__getLikeAllPosts.pending, (state, action) => {
+        state.isFetching = true;
+      })
+      .addCase(__getLikeAllPosts.rejected, (state, action) => {
+        state.isFetching = false;
+        state.errorMessage = action.errorMessage;
+      })
+      // 무드(좋아요) 등록/취소
       .addCase(__patchMood.fulfilled, (state, action) => {
         state.likeCount = action.payload;
+        state.isFetching = false;
+        state.errorMessage = null;
+      })
+      .addCase(__patchMood.pending, (state, action) => {
+        state.isFetching = true;
+      })
+      .addCase(__patchMood.rejected, (state, action) => {
+        state.isFetching = false;
+        state.errorMessage = action.errorMessage;
       }),
 });
 

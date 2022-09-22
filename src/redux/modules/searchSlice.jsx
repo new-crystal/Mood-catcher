@@ -1,56 +1,45 @@
-import { api } from "../../shared/api";
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-
-//검색페이지에서 추천 게시물 조회하기
-export const __getSearch = createAsyncThunk(
-  "GET/POSTS",
-  async (payload, thunkAPI) => {
-    try {
-      const response = await api.get(`/posts?type=alg&page=${payload}&count=4`);
-      return response.data;
-    } catch (err) {
-      //console.log(err);
-    }
-  }
-);
-
-//검색 결과창에서 조회하기
-export const __getSearchResult = createAsyncThunk(
-  "GET/RESULT",
-  async (payload, thunkAPI) => {
-    try {
-      const response = await api.get(
-        `/posts?type=search&keyword=${encodeURI(payload.key)}&sort=${
-          payload.sort
-        }&page=${payload.page}&count=4`
-      );
-      return response.data;
-    } catch (err) {
-      //console.log(err);
-    }
-  }
-);
+import { createSlice } from "@reduxjs/toolkit";
+import { __getSearch, __getSearchResult } from "../async/search";
 
 const initialState = {
   search: false,
   recommendedPosts: [],
   searchResult: [],
+  isFetching: false,
+  errorMessage: null,
 };
 
-//리듀서
 const searchSlice = createSlice({
   name: "search",
-  initialState,
+  initialState: initialState,
   reducers: {},
   extraReducers: (builder) =>
     builder
-      //추천게시물 조회하기
+      // 추천 게시물 조회하기 (검색페이지)
       .addCase(__getSearch.fulfilled, (state, action) => {
         state.recommendedPosts = [...state.recommendedPosts, ...action.payload];
+        state.isFetching = false;
+        state.errorMessage = null;
       })
-      //검색 결과 보기
+      .addCase(__getSearch.pending, (state, action) => {
+        state.isFetching = true;
+      })
+      .addCase(__getSearch.rejected, (state, action) => {
+        state.isFetching = false;
+        state.errorMessage = action.errorMessage;
+      })
+      // 추천 게시물 조회하기 (검색 결과창)
       .addCase(__getSearchResult.fulfilled, (state, action) => {
         state.searchResult = [...state.searchResult, ...action.payload];
+        state.isFetching = false;
+        state.errorMessage = null;
+      })
+      .addCase(__getSearchResult.pending, (state, action) => {
+        state.isFetching = true;
+      })
+      .addCase(__getSearchResult.rejected, (state, action) => {
+        state.isFetching = false;
+        state.errorMessage = action.errorMessage;
       }),
 });
 

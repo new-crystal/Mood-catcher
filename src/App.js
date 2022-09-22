@@ -46,18 +46,16 @@ function App() {
         <Routes>
           <Route path="/main" element={<Main />} />
           <Route path="/login" element={<Login />} />
-          <Route path="/login/detail" element={<SignupGenderAge />} />
           <Route path="/signup" element={<Signup />} />
+          <Route path="/login/detail" element={<SignupGenderAge />} />
           <Route path="/edit_profile" element={<Edit_profile />} />
           <Route path="/upload" element={<Upload />} />
           <Route path="/upload_select" element={<Upload_select />} />
-
           <Route path="/edit_post/:postId" element={<Edit_post />} />
           <Route
             path="/edit_post_select/:postId"
             element={<Edit_post_select />}
           />
-
           <Route path="/mypage/:userId" element={<MyPage />} />
           <Route path="/closet/:userId" element={<Closet />} />
           <Route path="/search" element={<Search />} />
