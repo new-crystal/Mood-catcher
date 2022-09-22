@@ -8,12 +8,8 @@ import { useSelector, useDispatch } from "react-redux";
 import "../shared/style/myBeer.css";
 import EachMusinsa from "../components/uploadCompnents/EachMusinsa";
 
-import {
-  __getMusinsa,
-  __putPost,
-  __writeImage,
-  changeCheckPostId,
-} from "../redux/modules/uploadSlice";
+import { __getMusinsa, __editPost, __uploadImage } from "../redux/async/upload";
+import { changeCheckPostId } from "../redux/modules/uploadSlice";
 
 const Search = "./images/search.png";
 
@@ -75,11 +71,11 @@ const Edit_post_select = (props) => {
 
   const writeTotalPost = () => {
     // console.log(totalPost);
-    dispatch(__putPost({ postId: postId, totalPost: totalPost }));
+    dispatch(__editPost({ postId: postId, totalPost: totalPost }));
   };
   React.useEffect(() => {
     if (checkPostId === true) {
-      dispatch(__writeImage({ postId: post.postId, postImage: formdata }));
+      dispatch(__uploadImage({ postId: post.postId, postImage: formdata }));
       dispatch(changeCheckPostId(false));
       navigate("/main");
     }
@@ -93,7 +89,7 @@ const Edit_post_select = (props) => {
 
   //     setImagePost({ ...imagePost, postId: 3 });
   //     console.log(imagePost);
-  //     dispatch(__writeImage(imagePost));
+  //     dispatch(__uploadImage(imagePost));
   //     dispatch(changeCheckPostId(false));
   //     navigate("/");
   //   }

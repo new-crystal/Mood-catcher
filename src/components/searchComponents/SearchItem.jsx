@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import heart from "../../image/heart.png";
 import heartTrue from "../../image/heartTrue.png";
-import { addMood, __patchMood } from "../../redux/modules/likeSlice";
+import { addMood, __patchMood } from "../../redux/async/like";
 
 const SearchItem = ({ item }) => {
   const navigate = useNavigate();

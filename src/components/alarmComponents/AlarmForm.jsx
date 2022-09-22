@@ -3,7 +3,7 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import { __getAlarm, __deleteAlarm } from "../../redux/modules/alarmSlice";
+import { __getAlarm, __deleteAlarm } from "../../redux/async/alarm";
 
 const AlarmForm = () => {
   const dispatch = useDispatch();

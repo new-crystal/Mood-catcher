@@ -2,7 +2,7 @@ import React, { Fragment, useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import { __patchMood } from "../../redux/modules/likeSlice";
+import { __patchMood } from "../../redux/async/like";
 import heartFalse from "../../image/heart.png";
 import heartTrue from "../../image/heartTrue.png";
 

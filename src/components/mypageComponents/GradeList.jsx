@@ -13,7 +13,7 @@ import cat2 from "../../image/냥2.png";
 import cat3 from "../../image/냥3.png";
 import cat4 from "../../image/냥4.png";
 import cat5 from "../../image/냥5.png";
-import { __getUser, __patchUser } from "../../redux/modules/loginSlice";
+import { __getUser, __patchUser } from "../../redux/async/login";
 
 const GradeList = ({ setGradeList }) => {
   const dispatch = useDispatch();

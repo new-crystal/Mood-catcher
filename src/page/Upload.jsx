@@ -8,7 +8,6 @@ import { useDispatch } from "react-redux";
 
 import { regFormdata, regPost } from "../redux/modules/uploadSlice";
 
-const junsu = "./images/junsu.PNG";
 const preview_URL = "/images/noimage.PNG";
 
 const Upload = (props) => {
@@ -22,6 +21,7 @@ const Upload = (props) => {
     content: "",
   });
 
+  // 선택된 사진을 미리볼 수 있게 해줍니다.
   const selectImg = (e) => {
     const reader = new FileReader();
     const theFile = fileInput.current.files[0];
@@ -40,6 +40,7 @@ const Upload = (props) => {
     setPost({ ...post, [id]: value });
   };
 
+  // 서버에 사진을 전송하는 함수
   const writePost = () => {
     if (fileInput.current.files[0] === undefined) {
       alert("사진을 넣어주세요!");
