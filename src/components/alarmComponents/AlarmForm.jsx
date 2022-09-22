@@ -47,7 +47,6 @@ const AlarmForm = () => {
             <BackBtn onClick={() => navigate(-1)}>✖️</BackBtn>
           </BtnWrap>
         </TitleWrap>
-        {alarmStatus !== "succeeded" ? <AlarmBox>{content}</AlarmBox> : null}
         {alarms.length === 0 ? (
           <AlarmBox>
             <p>아직 새로운 알림이 없습니다!</p>

@@ -89,9 +89,9 @@ const Main = (props) => {
             <HotPosts hotPosts={hotPosts} />
             <AllPosts />
             {showTopButton()}
+            <NavigationBar props={props} />
           </Grid>
         </Container>
-        <NavigationBar props={props} />
       </Suspense>
     </Fragment>
   );

@@ -116,7 +116,21 @@ export const __getUser = createAsyncThunk(
     }
   }
 );
-
+// 헤더 유저 정보 조회
+export const __getHeaderUser = createAsyncThunk(
+  "GET/HEADERUSER",
+  async (data, thunkAPI) => {
+    try {
+      const response = await loginApi.getUser(data);
+      if (response.status === 200) {
+        return response.data.data.userStatus;
+      }
+    } catch (err) {
+      Swal.fire("에러", "네트워크 연결 상태를 확인해주세요.!", "error");
+      return thunkAPI.rejectWithValue(err.response.msg);
+    }
+  }
+);
 // 프로필 아이콘 바꾸기
 export const __patchUser = createAsyncThunk(
   "PATCH/ICON",

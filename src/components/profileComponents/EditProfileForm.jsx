@@ -289,6 +289,9 @@ const EditProfileForm = () => {
         <h3>계정 설정</h3>
       </ProfileBox>
       <LogOut>
+        <button onClick={() => navigate("/edit_password")}>
+          비밀번호 변경하기
+        </button>
         <button onClick={onClickLogOut}>로그아웃</button>
         <button onClick={onClickDelBtn}>계정탈퇴</button>
       </LogOut>

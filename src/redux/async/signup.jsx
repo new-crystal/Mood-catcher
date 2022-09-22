@@ -65,3 +65,47 @@ export const __getOpen = createAsyncThunk(
     }
   }
 );
+
+//이메일 인증번호 보내기
+export const __postEmail = createAsyncThunk(
+  "POST/EMAIL",
+  async (data, thunkAPI) => {
+    try {
+      const response = await signupApi.postEmail(data);
+      console.log(response);
+      return thunkAPI.fulfillWithValue(response.data.data.authNum);
+    } catch (err) {
+      Swal.fire("에러", "네트워크 연결 상태를 확인해주세요.!", "error");
+      return thunkAPI.rejectWithValue(err.response.msg);
+    }
+  }
+);
+
+//비밀번호 찾을 때 인증번호 보내기
+export const __postEmailNum = createAsyncThunk(
+  "POST/EMAILNUM",
+  async (data, thunkAPI) => {
+    try {
+      const response = await signupApi.findEmail(data);
+      console.log(response);
+      return thunkAPI.fulfillWithValue(response.data.data.hashAuthNum);
+    } catch (err) {
+      Swal.fire("에러", "네트워크 연결 상태를 확인해주세요.!", "error");
+      return thunkAPI.rejectWithValue(err.response.msg);
+    }
+  }
+);
+// //비밀번호 변경하기
+export const __putPassword = createAsyncThunk(
+  "PUT/PASSWORD",
+  async (data, thunkAPI) => {
+    try {
+      const response = await signupApi.putPW(data);
+      console.log(response);
+      return thunkAPI.fulfillWithValue(response.data);
+    } catch (err) {
+      Swal.fire("에러", "네트워크 연결 상태를 확인해주세요.!", "error");
+      return thunkAPI.rejectWithValue(err.response.msg);
+    }
+  }
+);
