@@ -194,10 +194,8 @@ const HeaderLogo = styled.div`
 const Notifications = styled.div`
   width: 30px;
   height: 30px;
-  margin-right: 30px;
-  /* position: relative;
-  margin-right: -195px;
-  margin-top: 17px; */
+  margin-top: -35px;
+  margin-left: 350px;
   background-color: rgba(0, 0, 0, 0);
   background-position: center;
   background-size: cover;
