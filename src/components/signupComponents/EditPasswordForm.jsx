@@ -52,8 +52,16 @@ const EditPasswordForm = () => {
 
   //인증번호 비교하기
   const onClickOKBtn = () => {
-    const emailNum = getValues("sendEmail");
-    // const sendEmail = bcrypt.hash;
+    const key = getValues("sendEmail");
+    const secretKey = "12345678901234567890123456789012";
+    const iv = "abcdefghijklmnop";
+    const cipher = crypto.AES.encrypt(key, crypto.enc.Utf8.parse(secretKey), {
+      iv: crypto.enc.Utf8.parse(iv),
+      padding: crypto.pad.Pkcs7,
+      mode: crypto.mode.CBC,
+    });
+    const emailNum = cipher.key.words[0];
+
     if (emailNum === sendEmailNum) {
       setNewPw(true);
     } else {
