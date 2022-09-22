@@ -22,14 +22,14 @@ export const __getHotPosts = createAsyncThunk(
 export const __getMainAllPosts = createAsyncThunk(
   "GET/MAINALLPOSTS",
   async (data, thunkAPI) => {
-    try {
-      const response = await rankApi.getMainAllPosts(data);
-      if (response.status === 200) {
-        return response.data;
-      }
-    } catch (err) {
-      Swal.fire("에러", "네트워크 연결 상태를 확인해주세요.!", "error");
-      return thunkAPI.rejectWithValue(err.response.msg);
+    // try {
+    const response = await rankApi.getMainAllPosts(data);
+    if (response.status === 200) {
+      return response.data;
     }
+    // } catch (err) {
+    //   // Swal.fire("에러", "네트워크 연결 상태를 확인해주세요.!", "error");
+    //   return thunkAPI.rejectWithValue(err.response.msg);
+    // }
   }
 );

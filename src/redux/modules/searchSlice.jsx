@@ -5,6 +5,9 @@ const initialState = {
   search: false,
   recommendedPosts: [],
   searchResult: [],
+  postLast: null,
+  resultPostLast: null,
+
   isFetching: false,
   errorMessage: null,
 };
@@ -25,6 +28,7 @@ const searchSlice = createSlice({
         state.isFetching = true;
       })
       .addCase(__getSearch.rejected, (state, action) => {
+        state.postLast = "lastPage";
         state.isFetching = false;
         state.errorMessage = action.errorMessage;
       })
@@ -38,6 +42,7 @@ const searchSlice = createSlice({
         state.isFetching = true;
       })
       .addCase(__getSearchResult.rejected, (state, action) => {
+        state.resultPostLast = "lastPage";
         state.isFetching = false;
         state.errorMessage = action.errorMessage;
       }),

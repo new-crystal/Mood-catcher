@@ -19,7 +19,6 @@ const instance = axios.create({
   baseURL: process.env.REACT_APP_ENDPOINT,
 });
 
-
 //┏----------interceptor를 통한 header 설정----------┓
 instance.interceptors.request.use(async (config) => {
   config.headers["content-type"] = "application/json; charset=utf-8";
@@ -158,7 +157,7 @@ export const rankApi = {
   // 게시물 조회하기 (메인페이지)
   getMainAllPosts: (data) =>
     instance.get(
-      `/posts?userId=${data.userId}&type=all&page=${data.paging}&count=8`
+      `/posts?userId=${data.userId}&type=all&page=${data.paging}&count=2`
     ),
 };
 

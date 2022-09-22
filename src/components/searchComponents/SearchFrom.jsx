@@ -26,6 +26,7 @@ const SearchForm = () => {
   const recommended = useSelector((state) => state.search.recommendedPosts);
   const users = useSelector((state) => state.login.userStatus);
   const gender = users?.gender;
+  const last = useSelector((state) => state.search.postLast);
 
   //react-hook-form에서 불러오기
   const {
@@ -56,7 +57,7 @@ const SearchForm = () => {
     const clientHeight = document.documentElement.clientHeight;
 
     if (scrollTop + clientHeight >= scrollHeight - 100 && loading === false) {
-      if (page >= 13) {
+      if (last) {
         return;
       }
       setPage(page + 1);

@@ -25,6 +25,7 @@ const initialState = {
   representative: {},
   isFetching: false,
   errorMessage: null,
+  postLast: null,
 };
 
 const uploadSlice = createSlice({
@@ -144,6 +145,7 @@ const uploadSlice = createSlice({
         state.isFetching = true;
       })
       .addCase(__getMyCloset.rejected, (state, action) => {
+        state.postLast = "lastPage";
         state.isFetching = false;
         state.errorMessage = action.errorMessage;
       })
