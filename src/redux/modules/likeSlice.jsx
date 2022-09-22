@@ -5,6 +5,7 @@ const initialState = {
   allPosts: [],
   likeCount: 0,
   moodNum: 0,
+  postLast: null,
   isFetching: false,
   errorMessage: null,
 };
@@ -25,6 +26,7 @@ const likeSlice = createSlice({
         state.isFetching = true;
       })
       .addCase(__getLikeAllPosts.rejected, (state, action) => {
+        state.postLast = "lastPage";
         state.isFetching = false;
         state.errorMessage = action.errorMessage;
       })

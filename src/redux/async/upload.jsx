@@ -118,16 +118,16 @@ export const __getMyPage = createAsyncThunk(
 export const __getMyCloset = createAsyncThunk(
   "GET/MYCLOSET",
   async (data, thunkAPI) => {
-    try {
-      //console.log(payload);
-      const response = await uploadApi.getMyPage(data);
-      if (response.status === 200) {
-        return response.data;
-      }
-    } catch (err) {
-      Swal.fire("에러", "네트워크 연결 상태를 확인해주세요.!", "error");
-      return thunkAPI.rejectWithValue(err.response.msg);
+    // try {
+    //console.log(payload);
+    const response = await uploadApi.getMyPage(data);
+    if (response.status === 200) {
+      return response.data;
     }
+    // } catch (err) {
+    //   Swal.fire("에러", "네트워크 연결 상태를 확인해주세요.!", "error");
+    //   return thunkAPI.rejectWithValue(err.response.msg);
+    // }
   }
 );
 

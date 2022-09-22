@@ -20,6 +20,7 @@ const SearchResultForm = () => {
   const [loading, setLoading] = useState(false);
   const [title, setTitle] = useState(true);
   const [writer, setWriter] = useState(false);
+  const last = useSelector((state) => state.search.resultPostLast);
 
   //검색 결과 받아오기/유저 정보 불러오기
   const searchList = useSelector((state) => state.search.searchResult);
@@ -55,7 +56,7 @@ const SearchResultForm = () => {
     const clientHeight = document.documentElement.clientHeight;
 
     if (scrollTop + clientHeight >= scrollHeight - 100 && loading === false) {
-      if (page >= 13) {
+      if (last) {
         return;
       }
       setPage((pre) => pre + 1);
