@@ -55,8 +55,8 @@ const NavigationBar = (props) => {
             navigate("/main");
             window.location.reload();
           }}
-
         >
+          {main ? <Navigate></Navigate> : null}
           <ImageWrap style={{ backgroundImage: `url(${home})` }} />
         </SearchWrap>
         <SearchWrap
@@ -81,6 +81,7 @@ const NavigationBar = (props) => {
             window.location.reload();
           }}
         >
+          {like ? <Navigate></Navigate> : null}
           <ImageWrap style={{ backgroundImage: `url(${heart})` }} />
         </SearchWrap>
         <SearchWrap

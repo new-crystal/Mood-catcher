@@ -7,7 +7,7 @@ import Notification from "../image/notification.png";
 import NotificationTrue from "../image/notificationTrue.png";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { __getUser } from "../redux/async/login";
+import { __getHeaderUser, __getUser } from "../redux/async/login";
 import { getCookie } from "../shared/cookie";
 import jwt_decode from "jwt-decode";
 import { set } from "lodash";
@@ -21,12 +21,12 @@ const Header = () => {
   const navigate = useNavigate();
   const [isLogin, setIsLogin] = useState(false);
   const [headerText, setHeaderText] = useState("Mood Catcher");
-  const [detail, setDetail] = useState(true);
+  //const [detail, setDetail] = useState(true);
   const [headerLine, setHeaderLine] = useState(false);
   const [main, setMain] = useState(true);
   const [settings, setSettings] = useState(false);
 
-  const users = useSelector((state) => state.login.userStatus);
+  const users = useSelector((state) => state.login.headerUser);
   const [userId, setUserId] = useState(users.userId);
 
   //토큰이 있을 경우 확인하기
@@ -40,7 +40,7 @@ const Header = () => {
       const payload = jwt_decode(token);
       setUserId(payload.userId);
       setIsLogin(true);
-      dispatch(__getUser(payload.userId));
+      dispatch(__getHeaderUser(payload.userId));
     }
   };
 
@@ -65,9 +65,9 @@ const Header = () => {
     if (window.location.pathname.split("/")[1] === "closet") {
       setHeaderText("My Closet");
     }
-    if (window.location.pathname.split("/")[1] === "item_detail") {
-      setDetail(false);
-    }
+    // if (window.location.pathname.split("/")[1] === "item_detail") {
+    //   setDetail(false);
+    // }
     if (window.location.pathname === "/main") {
       setHeaderLine(true);
       setMain(false);
@@ -116,7 +116,7 @@ const Header = () => {
           )}
           {/* 로고는 span을 이용해 그냥 텍스트로 처리하고
           누르면 main으로 갈 수 있게 합니다. */}
-          {isLogin && detail && !settings ? (
+          {isLogin && !settings ? (
             users?.isExistsNotice === 0 ? (
               <Notifications
                 url={`${Notification}`}
@@ -164,7 +164,8 @@ const HeaderBox = styled.div`
   /* max-width: 428px; */
   width: 100vw;
   z-index: 10;
-
+  position: relative;
+  top: -20px;
   /* background: linear-gradient(#a396c9, white); */
 `;
 
@@ -176,6 +177,8 @@ const GoBack = styled.div`
   margin: 20px 0 0 25px;
   cursor: pointer;
   opacity: 60%;
+  position: relative;
+  top: 30px;
 `;
 
 const HeaderLogo = styled.div`
@@ -195,7 +198,7 @@ const Notifications = styled.div`
   width: 30px;
   height: 30px;
   margin-top: -35px;
-  margin-left: 350px;
+  margin-left: 370px;
   background-color: rgba(0, 0, 0, 0);
   background-position: center;
   background-size: cover;

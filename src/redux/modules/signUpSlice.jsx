@@ -1,4 +1,12 @@
-import { __signUp, __checkEmail, __getUsers, __getOpen } from "../async/signup";
+import {
+  __signUp,
+  __checkEmail,
+  __getUsers,
+  __getOpen,
+  __postEmail,
+  __postEmailNum,
+  __putPassword,
+} from "../async/signup";
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
@@ -8,6 +16,8 @@ const initialState = {
   startMsg: null,
   isFetching: false,
   errorMessage: null,
+  sendEmail: null,
+  sendEmailNum: null,
 };
 
 const signUpSlice = createSlice({
@@ -73,6 +83,47 @@ const signUpSlice = createSlice({
         state.isFetching = true;
       })
       .addCase(__getOpen.rejected, (state, action) => {
+        state.isFetching = false;
+        state.errorMessage = action.errorMessage;
+      })
+      //이메일 인증번호 발송
+      .addCase(__postEmail.pending, (state, action) => {
+        state.isFetching = true;
+      })
+      .addCase(__postEmail.fulfilled, (state, action) => {
+        state.sendEmail = action.payload;
+        state.isFetching = false;
+        state.errorMessage = null;
+      })
+      .addCase(__postEmail.rejected, (state, action) => {
+        state.isFetching = false;
+        state.errorMessage = action.errorMessage;
+      })
+      //비밀번호 변경 이메일 인증번호 발송
+      .addCase(__postEmailNum.pending, (state, action) => {
+        state.isFetching = true;
+        state.checkEmail = false;
+      })
+      .addCase(__postEmailNum.fulfilled, (state, action) => {
+        state.isFetching = false;
+        state.errorMessage = null;
+        state.sendEmailNum = action.payload;
+        state.checkEmail = true;
+      })
+      .addCase(__postEmailNum.rejected, (state, action) => {
+        state.isFetching = false;
+        state.errorMessage = action.errorMessage;
+        state.checkEmail = false;
+      })
+      //비밀번호 변경 전송
+      .addCase(__putPassword.pending, (state, action) => {
+        state.isFetching = true;
+      })
+      .addCase(__putPassword.fulfilled, (state, action) => {
+        state.isFetching = false;
+        state.errorMessage = null;
+      })
+      .addCase(__putPassword.rejected, (state, action) => {
         state.isFetching = false;
         state.errorMessage = action.errorMessage;
       }),

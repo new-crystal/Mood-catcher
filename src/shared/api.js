@@ -19,7 +19,6 @@ const instance = axios.create({
   baseURL: process.env.REACT_APP_ENDPOINT,
 });
 
-
 //┏----------interceptor를 통한 header 설정----------┓
 instance.interceptors.request.use(async (config) => {
   config.headers["content-type"] = "application/json; charset=utf-8";
@@ -187,6 +186,12 @@ export const signupApi = {
   getUsers: (userId) => instance.get(`/users/${userId}`),
   // 초기화면 조회하기
   getOpen: () => instance.get("/start"),
+  //이메일 인증번호 발송하기
+  postEmail: (data) => instance.post("/auth/sendEmail", data),
+  //비밀번호 찾을 때 이메일 발송
+  findEmail: (data) => instance.post("/auth/forgetPw", data),
+  //비밀번호 변경
+  putPW: (data) => instance.put(`/api/auth/updatePw?email=${data.emil}`, data),
 };
 
 // 업로드 관련 axios API 통신

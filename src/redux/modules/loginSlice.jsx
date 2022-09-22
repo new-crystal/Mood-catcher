@@ -8,6 +8,7 @@ import {
   __delUser,
   __getUser,
   __patchUser,
+  __getHeaderUser,
 } from "../async/login";
 
 const initialState = {
@@ -25,6 +26,7 @@ const initialState = {
   changeStatus: false,
   isFetching: false,
   errorMessage: null,
+  headerUser: {},
 };
 
 const loginSlice = createSlice({
@@ -146,6 +148,19 @@ const loginSlice = createSlice({
         state.isFetching = true;
       })
       .addCase(__patchUser.rejected, (state, action) => {
+        state.isFetching = false;
+        state.errorMessage = action.errorMessage;
+      })
+      //헤더에서 유저 정보 조회
+      .addCase(__getHeaderUser.fulfilled, (state, action) => {
+        state.headerUser = action.payload;
+        state.isFetching = false;
+        state.errorMessage = null;
+      })
+      .addCase(__getHeaderUser.pending, (state, action) => {
+        state.isFetching = true;
+      })
+      .addCase(__getHeaderUser.rejected, (state, action) => {
         state.isFetching = false;
         state.errorMessage = action.errorMessage;
       }),

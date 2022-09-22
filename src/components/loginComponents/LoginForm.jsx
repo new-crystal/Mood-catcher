@@ -128,6 +128,9 @@ const LoginForm = () => {
             <LogBtn type="button" onClick={() => navigate("/signup")}>
               <p>이메일로 회원가입</p>
             </LogBtn>
+            <LogBtn type="button" onClick={() => navigate("/edit_password")}>
+              <p>비밀번호 찾기</p>
+            </LogBtn>
           </BtnBox>
         </LoginBox>
       </BackGround>
