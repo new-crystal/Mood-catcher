@@ -60,18 +60,20 @@ const Wrap = styled.div`
 `;
 
 const StTag = styled.div`
-  margin-bottom: 10px;
+  margin-bottom: -10px;
   width: 200px;
   height: 40px;
   border-radius: 17px;
-  background: linear-gradient(to right, #7b758b 50%, #c8c6d0);
+  //background: linear-gradient(to right, #7b758b 50%, #c8c6d0);
   text-align: center;
   line-height: 40px;
   font-size: 30px;
-  font-weight: bold;
+  font-weight: 900;
   font-family: "Unna";
-  color: white;
-  box-shadow: 5px 5px 4px #877f92;
+  color: #2d273f;
+  margin-left: -60px;
+  font-style: normal;
+  //box-shadow: 5px 5px 4px #877f92;
 `;
 
 const WritedHotInfo = styled.div`
@@ -95,7 +97,7 @@ const HotImage1 = styled.div`
     width: 200px;
     height: 266px;
     border-radius: 20px;
-    box-shadow: 5px 5px 4px #877f92;
+    //box-shadow: 5px 5px 4px #877f92;
   }
 `;
 
@@ -119,7 +121,7 @@ const HotImage2 = styled.div`
     width: 98px;
     height: 130px;
     border-radius: 20px;
-    box-shadow: 5px 5px 4px #877f92;
+    //box-shadow: 5px 5px 4px #877f92;
   }
 `;
 
@@ -134,7 +136,7 @@ const HotImage3 = styled.div`
     width: 98px;
     height: 130px;
     border-radius: 20px;
-    box-shadow: 5px 5px 4px #877f92;
+    //box-shadow: 5px 5px 4px #877f92;
   }
 `;
 

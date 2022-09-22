@@ -18,6 +18,8 @@ const SearchResultForm = () => {
   const sort = window.location.href.split("sort=")[1];
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(false);
+  const [title, setTitle] = useState(true);
+  const [writer, setWriter] = useState(false);
 
   //검색 결과 받아오기/유저 정보 불러오기
   const searchList = useSelector((state) => state.search.searchResult);
@@ -84,6 +86,18 @@ const SearchResultForm = () => {
     };
   }, [page, loading]);
 
+  //제목으로 검색 눌렀을 때
+  const onChangeTitle = () => {
+    setTitle(true);
+    setWriter(false);
+  };
+
+  //작성작로 검색 눌렀을 때
+  const onChangeWriter = () => {
+    setTitle(false);
+    setWriter(true);
+  };
+
   return (
     <Fragment>
       <Form onSubmit={handleSubmit(onSubmit)}>
@@ -106,18 +120,126 @@ const SearchResultForm = () => {
       <SearchBox>
         {sort === "title" && (
           <>
-            <input type="radio" value="title" checked {...register("sort")} />
-            <label>제목으로 검색하기</label>
-            <input type="radio" value="writer" {...register("sort")} />
-            <label>작성자로 검색하기</label>
+            {title && !writer && (
+              <>
+                <CheckBox>
+                  <LabelTitle htmlFor={search.sort} onClick={onChangeTitle}>
+                    <input
+                      hidden
+                      id={search.sort}
+                      type="radio"
+                      value="title"
+                      checked
+                      {...register("sort")}
+                    />
+                    제목으로 검색하기
+                  </LabelTitle>
+                </CheckBox>
+                <NotCheckBox>
+                  <LabelWriter htmlFor={search.sort} onClick={onChangeWriter}>
+                    <input
+                      hidden
+                      id={search.sort}
+                      type="radio"
+                      value="writer"
+                      {...register("sort")}
+                    />
+                    작성자로 검색하기
+                  </LabelWriter>
+                </NotCheckBox>
+              </>
+            )}
+            {!title && writer && (
+              <>
+                <NotCheckBox>
+                  <LabelTitle htmlFor={search.sort} onClick={onChangeTitle}>
+                    <input
+                      hidden
+                      id={search.sort}
+                      type="radio"
+                      value="title"
+                      checked
+                      {...register("sort")}
+                    />
+                    제목으로 검색하기
+                  </LabelTitle>
+                </NotCheckBox>
+                <CheckBox>
+                  <LabelWriter htmlFor={search.sort} onClick={onChangeWriter}>
+                    <input
+                      hidden
+                      id={search.sort}
+                      type="radio"
+                      value="writer"
+                      {...register("sort")}
+                    />
+                    작성자로 검색하기
+                  </LabelWriter>
+                </CheckBox>
+              </>
+            )}
           </>
         )}
         {sort === "writer" && (
           <>
-            <input type="radio" value="title" {...register("sort")} />
-            <label>제목으로 검색하기</label>
-            <input type="radio" value="writer" checked {...register("sort")} />
-            <label>작성자로 검색하기</label>
+            {title && !writer && (
+              <>
+                <CheckBox>
+                  <LabelTitle htmlFor={search.sort} onClick={onChangeTitle}>
+                    <input
+                      hidden
+                      id={search.sort}
+                      type="radio"
+                      value="title"
+                      checked
+                      {...register("sort")}
+                    />
+                    제목으로 검색하기
+                  </LabelTitle>
+                </CheckBox>
+                <NotCheckBox>
+                  <LabelWriter htmlFor={search.sort} onClick={onChangeWriter}>
+                    <input
+                      hidden
+                      id={search.sort}
+                      type="radio"
+                      value="writer"
+                      {...register("sort")}
+                    />
+                    작성자로 검색하기
+                  </LabelWriter>
+                </NotCheckBox>
+              </>
+            )}
+
+            {!title && writer && (
+              <>
+                <CheckBox>
+                  <LabelWriter htmlFor={search.sort} onClick={onChangeWriter}>
+                    <input
+                      hidden
+                      id={search.sort}
+                      type="radio"
+                      value="writer"
+                      {...register("sort")}
+                    />
+                    작성자로 검색하기
+                  </LabelWriter>
+                </CheckBox>
+                <NotCheckBox>
+                  <LabelWriter htmlFor={search.sort} onClick={onChangeWriter}>
+                    <input
+                      hidden
+                      id={search.sort}
+                      type="radio"
+                      value="writer"
+                      {...register("sort")}
+                    />
+                    작성자로 검색하기
+                  </LabelWriter>
+                </NotCheckBox>
+              </>
+            )}
           </>
         )}
       </SearchBox>
@@ -184,7 +306,7 @@ const SearchInput = styled.input`
   width: 350px;
   height: 50px;
   border-radius: 10px;
-  margin: 10px 30px;
+  margin: 10px 40px;
   :focus {
     outline: none;
   }
@@ -193,25 +315,49 @@ const SearchBox = styled.div`
   width: 348px;
   margin: 0 auto;
   border-top: 3px solid #fff;
+  padding-top: 7px;
   position: relative;
   top: -60px;
   display: flex;
   align-items: left;
   justify-content: baseline;
   flex-direction: row;
+  font-family: "Unna";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 15px;
+  color: #2d273f;
+`;
+const LabelTitle = styled.label`
+  color: #2d273f;
+`;
+const LabelWriter = styled.label`
+  display: block;
+  color: #2d273f;
+`;
+const CheckBox = styled.div`
+  width: 110px;
+  height: 15px;
+  padding: 5px;
+  border-bottom: 2px solid #fff;
+`;
+const NotCheckBox = styled.div`
+  width: 110px;
+  height: 15px;
+  padding: 5px;
 `;
 
 const SearchImg = styled.button`
-  width: 40px;
-  height: 40px;
+  width: 30px;
+  height: 30px;
   border: 0;
   background-color: rgba(0, 0, 0, 0);
   background-position: center;
   background-size: cover;
   background-image: url(${search});
   position: relative;
-  left: 150px;
-  top: -58px;
+  left: 155px;
+  top: -50px;
   cursor: pointer;
 `;
 const More = styled.div`

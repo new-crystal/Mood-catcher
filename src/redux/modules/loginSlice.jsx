@@ -42,6 +42,7 @@ const loginSlice = createSlice({
       .addCase(__login.fulfilled, (state, action) => {
         state.loading = false;
         state.exist = action.payload;
+        alert("무드캐처로 입장하셨습니다!");
         state.isFetching = false;
         state.errorMessage = null;
       })

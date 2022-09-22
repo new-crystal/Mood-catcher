@@ -14,9 +14,9 @@ export default function GenderAge(props) {
           </LoaderWrap>
         }
       >
-        <Header />
         <LoginWrap>
           <Container>
+            <Header />
             <SignupGenderAge />
           </Container>
         </LoginWrap>
@@ -38,13 +38,13 @@ const LoginWrap = styled.div`
   display: flex;
   flex-direction: column;
   text-align: center;
-  /* min-height: 928px; */
 `;
 
 const Container = styled.div`
-  width: 428px;
+  max-width: 428px;
+  width: 100vw;
+  height: calc(var(--vh, 1vh) * 100 + 50px);
   margin: 0 auto;
   margin-top: 0px;
   background: linear-gradient(#a396c9, #ffffff);
-  /* min-height: 928px; */
 `;

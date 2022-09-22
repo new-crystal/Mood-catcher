@@ -67,6 +67,7 @@ const OtherClosetBox = styled.div`
   background-color: #fff;
   border-radius: 20px;
   display: flex;
+  border: 3px solid #e6e5ea;
   align-items: center;
   justify-content: center;
   flex-direction: row;
@@ -91,8 +92,13 @@ const TextBox = styled.div`
   font-family: "Roboto";
   font-style: normal;
   font-weight: 800;
-  font-size: 16px;
   color: #7b758b;
+  p {
+    font-size: 18px;
+  }
+  h5 {
+    font-size: 13px;
+  }
 `;
 
 const HeartBox = styled.div`

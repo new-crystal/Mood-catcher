@@ -48,7 +48,7 @@ const MyPageForm = () => {
   const users = useSelector((state) => state.login.userStatus);
   const profileIcon = useSelector((state) => state.login.userIcon.grade);
   const img = users?.imgUrl?.split(".com/")[1];
-  // console.log(users);
+  console.log(users);
 
   //내 게시글 불러오기
   const myClosetList = useSelector((state) => state.upload.myList);
@@ -128,7 +128,7 @@ const MyPageForm = () => {
             <MoodBody>
               <h1>{users?.moodPoint}</h1>
               {payload.userId == userId ? (
-                <Question onClick={() => setMoodPoint(true)}></Question>
+                <MoodQuestion onClick={() => setMoodPoint(true)}></MoodQuestion>
               ) : null}
               {moodPoint ? <MoodPoint setMoodPoint={setMoodPoint} /> : null}
             </MoodBody>
@@ -171,13 +171,8 @@ const MyPageForm = () => {
             ></PostImg>
           )}
         </MyPageBox>
-        {payload.userId == userId ? (
-          <ProfileEditBtn onClick={() => navigate("/edit_profile")}>
-            내 프로필 수정
-          </ProfileEditBtn>
-        ) : null}
         <MoodHeader>
-          <p className="name">My Closet</p>
+          <MyClosetText>My Closet</MyClosetText>
         </MoodHeader>
         <ClosetList
           ref={scrollRef}
@@ -333,13 +328,13 @@ const ProfileBox = styled.div`
     font-weight: 800;
     font-size: 16px;
     text-align: center;
-    color: #7b758b;
+    color: #2d273f;
   }
 `;
 
 const GradeIcon = styled.div`
-  width: 50px;
-  height: 50px;
+  width: 40px;
+  height: 40px;
   background-position: center;
   background-size: cover;
   background-image: url(${(props) => props.url});
@@ -367,14 +362,24 @@ const MoodHeader = styled.div`
   margin: 10px auto;
   box-shadow: 5px 5px 4px rgba(0, 0, 0, 0.25);
   border-radius: 17px;
+
   .name {
     font-family: "Unna";
     font-style: normal;
     font-weight: 700;
     font-size: 18px;
-    margin-top: 6px;
     color: white;
+    margin-top: 5px;
   }
+`;
+const MyClosetText = styled.p`
+  font-family: "Unna";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 18px;
+  color: white;
+  position: relative;
+  top: 4px;
 `;
 
 const MoodBody = styled.div`
@@ -391,7 +396,7 @@ const MoodBody = styled.div`
     font-family: "Unna";
     font-style: normal;
     font-weight: 700;
-    font-size: 60px;
+    font-size: 50px;
     text-align: center;
     color: #7b758b;
   }
@@ -420,6 +425,17 @@ const Question = styled.div`
   width: 10px;
   height: 10px;
   margin-left: 7px;
+  background-position: center;
+  background-size: cover;
+  background-image: url(${question});
+`;
+const MoodQuestion = styled.div`
+  width: 23px;
+  height: 23px;
+  position: relative;
+  top: 7px;
+  left: 15px;
+  opacity: 70%;
   background-position: center;
   background-size: cover;
   background-image: url(${question});
@@ -527,21 +543,6 @@ const EmptyCloset = styled.div`
     text-align: center;
     color: #534b67;
   }
-`;
-
-const ProfileEditBtn = styled.button`
-  width: 135px;
-  height: 20px;
-  background-color: rgba(0, 0, 0, 0);
-  color: #7b758b;
-  font-size: 16px;
-  border: 0px;
-  margin-left: 150px;
-  font-family: "Roboto";
-  font-style: normal;
-  font-weight: 800;
-  font-size: 16px;
-  text-align: center;
 `;
 
 export default React.memo(MyPageForm);

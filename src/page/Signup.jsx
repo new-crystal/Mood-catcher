@@ -14,10 +14,10 @@ const Signup = () => {
           </LoaderWrap>
         }
       >
-        <Header />
         <Container>
           <Grid>
             <LoginWrap>
+              <Header />
               <SignupForm />
             </LoginWrap>
           </Grid>
@@ -52,7 +52,10 @@ const Container = styled.div`
 `;
 
 const Grid = styled.div`
-  width: 428px;
+  max-width: 428px;
+  width: 100vw;
+  height: calc(var(--vh, 1vh) * 100 + 50px);
+
   margin: 0 auto;
   background-color: royalblue;
   margin-top: 60px;

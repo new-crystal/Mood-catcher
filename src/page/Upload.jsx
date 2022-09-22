@@ -64,9 +64,9 @@ const Upload = (props) => {
           </LoaderWrap>
         }
       >
-        <Header />
         <Container>
           <Grid>
+            <Header />
             <JustifyAlign>
               <UploadText>작성하기</UploadText>
               <NextButton onClick={writePost}>다음</NextButton>
@@ -150,7 +150,9 @@ const Grid = styled.div`
   margin: 0 auto;
   margin-top: 40px;
   margin-bottom: 57px;
-  width: 428px;
+  max-width: 428px;
+  width: 100vw;
+  height: calc(var(--vh, 1vh) * 100 + 50px);
   background: linear-gradient(#a396c9, #ffffff);
 
   /* background-color: royalblue; */

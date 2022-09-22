@@ -1,6 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { __getAlarm, __deleteAlarm } from "../async/alarm";
 
+//const initialState = {
+  //notices: [],
+  //status: "idle",
+  //error: null,
+//}
 const initialState = {
   notices: [],
   isFetching: false,
@@ -8,7 +13,7 @@ const initialState = {
 };
 
 const alarmSlice = createSlice({
-  name: "search",
+  name: "alarm",
   initialState: initialState,
   reducers: {},
   extraReducers: (builder) =>

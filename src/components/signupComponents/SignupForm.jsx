@@ -150,6 +150,23 @@ const SigupForm = () => {
         </div>
         <div>
           <TextBox>
+            <h4>인증번호</h4>
+            {errors.sendEmail && <p>{errors.sendEmail.message}</p>}
+          </TextBox>
+          <input
+            name="sendEmail"
+            type="sendEmail"
+            placeholder="이메일로 발송 된 인증번호를 입력해주세요"
+            aria-invalid={
+              !isDirty ? undefined : errors.sendEmail ? "true" : "false"
+            }
+            {...register("sendEmail", {
+              required: "인증번호는 필수 입력입니다.",
+            })}
+          />
+        </div>
+        <div>
+          <TextBox>
             <h4>비밀번호</h4>
             {errors.password && <p>{errors.password.message}</p>}
           </TextBox>

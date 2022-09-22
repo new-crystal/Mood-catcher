@@ -107,18 +107,21 @@ const Wrap = styled.div`
 `;
 
 const StTag = styled.div`
-  margin-bottom: 10px;
+  margin-bottom: -10px;
   width: 200px;
   height: 40px;
   border-radius: 17px;
-  background: linear-gradient(to right, #7b758b 50%, #c8c6d0);
+  //background: linear-gradient(to right, #7b758b 50%, #c8c6d0);
   text-align: center;
   line-height: 40px;
+  margin-left: -25px;
   font-size: 30px;
-  font-weight: bold;
+  font-style: normal;
+  font-weight: 700;
   font-family: "Unna";
-  color: white;
-  box-shadow: 5px 5px 4px #877f92;
+  line-height: 35px;
+  color: #2d273f;
+  //box-shadow: 5px 5px 4px #877f92;
 `;
 
 const WritedClosetInfo = styled.div`
@@ -143,7 +146,7 @@ const ClosetImage = styled.div`
     width: 131px;
     height: 174px;
     border-radius: 20px;
-    box-shadow: 5px 5px 4px #877f92;
+    //box-shadow: 5px 5px 4px #877f92;
   }
 `;
 

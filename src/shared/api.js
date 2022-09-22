@@ -19,6 +19,7 @@ const instance = axios.create({
   baseURL: process.env.REACT_APP_ENDPOINT,
 });
 
+
 //┏----------interceptor를 통한 header 설정----------┓
 instance.interceptors.request.use(async (config) => {
   config.headers["content-type"] = "application/json; charset=utf-8";
