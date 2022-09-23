@@ -207,7 +207,7 @@ const LogBox = styled.form`
 `;
 
 const BtnBox = styled.div`
-  width: 428px;
+  width: 390px;
   height: 173px;
   text-align: center;
 `;

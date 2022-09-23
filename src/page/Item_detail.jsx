@@ -1,6 +1,5 @@
 import React, { useEffect, useState, Fragment, Suspense, useRef } from "react";
 import styled, { css } from "styled-components";
-import Loader from "../shared/Loader";
 import Header from "../elem/Header";
 import NavigationBar from "../elem/NavigationBar";
 import { useDispatch, useSelector } from "react-redux";
@@ -129,153 +128,142 @@ const Item_detail = (props) => {
 
   return (
     <Fragment>
-      <Suspense
-        fallback={
-          <LoaderWrap>
-            <Loader />
-          </LoaderWrap>
-        }
-      >
-        <Container>
-          <Grid>
-            <Header />
-            <ProfileBox>
-              <ProfileImg
-                onClick={() => {
-                  navigate(`/closet/${userId}`);
-                  window.location.reload();
-                }}
-                url={
-                  userStatus.imgUrl === undefined ||
-                  userStatus.imgUrl.slice(-4) === "null"
-                    ? preview_URL
-                    : userStatus?.imgUrl
-                }
-              ></ProfileImg>
-              <NickTitle
-                onClick={() => {
-                  navigate(`/closet/${userId}`);
-                  window.location.reload();
-                }}
-              >
-                <span>{detailPost.title}</span>
-                <span className="nickname">{userStatus.nickname}</span>
-              </NickTitle>
-
-              {payload.userId == userId ? (
-                <DropdownContainer>
-                  <DropdownButton onClick={myPageHandler} ref={myPageRef}>
-                    <StLoginList />
-                  </DropdownButton>
-                  <Menu isDropped={myPageIsOpen}>
-                    <Ul>
-                      <Li>
-                        <LinkWrapper href="#1-1">
-                          <AddCommentButton2 onClick={patchRep}>
-                            대표 게시물 지정하기
-                          </AddCommentButton2>
-                          <AddCommentButton2 onClick={putPost}>
-                            수정하기
-                          </AddCommentButton2>
-                          <AddCommentButton2 onClick={deletePost}>
-                            삭제하기
-                          </AddCommentButton2>
-                        </LinkWrapper>
-                      </Li>
-                    </Ul>
-                  </Menu>
-                </DropdownContainer>
-              ) : null}
-            </ProfileBox>
-            {/* <TitleText>{detailPost.title}</TitleText> */}
-
-            <DetailImage>
-              <img src={detailPost.imgUrl} />
-            </DetailImage>
-            {likeStatus ? (
-              <img
-                className="heart"
-                src={`${heartTrue}`}
-                alt="heart"
-                onClick={onClickMoodCancelBtn}
-              />
-            ) : (
-              <img
-                className="heart"
-                src={`${heartFalse}`}
-                alt="heart"
-                onClick={onClickMoodBtn}
-              />
-            )}
-            {/* <span className="heartNum">{moodNum}</span> */}
-            <ContentText>{detailPost.content}</ContentText>
-            <Line />
-            <SliderContainer
-              ref={scrollRef}
-              onMouseDown={onDragStart}
-              onMouseMove={isDrag ? onThrottleDragMove : null}
-              onMouseUp={onDragEnd}
-              onMouseLeave={onDragEnd}
+      <Container>
+        <Grid>
+          <Header />
+          <ProfileBox>
+            <ProfileImg
+              onClick={() => {
+                navigate(`/closet/${userId}`);
+                window.location.reload();
+              }}
+              url={
+                userStatus.imgUrl === undefined ||
+                userStatus.imgUrl.slice(-4) === "null"
+                  ? preview_URL
+                  : userStatus?.imgUrl
+              }
+            ></ProfileImg>
+            <NickTitle
+              onClick={() => {
+                navigate(`/closet/${userId}`);
+                window.location.reload();
+              }}
             >
-              {detailItems?.map((item, idx) => (
-                <StMusinsaItemBox key={idx}>
-                  <StMusinsaImage>
-                    <div className="ImgDiv">
-                      <img src={item.imgUrl} alt="" />
-                    </div>
-                  </StMusinsaImage>
-                  <StTextBox>
-                    {item.length === 0 ? (
-                      <Fragment>
-                        <StText>이름</StText>
-                        <StText>가격</StText>
-                      </Fragment>
-                    ) : (
-                      <Fragment>
-                        <StText>{item.name}</StText>
-                        {item.price.indexOf(" ") !== -1 ? (
-                          <StText>
-                            {item.price.slice(item.price.indexOf(" "))}
-                          </StText>
-                        ) : (
-                          <StText>{item.price}</StText>
-                        )}
-                      </Fragment>
-                    )}
-                  </StTextBox>
-                </StMusinsaItemBox>
-              ))}
-            </SliderContainer>
-            <CommentBox>
-              <CommentImg
-                url={
-                  userStatusMe.imgUrl === undefined ||
-                  userStatusMe.imgUrl.slice(-4) === "null"
-                    ? preview_URL
-                    : userStatusMe?.imgUrl
-                }
-              ></CommentImg>
-              <WrapComment>
-                <Textarea
-                  placeholder="댓글을 작성해주세요."
-                  ref={commentText}
-                />
-              </WrapComment>
-              <AddCommentButton onClick={addComment}>완료</AddCommentButton>
-            </CommentBox>
-            <Line />
-            {commentList?.map((item, idx) => (
-              <DetailCommentList
-                key={idx}
-                item={item}
-                postId={postId}
-                userId={userId}
-              />
+              <span>{detailPost.title}</span>
+              <span className="nickname">{userStatus.nickname}</span>
+            </NickTitle>
+
+            {payload.userId == userId ? (
+              <DropdownContainer>
+                <DropdownButton onClick={myPageHandler} ref={myPageRef}>
+                  <StLoginList />
+                </DropdownButton>
+                <Menu isDropped={myPageIsOpen}>
+                  <Ul>
+                    <Li>
+                      <LinkWrapper href="#1-1">
+                        <AddCommentButton2 onClick={patchRep}>
+                          대표 게시물 지정하기
+                        </AddCommentButton2>
+                        <AddCommentButton2 onClick={putPost}>
+                          수정하기
+                        </AddCommentButton2>
+                        <AddCommentButton2 onClick={deletePost}>
+                          삭제하기
+                        </AddCommentButton2>
+                      </LinkWrapper>
+                    </Li>
+                  </Ul>
+                </Menu>
+              </DropdownContainer>
+            ) : null}
+          </ProfileBox>
+          {/* <TitleText>{detailPost.title}</TitleText> */}
+
+          <DetailImage>
+            <img src={detailPost.imgUrl} />
+          </DetailImage>
+          {likeStatus ? (
+            <img
+              className="heart"
+              src={`${heartTrue}`}
+              alt="heart"
+              onClick={onClickMoodCancelBtn}
+            />
+          ) : (
+            <img
+              className="heart"
+              src={`${heartFalse}`}
+              alt="heart"
+              onClick={onClickMoodBtn}
+            />
+          )}
+          {/* <span className="heartNum">{moodNum}</span> */}
+          <ContentText>{detailPost.content}</ContentText>
+          <Line />
+          <SliderContainer
+            ref={scrollRef}
+            onMouseDown={onDragStart}
+            onMouseMove={isDrag ? onThrottleDragMove : null}
+            onMouseUp={onDragEnd}
+            onMouseLeave={onDragEnd}
+          >
+            {detailItems?.map((item, idx) => (
+              <StMusinsaItemBox key={idx}>
+                <StMusinsaImage>
+                  <div className="ImgDiv">
+                    <img src={item.imgUrl} alt="" />
+                  </div>
+                </StMusinsaImage>
+                <StTextBox>
+                  {item.length === 0 ? (
+                    <Fragment>
+                      <StText>이름</StText>
+                      <StText>가격</StText>
+                    </Fragment>
+                  ) : (
+                    <Fragment>
+                      <StText>{item.name}</StText>
+                      {item.price.indexOf(" ") !== -1 ? (
+                        <StText>
+                          {item.price.slice(item.price.indexOf(" "))}
+                        </StText>
+                      ) : (
+                        <StText>{item.price}</StText>
+                      )}
+                    </Fragment>
+                  )}
+                </StTextBox>
+              </StMusinsaItemBox>
             ))}
-          </Grid>
-        </Container>
-        <NavigationBar props={props} />
-      </Suspense>
+          </SliderContainer>
+          <CommentBox>
+            <CommentImg
+              url={
+                userStatusMe.imgUrl === undefined ||
+                userStatusMe.imgUrl.slice(-4) === "null"
+                  ? preview_URL
+                  : userStatusMe?.imgUrl
+              }
+            ></CommentImg>
+            <WrapComment>
+              <Textarea placeholder="댓글을 작성해주세요." ref={commentText} />
+            </WrapComment>
+            <AddCommentButton onClick={addComment}>완료</AddCommentButton>
+          </CommentBox>
+          <Line />
+          {commentList?.map((item, idx) => (
+            <DetailCommentList
+              key={idx}
+              item={item}
+              postId={postId}
+              userId={userId}
+            />
+          ))}
+        </Grid>
+      </Container>
+      <NavigationBar props={props} />
     </Fragment>
   );
 };
@@ -290,14 +278,6 @@ const StLoginList = styled.div`
   background-position: center;
   background-size: cover;
   cursor: pointer;
-`;
-
-const LoaderWrap = styled.div`
-  position: absolute;
-  margin-top: -100px;
-  margin-left: -100px;
-  top: 50%;
-  left: 50%;
 `;
 
 const Container = styled.div`

@@ -1,26 +1,17 @@
 import React, { Fragment, Suspense } from "react";
 import styled from "styled-components";
-import Loader from "../shared/Loader";
 import Header from "../elem/Header";
 import SignupGenderAge from "../components/signupComponents/SignupGenderAge";
 
 export default function GenderAge(props) {
   return (
     <Fragment>
-      <Suspense
-        fallback={
-          <LoaderWrap>
-            <Loader />
-          </LoaderWrap>
-        }
-      >
-        <LoginWrap>
-          <Container>
-            <Header />
-            <SignupGenderAge />
-          </Container>
-        </LoginWrap>
-      </Suspense>
+      <LoginWrap>
+        <Container>
+          <Header />
+          <SignupGenderAge />
+        </Container>
+      </LoginWrap>
     </Fragment>
   );
 }
