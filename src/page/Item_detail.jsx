@@ -46,8 +46,9 @@ const Item_detail = (props) => {
   const comments = useSelector((state) => state.comment.comments);
 
   const [mood, setMood] = useState(`${heartFalse}`);
-  const [likeStatus, setLikeStatus] = useState(detailPost.likeStatus);
-  const [moodNum, setMoodNum] = useState(detailPost.likeCount);
+  //const likeStatus = useSelector((state) => state.upload.detailPost.likeStatus);
+  const [likeStatus, setLikeStatus] = useState(detailPost?.likeStatus);
+  const moodNum = useSelector((state) => state.upload.detailPost.likeCount);
   const [myPageIsOpen, myPageRef, myPageHandler] = useDetectClose(false);
   const [scrollRef, isDrag, onDragStart, onDragEnd, onThrottleDragMove] =
     ScrollX();
@@ -101,7 +102,7 @@ const Item_detail = (props) => {
     if (userStatus.imgUrl !== undefined) {
       setProfile({ image_file: `${userStatus.imgUrl}` });
     }
-  }, []);
+  }, [likeStatus, moodNum]);
 
   //새로고침시에도 무드 상태값 유지
   useEffect(() => {
@@ -115,14 +116,14 @@ const Item_detail = (props) => {
 
   //무드 버튼 누르기
   const onClickMoodBtn = () => {
-    setMoodNum(moodNum + 1);
+    // setMoodNum(moodNum + 1);
     setLikeStatus(true);
     dispatch(__patchMood(detailPost.postId));
   };
 
   //무드버튼 취소하기
   const onClickMoodCancelBtn = () => {
-    setMoodNum(moodNum - 1);
+    // setMoodNum(moodNum - 1);
     setLikeStatus(false);
     dispatch(__patchMood(detailPost.postId));
   };
@@ -195,19 +196,19 @@ const Item_detail = (props) => {
             {likeStatus ? (
               <img
                 className="heart"
-                src={`${heartTrue}`}
+                src={mood}
                 alt="heart"
                 onClick={onClickMoodCancelBtn}
               />
             ) : (
               <img
                 className="heart"
-                src={`${heartFalse}`}
+                src={mood}
                 alt="heart"
                 onClick={onClickMoodBtn}
               />
             )}
-            {/* <span className="heartNum">{moodNum}</span> */}
+            <span className="heartNum">{moodNum}</span>
             <ContentText>{detailPost.content}</ContentText>
             <Line />
             <SliderContainer

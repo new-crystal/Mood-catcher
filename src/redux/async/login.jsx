@@ -14,8 +14,8 @@ export const __login = createAsyncThunk(
         return (window.location.href = response.data.url);
       }
     } catch (err) {
-      Swal.fire("에러", "네트워크 연결 상태를 확인해주세요.!", "error");
-      return thunkAPI.rejectWithValue(err.response.msg);
+      Swal.fire("에러", err.response.data, "error");
+      return thunkAPI.rejectWithValue(err.response.data);
     }
   }
 );
@@ -26,12 +26,12 @@ export const __checkNickname = createAsyncThunk(
   async (data, thunkAPI) => {
     try {
       const response = await loginApi.checkNickname(data);
-      if (response.status === 201) {
+      if (response.status === 200) {
         return true;
       }
     } catch (err) {
-      Swal.fire("에러", "네트워크 연결 상태를 확인해주세요.!", "error");
-      return thunkAPI.rejectWithValue(err.response.msg);
+      Swal.fire("에러", err.response.data, "error");
+      return thunkAPI.rejectWithValue(err.response.data);
     }
   }
 );
@@ -42,12 +42,12 @@ export const __detail = createAsyncThunk(
   async (data, thunkAPI) => {
     try {
       const response = await loginApi.addLoginDetail(data);
-      if (response.status === 200) {
+      if (response.status === 201) {
         return response.data;
       }
     } catch (err) {
-      Swal.fire("에러", "네트워크 연결 상태를 확인해주세요.!", "error");
-      return thunkAPI.rejectWithValue(err.response.msg);
+      Swal.fire("에러", err.response.data, "error");
+      return thunkAPI.rejectWithValue(err.response.data);
     }
   }
 );
@@ -63,8 +63,8 @@ export const __socialLogin = createAsyncThunk(
         thunkAPI.fulfillWithValue(response.data);
       }
     } catch (err) {
-      Swal.fire("에러", "네트워크 연결 상태를 확인해주세요.!", "error");
-      return thunkAPI.rejectWithValue(err.response.msg);
+      Swal.fire("에러", err.response.data, "error");
+      return thunkAPI.rejectWithValue(err.response.data);
     }
   }
 );
@@ -79,8 +79,8 @@ export const __editProfile = createAsyncThunk(
         return thunkAPI.fulfillWithValue(response.data.userStatus);
       }
     } catch (err) {
-      Swal.fire("에러", "네트워크 연결 상태를 확인해주세요.!", "error");
-      return thunkAPI.rejectWithValue(err.response.msg);
+      Swal.fire("에러", err.response.data, "error");
+      return thunkAPI.rejectWithValue(err.response.data);
     }
   }
 );
@@ -95,8 +95,8 @@ export const __delUser = createAsyncThunk(
         return alert("무드캡처를 퇴장하셨습니다.");
       }
     } catch (err) {
-      Swal.fire("에러", "네트워크 연결 상태를 확인해주세요.!", "error");
-      return thunkAPI.rejectWithValue(err.response.msg);
+      Swal.fire("에러", err.response.data, "error");
+      return thunkAPI.rejectWithValue(err.response.data);
     }
   }
 );
@@ -111,8 +111,8 @@ export const __getUser = createAsyncThunk(
         return response.data.data.userStatus;
       }
     } catch (err) {
-      Swal.fire("에러", "네트워크 연결 상태를 확인해주세요.!", "error");
-      return thunkAPI.rejectWithValue(err.response.msg);
+      Swal.fire("에러", err.response.data, "error");
+      return thunkAPI.rejectWithValue(err.response.data);
     }
   }
 );
@@ -126,8 +126,8 @@ export const __getHeaderUser = createAsyncThunk(
         return response.data.data.userStatus;
       }
     } catch (err) {
-      Swal.fire("에러", "네트워크 연결 상태를 확인해주세요.!", "error");
-      return thunkAPI.rejectWithValue(err.response.msg);
+      Swal.fire("에러", err.response.data, "error");
+      return thunkAPI.rejectWithValue(err.response.data);
     }
   }
 );
@@ -141,8 +141,8 @@ export const __patchUser = createAsyncThunk(
         return response.data.data.userStatus;
       }
     } catch (err) {
-      Swal.fire("에러", "네트워크 연결 상태를 확인해주세요.!", "error");
-      return thunkAPI.rejectWithValue(err.response.msg);
+      Swal.fire("에러", err.response.data, "error");
+      return thunkAPI.rejectWithValue(err.response.data);
     }
   }
 );

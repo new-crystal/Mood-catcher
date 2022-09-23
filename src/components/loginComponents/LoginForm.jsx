@@ -7,10 +7,12 @@ import crypto from "crypto-js";
 import { Fragment } from "react";
 import { useEffect } from "react";
 import { getCookie } from "../../shared/cookie";
+import bcrypt from "bcryptjs";
 
 const LoginForm = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const salt = bcrypt.genSaltSync(10);
 
   //로그인 한 경우
   useEffect(() => {
@@ -34,16 +36,10 @@ const LoginForm = () => {
 
     //비밀번호 암호화
     const key = getValues("password");
-    const secretKey = "12345678901234567890123456789012";
-    const iv = "abcdefghijklmnop";
-    const cipher = crypto.AES.encrypt(key, crypto.enc.Utf8.parse(secretKey), {
-      iv: crypto.enc.Utf8.parse(iv),
-      padding: crypto.pad.Pkcs7,
-      mode: crypto.mode.CBC,
-    });
-    const pwpwpw = cipher.key.words[0];
+    const ciphertext = bcrypt.hashSync(key, "$2a$10$CwTycUXWue0Thq9StjUM0u");
+
     const email = getValues("email");
-    const password = pwpwpw.toString();
+    const password = ciphertext;
 
     dispatch(__login({ email, password }));
   };
@@ -119,7 +115,7 @@ const LoginForm = () => {
             </LogInBtn>
           </LogBox>
           <BtnBox>
-            <p>무드캐쳐가 처음이신가요?</p>
+            <LogText>무드캐쳐가 처음이신가요?</LogText>
             <LogBtn kakao onClick={() => onClickKakao()}>
               <a href="https://moodcatchers.link/api/auth/kakao">
                 카카오 로그인
@@ -128,6 +124,9 @@ const LoginForm = () => {
             <LogBtn type="button" onClick={() => navigate("/signup")}>
               <p>이메일로 회원가입</p>
             </LogBtn>
+          </BtnBox>
+          <BtnBox>
+            <PwText>캐처님 비밀번호가 기억나지 않으신가요?</PwText>
             <LogBtn type="button" onClick={() => navigate("/edit_password")}>
               <p>비밀번호 찾기</p>
             </LogBtn>
@@ -159,11 +158,14 @@ const JustifyAlign = styled.div`
 `;
 
 const UploadText = styled.span`
-  margin: 100px auto 0;
+  margin: 70px auto 0;
   font-size: 60px;
-  /* color: #2d273f; */
-  color: black;
   font-family: "Unna";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 60px;
+  line-height: 69px;
+  color: #2d273f;
 `;
 
 const ErrorMsg = styled.p`
@@ -180,7 +182,6 @@ const LogInBtn = styled.button`
   font-size: 20px;
   line-height: 23px;
   text-align: center;
-  color: white;
   width: 200px;
   height: 50px;
   margin-top: 15px;
@@ -195,7 +196,7 @@ const LogBox = styled.form`
   align-items: center;
   justify-content: center;
   flex-direction: column;
-  margin-top: 50px;
+  margin-top: 20px;
   input {
     background-color: #ffffff;
     border: 0px;
@@ -210,6 +211,16 @@ const BtnBox = styled.div`
   width: 428px;
   height: 173px;
   text-align: center;
+`;
+
+const LogText = styled.p`
+  font-family: "Roboto";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 10px;
+  line-height: 12px;
+  color: #2d273f;
+  margin-top: 40px;
 `;
 
 const LogBtn = styled.div`
@@ -231,6 +242,16 @@ const LogBtn = styled.div`
     font-weight: bold;
     font-size: 20px;
   }
+`;
+
+const PwText = styled.p`
+  font-family: "Roboto";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 10px;
+  line-height: 12px;
+  color: #2d273f;
+  margin-top: 30px;
 `;
 
 export default LoginForm;
