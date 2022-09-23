@@ -476,12 +476,12 @@ const PostImg = styled.div`
   background-image: url(${(props) => props.url});
 `;
 const ClosetList = styled.div`
-  max-width: 400px;
-  width: 100%;
+  /* width: 350px; */
+  /* width: 100%; */
   height: 230px;
   background-color: #fff;
   border-radius: 10px;
-  margin-left: 40px;
+  margin-left: 30px;
   margin-top: 20px;
   align-items: center;
   display: flexbox;
@@ -503,6 +503,7 @@ const ClosetList = styled.div`
     color: #7b758b;
   }
 `;
+
 const Closet = styled.div`
   width: 160px;
   height: 190px;

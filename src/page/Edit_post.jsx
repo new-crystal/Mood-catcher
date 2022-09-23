@@ -1,6 +1,5 @@
 import React, { useRef, useState, Fragment, Suspense } from "react";
 import styled from "styled-components";
-import Loader from "../shared/Loader";
 import Header from "../elem/Header";
 import NavigationBar from "../elem/NavigationBar";
 import { useNavigate, useParams } from "react-router-dom";
@@ -57,57 +56,49 @@ const Edit_post = (props) => {
 
   return (
     <Fragment>
-      <Suspense
-        fallback={
-          <LoaderWrap>
-            <Loader />
-          </LoaderWrap>
-        }
-      >
-        <Container>
-          <Grid>
-            <Header />
-            <JustifyAlign>
-              <UploadText>수정하기</UploadText>
-              <NextButton onClick={writePost}>다음</NextButton>
-            </JustifyAlign>
-            <StUploadBox>
-              <StFileButton>
-                <button>
-                  <label htmlFor="file-input">파일선택</label>
-                </button>
-              </StFileButton>
-              <StImageBox>
-                <input
-                  id="file-input"
-                  type="file"
-                  accept="img/*"
-                  name="postImage"
-                  ref={fileInput}
-                  onChange={selectImg}
-                  style={{ display: "none" }}
+      <Container>
+        <Grid>
+          <Header />
+          <JustifyAlign>
+            <UploadText>수정하기</UploadText>
+            <NextButton onClick={writePost}>다음</NextButton>
+          </JustifyAlign>
+          <StUploadBox>
+            <StFileButton>
+              <button>
+                <label htmlFor="file-input">파일선택</label>
+              </button>
+            </StFileButton>
+            <StImageBox>
+              <input
+                id="file-input"
+                type="file"
+                accept="img/*"
+                name="postImage"
+                ref={fileInput}
+                onChange={selectImg}
+                style={{ display: "none" }}
+              />
+              <div className="ImgDiv">
+                <img
+                  src={attachment ? attachment : junsu}
+                  alt=""
+                  className="default"
                 />
-                <div className="ImgDiv">
-                  <img
-                    src={attachment ? attachment : junsu}
-                    alt=""
-                    className="default"
-                  />
-                </div>
-              </StImageBox>
-              <StText>제목</StText>
-              <StTitleInput>
-                <input id="title" required onChange={changeInput} />
-              </StTitleInput>
-              <StText>내용</StText>
-              <StContentInput>
-                <input id="content" required onChange={changeInput} />
-              </StContentInput>
-            </StUploadBox>
-          </Grid>
-        </Container>
-        <NavigationBar props={props} />
-      </Suspense>
+              </div>
+            </StImageBox>
+            <StText>제목</StText>
+            <StTitleInput>
+              <input id="title" required onChange={changeInput} />
+            </StTitleInput>
+            <StText>내용</StText>
+            <StContentInput>
+              <input id="content" required onChange={changeInput} />
+            </StContentInput>
+          </StUploadBox>
+        </Grid>
+      </Container>
+      <NavigationBar props={props} />
     </Fragment>
   );
 };

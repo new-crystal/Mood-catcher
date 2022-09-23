@@ -1,28 +1,17 @@
 import React, { Fragment, Suspense } from "react";
 import styled from "styled-components";
-import Loader from "../shared/Loader";
 import Header from "../elem/Header";
 import LoginForm from "../components/loginComponents/LoginForm";
 
 export default function Login(props) {
   return (
     <Fragment>
-      <Suspense
-        fallback={
-          <LoaderWrap>
-            <Loader />
-          </LoaderWrap>
-        }
-      >
+      <LoginWrap>
         <Container>
-          <Grid>
-            <LoginWrap>
-              <Header />
-              <LoginForm />
-            </LoginWrap>
-          </Grid>
+          <Header />
+          <LoginForm />
         </Container>
-      </Suspense>
+      </LoginWrap>
     </Fragment>
   );
 }
