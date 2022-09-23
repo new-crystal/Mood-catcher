@@ -191,7 +191,7 @@ export const signupApi = {
   //비밀번호 찾을 때 이메일 발송
   findEmail: (data) => instance.post("/auth/forgetPw", data),
   //비밀번호 변경
-  putPW: (data) => instance.put(`/api/auth/updatePw?email=${data.emil}`, data),
+  putPW: (data) => instance.put(`/api/auth/updatePw?email=${data.email}`, data),
 };
 
 // 업로드 관련 axios API 통신

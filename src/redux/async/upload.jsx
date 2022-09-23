@@ -98,7 +98,7 @@ export const __getDetail = createAsyncThunk(
   }
 );
 
-// 옷장 게시물 가져오기
+//옷장 게시물 가져오기
 export const __getMyPage = createAsyncThunk(
   "GET/MYPAGE",
   async (data, thunkAPI) => {
@@ -108,7 +108,7 @@ export const __getMyPage = createAsyncThunk(
         return response.data;
       }
     } catch (err) {
-      Swal.fire("에러", "네트워크 연결 상태를 확인해주세요.!", "error");
+      //Swal.fire("에러", "네트워크 연결 상태를 확인해주세요.!", "error");
       return thunkAPI.rejectWithValue(err.response.msg);
     }
   }

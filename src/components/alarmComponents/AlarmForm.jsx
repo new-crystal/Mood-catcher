@@ -96,9 +96,9 @@ const AlarmList = styled.div`
   h4 {
     font-family: Roboto;
     font-style: Bold;
-    font-size: 17px;
+    font-size: 16px;
     font-weight: 700;
-    margin: 10px;
+    margin: 15px;
   }
 `;
 const TitleWrap = styled.div`

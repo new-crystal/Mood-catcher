@@ -126,7 +126,7 @@ const MyPageForm = () => {
               <p className="name">Mood Point</p>
             </MoodHeader>
             <MoodBody>
-              <h1>{users?.moodPoint}</h1>
+              <h1 onClick={() => setMoodPoint(true)}>{users?.moodPoint}</h1>
               {payload.userId == userId ? (
                 <MoodQuestion onClick={() => setMoodPoint(true)}></MoodQuestion>
               ) : null}
@@ -366,7 +366,7 @@ const MoodHeader = styled.div`
   .name {
     font-family: "Unna";
     font-style: normal;
-    font-weight: 700;
+    font-weight: 500;
     font-size: 18px;
     color: white;
     margin-top: 5px;
@@ -417,8 +417,8 @@ const GradeText = styled.div`
 `;
 const GradeQuestion = styled.div`
   display: flex;
-  align-items: center;
-  justify-content: center;
+  align-items: left;
+  justify-content: baseline;
   flex-direction: row;
 `;
 const Question = styled.div`
@@ -430,8 +430,8 @@ const Question = styled.div`
   background-image: url(${question});
 `;
 const MoodQuestion = styled.div`
-  width: 23px;
-  height: 23px;
+  width: 15px;
+  height: 15px;
   position: relative;
   top: 7px;
   left: 15px;
@@ -446,11 +446,13 @@ const Progress = styled.div`
   height: 15px;
   border-radius: 10px;
   background-color: #7b758b;
-  margin-top: -10px;
+  margin-top: 5px;
   display: flex;
   align-items: left;
   justify-content: baseline;
   flex-direction: column;
+  position: relative;
+  top: 3px;
 `;
 const HighLight = styled.div`
   display: flex;
@@ -496,7 +498,7 @@ const ClosetList = styled.div`
     font-family: "Unna";
     font-style: normal;
     font-weight: 700;
-    font-size: 20px;
+    font-size: 15px;
     text-align: center;
     color: #7b758b;
   }
@@ -540,7 +542,7 @@ const EmptyCloset = styled.div`
     font-family: "Unna";
     font-style: normal;
     font-weight: 700;
-    font-size: 20px;
+    font-size: 17px;
     text-align: center;
     color: #534b67;
   }

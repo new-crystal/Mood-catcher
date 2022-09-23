@@ -7,7 +7,7 @@ import Notification from "../image/notification.png";
 import NotificationTrue from "../image/notificationTrue.png";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { __getHeaderUser, __getUser } from "../redux/async/login";
+import { __getHeaderUser } from "../redux/async/login";
 import { getCookie } from "../shared/cookie";
 import jwt_decode from "jwt-decode";
 import { set } from "lodash";
@@ -34,6 +34,7 @@ const Header = () => {
     checkLogin();
   }, []);
 
+  //토큰이 있을 경우 확인하기
   const checkLogin = () => {
     const token = getCookie("token");
     if (token !== undefined) {
@@ -81,9 +82,9 @@ const Header = () => {
         {/* marginTop을 0으로 줘서 제일 위에 붙을 수 있게 합니다. */}
         <HeaderBox style={{ marginTop: "0" }}>
           {headerLine ? <MainHeaderLine> </MainHeaderLine> : null}
-          {/* 뒤로가기 이미지와 뒤로가기 기능 */}
-          {isLogin && main ? (
+          {isLogin && main && (
             <>
+              {/* 뒤로가기 이미지와 뒤로가기 기능 */}
               <GoBack
                 style={{ backgroundImage: `url(${arrow_back})` }}
                 onClick={() => {
@@ -91,8 +92,8 @@ const Header = () => {
                 }}
               ></GoBack>
               <HeaderLogo
-                margin="-165px"
-                style={{ top: "12px" }}
+                margin="-10.313rem"
+                style={{ marginLeft: "3.5rem", top: "0.75rem" }}
                 onClick={() => {
                   navigate("/main");
                 }}
@@ -100,14 +101,29 @@ const Header = () => {
                 <span>{headerText}</span>
               </HeaderLogo>
             </>
-          ) : (
+          )}
+          {!isLogin && (
             <>
               <GoBack></GoBack>
               <HeaderLogo
-                margin="-185px"
-                style={{ top: "12px" }}
+                margin="-11.563rem"
+                style={{ marginLeft: "-12.5rem", color: "#7B758B" }}
                 onClick={() => {
-                  navigate("/main");
+                  navigate("/login");
+                }}
+              >
+                <span>{headerText}</span>
+              </HeaderLogo>
+            </>
+          )}
+          {!main && (
+            <>
+              <GoBack></GoBack>
+              <HeaderLogo
+                margin="-11.563rem"
+                style={{ marginLeft: "1.5rem", color: "#7B758B" }}
+                onClick={() => {
+                  navigate("/login");
                 }}
               >
                 <span>{headerText}</span>
@@ -143,7 +159,7 @@ const Header = () => {
 
 export default Header;
 const Headers = styled.div`
-  max-width: 428px;
+  max-width: 26.75rem;
   width: 100vw;
   display: flex;
   align-items: center;
@@ -152,9 +168,9 @@ const Headers = styled.div`
   background: #a396c9;
 `;
 const MainHeaderLine = styled.div`
-  max-width: 380px;
+  max-width: 23.75rem;
   width: 90vw;
-  border-bottom: 2px solid #fff;
+  border-bottom: 0.125rem solid #fff;
   position: relative;
   top: 80px;
   left: 23px;
@@ -165,20 +181,20 @@ const HeaderBox = styled.div`
   width: 100vw;
   z-index: 10;
   position: relative;
-  top: -20px;
+  top: -1.25rem;
   /* background: linear-gradient(#a396c9, white); */
 `;
 
 const GoBack = styled.div`
   display: inline-block;
-  width: 20px;
-  height: 20px;
+  width: 1.25rem;
+  height: 1.25rem;
   background-size: cover;
-  margin: 20px 0 0 25px;
+  margin: 1.25rem 0 0 1.563rem;
   cursor: pointer;
   opacity: 60%;
   position: relative;
-  top: 30px;
+  top: 1.875rem;
 `;
 
 const HeaderLogo = styled.div`
@@ -188,17 +204,17 @@ const HeaderLogo = styled.div`
   left: 50%; */
   //margin-left: ${(props) => props.margin};
   margin-top: 0px;
-  margin-left: 40px;
-  font-size: 30px;
+  margin-left: 2.5rem;
+  font-size: 1.875rem;
   color: #fff;
   cursor: pointer;
 `;
 
 const Notifications = styled.div`
-  width: 30px;
-  height: 30px;
-  margin-top: -35px;
-  margin-left: 370px;
+  width: 1.875rem;
+  height: 1.875rem;
+  margin-top: -2.188rem;
+  margin-left: 23.125rem;
   background-color: rgba(0, 0, 0, 0);
   background-position: center;
   background-size: cover;

@@ -200,7 +200,7 @@ const EditProfileForm = () => {
         {editNickname ? (
           <>
             {errors.nickname && <p>{errors.nickname.message}</p>}
-            <input
+            <NicknameInput
               type="text"
               placeholder={users.nickname}
               name="nickname"
@@ -241,6 +241,7 @@ const EditProfileForm = () => {
                   Gender
                 </InputLabel>
                 <Select
+                  style={{ color: "white" }}
                   className="gender"
                   labelId="demo-simple-select-autowidth-label"
                   id="demo-simple-select-autowidth"
@@ -326,7 +327,7 @@ const Container = styled.div`
 const ProfileBox = styled.div`
   width: 380px;
   height: 40px;
-  border-bottom: 3px solid #fff;
+  border-bottom: 3px solid rgb(148, 144, 160);
   margin-left: 20px;
   text-align: left;
 `;
@@ -351,6 +352,10 @@ const ChangeProfile = styled.button`
   font-style: normal;
   font-weight: 700;
   font-size: 12px;
+`;
+
+const NicknameInput = styled.input`
+  box-shadow: 5px 5px 4px rgba(0, 0, 0, 0.25);
 `;
 const EditNicknameBtn = styled.button`
   background: linear-gradient(78.32deg, #7b758b 41.41%, #ffffff 169.58%);

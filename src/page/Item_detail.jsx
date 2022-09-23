@@ -45,8 +45,9 @@ const Item_detail = (props) => {
   const comments = useSelector((state) => state.comment.comments);
 
   const [mood, setMood] = useState(`${heartFalse}`);
-  const [likeStatus, setLikeStatus] = useState(detailPost.likeStatus);
-  const [moodNum, setMoodNum] = useState(detailPost.likeCount);
+  //const likeStatus = useSelector((state) => state.upload.detailPost.likeStatus);
+  const [likeStatus, setLikeStatus] = useState(detailPost?.likeStatus);
+  const moodNum = useSelector((state) => state.upload.detailPost.likeCount);
   const [myPageIsOpen, myPageRef, myPageHandler] = useDetectClose(false);
   const [scrollRef, isDrag, onDragStart, onDragEnd, onThrottleDragMove] =
     ScrollX();
@@ -100,7 +101,7 @@ const Item_detail = (props) => {
     if (userStatus.imgUrl !== undefined) {
       setProfile({ image_file: `${userStatus.imgUrl}` });
     }
-  }, []);
+  }, [likeStatus, moodNum]);
 
   //새로고침시에도 무드 상태값 유지
   useEffect(() => {
@@ -114,101 +115,107 @@ const Item_detail = (props) => {
 
   //무드 버튼 누르기
   const onClickMoodBtn = () => {
-    setMoodNum(moodNum + 1);
+    // setMoodNum(moodNum + 1);
     setLikeStatus(true);
     dispatch(__patchMood(detailPost.postId));
   };
 
   //무드버튼 취소하기
   const onClickMoodCancelBtn = () => {
-    setMoodNum(moodNum - 1);
+    // setMoodNum(moodNum - 1);
     setLikeStatus(false);
     dispatch(__patchMood(detailPost.postId));
   };
 
   return (
     <Fragment>
-      <Container>
-        <Grid>
-          <Header />
-          <ProfileBox>
-            <ProfileImg
-              onClick={() => {
-                navigate(`/closet/${userId}`);
-                window.location.reload();
-              }}
-              url={
-                userStatus.imgUrl === undefined ||
-                userStatus.imgUrl.slice(-4) === "null"
-                  ? preview_URL
-                  : userStatus?.imgUrl
-              }
-            ></ProfileImg>
-            <NickTitle
-              onClick={() => {
-                navigate(`/closet/${userId}`);
-                window.location.reload();
-              }}
-            >
-              <span>{detailPost.title}</span>
-              <span className="nickname">{userStatus.nickname}</span>
-            </NickTitle>
+      <Suspense
+        fallback={
+          <LoaderWrap>
+            <Loader />
+          </LoaderWrap>
+        }
+      >
+        <Container>
+          <Grid>
+            <Header />
+            <ProfileBox>
+              <ProfileImg
+                onClick={() => {
+                  navigate(`/closet/${userId}`);
+                  window.location.reload();
+                }}
+                url={
+                  userStatus.imgUrl === undefined ||
+                  userStatus.imgUrl.slice(-4) === "null"
+                    ? preview_URL
+                    : userStatus?.imgUrl
+                }
+              ></ProfileImg>
+              <NickTitle
+                onClick={() => {
+                  navigate(`/closet/${userId}`);
+                  window.location.reload();
+                }}
+              >
+                <span>{detailPost.title}</span>
+                <span className="nickname">{userStatus.nickname}</span>
+              </NickTitle>
 
-            {payload.userId == userId ? (
-              <DropdownContainer>
-                <DropdownButton onClick={myPageHandler} ref={myPageRef}>
-                  <StLoginList />
-                </DropdownButton>
-                <Menu isDropped={myPageIsOpen}>
-                  <Ul>
-                    <Li>
-                      <LinkWrapper href="#1-1">
-                        <AddCommentButton2 onClick={patchRep}>
-                          대표 게시물 지정하기
-                        </AddCommentButton2>
-                        <AddCommentButton2 onClick={putPost}>
-                          수정하기
-                        </AddCommentButton2>
-                        <AddCommentButton2 onClick={deletePost}>
-                          삭제하기
-                        </AddCommentButton2>
-                      </LinkWrapper>
-                    </Li>
-                  </Ul>
-                </Menu>
-              </DropdownContainer>
-            ) : null}
-          </ProfileBox>
-          {/* <TitleText>{detailPost.title}</TitleText> */}
+              {payload.userId == userId ? (
+                <DropdownContainer>
+                  <DropdownButton onClick={myPageHandler} ref={myPageRef}>
+                    <StLoginList />
+                  </DropdownButton>
+                  <Menu isDropped={myPageIsOpen}>
+                    <Ul>
+                      <Li>
+                        <LinkWrapper href="#1-1">
+                          <AddCommentButton2 onClick={patchRep}>
+                            대표 게시물 지정하기
+                          </AddCommentButton2>
+                          <AddCommentButton2 onClick={putPost}>
+                            수정하기
+                          </AddCommentButton2>
+                          <AddCommentButton2 onClick={deletePost}>
+                            삭제하기
+                          </AddCommentButton2>
+                        </LinkWrapper>
+                      </Li>
+                    </Ul>
+                  </Menu>
+                </DropdownContainer>
+              ) : null}
+            </ProfileBox>
+            {/* <TitleText>{detailPost.title}</TitleText> */}
 
-          <DetailImage>
-            <img src={detailPost.imgUrl} />
-          </DetailImage>
-          {likeStatus ? (
-            <img
-              className="heart"
-              src={`${heartTrue}`}
-              alt="heart"
-              onClick={onClickMoodCancelBtn}
-            />
-          ) : (
-            <img
-              className="heart"
-              src={`${heartFalse}`}
-              alt="heart"
-              onClick={onClickMoodBtn}
-            />
-          )}
-          {/* <span className="heartNum">{moodNum}</span> */}
-          <ContentText>{detailPost.content}</ContentText>
-          <Line />
-          <SliderContainer
-            ref={scrollRef}
-            onMouseDown={onDragStart}
-            onMouseMove={isDrag ? onThrottleDragMove : null}
-            onMouseUp={onDragEnd}
-            onMouseLeave={onDragEnd}
-          >
+            <DetailImage>
+              <img src={detailPost.imgUrl} />
+            </DetailImage>
+            {likeStatus ? (
+              <img
+                className="heart"
+                src={mood}
+                alt="heart"
+                onClick={onClickMoodCancelBtn}
+              />
+            ) : (
+              <img
+                className="heart"
+                src={mood}
+                alt="heart"
+                onClick={onClickMoodBtn}
+              />
+            )}
+            <span className="heartNum">{moodNum}</span>
+            <ContentText>{detailPost.content}</ContentText>
+            <Line />
+            <SliderContainer
+              ref={scrollRef}
+              onMouseDown={onDragStart}
+              onMouseMove={isDrag ? onThrottleDragMove : null}
+              onMouseUp={onDragEnd}
+              onMouseLeave={onDragEnd}
             {detailItems?.map((item, idx) => (
               <StMusinsaItemBox key={idx}>
                 <StMusinsaImage>
