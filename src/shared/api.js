@@ -159,6 +159,8 @@ export const rankApi = {
     instance.get(
       `/posts?userId=${data.userId}&type=all&page=${data.paging}&count=2`
     ),
+  //명예의 전당 게시물 조회하기
+  getBestPosts: (data) => instance.get(`/posts/honor?page=${data}&count=3`),
 };
 
 // 검색 관련 axios API 통신

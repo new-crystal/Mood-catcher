@@ -159,7 +159,7 @@ const Header = () => {
 
 export default Header;
 const Headers = styled.div`
-  max-width: 26.75rem;
+  max-width: 428px;
   width: 100vw;
   display: flex;
   align-items: center;
@@ -168,7 +168,7 @@ const Headers = styled.div`
   background: #a396c9;
 `;
 const MainHeaderLine = styled.div`
-  max-width: 23.75rem;
+  max-width: 380px;
   width: 90vw;
   border-bottom: 0.125rem solid #fff;
   position: relative;
@@ -181,20 +181,20 @@ const HeaderBox = styled.div`
   width: 100vw;
   z-index: 10;
   position: relative;
-  top: -1.25rem;
+  top: -20px;
   /* background: linear-gradient(#a396c9, white); */
 `;
 
 const GoBack = styled.div`
   display: inline-block;
-  width: 1.25rem;
-  height: 1.25rem;
+  width: 20px;
+  height: 20px;
   background-size: cover;
-  margin: 1.25rem 0 0 1.563rem;
+  margin: 20px 0 0 25px;
   cursor: pointer;
   opacity: 60%;
   position: relative;
-  top: 1.875rem;
+  top: 30px;
 `;
 
 const HeaderLogo = styled.div`
@@ -204,17 +204,19 @@ const HeaderLogo = styled.div`
   left: 50%; */
   //margin-left: ${(props) => props.margin};
   margin-top: 0px;
-  margin-left: 2.5rem;
-  font-size: 1.875rem;
+  margin-left: 40px;
+  font-size: 30px;
   color: #fff;
   cursor: pointer;
 `;
 
 const Notifications = styled.div`
-  width: 1.875rem;
-  height: 1.875rem;
-  margin-top: -2.188rem;
-  margin-left: 23.125rem;
+  width: 30px;
+  height: 30px;
+  margin-top: -35px;
+  float: right;
+  margin-right: 25px;
+  /* margin-left: 22em; */
   background-color: rgba(0, 0, 0, 0);
   background-position: center;
   background-size: cover;

@@ -12,7 +12,7 @@ export const __getHotPosts = createAsyncThunk(
         return response.data.data.hotPosts;
       }
     } catch (err) {
-      Swal.fire("에러", "네트워크 연결 상태를 확인해주세요.!", "error");
+      //Swal.fire("에러", "네트워크 연결 상태를 확인해주세요.!", "error");
       return thunkAPI.rejectWithValue(err.response.msg);
     }
   }
@@ -31,5 +31,20 @@ export const __getMainAllPosts = createAsyncThunk(
     //   // Swal.fire("에러", "네트워크 연결 상태를 확인해주세요.!", "error");
     //   return thunkAPI.rejectWithValue(err.response.msg);
     // }
+  }
+);
+
+//명예의 전당 게시물 조회하기
+export const __getBestPosts = createAsyncThunk(
+  "GET/BESTPOSTS",
+  async (data, thunkAPI) => {
+    try {
+      const response = await rankApi.getBestPosts(data);
+      console.log(response);
+      return thunkAPI.fulfillWithValue(response);
+    } catch (err) {
+      console.log(err);
+      thunkAPI.rejectWithValue(err.response.data);
+    }
   }
 );
