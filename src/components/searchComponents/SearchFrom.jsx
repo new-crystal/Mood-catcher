@@ -242,7 +242,7 @@ const SearchInput = styled.input`
   height: 50px;
   border: none;
   border-radius: 10px;
-  margin: 10px 40px;
+  margin: 10px 20px;
   :focus {
     outline: none;
   }

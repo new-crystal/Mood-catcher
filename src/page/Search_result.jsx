@@ -1,6 +1,5 @@
 import React, { Fragment, Suspense } from "react";
 import styled from "styled-components";
-import Loader from "../shared/Loader";
 import Header from "../elem/Header";
 import NavigationBar from "../elem/NavigationBar";
 import SearchResultForm from "../components/searchComponents/SearchResultForm";
@@ -8,20 +7,13 @@ import SearchResultForm from "../components/searchComponents/SearchResultForm";
 const Search = (props) => {
   return (
     <Fragment>
-      <Suspense
-        fallback={
-          <LoaderWrap>
-            <Loader />
-          </LoaderWrap>
-        }
-      >
-        <LoginWrap>
-          <Container>
-            <Header />
-            <SearchResultForm />
-          </Container>
-        </LoginWrap>
-      </Suspense>
+      <LoginWrap>
+        <Container>
+          <Header />
+          <SearchResultForm />
+        </Container>
+      </LoginWrap>
+
       <NavigationBar props={props} />
     </Fragment>
   );

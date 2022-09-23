@@ -1,28 +1,19 @@
 import React, { Fragment, Suspense } from "react";
 import styled from "styled-components";
-import Loader from "../shared/Loader";
 import Header from "../elem/Header";
 import EditPasswordForm from "../components/signupComponents/EditPasswordForm";
 
 const Edit_password = () => {
   return (
     <Fragment>
-      <Suspense
-        fallback={
-          <LoaderWrap>
-            <Loader />
-          </LoaderWrap>
-        }
-      >
-        <Container>
-          <Grid>
-            <LoginWrap>
-              <Header />
-              <EditPasswordForm />
-            </LoginWrap>
-          </Grid>
-        </Container>
-      </Suspense>
+      <Container>
+        <Grid>
+          <LoginWrap>
+            <Header />
+            <EditPasswordForm />
+          </LoginWrap>
+        </Grid>
+      </Container>
     </Fragment>
   );
 };

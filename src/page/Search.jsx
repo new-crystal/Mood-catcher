@@ -1,39 +1,22 @@
 import React, { useState, Fragment, Suspense, useEffect } from "react";
 import styled from "styled-components";
 import SearchForm from "../components/searchComponents/SearchFrom";
-import Loader from "../shared/Loader";
 import Header from "../elem/Header";
 import NavigationBar from "../elem/NavigationBar";
 
 const Search = (props) => {
   return (
     <Fragment>
-      <Suspense
-        fallback={
-          <LoaderWrap>
-            <Loader />
-          </LoaderWrap>
-        }
-      >
-        <Container>
-          <Grid>
-            <Header />
-            <SearchForm />
-          </Grid>
-        </Container>
-        <NavigationBar props={props} />
-      </Suspense>
+      <Container>
+        <Grid>
+          <Header />
+          <SearchForm />
+        </Grid>
+      </Container>
+      <NavigationBar props={props} />
     </Fragment>
   );
 };
-
-const LoaderWrap = styled.div`
-  position: absolute;
-  margin-top: -100px;
-  margin-left: -100px;
-  top: 50%;
-  left: 50%;
-`;
 
 const Container = styled.div`
   display: flex;
