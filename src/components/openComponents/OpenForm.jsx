@@ -24,7 +24,7 @@ const OpenForm = () => {
     const exist = existList.split("&")[0];
     const token = getCookie("token");
     if (token === undefined) {
-      setCookie("token", window.location.split("token=")[1]);
+      setCookie("token", window.location.href.split("token=")[1]);
     }
     if (exist === "true") {
       navigate("/main");
