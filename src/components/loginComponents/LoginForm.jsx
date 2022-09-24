@@ -3,7 +3,6 @@ import { useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
 import { __login, __socialLogin } from "../../redux/async/login";
 import { useNavigate } from "react-router-dom";
-import crypto from "crypto-js";
 import { Fragment } from "react";
 import { useEffect } from "react";
 import { getCookie } from "../../shared/cookie";
@@ -117,7 +116,10 @@ const LoginForm = () => {
           </LogBox>
           <BtnBox>
             <LogText>무드캐쳐가 처음이신가요?</LogText>
-            <LogBtn kakao onClick={() => onClickKakao()}>
+            <LogBtn
+              kakao
+              // onClick={() => onClickKakao()}
+            >
               <a href="https://moodcatchers.link/api/auth/kakao">
                 카카오 로그인
               </a>
