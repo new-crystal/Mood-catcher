@@ -45,7 +45,8 @@ const LoginForm = () => {
 
   //소셜로그인 버튼
   const onClickKakao = () => {
-    dispatch(__socialLogin());
+    //dispatch(__socialLogin());
+    window.location.href = "https://moodcatchers.link/api/auth/kakao";
   };
 
   return (
@@ -118,12 +119,18 @@ const LoginForm = () => {
             <LogText>무드캐쳐가 처음이신가요?</LogText>
             <LogBtn
               kakao
-              // onClick={() => onClickKakao()}
+              onClick={() => {
+                window.location.href =
+                  "https://kauth.kakao.com/oauth/authorize?client_id=c1fcfdc01631a1e8f1f65dab8f0c5c6b&redirect_uri=http://moodcatchers.link/api/auth/kakao/callback&response_type=code";
+              }}
             >
-              <a href="https://moodcatchers.link/api/auth/kakao">
-                카카오 로그인
-              </a>
+              카카오 로그인
             </LogBtn>
+            {/* <LogBtn kakao onClick={() => onClickKakao()}>
+              <a href="https://moodcatchers.link/api/auth/kakao">
+              카카오 로그인
+              </a>
+            </LogBtn> */}
             <LogBtn type="button" onClick={() => navigate("/signup")}>
               <p>이메일로 회원가입</p>
             </LogBtn>
