@@ -59,7 +59,7 @@ export const __socialLogin = createAsyncThunk(
     try {
       const response = await loginApi.socialLogin(data);
       if (response.status === 200) {
-        setCookie("token", response.data.url.split("=")[2]);
+        setCookie("token", window.location.url.split("=")[2]);
         thunkAPI.fulfillWithValue(response.data);
       }
     } catch (err) {
