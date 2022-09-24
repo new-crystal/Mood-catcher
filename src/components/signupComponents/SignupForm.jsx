@@ -125,10 +125,15 @@ const SigupForm = () => {
   const onClickSendEmail = () => {
     const email = getValues("email");
     if (!checkEmail) {
-      Swal.fire("에러", "이메일 중복확인을 확인해주세요!", "error");
+      Swal.fire("에러", "이메일 중복확인을 해주세요!", "error");
     }
     if (checkEmail) {
-      alert("이메일로 인증번호가 발송되었습니다!");
+      Swal.fire({
+        icon: "success",
+        title: "이메일로 인증번호가 발송되었습니다!",
+        showConfirmButton: false,
+        timer: 1500,
+      });
       setSendEmail(true);
       dispatch(__postEmail({ email }));
     }

@@ -64,6 +64,9 @@ const Alarm = loadable(() => import("./page/Alarm"), {
 const Edit_password = loadable(() => import("./page/Edit_password"), {
   fallback: <Loader />,
 });
+const Best_Posts = loadable(() => import("./page/BestPosts"), {
+  fallback: <Loader />,
+});
 
 function App() {
   const token = getCookie("token");
@@ -103,6 +106,7 @@ function App() {
         <Route path="/" element={<Open />} />
         <Route path="/alarm/:userId" element={<Alarm />} />
         <Route path="/edit_password" element={<Edit_password />} />
+        <Route path="/best" element={<Best_Posts />} />
         <Route path="*" element={<Main />} />
       </Routes>
       <GlobalStyle />

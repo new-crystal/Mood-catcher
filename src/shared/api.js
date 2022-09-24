@@ -2,18 +2,6 @@ import axios from "axios";
 import { getToken, setCookie, deleteCookie } from "./cookie";
 import Swal from "sweetalert2";
 
-// // axios 기본 주소 & header 타입 세팅
-// export const api = axios.create({
-//   baseURL: process.env.REACT_APP_ENDPOINT,
-// });
-
-// // 매 실행 시 토큰값 넣기, 없으면 null값이 들어간다
-// api.interceptors.request.use(function (config) {
-//   const accessToken = getCookie("token");
-//   config.headers.common["authorization"] = `Bearer ${accessToken}`;
-//   return config;
-// });
-
 // Axios 인스턴스 설정
 const instance = axios.create({
   baseURL: process.env.REACT_APP_ENDPOINT,
@@ -159,6 +147,8 @@ export const rankApi = {
     instance.get(
       `/posts?userId=${data.userId}&type=all&page=${data.paging}&count=2`
     ),
+  //명예의 전당 게시물 조회하기
+  getBestPosts: (data) => instance.get(`/posts/honor?page=${data}&count=3`),
 };
 
 // 검색 관련 axios API 통신

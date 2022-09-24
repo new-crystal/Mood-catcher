@@ -21,6 +21,7 @@ const SearchResultForm = () => {
   const [title, setTitle] = useState(true);
   const [writer, setWriter] = useState(false);
   const last = useSelector((state) => state.search.resultPostLast);
+  const [searching, setSearching] = useState(false);
 
   //검색 결과 받아오기/유저 정보 불러오기
   const searchList = useSelector((state) => state.search.searchResult);
@@ -38,6 +39,8 @@ const SearchResultForm = () => {
   const onSubmit = async (data) => {
     await new Promise((r) => setTimeout(r, 300));
     navigate(`/search/result/keyword=${data.search}?sort=${data.sort}`);
+    //setSearching(!searching);
+    window.location.reload();
   };
 
   //검색글 불러오기
@@ -47,7 +50,7 @@ const SearchResultForm = () => {
       setLoading(false);
     };
     return getSearch();
-  }, [page, searchList, keyword]);
+  }, [page, searchList, key]);
 
   //스크롤 위치 계산하기
   const _scrollPosition = _.throttle(() => {
@@ -74,7 +77,7 @@ const SearchResultForm = () => {
     if (searchList.length !== 0) {
       setPage(searchList.length);
     }
-  }, []);
+  }, [key]);
 
   //윈도우 스크롤 위치 계산하기
   useEffect(() => {
@@ -85,7 +88,7 @@ const SearchResultForm = () => {
     return () => {
       window.removeEventListener("scroll", _scrollPosition);
     };
-  }, [page, loading]);
+  }, [page, loading, key]);
 
   //제목으로 검색 눌렀을 때
   const onChangeTitle = () => {
@@ -247,14 +250,14 @@ const SearchResultForm = () => {
 
       <ImgBox>
         {sort === "title" && searchList?.length === 0 && (
-          <div style={{ margin: "30px auto" }}>
+          <div style={{ margin: "30px auto", textAlign: "center" }}>
             <h1>검색하신 {key}의 </h1>
             <h1>결과가 없습니다</h1>
             <h3>다시 검색해주세요</h3>
           </div>
         )}
         {sort === "writer" && searchList?.length === 0 && (
-          <div style={{ margin: "30px auto" }}>
+          <div style={{ margin: "30px auto", textAlign: "center" }}>
             <h1>검색하신 {key}님의 </h1>
             <h1> 대표게시물이 없습니다</h1>
             <h3>다시 검색해주세요</h3>
@@ -272,7 +275,7 @@ const SearchResultForm = () => {
           ))}
         {sort === "writer" &&
           searchList?.map((search) => (
-            <NickImgBox>
+            <NickImgBox style={{ textAlign: "center" }}>
               <Nickname>{search.nickname} 님의</Nickname>
               <Nickname> 대표게시물</Nickname>
               <Img
@@ -357,7 +360,7 @@ const SearchImg = styled.button`
   background-size: cover;
   background-image: url(${search});
   position: relative;
-  left: 155px;
+  left: 340px;
   top: -50px;
   cursor: pointer;
 `;

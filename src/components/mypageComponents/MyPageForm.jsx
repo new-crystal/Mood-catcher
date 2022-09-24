@@ -38,7 +38,7 @@ const MyPageForm = () => {
   const { userId } = useParams();
   const [gradeList, setGradeList] = useState(false);
   const [moodPoint, setMoodPoint] = useState(false);
-  const [grade, setGrade] = useState("1");
+  const [icon, setIcon] = useState("moody");
   const [profileImg, setProfileImg] = useState(
     "https://cdn.discordapp.com/attachments/1014169130045292625/1014194232250077264/Artboard_1.png"
   );
@@ -46,9 +46,10 @@ const MyPageForm = () => {
 
   //유저의 닉네임, 프로필이미지, 등급, 무드 포인트 불러오기
   const users = useSelector((state) => state.login.userStatus);
+  const userGrade = useSelector((state) => state.login.userStatus.grade);
   const profileIcon = useSelector((state) => state.login.userIcon.grade);
   const img = users?.imgUrl?.split(".com/")[1];
-  console.log(users);
+  const grade = userGrade?.split(" ")[1];
 
   //내 게시글 불러오기
   const myClosetList = useSelector((state) => state.upload.myList);
@@ -67,30 +68,16 @@ const MyPageForm = () => {
     dispatch(__getUser(userId));
     dispatch(__getMyPage(userId));
     dispatch(__getRepresentative(userId));
-    gradeIcon(grade);
-  }, [profileIcon, gradeList, changeUser]);
-
-  // //새로고침 방지하기
-  // const preventClose = (e) => {
-  //   e.preventDefault();
-  //   e.returnValue = "";
-  // };
-  // //새로고침 방지하기
-  // useEffect(() => {
-  //   (() => {
-  //     window.addEventListener("beforeunload", preventClose);
-  //   })();
-  //   return () => {
-  //     window.removeEventListener("beforeunload", preventClose);
-  //   };
-  // }, []);
+    if (userGrade !== undefined) {
+      gradeIcon(userGrade);
+    }
+  }, [profileIcon, gradeList, changeUser, grade]);
 
   //성별과 등급별로 아이콘 이미지 보여주기
   const gradeIcon = useCallback(
-    async (grade) => {
-      await dispatch(__getUser(userId));
-      setGrade(users?.grade?.split(" ")[1]);
-      const icon = users?.grade?.split(" ")[0];
+    async (userGrade) => {
+      const grade = await userGrade?.split(" ")[1];
+      const icon = userGrade?.split(" ")[0];
       const manIcon = [0, man1, man2, man3, man4, man5];
       const womanIcon = [0, woman1, woman2, woman3, woman4, woman5];
       const catIcon = [0, cat1, cat2, cat3, cat4, cat5];
@@ -105,7 +92,7 @@ const MyPageForm = () => {
         setGradeImg(catIcon[parseInt(grade)]);
       }
     },
-    [profileIcon, gradeList, users]
+    [users, profileIcon, gradeList]
   );
 
   return (
@@ -363,10 +350,10 @@ const MoodHeader = styled.div`
   box-shadow: 5px 5px 4px rgba(0, 0, 0, 0.25);
   border-radius: 17px;
 
-  .name {
+  & .name {
     font-family: "Unna";
     font-style: normal;
-    font-weight: 500;
+    font-weight: lighter;
     font-size: 18px;
     color: white;
     margin-top: 5px;
@@ -375,7 +362,7 @@ const MoodHeader = styled.div`
 const MyClosetText = styled.p`
   font-family: "Unna";
   font-style: normal;
-  font-weight: 700;
+  font-weight: lighter;
   font-size: 18px;
   color: white;
   position: relative;
@@ -425,6 +412,7 @@ const Question = styled.div`
   width: 10px;
   height: 10px;
   margin-left: 7px;
+  margin-top: 28px;
   background-position: center;
   background-size: cover;
   background-image: url(${question});
@@ -434,7 +422,7 @@ const MoodQuestion = styled.div`
   height: 15px;
   position: relative;
   top: 7px;
-  left: 15px;
+  left: 5px;
   opacity: 70%;
   background-position: center;
   background-size: cover;
@@ -452,7 +440,7 @@ const Progress = styled.div`
   justify-content: baseline;
   flex-direction: column;
   position: relative;
-  top: 3px;
+  top: -23px;
 `;
 const HighLight = styled.div`
   display: flex;

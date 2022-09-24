@@ -17,6 +17,7 @@ const HotPosts = ({ hotPosts }) => {
     <Fragment>
       <Wrap>
         <StTag>Hot</StTag>
+        <p onClick={() => navigate("/best")}>명예의 전당 보러가기</p>
       </Wrap>
       <WritedHotInfo>
         <HotImage1>
@@ -57,6 +58,19 @@ const HotPosts = ({ hotPosts }) => {
 const Wrap = styled.div`
   margin: 21px auto 10px;
   width: 350px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  & p {
+    flex-direction: row;
+    font-family: "Unna";
+    font-style: normal;
+    font-weight: 700;
+    font-size: 15px;
+    margin-bottom: -7px;
+    cursor: pointer;
+  }
 `;
 
 const StTag = styled.div`
