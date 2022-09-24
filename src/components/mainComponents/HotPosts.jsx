@@ -67,8 +67,9 @@ const Wrap = styled.div`
     font-family: "Unna";
     font-style: normal;
     font-weight: 700;
-    font-size: 15px;
+    font-size: 13px;
     margin-bottom: -7px;
+    margin-right: 7px;
     cursor: pointer;
   }
 `;

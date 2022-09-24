@@ -42,6 +42,9 @@ const EditProfileForm = () => {
   //유저 정보 가져오기
   useEffect(() => {
     dispatch(__getUser(userId));
+    if (users.imgUrl.split(".com/")[1] !== "null") {
+      setImage({ preview_URL: users.imgUrl });
+    }
   }, []);
 
   //react-hook-form사용
@@ -118,16 +121,40 @@ const EditProfileForm = () => {
 
   //수정된 프로필 이미지, 닉네임, 성별, 나이 전송하기
   const onSubmit = async () => {
-    // console.log(editNickname);
-    if (image.image_file === "") {
-      Swal.fire({
-        icon: "warning",
-        title: "변경하실 프로필 이미지를 설정해주세요!",
-        showConfirmButton: false,
-        timer: 1500,
-      });
-    } else {
-      const nickname = getValues("nickname");
+    const nickname = getValues("nickname");
+    if (
+      image.image_file === "" &&
+      editNickname === false &&
+      errors.nickname === undefined
+    ) {
+      dispatch(__editProfile({ nickname: users.nickname, gender, age }))
+        .then(
+          Swal.fire({
+            icon: "success",
+            title: "캐처님의 프로필이 수정되었습니다",
+            showConfirmButton: false,
+            timer: 1500,
+          })
+        )
+        .then(navigate(`/mypage/${userId}`));
+    }
+    if (
+      image.image_file === "" &&
+      editNickname === true &&
+      errors.nickname === undefined
+    ) {
+      dispatch(__editProfile({ nickname, gender, age }))
+        .then(
+          Swal.fire({
+            icon: "success",
+            title: "캐처님의 프로필이 수정되었습니다",
+            showConfirmButton: false,
+            timer: 1500,
+          })
+        )
+        .then(navigate(`/mypage/${userId}`));
+    }
+    if (image.image_file !== "") {
       const formData = new FormData();
       formData.append("userValue", image.image_file);
       if (editNickname === false && errors.nickname === undefined) {
@@ -471,7 +498,7 @@ const LogOut = styled.div`
 const ChangeBtn = styled.button`
   background: linear-gradient(78.32deg, #7b758b 41.41%, #ffffff 169.58%);
   border: 0px;
-  border-radius: 5px;
+  border-radius: 10px;
   width: 90px;
   height: 40px;
   margin: 20px auto;

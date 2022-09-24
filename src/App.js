@@ -72,7 +72,7 @@ function App() {
   const token = getCookie("token");
   const navigate = useNavigate();
   useEffect(() => {
-    if (token === undefined) navigate("/login");
+    //if (token === undefined) navigate("/login");
     setScreenSize();
     window.addEventListener("resize", () => setScreenSize());
   }, []);

@@ -43,10 +43,6 @@ const SignupGenderAge = (location) => {
     const existList = window.location.href.split("=")[1];
     const exist = existList.split("&")[0];
     const token = getCookie("token");
-    if (token === undefined) {
-      console.log(window.location.split("=")[2]);
-      setCookie("token", window.location.split("token=")[1]);
-    }
     if (exist === "true") {
       navigate("/main");
     }

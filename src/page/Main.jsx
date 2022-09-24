@@ -12,11 +12,13 @@ import { __getHotPosts } from "../redux/async/rank";
 import { getCookie } from "../shared/cookie";
 import jwt from "jwt-decode"; // to get userId from loggedIn user's token
 import PwaButton from "../elem/PwaButton";
+import { useNavigate } from "react-router-dom";
 
 const upButton = "/images/upArrow.png";
 
 const Main = (props) => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   // userId 조회 by token
   const token = getCookie("token");
@@ -68,7 +70,10 @@ const Main = (props) => {
           {/* imgUrl 있으면 imgUrl 출력 */}
           {userStatus.imgUrl === undefined ||
           userStatus.imgUrl.slice(-4) === "null" ? (
-            <Img url={preview_URL}></Img>
+            <Img
+              url={preview_URL}
+              onClick={() => navigate("/edit_profile")}
+            ></Img>
           ) : (
             <Img url={userStatus?.imgUrl}></Img>
           )}
