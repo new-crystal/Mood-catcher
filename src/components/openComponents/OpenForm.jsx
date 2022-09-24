@@ -20,7 +20,7 @@ const OpenForm = () => {
 
   //url에 있는 exist와 토큰 받아오기
   useEffect(() => {
-    if (window.location.pathname !== "/") {
+    if (window.location.search !== "") {
       const existList = window.location.href.split("=")[1];
       const exist = existList.split("&")[0];
       const token = getCookie("token");
