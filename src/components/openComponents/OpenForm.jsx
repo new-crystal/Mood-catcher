@@ -14,23 +14,25 @@ const OpenForm = () => {
   useEffect(() => {
     dispatch(__getOpen());
     setTimeout(() => {
-      navigate("/login");
+      navigate("/main");
     }, 3000);
   }, []);
 
   //url에 있는 exist와 토큰 받아오기
   useEffect(() => {
-    const existList = window.location.href.split("=")[1];
-    const exist = existList.split("&")[0];
-    const token = getCookie("token");
-    if (token === undefined) {
-      setCookie("token", window.location.href.split("token=")[1]);
-    }
-    if (exist === "true") {
-      navigate("/main");
-    }
-    if (exist === "false") {
-      navigate("/login/detail");
+    if (window.location.pathname !== "/") {
+      const existList = window.location.href.split("=")[1];
+      const exist = existList.split("&")[0];
+      const token = getCookie("token");
+      if (token === undefined) {
+        setCookie("token", window.location.href.split("token=")[1]);
+      }
+      if (exist === "true") {
+        navigate("/main");
+      }
+      if (exist === "false") {
+        navigate("/login/detail");
+      }
     }
   }, []);
 
