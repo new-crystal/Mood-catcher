@@ -1,55 +1,62 @@
 import axios from "axios";
-import { getToken, setCookie, deleteCookie } from "./cookie";
+import { getCookie, setCookie, deleteCookie } from "./cookie";
 import Swal from "sweetalert2";
 
-// Axios 인스턴스 설정
-const instance = axios.create({
+// axios 기본 주소 & header 타입 세팅
+export const instance = axios.create({
   baseURL: process.env.REACT_APP_ENDPOINT,
 });
 
-//┏----------interceptor를 통한 header 설정----------┓
-instance.interceptors.request.use(async (config) => {
-  config.headers["content-type"] = "application/json; charset=utf-8";
-  config.headers["X-Requested-With"] = "XMLHttpRequest";
-  config.headers["Accept"] = "*/*";
-  //getToken는 로컬 스토리지에 토큰이 있다면 반환한다 없다면 null 값 반환
-  config.headers["authorization"] = await getToken();
+// 매 실행 시 토큰값 넣기, 없으면 null값이 들어간다
+instance.interceptors.request.use(function (config) {
+  const accessToken = getCookie("token");
+  config.headers.common["authorization"] = `Bearer ${accessToken}`;
   return config;
 });
 
-// ┏----------interceptor를 통한 response 설정----------┓
-instance.interceptors.response.use(
-  async (response) => {
-    if (response.data.message === "new token") {
-      const { config } = response;
-      const originalRequest = config;
+// //┏----------interceptor를 통한 header 설정----------┓
+// instance.interceptors.request.use(async (config) => {
+//   config.headers["content-type"] = "application/json; charset=utf-8";
+//   config.headers["X-Requested-With"] = "XMLHttpRequest";
+//   config.headers["Accept"] = "*/*";
+//   //getToken는 로컬 스토리지에 토큰이 있다면 반환한다 없다면 null 값 반환
+//   config.headers["authorization"] = await getToken();
+//   return config;
+// });
 
-      const newAccessToken = response.data.myNewToken;
-      setCookie("token", newAccessToken);
+// // ┏----------interceptor를 통한 response 설정----------┓
+// instance.interceptors.response.use(
+//   async (response) => {
+//     if (response.data.message === "new token") {
+//       const { config } = response;
+//       const originalRequest = config;
 
-      axios.defaults.headers.common.authorization = `Bearer ${newAccessToken}`;
-      originalRequest.headers.authorization = `Bearer ${newAccessToken}`;
-      return axios(originalRequest);
-    }
+//       const newAccessToken = response.data.myNewToken;
+//       setCookie("token", newAccessToken);
 
-    return response;
-  },
-  async (error) => {
-    const {
-      config,
-      response: { status },
-    } = error;
+//       axios.defaults.headers.common.authorization = `Bearer ${newAccessToken}`;
+//       originalRequest.headers.authorization = `Bearer ${newAccessToken}`;
+//       return axios(originalRequest);
+//     }
 
-    if (
-      status === 401 &&
-      error.response.data.message !== "비밀번호가 틀렸습니다."
-    ) {
-      deleteCookie("token");
-      Swal.fire("로그인", "로그인 시간이 만료되었습니다.", "error");
-    }
-    return Promise.reject(error);
-  }
-);
+//     return response;
+//   },
+//   async (error) => {
+//     const {
+//       config,
+//       response: { status },
+//     } = error;
+
+//     if (
+//       status === 401 &&
+//       error.response.data.message !== "비밀번호가 틀렸습니다."
+//     ) {
+//       deleteCookie("token");
+//       Swal.fire("로그인", "로그인 시간이 만료되었습니다.", "error");
+//     }
+//     return Promise.reject(error);
+//   }
+// );
 
 // 알람 관련 axios API 통신
 // alarmSlice
