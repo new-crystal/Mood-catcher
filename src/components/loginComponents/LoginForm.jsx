@@ -121,7 +121,7 @@ const LoginForm = () => {
               kakao
               onClick={() => {
                 window.location.href =
-                  "https://kauth.kakao.com/oauth/authorize?client_id=c1fcfdc01631a1e8f1f65dab8f0c5c6b&redirect_uri=http://moodcatchers.link/api/auth/kakao/callback&response_type=code";
+                  "https://kauth.kakao.com/oauth/authorize?client_id=c1fcfdc01631a1e8f1f65dab8f0c5c6b&redirect_uri=https://moodcatchers.link/api/auth/kakao/callback&response_type=code";
               }}
             >
               카카오 로그인
