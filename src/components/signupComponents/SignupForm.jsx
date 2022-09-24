@@ -16,7 +16,6 @@ const SigupForm = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [sendEmail, setSendEmail] = useState(false);
-  const salt = bcrypt.genSaltSync(10);
 
   const checkEmail = useSelector((state) => state.signup.checkEmail);
   const sendEmailNum = useSelector((state) => state.signup.sendEmail);
@@ -83,17 +82,21 @@ const SigupForm = () => {
       );
     } else {
       ///비밀번호 암호화
+      const salt = bcrypt.genSaltSync(10);
       const key = getValues("password").toString();
       const secretKey = "12345678901234567890123456789012";
       const ciphertext = bcrypt.hashSync(key, "$2a$10$CwTycUXWue0Thq9StjUM0u");
 
-      //인증번호 복호화
-      const emailNum = data.sendEmail;
-      const cipherNum = CryptoJS.AES.decrypt(sendEmailNum, secretKey);
-      const decrypted = JSON.parse(cipherNum.toString(CryptoJS.enc.Utf8));
+      // //인증번호 복호화
+      // const emailNum = getValues("sendEmail");
+      // const cipherNum = CryptoJS.AES.decrypt(sendEmailNum, secretKey);
+      // const decrypted = JSON.parse(cipherNum.toString(CryptoJS.enc.Utf8));
 
       //비밀번호 값과 비밀번호 확인 값이 같을 때만
-      if (data.password === data.confirmPw && decrypted == emailNum) {
+      if (
+        data.password === data.confirmPw
+        // && decrypted == emailNum
+      ) {
         await new Promise((r) => setTimeout(r, 300));
 
         const password = ciphertext;
@@ -111,13 +114,13 @@ const SigupForm = () => {
           { shouldFocus: true }
         );
       }
-      if (cipherNum !== sendEmailNum) {
-        setError(
-          "sendEmail",
-          { message: "이메일 인증번호를 확인해주세요" },
-          { shouldFocus: true }
-        );
-      }
+      // if (cipherNum !== sendEmailNum) {
+      //   setError(
+      //     "sendEmail",
+      //     { message: "이메일 인증번호를 확인해주세요" },
+      //     { shouldFocus: true }
+      //   );
+      // }
     }
   };
 
