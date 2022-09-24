@@ -21,6 +21,7 @@ import female from "../../image/girl5.png";
 import board from "../../image/board.png";
 import { useNavigate } from "react-router-dom";
 import gender from "../../image/gender.png";
+import { getCookie, setCookie } from "../../shared/cookie";
 
 const SignupGenderAge = (location) => {
   const dispatch = useDispatch();
@@ -41,7 +42,11 @@ const SignupGenderAge = (location) => {
   useEffect(() => {
     const existList = window.location.href.split("=")[1];
     const exist = existList.split("&")[0];
-
+    const token = getCookie("token");
+    if (token === undefined) {
+      console.log(window.location.split("=")[2]);
+      setCookie("token", window.location.split("token=")[1]);
+    }
     if (exist === "true") {
       navigate("/main");
     }
