@@ -14,8 +14,9 @@ const BestPostsForm = () => {
 
   const bestPosts = useSelector((state) => state.rank.bestPosts);
   const last = useSelector((state) => state.rank.postLast);
+  const bestPostList = [...bestPosts].reverse();
 
-  //추천게시글 불러오기
+  //명예의 전당 게시물 불러오기
   const getBestPostList = useCallback(() => {
     const getBestPost = async () => {
       await dispatch(__getBestPosts(page));
@@ -63,9 +64,9 @@ const BestPostsForm = () => {
   }, [page, loading]);
   return (
     <Fragment>
-      {/* {bestPosts?.map((bestPost) => (
+      {bestPostList?.map((bestPost) => (
         <BestItems key={bestPost.postId} item={bestPost} />
-      ))} */}
+      ))}
     </Fragment>
   );
 };

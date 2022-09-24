@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 
 import { regFormdata, regPost } from "../redux/modules/uploadSlice";
+import Swal from "sweetalert2";
 
 const preview_URL = "/images/noimage.PNG";
 
@@ -42,7 +43,12 @@ const Upload = (props) => {
   // 서버에 사진을 전송하는 함수
   const writePost = () => {
     if (fileInput.current.files[0] === undefined) {
-      alert("사진을 넣어주세요!");
+      Swal.fire({
+        icon: "info",
+        title: "캐처님의 옷장 사진을 넣어주세요!",
+        showConfirmButton: false,
+        timer: 1500,
+      });
       navigate("/upload");
     } else {
       const formdata = new FormData();
@@ -50,8 +56,8 @@ const Upload = (props) => {
 
       dispatch(regFormdata(formdata));
       dispatch(regPost(post));
+      navigate("/upload_select");
     }
-    navigate("/upload_select");
   };
 
   return (

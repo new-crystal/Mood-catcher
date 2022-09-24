@@ -91,9 +91,6 @@ export const __delUser = createAsyncThunk(
   async (data, thunkAPI) => {
     try {
       const response = await loginApi.deleteUser(data);
-      if (response.status === 200) {
-        return alert("무드캡처를 퇴장하셨습니다.");
-      }
     } catch (err) {
       Swal.fire("에러", err.response.data, "error");
       return thunkAPI.rejectWithValue(err.response.data);

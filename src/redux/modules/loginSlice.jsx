@@ -10,6 +10,7 @@ import {
   __patchUser,
   __getHeaderUser,
 } from "../async/login";
+import Swal from "sweetalert2";
 
 const initialState = {
   user: {
@@ -44,7 +45,12 @@ const loginSlice = createSlice({
       .addCase(__login.fulfilled, (state, action) => {
         state.loading = false;
         state.exist = action.payload;
-        alert("무드캐처로 입장하셨습니다!");
+        Swal.fire({
+          icon: "success",
+          title: "캐처님의 무드캐처 입장을 환영합니다!",
+          showConfirmButton: false,
+          timer: 1500,
+        });
         state.isFetching = false;
         state.errorMessage = null;
       })
@@ -54,7 +60,6 @@ const loginSlice = createSlice({
       .addCase(__login.rejected, (state, action) => {
         state.loading = false;
         state.exist = action.payload;
-        alert("이메일이나 비밀번호를 다시 확인해주세요.");
         state.isFetching = false;
         state.errorMessage = action.errorMessage;
       })
@@ -74,7 +79,12 @@ const loginSlice = createSlice({
       // 소셜로그인
       .addCase(__socialLogin.fulfilled, (state, action) => {
         state.social = action.payload.message;
-        alert("무드캐처로 입장하셨습니다!");
+        Swal.fire({
+          icon: "success",
+          title: "캐처님의 무드캐처 입장을 환영합니다!",
+          showConfirmButton: false,
+          timer: 1500,
+        });
         state.isFetching = false;
         state.errorMessage = null;
       })

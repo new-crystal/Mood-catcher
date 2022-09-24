@@ -21,7 +21,6 @@ const Header = () => {
   const navigate = useNavigate();
   const [isLogin, setIsLogin] = useState(false);
   const [headerText, setHeaderText] = useState("Mood Catcher");
-  //const [detail, setDetail] = useState(true);
   const [headerLine, setHeaderLine] = useState(false);
   const [main, setMain] = useState(true);
   const [settings, setSettings] = useState(false);
@@ -66,9 +65,6 @@ const Header = () => {
     if (window.location.pathname.split("/")[1] === "closet") {
       setHeaderText("My Closet");
     }
-    // if (window.location.pathname.split("/")[1] === "item_detail") {
-    //   setDetail(false);
-    // }
     if (window.location.pathname === "/main") {
       setHeaderLine(true);
       setMain(false);
@@ -81,7 +77,9 @@ const Header = () => {
       <Headers className={"header"}>
         {/* marginTop을 0으로 줘서 제일 위에 붙을 수 있게 합니다. */}
         <HeaderBox style={{ marginTop: "0" }}>
+          {/* 메인에서 헤더에  줄을 줍니다*/}
           {headerLine ? <MainHeaderLine> </MainHeaderLine> : null}
+          {/* 로그인 상태이고 메인이 아닐때 */}
           {isLogin && main && (
             <>
               {/* 뒤로가기 이미지와 뒤로가기 기능 */}
@@ -102,6 +100,7 @@ const Header = () => {
               </HeaderLogo>
             </>
           )}
+          {/* 로그인 상태가 아닐 때 */}
           {!isLogin && (
             <>
               <GoBack></GoBack>
@@ -116,6 +115,7 @@ const Header = () => {
               </HeaderLogo>
             </>
           )}
+          {/* 메인화면일 때 */}
           {!main && (
             <>
               <GoBack></GoBack>
@@ -132,19 +132,23 @@ const Header = () => {
           )}
           {/* 로고는 span을 이용해 그냥 텍스트로 처리하고
           누르면 main으로 갈 수 있게 합니다. */}
-          {isLogin && !settings ? (
-            users?.isExistsNotice === 0 ? (
+          {/* 로그인 상태이고 알람표시가 필요할 때 */}
+          {isLogin &&
+            !settings &&
+            (users?.isExistsNotice === 0 ? (
               <Notifications
                 url={`${Notification}`}
+                style={{ opacity: "60%" }}
                 onClick={() => navigate(`/alarm/${users.userId}`)}
               ></Notifications>
             ) : (
               <Notifications
                 url={`${NotificationTrue}`}
+                style={{ opacity: "60%" }}
                 onClick={() => navigate(`/alarm/${users.userId}`)}
               ></Notifications>
-            )
-          ) : null}
+            ))}
+          {/* 알람표시가 아닌 프로필 설정이 필요할 때 */}
           {settings && (
             <Notifications
               url={`${Setting}`}

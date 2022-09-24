@@ -350,10 +350,10 @@ const MoodHeader = styled.div`
   box-shadow: 5px 5px 4px rgba(0, 0, 0, 0.25);
   border-radius: 17px;
 
-  .name {
+  & .name {
     font-family: "Unna";
     font-style: normal;
-    font-weight: 500;
+    font-weight: lighter;
     font-size: 18px;
     color: white;
     margin-top: 5px;
@@ -362,7 +362,7 @@ const MoodHeader = styled.div`
 const MyClosetText = styled.p`
   font-family: "Unna";
   font-style: normal;
-  font-weight: 700;
+  font-weight: lighter;
   font-size: 18px;
   color: white;
   position: relative;

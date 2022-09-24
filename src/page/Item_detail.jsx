@@ -22,6 +22,7 @@ import ScrollX from "../elem/ScrollX";
 import heartFalse from "../image/heart.png";
 import heartTrue from "../image/heartTrue.png";
 import { __patchMood } from "../redux/async/like";
+import Swal from "sweetalert2";
 
 const home = "/images/more.png";
 
@@ -72,12 +73,24 @@ const Item_detail = (props) => {
   };
   // 대표 게시물 지정하기
   const patchRep = () => {
-    if (window.confirm("이 게시물을 대표게시물로 지정하겠습니까?")) {
-      dispatch(__editRepresentative(postId));
-      alert("대표게시물 지정에 성공했습니다.");
-    } else {
-      alert("취소합니다.");
-    }
+    Swal.fire({
+      title: "이 게시물을 대표게시물로 지정하겠습니까?",
+      icon: "info",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "대표게시물 지정",
+      cancelButtonText: "대표게시물 취소",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        Swal.fire(
+          "대표게시물 지정 완료",
+          "캐처님의 대표게시물로 지정되었습니다.",
+          "success"
+        );
+        dispatch(__editRepresentative(postId));
+      }
+    });
   };
   // 게시물 수정하기
   const putPost = () => {
@@ -85,12 +98,25 @@ const Item_detail = (props) => {
   };
   // 게시물 삭제하기
   const deletePost = () => {
-    if (window.confirm("이 게시물을 삭제하시겠습니까?")) {
-      dispatch(__deletePost(postId));
-      alert("대표게시물 삭제에 성공했습니다.");
-    } else {
-      alert("취소합니다.");
-    }
+    Swal.fire({
+      title: "게시물을 삭제하시겠습니까?",
+      text: "캐처님의 옷장을 다시 보실 수 없습니다",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "삭제",
+      cancelButtonText: "취소",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        Swal.fire(
+          "삭제 완료",
+          "캐처님의 게시물 삭제에 성공했습니다.",
+          "success"
+        );
+        dispatch(__deletePost(postId));
+      }
+    });
   };
 
   useEffect(() => {

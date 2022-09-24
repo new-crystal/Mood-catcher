@@ -49,6 +49,7 @@ const rankSlice = createSlice({
       })
       //명예의 전당 게시물 조회하기
       .addCase(__getBestPosts.pending, (state, action) => {
+        state.postLast = null;
         state.isFetching = true;
       })
       .addCase(__getBestPosts.fulfilled, (state, action) => {

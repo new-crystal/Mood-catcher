@@ -9,6 +9,7 @@ import EachMusinsa from "../components/uploadCompnents/EachMusinsa";
 
 import { __getMusinsa, __editPost, __uploadImage } from "../redux/async/upload";
 import { changeCheckPostId } from "../redux/modules/uploadSlice";
+import Swal from "sweetalert2";
 
 const Search = "./images/search.png";
 
@@ -152,7 +153,12 @@ const Edit_post_select = (props) => {
                 }}
                 onKeyPress={(e) => {
                   if (e.key === "Enter" && search === "") {
-                    window.alert("검색 키워드를 입력해주세요!");
+                    Swal.fire({
+                      icon: "warning",
+                      title: "검색 키워드를 입력해주세요!",
+                      showConfirmButton: false,
+                      timer: 1500,
+                    });
                     setSearch("");
                   } else if (e.key === "Enter") {
                     e.preventDefault();
@@ -166,7 +172,12 @@ const Edit_post_select = (props) => {
                   style={{ backgroundImage: `url(${Search})` }}
                   onClick={(e) => {
                     if (search === "") {
-                      window.alert("검색 키워드를 입력해주세요!");
+                      Swal.fire({
+                        icon: "warning",
+                        title: "검색 키워드를 입력해주세요!",
+                        showConfirmButton: false,
+                        timer: 1500,
+                      });
                       setSearch("");
                     } else {
                       e.preventDefault();

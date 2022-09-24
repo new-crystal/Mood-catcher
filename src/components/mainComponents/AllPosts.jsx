@@ -17,7 +17,6 @@ const AllPosts = () => {
   const { userId } = jwt(token);
   const allMainPosts = useSelector((state) => state.rank.allPosts);
   const last = useSelector((state) => state.rank.postLast);
-  console.log(paging);
 
   const getMainList = useCallback(() => {
     async function getMainData() {

@@ -10,8 +10,12 @@ const BestItem = (item) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [mood, setMood] = useState(`${heart}`);
-  const [likeStatus, setLikeStatus] = useState(item.likeStatus);
-  const [moodNum, setMoodNum] = useState(item.likeCount);
+  const [likeStatus, setLikeStatus] = useState(item.item.likeStatus);
+  const [moodNum, setMoodNum] = useState(item.item.likeCount);
+  const createdAt = item.item.createdAt.split(" ")[0];
+  const year = createdAt.split("-")[0];
+  const month = createdAt.split("-")[1];
+  const day = createdAt.split("-")[2];
 
   //새로고침시에도 무드 상태값 유지
   useEffect(() => {
@@ -27,25 +31,30 @@ const BestItem = (item) => {
   const onClickMoodBtn = () => {
     setLikeStatus(true);
     setMoodNum(moodNum + 1);
-    dispatch(__patchMood(item.postId));
+    dispatch(__patchMood(item.item.postId));
   };
 
   //무드 취소
   const onClickMoodCancelBtn = () => {
     setLikeStatus(false);
     setMoodNum(moodNum - 1);
-    dispatch(__patchMood(item.postId));
+    dispatch(__patchMood(item.item.postId));
   };
 
   return (
-    <OtherClosetBox key={item.postId}>
+    <OtherClosetBox key={item.item.postId}>
       <ImgBox
-        url={item.imgUrl}
-        onClick={() => navigate(`/item_detail/${item.postId}/${item.userId}`)}
+        url={item.item.imgUrl}
+        onClick={() =>
+          navigate(`/item_detail/${item.item.postId}/${item.item.userId}`)
+        }
       ></ImgBox>
       <TextBox>
-        <p>{item.title}</p>
-        <h5>{item.content}</h5>
+        <RankText>
+          {year}년 {month}월 {day}일 {item.item.rank}위👑
+        </RankText>
+        <p>{item.item.title}</p>
+        <h5>{item.item.content}</h5>
         <HeartBox>
           {likeStatus ? (
             <Heart url={`${heartTrue}`} onClick={onClickMoodCancelBtn}></Heart>
@@ -114,5 +123,14 @@ const Heart = styled.div`
   background-image: url(${(props) => props.url});
   cursor: pointer;
 `;
-
+const RankText = styled.h4`
+  font-family: "Roboto";
+  font-style: normal;
+  font-weight: 800;
+  color: #7b758b;
+  margin-left: 50px;
+  margin-bottom: 0px;
+  margin-top: 0px;
+  font-size: 12px;
+`;
 export default BestItem;

@@ -38,13 +38,13 @@ export const __getMainAllPosts = createAsyncThunk(
 export const __getBestPosts = createAsyncThunk(
   "GET/BESTPOSTS",
   async (data, thunkAPI) => {
-    try {
-      const response = await rankApi.getBestPosts(data);
-      console.log(response);
-      return thunkAPI.fulfillWithValue(response);
-    } catch (err) {
-      console.log(err);
-      thunkAPI.rejectWithValue(err.response.data);
-    }
+    // try {
+    const response = await rankApi.getBestPosts(data);
+    console.log(response);
+    return thunkAPI.fulfillWithValue(response.data.data.honorPosts);
+    // } catch (err) {
+    //   console.log(err);
+    //   thunkAPI.rejectWithValue(err.response.data);
+    // }
   }
 );
