@@ -6,6 +6,7 @@ import DetailChangeReComment from "./DetailChangeReComments";
 import DetailRecomments from "./DetailRecomments";
 import { getCookie } from "../../shared/cookie";
 import jwt_decode from "jwt-decode";
+import Swal from "sweetalert2";
 
 // 상세페이지에 댓글 list 컴포넌트
 const DetailReCommentList = (props) => {
@@ -90,13 +91,26 @@ const DetailReCommentList = (props) => {
             </AddCommentButton>
             <AddCommentButton
               onClick={() => {
-                if (window.confirm("이 대댓글을 삭제하시겠습니까?")) {
-                  deleteComment();
-                  alert("대댓글 삭제에 성공했습니다.");
-                  window.location.reload();
-                } else {
-                  alert("취소합니다.");
-                }
+                Swal.fire({
+                  title: "이 대댓글을 삭제하시겠습니까?",
+                  text: "대댓글을 삭제하시면 되돌리실 수 없습니다",
+                  icon: "warning",
+                  showCancelButton: true,
+                  confirmButtonColor: "#3085d6",
+                  cancelButtonColor: "#d33",
+                  confirmButtonText: "댓글 삭제",
+                  cancelButtonText: "삭제 취소",
+                }).then((result) => {
+                  if (result.isConfirmed) {
+                    Swal.fire(
+                      "삭제완료",
+                      "캐처님의 대댓글이 삭제되었습니다.",
+                      "success"
+                    );
+                    deleteComment();
+                    window.location.reload();
+                  }
+                });
               }}
             >
               삭제

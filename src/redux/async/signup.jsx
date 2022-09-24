@@ -1,6 +1,7 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { signupApi } from "../../shared/api";
 import Swal from "sweetalert2";
+import { setCookie } from "../../shared/cookie";
 
 // 회원가입
 export const __signUp = createAsyncThunk(
@@ -12,8 +13,9 @@ export const __signUp = createAsyncThunk(
         return response.data;
       }
     } catch (err) {
-      Swal.fire("에러", "네트워크 연결 상태를 확인해주세요.!", "error");
-      return thunkAPI.rejectWithValue(err.response.msg);
+      console.log(err);
+      Swal.fire("에러", err.response.data, "error");
+      return thunkAPI.rejectWithValue(err.response.data);
     }
   }
 );
@@ -28,8 +30,7 @@ export const __checkEmail = createAsyncThunk(
         return true;
       }
     } catch (err) {
-      Swal.fire("에러", "네트워크 연결 상태를 확인해주세요.!", "error");
-      return thunkAPI.rejectWithValue(err.response.msg);
+      return thunkAPI.rejectWithValue(err.response.data);
     }
   }
 );
@@ -44,8 +45,8 @@ export const __getUsers = createAsyncThunk(
         return response.data.data.userStatus;
       }
     } catch (err) {
-      Swal.fire("에러", "네트워크 연결 상태를 확인해주세요.!", "error");
-      return thunkAPI.rejectWithValue(err.response.msg);
+      Swal.fire("에러", err.response.data, "error");
+      return thunkAPI.rejectWithValue(err.response.data);
     }
   }
 );
@@ -60,8 +61,7 @@ export const __getOpen = createAsyncThunk(
         return response.data.data.startMsg;
       }
     } catch (err) {
-      Swal.fire("에러", "네트워크 연결 상태를 확인해주세요.!", "error");
-      return thunkAPI.rejectWithValue(err.response.msg);
+      return thunkAPI.rejectWithValue(err.response.data);
     }
   }
 );
@@ -73,10 +73,10 @@ export const __postEmail = createAsyncThunk(
     try {
       const response = await signupApi.postEmail(data);
       console.log(response);
-      return thunkAPI.fulfillWithValue(response.data.data.authNum);
+      return thunkAPI.fulfillWithValue(response.data.data.hashAuthNum);
     } catch (err) {
-      Swal.fire("에러", "네트워크 연결 상태를 확인해주세요.!", "error");
-      return thunkAPI.rejectWithValue(err.response.msg);
+      Swal.fire("에러", err.response.data, "error");
+      return thunkAPI.rejectWithValue(err.response.data);
     }
   }
 );
@@ -88,10 +88,11 @@ export const __postEmailNum = createAsyncThunk(
     try {
       const response = await signupApi.findEmail(data);
       console.log(response);
+      //setCookie("cookie", response.data.data.hashAuthNum);
       return thunkAPI.fulfillWithValue(response.data.data.hashAuthNum);
     } catch (err) {
-      Swal.fire("에러", "네트워크 연결 상태를 확인해주세요.!", "error");
-      return thunkAPI.rejectWithValue(err.response.msg);
+      Swal.fire("에러", err.response.data, "error");
+      return thunkAPI.rejectWithValue(err.response.data);
     }
   }
 );
@@ -104,8 +105,8 @@ export const __putPassword = createAsyncThunk(
       console.log(response);
       return thunkAPI.fulfillWithValue(response.data);
     } catch (err) {
-      Swal.fire("에러", "네트워크 연결 상태를 확인해주세요.!", "error");
-      return thunkAPI.rejectWithValue(err.response.msg);
+      Swal.fire("에러", err.response.data, "error");
+      return thunkAPI.rejectWithValue(err.response.data);
     }
   }
 );

@@ -6,11 +6,16 @@ import { changeEmail } from "../../redux/modules/signUpSlice";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
+import crypto from "crypto-js";
+import CryptoJS from "crypto-js";
+import { getCookie } from "../../shared/cookie";
+import bcrypt from "bcryptjs";
 
 const EditPasswordForm = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [newPw, setNewPw] = useState(false);
+  const salt = bcrypt.genSaltSync(10);
 
   const checkEmail = useSelector((state) => state.signup.checkEmail);
   const sendEmailNum = useSelector((state) => state.signup.sendEmailNum);
@@ -52,17 +57,13 @@ const EditPasswordForm = () => {
 
   //인증번호 비교하기
   const onClickOKBtn = () => {
+    //인증번호 암호화해서 비교
     const key = getValues("sendEmail");
     const secretKey = "12345678901234567890123456789012";
-    const iv = "abcdefghijklmnop";
-    const cipher = crypto.AES.encrypt(key, crypto.enc.Utf8.parse(secretKey), {
-      iv: crypto.enc.Utf8.parse(iv),
-      padding: crypto.pad.Pkcs7,
-      mode: crypto.mode.CBC,
-    });
-    const emailNum = cipher.key.words[0];
+    const cipherNum = CryptoJS.AES.decrypt(sendEmailNum, secretKey);
+    const decrypted = JSON.parse(cipherNum.toString(CryptoJS.enc.Utf8));
 
-    if (emailNum === sendEmailNum) {
+    if (decrypted == key) {
       setNewPw(true);
     } else {
       Swal.fire("에러", "이메일 인증번호를 확인해주세요!", "error");
@@ -86,26 +87,21 @@ const EditPasswordForm = () => {
     } else {
       ///비밀번호 암호화
       const key = getValues("password");
-      const secretKey = "12345678901234567890123456789012";
-      const iv = "abcdefghijklmnop";
-      const cipher = crypto.AES.encrypt(key, crypto.enc.Utf8.parse(secretKey), {
-        iv: crypto.enc.Utf8.parse(iv),
-        padding: crypto.pad.Pkcs7,
-        mode: crypto.mode.CBC,
-      });
-      const pwpwpw = cipher.key.words[0];
+
+      const ciphertext = bcrypt.hashSync(key, "$2a$10$CwTycUXWue0Thq9StjUM0u");
 
       //비밀번호 값과 비밀번호 확인 값이 같을 때만
-      if (data.password === data.confirmPw && data.sendEmail === sendEmailNum) {
+      if (data.password === data.confirmPw && newPw) {
         await new Promise((r) => setTimeout(r, 300));
 
-        const password = pwpwpw.toString();
-        const confirmPw = pwpwpw.toString();
+        const password = ciphertext;
+        const confirmPw = ciphertext;
         const email = getValues("email");
+        //const cookie = getCookie("cookie");
 
-        dispatch(__putPassword({ email, password, confirmPw })).then(
-          navigate("/")
-        );
+        dispatch(
+          __putPassword({ email, password, confirmPw, cookie: sendEmailNum })
+        ).then(navigate("/"));
       }
       if (data.password !== data.confirmPw) {
         setError(
@@ -139,6 +135,7 @@ const EditPasswordForm = () => {
                 className="email"
                 name="email"
                 type="email"
+                placeholder="가입하신 이메일을 입력해주세요"
                 aria-invalid={
                   !isDirty ? undefined : errors.email ? "true" : "false"
                 }
@@ -174,7 +171,6 @@ const EditPasswordForm = () => {
               </TextBox>
               <input
                 name="sendEmail"
-                type="sendEmail"
                 placeholder="이메일로 발송 된 인증번호를 입력해주세요"
                 aria-invalid={
                   !isDirty ? undefined : errors.sendEmail ? "true" : "false"
@@ -244,8 +240,8 @@ const EditPasswordForm = () => {
 };
 
 const Container = styled.form`
-  margin-top: 50px;
-  margin-left: 30px;
+  margin-top: 3.125rem;
+  margin-left: 1.875rem;
   display: flex;
   align-items: baseline;
   justify-content: left;
@@ -255,19 +251,19 @@ const Container = styled.form`
     font-family: "Unna";
     font-style: normal;
     font-weight: 700;
-    font-size: 35px;
-    line-height: 46px;
+    font-size: 2.188rem;
+    line-height: 2.875rem;
     color: #2d273f;
   }
   .email {
-    width: 250px;
+    width: 15.625rem;
   }
   input {
     background-color: #fff;
     border: 0px;
-    border-radius: 10px;
-    height: 50px;
-    width: 350px;
+    border-radius: 0.625rem;
+    height: 3.125rem;
+    width: 21.875rem;
   }
 `;
 
@@ -277,31 +273,31 @@ const TextBox = styled.div`
   align-items: baseline;
 
   h4 {
-    margin-bottom: 5px;
+    margin-bottom: 0.313rem;
     color: #2d273f;
     font-family: "Roboto";
     font-style: normal;
     font-weight: 700;
-    font-size: 20px;
+    font-size: 1.25rem;
   }
   p {
     color: #c60000;
-    font-size: 10px;
-    margin-left: 20px;
+    font-size: 0.625rem;
+    margin-left: 1.25rem;
   }
 `;
 const ConfirmBtn = styled.button`
   background: linear-gradient(78.32deg, #7b758b 41.41%, #ffffff 169.58%);
   border: 0px;
-  width: 90px;
-  height: 50px;
+  width: 5.625rem;
+  height: 3.125rem;
   color: white;
   border-radius: 10px;
-  margin-left: 20px;
+  margin-left: 1.25rem;
   font-family: "Roboto";
   font-style: normal;
   font-weight: 700;
-  font-size: 16px;
+  font-size: 1rem;
   cursor: pointer;
 `;
 
@@ -316,7 +312,7 @@ const OkBtn = styled.button`
   border-radius: 10px;
   width: 150px;
   height: 40px;
-  margin: 40px auto 0 auto;
+  margin: 170px auto 0 auto;
   cursor: pointer;
 `;
 export default EditPasswordForm;

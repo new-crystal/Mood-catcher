@@ -1,7 +1,6 @@
 import React, { Fragment, Suspense } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import Loader from "../shared/Loader";
 import Header from "../elem/Header";
 import NavigationBar from "../elem/NavigationBar";
 import EditProfileForm from "../components/profileComponents/EditProfileForm";
@@ -9,22 +8,15 @@ import EditProfileForm from "../components/profileComponents/EditProfileForm";
 const Edit_profile = (props) => {
   return (
     <Fragment>
-      <Suspense
-        fallback={
-          <LoaderWrap>
-            <Loader />
-          </LoaderWrap>
-        }
-      >
-        <Container>
-          <Grid>
-            <LoginWrap>
-              <Header />
-              <EditProfileForm />
-            </LoginWrap>
-          </Grid>
-        </Container>
-      </Suspense>
+      <Container>
+        <Grid>
+          <LoginWrap>
+            <Header />
+            <EditProfileForm />
+          </LoginWrap>
+        </Grid>
+      </Container>
+
       <NavigationBar props={props} />
     </Fragment>
   );
@@ -70,5 +62,5 @@ const LoginWrap = styled.div`
   background: linear-gradient(#a396c9, #ffffff);
   display: flex;
   flex-direction: column;
-  text-align: center;
+  //text-align: center;
 `;

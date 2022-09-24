@@ -102,8 +102,8 @@ const SearchForm = () => {
 
   return (
     <Fragment>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        {errors.search && <ErrorMsg>{errors.search.message}</ErrorMsg>}
+      {errors.search && <ErrorMsg>{errors.search.message}</ErrorMsg>}
+      <Form onSubmit={handleSubmit(onSubmit)}>
         <SearchInput
           type="search"
           name="search"
@@ -118,7 +118,7 @@ const SearchForm = () => {
           })}
         />
         <SearchImg type="submit" disabled={isSubmitting}></SearchImg>
-      </form>
+      </Form>
       <SearchBox>
         {title && !writer && (
           <>
@@ -189,10 +189,19 @@ const SearchForm = () => {
     </Fragment>
   );
 };
+
+const Form = styled.form`
+  width: 100vw;
+  height: 70px;
+  display: flex;
+  align-items: center;
+  justify-content: baseline;
+  flex-direction: row;
+`;
 const ErrorMsg = styled.p`
   color: #c60000;
   font-size: 10px;
-  margin-left: 30px;
+  margin-left: 40px;
   margin-bottom: -20px;
 `;
 const SearchBox = styled.div`
@@ -200,8 +209,7 @@ const SearchBox = styled.div`
   margin: 0 auto;
   border-top: 3px solid #fff;
   padding-top: 7px;
-  position: relative;
-  top: -60px;
+  margin-top: -20px;
   display: flex;
   align-items: left;
   justify-content: baseline;
@@ -225,13 +233,13 @@ const LabelWriter = styled.label`
   color: #2d273f;
 `;
 const CheckBox = styled.div`
-  width: 110px;
+  width: 120px;
   height: 15px;
   padding: 5px;
   border-bottom: 2px solid #fff;
 `;
 const NotCheckBox = styled.div`
-  width: 110px;
+  width: 120px;
   height: 15px;
   padding: 5px;
 `;
@@ -242,7 +250,7 @@ const SearchInput = styled.input`
   height: 50px;
   border: none;
   border-radius: 10px;
-  margin: 10px 40px;
+  margin-left: 40px;
   :focus {
     outline: none;
   }
@@ -254,7 +262,7 @@ const ClosetBox = styled.div`
   border-radius: 10px;
   background-color: rgba(0, 0, 0, 0);
   color: white;
-  margin-top: -50px;
+  margin-top: -10px;
   font-family: "Unna";
   font-style: normal;
   font-weight: 700;
@@ -270,9 +278,7 @@ const SearchImg = styled.button`
   background-position: center;
   background-size: cover;
   background-image: url(${search});
-  position: relative;
-  left: 345px;
-  top: -58px;
+  margin-left: -45px;
   cursor: pointer;
 `;
 export default SearchForm;

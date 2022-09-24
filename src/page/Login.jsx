@@ -1,26 +1,17 @@
 import React, { Fragment, Suspense } from "react";
 import styled from "styled-components";
-import Loader from "../shared/Loader";
 import Header from "../elem/Header";
 import LoginForm from "../components/loginComponents/LoginForm";
 
 export default function Login(props) {
   return (
     <Fragment>
-      <Suspense
-        fallback={
-          <LoaderWrap>
-            <Loader />
-          </LoaderWrap>
-        }
-      >
-        <LoginWrap>
-          <Container>
-            <Header />
-            <LoginForm />
-          </Container>
-        </LoginWrap>
-      </Suspense>
+      <LoginWrap>
+        <Container>
+          <Header />
+          <LoginForm />
+        </Container>
+      </LoginWrap>
     </Fragment>
   );
 }
@@ -41,10 +32,21 @@ const LoginWrap = styled.div`
 `;
 
 const Container = styled.div`
-  max-width: 428px;
+  max-width: 26.75rem;
   width: 100vw;
   height: calc(var(--vh, 1vh) * 100 + 50px);
   margin: 0 auto;
   margin-top: 60px;
   background: linear-gradient(#a396c9, #ffffff);
+`;
+
+const Grid = styled.div`
+  max-width: 26.75rem;
+  width: 100vw;
+  height: calc(var(--vh, 1vh) * 100 + 50px);
+
+  margin: 0 auto;
+  background: linear-gradient(#a396c9, #ffffff);
+  margin-top: 60px;
+  margin-bottom: 500px;
 `;

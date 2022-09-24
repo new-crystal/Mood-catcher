@@ -1,6 +1,5 @@
 import React, { Fragment, Suspense, useRef, useState } from "react";
 import styled from "styled-components";
-import Loader from "../shared/Loader";
 import Header from "../elem/Header";
 import NavigationBar from "../elem/NavigationBar";
 import { useNavigate } from "react-router-dom";
@@ -11,6 +10,7 @@ import ScrollX from "../elem/ScrollX";
 
 import { __getMusinsa, __addPost, __uploadImage } from "../redux/async/upload";
 import { changeCheckPostId } from "../redux/modules/uploadSlice";
+import Swal from "sweetalert2";
 
 const Search = "./images/search.png";
 
@@ -82,125 +82,126 @@ const Upload_select = (props) => {
 
   return (
     <Fragment>
-      <Suspense
-        fallback={
-          <LoaderWrap>
-            <Loader />
-          </LoaderWrap>
-        }
-      >
-        <Container>
-          <Grid>
-            <Header />
-            <JustifyAlign>
-              <UploadText>내 아이템</UploadText>
-              <NextButton onClick={writeTotalPost}>완료</NextButton>
-            </JustifyAlign>
-            <StUploadBox>
-              <StImageBox className={searchTogle}>
-                <div className="ImgDiv">
-                  <img
-                    src={attachment}
-                    alt=""
-                    className={searchTogle.toString()}
-                  />
-                </div>
-              </StImageBox>
-              <SliderContainer
-                ref={scrollRef}
-                onMouseDown={onDragStart}
-                onMouseMove={isDrag ? onThrottleDragMove : null}
-                onMouseUp={onDragEnd}
-                onMouseLeave={onDragEnd}
-              >
-                {selectedItems?.map((item, idx) => (
-                  <StMusinsaItemBox key={idx}>
-                    <StMusinsaImage>
-                      <div className="ImgDiv">
-                        <img src={item.imgUrl} alt="" />
-                      </div>
-                    </StMusinsaImage>
-                    <StTextBox>
-                      {items.length === 0 ? (
-                        <Fragment>
-                          <StText>이름</StText>
-                          <StText>가격</StText>
-                        </Fragment>
-                      ) : (
-                        <Fragment>
-                          <StText>{item.name}</StText>
-                          {item.price.indexOf(" ") !== -1 ? (
-                            <StText>
-                              {item.price.slice(item.price.indexOf(" "))}
-                            </StText>
-                          ) : (
-                            <StText>{item.price}</StText>
-                          )}
-                        </Fragment>
-                      )}
-                    </StTextBox>
-                  </StMusinsaItemBox>
-                ))}
-              </SliderContainer>
-              <StSearchInput>
-                <input
-                  type="text"
+      <Container>
+        <Grid>
+          <Header />
+          <JustifyAlign>
+            <UploadText>내 아이템</UploadText>
+            <NextButton onClick={writeTotalPost}>완료</NextButton>
+          </JustifyAlign>
+          <StUploadBox>
+            <StImageBox className={searchTogle}>
+              <div className="ImgDiv">
+                <img
+                  src={attachment}
+                  alt=""
+                  className={searchTogle.toString()}
+                />
+              </div>
+            </StImageBox>
+            <SliderContainer
+              ref={scrollRef}
+              onMouseDown={onDragStart}
+              onMouseMove={isDrag ? onThrottleDragMove : null}
+              onMouseUp={onDragEnd}
+              onMouseLeave={onDragEnd}
+            >
+              {selectedItems?.map((item, idx) => (
+                <StMusinsaItemBox key={idx}>
+                  <StMusinsaImage>
+                    <div className="ImgDiv">
+                      <img src={item.imgUrl} alt="" />
+                    </div>
+                  </StMusinsaImage>
+                  <StTextBox>
+                    {items.length === 0 ? (
+                      <Fragment>
+                        <StText>이름</StText>
+                        <StText>가격</StText>
+                      </Fragment>
+                    ) : (
+                      <Fragment>
+                        <StText>{item.name}</StText>
+                        {item.price.indexOf(" ") !== -1 ? (
+                          <StText>
+                            {item.price.slice(item.price.indexOf(" "))}
+                          </StText>
+                        ) : (
+                          <StText>{item.price}</StText>
+                        )}
+                      </Fragment>
+                    )}
+                  </StTextBox>
+                </StMusinsaItemBox>
+              ))}
+            </SliderContainer>
+            <StSearchInput>
+              <input
+                type="text"
+                onClick={(e) => {
+                  if (searchTogle === false) setSearchTogle((togle) => !togle);
+                }}
+                onChange={(e) => {
+                  setSearch(e.target.value);
+                }}
+                onKeyPress={(e) => {
+                  if (e.key === "Enter" && search === "") {
+                    Swal.fire({
+                      icon: "info",
+                      title: "검색 키워드를 입력해주세요!",
+                      showConfirmButton: false,
+                      timer: 1500,
+                    });
+                  } else if (e.key === "Enter" && searchTogle === false) {
+                    setSearchTogle((togle) => !togle);
+                    e.preventDefault();
+                    dispatch(__getMusinsa(search));
+                  } else if (e.key === "Enter" && searchTogle === true) {
+                    e.preventDefault();
+                    dispatch(__getMusinsa(search));
+                  }
+                }}
+              ></input>
+              <ButtonWrap>
+                <ImageWrap
+                  style={{ backgroundImage: `url(${Search})` }}
                   onClick={(e) => {
-                    if (searchTogle === false)
-                      setSearchTogle((togle) => !togle);
-                  }}
-                  onChange={(e) => {
-                    setSearch(e.target.value);
-                  }}
-                  onKeyPress={(e) => {
-                    if (e.key === "Enter" && search === "") {
-                      window.alert("검색 키워드를 입력해주세요!");
-                    } else if (e.key === "Enter" && searchTogle === false) {
+                    if (search === "") {
+                      Swal.fire({
+                        icon: "info",
+                        title: "검색 키워드를 입력해주세요!",
+                        showConfirmButton: false,
+                        timer: 1500,
+                      });
+                    } else if (searchTogle === false) {
                       setSearchTogle((togle) => !togle);
                       e.preventDefault();
                       dispatch(__getMusinsa(search));
-                    } else if (e.key === "Enter" && searchTogle === true) {
+                    } else if (searchTogle === true) {
                       e.preventDefault();
                       dispatch(__getMusinsa(search));
                     }
                   }}
-                ></input>
-                <ButtonWrap>
-                  <ImageWrap
-                    style={{ backgroundImage: `url(${Search})` }}
-                    onClick={(e) => {
-                      if (search === "") {
-                        window.alert("검색 키워드를 입력해주세요!");
-                      } else if (searchTogle === false) {
-                        setSearchTogle((togle) => !togle);
-                        e.preventDefault();
-                        dispatch(__getMusinsa(search));
-                      } else if (searchTogle === true) {
-                        e.preventDefault();
-                        dispatch(__getMusinsa(search));
-                      }
-                    }}
-                  />
-                </ButtonWrap>
-              </StSearchInput>
-              <MusinsaButton
-                className={!searchTogle}
-                onClick={(e) => {
-                  setSearchTogle((togle) => !togle);
-                }}
-              >
-                무신사 선택 완료
-              </MusinsaButton>
-              <List className={searchTogle}>
-                {items?.map((item, idx) => (
-                  <EachMusinsa idx={idx} item={item} />
-                ))}
-              </List>
-            </StUploadBox>
-          </Grid>
-        </Container>
-        <NavigationBar props={props} />
-      </Suspense>
+                />
+              </ButtonWrap>
+            </StSearchInput>
+            <MusinsaButton
+              className={!searchTogle}
+              onClick={(e) => {
+                setSearchTogle((togle) => !togle);
+              }}
+            >
+              무신사 선택 완료
+            </MusinsaButton>
+            <List className={searchTogle}>
+              {items?.map((item, idx) => (
+                <EachMusinsa idx={idx} item={item} />
+              ))}
+            </List>
+          </StUploadBox>
+        </Grid>
+      </Container>
+      <NavigationBar props={props} />
     </Fragment>
   );
 };

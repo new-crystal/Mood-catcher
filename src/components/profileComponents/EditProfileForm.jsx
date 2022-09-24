@@ -13,6 +13,7 @@ import { changeNickname } from "../../redux/modules/loginSlice";
 import { deleteCookie, getCookie } from "../../shared/cookie";
 import { useNavigate } from "react-router-dom";
 import jwt_decode from "jwt-decode";
+import Swal from "sweetalert2";
 
 const EditProfileForm = () => {
   const navigate = useNavigate();
@@ -119,7 +120,12 @@ const EditProfileForm = () => {
   const onSubmit = async () => {
     // console.log(editNickname);
     if (image.image_file === "") {
-      alert("새로운 프로필 사진을 입력해주세요!");
+      Swal.fire({
+        icon: "warning",
+        title: "변경하실 프로필 이미지를 설정해주세요!",
+        showConfirmButton: false,
+        timer: 1500,
+      });
     } else {
       const nickname = getValues("nickname");
       const formData = new FormData();
@@ -133,12 +139,26 @@ const EditProfileForm = () => {
             age,
           })
         )
-          .then(alert("캐처님의 프로필이 수정되었습니다!"))
+          .then(
+            Swal.fire({
+              icon: "success",
+              title: "캐처님의 프로필이 수정되었습니다",
+              showConfirmButton: false,
+              timer: 1500,
+            })
+          )
           .then(navigate(`/mypage/${userId}`));
       }
       if (editNickname === true && errors.nickname === undefined) {
         dispatch(__editProfile({ userValue: formData, nickname, gender, age }))
-          .then(alert("캐처님의 프로필이 수정되었습니다!"))
+          .then(
+            Swal.fire({
+              icon: "success",
+              title: "캐처님의 프로필이 수정되었습니다",
+              showConfirmButton: false,
+              timer: 1500,
+            })
+          )
           .then(navigate(`/mypage/${userId}`));
       }
       if (editNickname === true && errors.nickname !== undefined) {
@@ -153,29 +173,58 @@ const EditProfileForm = () => {
 
   //로그아웃
   const onClickLogOut = () => {
-    alert("로그아웃 되셨습니다");
-    deleteCookie("token");
-    navigate("/login");
+    Swal.fire({
+      title: "로그아웃을 하시겠습니까?",
+      text: "다른 분들이 캐처님의 옷장을 기다리고 계시는데 로그아웃을 하시겠습니까?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "로그아웃",
+      cancelButtonText: "취소",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        deleteCookie("token");
+        navigate("/login");
+      }
+    });
   };
 
   //회원탍퇴
   const onClickDelBtn = () => {
-    const result = window.confirm(
-      "다른 분들이 캐처님의 옷장을 기다리고 계시는데 회원탈퇴를 하시겠습니까?"
-    );
-    if (result) {
-      dispatch(__delUser);
-    }
+    Swal.fire({
+      title: "회원탈퇴를 하시겠습니까?",
+      text: "다른 분들이 캐처님의 옷장을 기다리고 계시는데 회원탈퇴를 하시겠습니까?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "회원탈퇴",
+      cancelButtonText: "탈퇴취소",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        dispatch(__delUser);
+        deleteCookie("token");
+        navigate("/login");
+      }
+    });
   };
 
   //닉네임 변경하기 전에 확인받기
   const onClickEditNickname = () => {
-    const result = window.confirm(
-      `${users.nickname}님의 현재 닉네임을 사용하실 수 없습니다. 변경하시겠습니까?`
-    );
-    if (result) {
-      setEditNickname(true);
-    }
+    Swal.fire({
+      title: "닉네임을 변경하시겠습니까?",
+      text: `${users.nickname}님의 현재 닉네임을 사용하실 수 없습니다.`,
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "change",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        setEditNickname(true);
+      }
+    });
   };
 
   return (
@@ -200,7 +249,7 @@ const EditProfileForm = () => {
         {editNickname ? (
           <>
             {errors.nickname && <p>{errors.nickname.message}</p>}
-            <input
+            <NicknameInput
               type="text"
               placeholder={users.nickname}
               name="nickname"
@@ -230,7 +279,7 @@ const EditProfileForm = () => {
           </>
         ) : (
           <EditNicknameBtn type="button" onClick={onClickEditNickname}>
-            닉네임 변경하기
+            닉네임 변경
           </EditNicknameBtn>
         )}
         <GenderAgeBox>
@@ -290,7 +339,7 @@ const EditProfileForm = () => {
       </ProfileBox>
       <LogOut>
         <button onClick={() => navigate("/edit_password")}>
-          비밀번호 변경하기
+          비밀번호 변경
         </button>
         <button onClick={onClickLogOut}>로그아웃</button>
         <button onClick={onClickDelBtn}>계정탈퇴</button>
@@ -302,6 +351,7 @@ const EditProfileForm = () => {
 const Container = styled.div`
   width: 428px;
   height: 926px;
+  text-align: center;
   form {
     margin-top: 30px;
   }
@@ -326,7 +376,7 @@ const Container = styled.div`
 const ProfileBox = styled.div`
   width: 380px;
   height: 40px;
-  border-bottom: 3px solid #fff;
+  border-bottom: 3px solid rgb(148, 144, 160);
   margin-left: 20px;
   text-align: left;
 `;
@@ -351,6 +401,10 @@ const ChangeProfile = styled.button`
   font-style: normal;
   font-weight: 700;
   font-size: 12px;
+`;
+
+const NicknameInput = styled.input`
+  box-shadow: 5px 5px 4px rgba(0, 0, 0, 0.25);
 `;
 const EditNicknameBtn = styled.button`
   background: linear-gradient(78.32deg, #7b758b 41.41%, #ffffff 169.58%);

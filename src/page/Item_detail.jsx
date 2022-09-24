@@ -1,6 +1,5 @@
 import React, { useEffect, useState, Fragment, Suspense, useRef } from "react";
 import styled, { css } from "styled-components";
-import Loader from "../shared/Loader";
 import Header from "../elem/Header";
 import NavigationBar from "../elem/NavigationBar";
 import { useDispatch, useSelector } from "react-redux";
@@ -23,6 +22,7 @@ import ScrollX from "../elem/ScrollX";
 import heartFalse from "../image/heart.png";
 import heartTrue from "../image/heartTrue.png";
 import { __patchMood } from "../redux/async/like";
+import Swal from "sweetalert2";
 
 const home = "/images/more.png";
 
@@ -46,8 +46,9 @@ const Item_detail = (props) => {
   const comments = useSelector((state) => state.comment.comments);
 
   const [mood, setMood] = useState(`${heartFalse}`);
-  const [likeStatus, setLikeStatus] = useState(detailPost.likeStatus);
-  const [moodNum, setMoodNum] = useState(detailPost.likeCount);
+  const like = useSelector((state) => state.upload.detailPost.likeStatus);
+  const [likeStatus, setLikeStatus] = useState(like);
+  const moodNum = useSelector((state) => state.upload.detailPost.likeCount);
   const [myPageIsOpen, myPageRef, myPageHandler] = useDetectClose(false);
   const [scrollRef, isDrag, onDragStart, onDragEnd, onThrottleDragMove] =
     ScrollX();
@@ -72,12 +73,24 @@ const Item_detail = (props) => {
   };
   // 대표 게시물 지정하기
   const patchRep = () => {
-    if (window.confirm("이 게시물을 대표게시물로 지정하겠습니까?")) {
-      dispatch(__editRepresentative(postId));
-      alert("대표게시물 지정에 성공했습니다.");
-    } else {
-      alert("취소합니다.");
-    }
+    Swal.fire({
+      title: "이 게시물을 대표게시물로 지정하겠습니까?",
+      icon: "info",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "대표게시물 지정",
+      cancelButtonText: "대표게시물 취소",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        Swal.fire(
+          "대표게시물 지정 완료",
+          "캐처님의 대표게시물로 지정되었습니다.",
+          "success"
+        );
+        dispatch(__editRepresentative(postId));
+      }
+    });
   };
   // 게시물 수정하기
   const putPost = () => {
@@ -85,12 +98,25 @@ const Item_detail = (props) => {
   };
   // 게시물 삭제하기
   const deletePost = () => {
-    if (window.confirm("이 게시물을 삭제하시겠습니까?")) {
-      dispatch(__deletePost(postId));
-      alert("대표게시물 삭제에 성공했습니다.");
-    } else {
-      alert("취소합니다.");
-    }
+    Swal.fire({
+      title: "게시물을 삭제하시겠습니까?",
+      text: "캐처님의 옷장을 다시 보실 수 없습니다",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "삭제",
+      cancelButtonText: "취소",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        Swal.fire(
+          "삭제 완료",
+          "캐처님의 게시물 삭제에 성공했습니다.",
+          "success"
+        );
+        dispatch(__deletePost(postId));
+      }
+    });
   };
 
   useEffect(() => {
@@ -101,181 +127,169 @@ const Item_detail = (props) => {
     if (userStatus.imgUrl !== undefined) {
       setProfile({ image_file: `${userStatus.imgUrl}` });
     }
-  }, []);
+    setLikeStatus(like);
+  }, [likeStatus, moodNum]);
 
   //새로고침시에도 무드 상태값 유지
   useEffect(() => {
-    if (likeStatus === true) {
+    if (like === true && likeStatus === true) {
       setMood(`${heartTrue}`);
     }
-    if (likeStatus === false) {
+    if (like === false && likeStatus === false) {
       setMood(`${heartFalse}`);
     }
-  }, [mood, likeStatus]);
+  }, [mood, like, likeStatus]);
 
   //무드 버튼 누르기
   const onClickMoodBtn = () => {
-    setMoodNum(moodNum + 1);
     setLikeStatus(true);
     dispatch(__patchMood(detailPost.postId));
   };
 
   //무드버튼 취소하기
   const onClickMoodCancelBtn = () => {
-    setMoodNum(moodNum - 1);
     setLikeStatus(false);
     dispatch(__patchMood(detailPost.postId));
   };
 
   return (
     <Fragment>
-      <Suspense
-        fallback={
-          <LoaderWrap>
-            <Loader />
-          </LoaderWrap>
-        }
-      >
-        <Container>
-          <Grid>
-            <Header />
-            <ProfileBox>
-              <ProfileImg
-                onClick={() => {
-                  navigate(`/closet/${userId}`);
-                  window.location.reload();
-                }}
-                url={
-                  userStatus.imgUrl === undefined ||
-                  userStatus.imgUrl.slice(-4) === "null"
-                    ? preview_URL
-                    : userStatus?.imgUrl
-                }
-              ></ProfileImg>
-              <NickTitle
-                onClick={() => {
-                  navigate(`/closet/${userId}`);
-                  window.location.reload();
-                }}
-              >
-                <span>{detailPost.title}</span>
-                <span className="nickname">{userStatus.nickname}</span>
-              </NickTitle>
-
-              {payload.userId == userId ? (
-                <DropdownContainer>
-                  <DropdownButton onClick={myPageHandler} ref={myPageRef}>
-                    <StLoginList />
-                  </DropdownButton>
-                  <Menu isDropped={myPageIsOpen}>
-                    <Ul>
-                      <Li>
-                        <LinkWrapper href="#1-1">
-                          <AddCommentButton2 onClick={patchRep}>
-                            대표 게시물 지정하기
-                          </AddCommentButton2>
-                          <AddCommentButton2 onClick={putPost}>
-                            수정하기
-                          </AddCommentButton2>
-                          <AddCommentButton2 onClick={deletePost}>
-                            삭제하기
-                          </AddCommentButton2>
-                        </LinkWrapper>
-                      </Li>
-                    </Ul>
-                  </Menu>
-                </DropdownContainer>
-              ) : null}
-            </ProfileBox>
-            {/* <TitleText>{detailPost.title}</TitleText> */}
-
-            <DetailImage>
-              <img src={detailPost.imgUrl} />
-            </DetailImage>
-            {likeStatus ? (
-              <img
-                className="heart"
-                src={`${heartTrue}`}
-                alt="heart"
-                onClick={onClickMoodCancelBtn}
-              />
-            ) : (
-              <img
-                className="heart"
-                src={`${heartFalse}`}
-                alt="heart"
-                onClick={onClickMoodBtn}
-              />
-            )}
-            {/* <span className="heartNum">{moodNum}</span> */}
-            <ContentText>{detailPost.content}</ContentText>
-            <Line />
-            <SliderContainer
-              ref={scrollRef}
-              onMouseDown={onDragStart}
-              onMouseMove={isDrag ? onThrottleDragMove : null}
-              onMouseUp={onDragEnd}
-              onMouseLeave={onDragEnd}
+      <Container>
+        <Grid>
+          <Header />
+          <ProfileBox>
+            <ProfileImg
+              onClick={() => {
+                navigate(`/closet/${userId}`);
+                window.location.reload();
+              }}
+              url={
+                userStatus.imgUrl === undefined ||
+                userStatus.imgUrl.slice(-4) === "null"
+                  ? preview_URL
+                  : userStatus?.imgUrl
+              }
+            ></ProfileImg>
+            <NickTitle
+              onClick={() => {
+                navigate(`/closet/${userId}`);
+                window.location.reload();
+              }}
             >
-              {detailItems?.map((item, idx) => (
-                <StMusinsaItemBox key={idx}>
-                  <StMusinsaImage>
-                    <div className="ImgDiv">
-                      <img src={item.imgUrl} alt="" />
-                    </div>
-                  </StMusinsaImage>
-                  <StTextBox>
-                    {item.length === 0 ? (
-                      <Fragment>
-                        <StText>이름</StText>
-                        <StText>가격</StText>
-                      </Fragment>
-                    ) : (
-                      <Fragment>
-                        <StText>{item.name}</StText>
-                        {item.price.indexOf(" ") !== -1 ? (
-                          <StText>
-                            {item.price.slice(item.price.indexOf(" "))}
-                          </StText>
-                        ) : (
-                          <StText>{item.price}</StText>
-                        )}
-                      </Fragment>
-                    )}
-                  </StTextBox>
-                </StMusinsaItemBox>
-              ))}
-            </SliderContainer>
-            <CommentBox>
-              <CommentImg
-                url={
-                  userStatusMe.imgUrl === undefined ||
-                  userStatusMe.imgUrl.slice(-4) === "null"
-                    ? preview_URL
-                    : userStatusMe?.imgUrl
-                }
-              ></CommentImg>
-              <WrapComment>
-                <Textarea
-                  placeholder="댓글을 작성해주세요."
-                  ref={commentText}
-                />
-              </WrapComment>
-              <AddCommentButton onClick={addComment}>완료</AddCommentButton>
-            </CommentBox>
-            <Line />
-            {commentList?.map((item, idx) => (
-              <DetailCommentList
-                key={idx}
-                item={item}
-                postId={postId}
-                userId={userId}
-              />
+              <span>{detailPost.title}</span>
+              <span className="nickname">{userStatus.nickname}</span>
+            </NickTitle>
+
+            {payload.userId == userId ? (
+              <DropdownContainer>
+                <DropdownButton onClick={myPageHandler} ref={myPageRef}>
+                  <StLoginList />
+                </DropdownButton>
+                <Menu isDropped={myPageIsOpen}>
+                  <Ul>
+                    <Li>
+                      <LinkWrapper href="#1-1">
+                        <AddCommentButton2 onClick={patchRep}>
+                          대표 게시물 지정하기
+                        </AddCommentButton2>
+                        <AddCommentButton2 onClick={putPost}>
+                          수정하기
+                        </AddCommentButton2>
+                        <AddCommentButton2 onClick={deletePost}>
+                          삭제하기
+                        </AddCommentButton2>
+                      </LinkWrapper>
+                    </Li>
+                  </Ul>
+                </Menu>
+              </DropdownContainer>
+            ) : null}
+          </ProfileBox>
+          {/* <TitleText>{detailPost.title}</TitleText> */}
+
+          <DetailImage>
+            <img src={detailPost.imgUrl} />
+          </DetailImage>
+          {likeStatus ? (
+            <img
+              className="heart"
+              src={mood}
+              alt="heart"
+              onClick={onClickMoodCancelBtn}
+            />
+          ) : (
+            <img
+              className="heart"
+              src={mood}
+              alt="heart"
+              onClick={onClickMoodBtn}
+            />
+          )}
+          <span className="heartNum">{moodNum}</span>
+          <ContentText>{detailPost.content}</ContentText>
+          <Line />
+          <SliderContainer
+            ref={scrollRef}
+            onMouseDown={onDragStart}
+            onMouseMove={isDrag ? onThrottleDragMove : null}
+            onMouseUp={onDragEnd}
+            onMouseLeave={onDragEnd}
+          >
+            {detailItems?.map((item, idx) => (
+              <StMusinsaItemBox key={idx}>
+                <StMusinsaImage>
+                  <div className="ImgDiv">
+                    <img src={item.imgUrl} alt="" />
+                  </div>
+                </StMusinsaImage>
+                <StTextBox>
+                  {item.length === 0 ? (
+                    <Fragment>
+                      <StText>이름</StText>
+                      <StText>가격</StText>
+                    </Fragment>
+                  ) : (
+                    <Fragment>
+                      <StText>{item.name}</StText>
+                      {item.price.indexOf(" ") !== -1 ? (
+                        <StText>
+                          {item.price.slice(item.price.indexOf(" "))}
+                        </StText>
+                      ) : (
+                        <StText>{item.price}</StText>
+                      )}
+                    </Fragment>
+                  )}
+                </StTextBox>
+              </StMusinsaItemBox>
             ))}
-          </Grid>
-        </Container>
-        <NavigationBar props={props} />
-      </Suspense>
+          </SliderContainer>
+          <CommentBox>
+            <CommentImg
+              url={
+                userStatusMe.imgUrl === undefined ||
+                userStatusMe.imgUrl.slice(-4) === "null"
+                  ? preview_URL
+                  : userStatusMe?.imgUrl
+              }
+            ></CommentImg>
+            <WrapComment>
+              <Textarea placeholder="댓글을 작성해주세요." ref={commentText} />
+            </WrapComment>
+            <AddCommentButton onClick={addComment}>완료</AddCommentButton>
+          </CommentBox>
+          <Line />
+          {commentList?.map((item, idx) => (
+            <DetailCommentList
+              key={idx}
+              item={item}
+              postId={postId}
+              userId={userId}
+            />
+          ))}
+        </Grid>
+      </Container>
+      <NavigationBar props={props} />
     </Fragment>
   );
 };
@@ -290,14 +304,6 @@ const StLoginList = styled.div`
   background-position: center;
   background-size: cover;
   cursor: pointer;
-`;
-
-const LoaderWrap = styled.div`
-  position: absolute;
-  margin-top: -100px;
-  margin-left: -100px;
-  top: 50%;
-  left: 50%;
 `;
 
 const Container = styled.div`

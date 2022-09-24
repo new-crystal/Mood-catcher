@@ -5,15 +5,18 @@ import { __checkEmail, __postEmail, __signUp } from "../../redux/async/signup";
 import { changeEmail } from "../../redux/modules/signUpSlice";
 
 import crypto from "crypto-js";
+import CryptoJS from "crypto-js";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { getCookie } from "../../shared/cookie";
 import Swal from "sweetalert2";
+import bcrypt from "bcryptjs";
 
 const SigupForm = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [sendEmail, setSendEmail] = useState(false);
+  const salt = bcrypt.genSaltSync(10);
 
   const checkEmail = useSelector((state) => state.signup.checkEmail);
   const sendEmailNum = useSelector((state) => state.signup.sendEmail);
@@ -40,7 +43,7 @@ const SigupForm = () => {
     if (checkEmail === true) {
       setError("email", { message: "사용 가능한 이메일입니다." });
     }
-  }, [checkEmail]);
+  }, [checkEmail, sendEmailNum]);
 
   //이메일이 바뀐 값 디스패치하기
   const onChangeEmail = () => {
@@ -80,22 +83,21 @@ const SigupForm = () => {
       );
     } else {
       ///비밀번호 암호화
-      const key = getValues("password");
+      const key = getValues("password").toString();
       const secretKey = "12345678901234567890123456789012";
-      const iv = "abcdefghijklmnop";
-      const cipher = crypto.AES.encrypt(key, crypto.enc.Utf8.parse(secretKey), {
-        iv: crypto.enc.Utf8.parse(iv),
-        padding: crypto.pad.Pkcs7,
-        mode: crypto.mode.CBC,
-      });
-      const pwpwpw = cipher.key.words[0];
+      const ciphertext = bcrypt.hashSync(key, "$2a$10$CwTycUXWue0Thq9StjUM0u");
+
+      //인증번호 복호화
+      const emailNum = data.sendEmail;
+      const cipherNum = CryptoJS.AES.decrypt(sendEmailNum, secretKey);
+      const decrypted = JSON.parse(cipherNum.toString(CryptoJS.enc.Utf8));
 
       //비밀번호 값과 비밀번호 확인 값이 같을 때만
-      if (data.password === data.confirmPw && data.sendEmail === sendEmailNum) {
+      if (data.password === data.confirmPw && decrypted == emailNum) {
         await new Promise((r) => setTimeout(r, 300));
 
-        const password = pwpwpw.toString();
-        const confirmPw = pwpwpw.toString();
+        const password = ciphertext;
+        const confirmPw = ciphertext;
         const email = getValues("email");
 
         dispatch(__signUp({ email, password, confirmPw })).then(
@@ -109,7 +111,7 @@ const SigupForm = () => {
           { shouldFocus: true }
         );
       }
-      if (data.sendEmail !== sendEmailNum) {
+      if (cipherNum !== sendEmailNum) {
         setError(
           "sendEmail",
           { message: "이메일 인증번호를 확인해주세요" },
@@ -123,10 +125,15 @@ const SigupForm = () => {
   const onClickSendEmail = () => {
     const email = getValues("email");
     if (!checkEmail) {
-      Swal.fire("에러", "이메일 중복확인을 확인해주세요!", "error");
+      Swal.fire("에러", "이메일 중복확인을 해주세요!", "error");
     }
     if (checkEmail) {
-      alert("이메일로 인증번호가 발송되었습니다!");
+      Swal.fire({
+        icon: "success",
+        title: "이메일로 인증번호가 발송되었습니다!",
+        showConfirmButton: false,
+        timer: 1500,
+      });
       setSendEmail(true);
       dispatch(__postEmail({ email }));
     }
@@ -178,13 +185,12 @@ const SigupForm = () => {
             {errors.sendEmail && <p>{errors.sendEmail.message}</p>}
           </TextBox>
           {!sendEmail ? (
-            <SendEmailBtn onClick={() => onClickSendEmail()}>
+            <SendEmailBtn type="button" onClick={() => onClickSendEmail()}>
               인증번호 발송하기
             </SendEmailBtn>
           ) : (
             <input
               name="sendEmail"
-              type="sendEmail"
               placeholder="이메일로 발송 된 인증번호를 입력해주세요"
               aria-invalid={
                 !isDirty ? undefined : errors.sendEmail ? "true" : "false"
@@ -243,9 +249,9 @@ const SigupForm = () => {
         OK
       </OkBtn>
       <LoginBox>
-        <p>이미 무드캐처의 캐처라면?</p>
+        <p>무드캐처의 캐처이신가요?</p>
         <LoginBtn type="button" onClick={() => navigate("/login")}>
-          로그인하러 가기
+          로그인
         </LoginBtn>
       </LoginBox>
     </Container>
@@ -358,7 +364,7 @@ const OkBtn = styled.button`
   border-radius: 10px;
   width: 150px;
   height: 40px;
-  margin: 10px auto 0 auto;
+  margin: -10px auto 0 auto;
   cursor: pointer;
 `;
 
@@ -372,10 +378,17 @@ const LoginBtn = styled.button`
   font-family: "Roboto";
   font-style: normal;
   font-weight: 700;
-  font-size: 15px;
+  font-size: 20px;
   cursor: pointer;
 `;
 const LoginBox = styled.div`
   padding: 0px;
+  font-family: "Roboto";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 10px;
+  line-height: 12px;
+  color: #2d273f;
+  margin-top: 30px;
 `;
 export default SigupForm;

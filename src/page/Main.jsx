@@ -1,6 +1,5 @@
 import React, { useState, Fragment, Suspense, useEffect } from "react";
 import styled from "styled-components";
-import Loader from "../shared/Loader";
 import Header from "../elem/Header";
 import NavigationBar from "../elem/NavigationBar";
 import RepPost from "../components/mainComponents/RepPost";
@@ -63,49 +62,33 @@ const Main = (props) => {
 
   return (
     <Fragment>
-      <Suspense
-        fallback={
-          <LoaderWrap>
-            <Loader />
-          </LoaderWrap>
-        }
-      >
-        <Container>
-          <Grid>
-            <Header />
-            {/* imgUrl 있으면 imgUrl 출력 */}
-            {userStatus.imgUrl === undefined ||
-            userStatus.imgUrl.slice(-4) === "null" ? (
-              <Img url={preview_URL}></Img>
-            ) : (
-              <Img url={userStatus?.imgUrl}></Img>
-            )}
-            {/* 대표게시물 출력 */}
-            <RepPost myRepPost={repPost} />
-            <div>
-              <PwaButton />
-            </div>
-            {/* 랭킹게시물 출력 */}
-            <HotPosts hotPosts={hotPosts} />
-            <AllPosts />
-            {showTopButton()}
-            <NavigationBar props={props} />
-          </Grid>
-        </Container>
-      </Suspense>
+      <Container>
+        <Grid>
+          <Header />
+          {/* imgUrl 있으면 imgUrl 출력 */}
+          {userStatus.imgUrl === undefined ||
+          userStatus.imgUrl.slice(-4) === "null" ? (
+            <Img url={preview_URL}></Img>
+          ) : (
+            <Img url={userStatus?.imgUrl}></Img>
+          )}
+          {/* 대표게시물 출력 */}
+          <RepPost myRepPost={repPost} />
+          <div>
+            <PwaButton />
+          </div>
+          {/* 랭킹게시물 출력 */}
+          <HotPosts hotPosts={hotPosts} />
+          <AllPosts />
+          {showTopButton()}
+          <NavigationBar props={props} />
+        </Grid>
+      </Container>
     </Fragment>
   );
 };
 
 export default Main;
-
-const LoaderWrap = styled.div`
-  position: absolute;
-  margin-top: -100px;
-  margin-left: -100px;
-  top: 50%;
-  left: 50%;
-`;
 
 const Container = styled.div`
   display: flex;

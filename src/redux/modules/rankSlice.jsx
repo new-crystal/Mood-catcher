@@ -1,9 +1,14 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { __getHotPosts, __getMainAllPosts } from "../async/rank";
+import {
+  __getHotPosts,
+  __getMainAllPosts,
+  __getBestPosts,
+} from "../async/rank";
 
 const initialState = {
   hotPosts: [],
   allPosts: [],
+  bestPosts: [],
   postLast: null,
   isFetching: false,
   errorMessage: null,
@@ -41,6 +46,20 @@ const rankSlice = createSlice({
         state.postLast = "lastPage";
         state.isFetching = false;
         state.errorMessage = action.errorMessage;
+      })
+      //명예의 전당 게시물 조회하기
+      .addCase(__getBestPosts.pending, (state, action) => {
+        state.postLast = null;
+        state.isFetching = true;
+      })
+      .addCase(__getBestPosts.fulfilled, (state, action) => {
+        state.bestPosts = action.payload;
+        state.isFetching = false;
+      })
+      .addCase(__getBestPosts.rejected, (state, action) => {
+        state.postLast = "lastPage";
+        state.isFetching = false;
+        state.errorMessage = action.payload;
       }),
 });
 
