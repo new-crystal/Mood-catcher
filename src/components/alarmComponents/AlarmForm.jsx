@@ -13,7 +13,6 @@ const AlarmForm = () => {
   const alarms = useSelector((state) => state.alarm.notices);
   const alarmList = [...alarms].reverse();
 
-  console.log(alarms);
   const delAlarm = () => {
     Swal.fire({
       title: "알람을 전부 삭제하시겠습니까?",
@@ -103,7 +102,7 @@ const AlarmList = styled.div`
   h4 {
     font-family: Roboto;
     font-style: Bold;
-    font-size: 16px;
+    font-size: 14px;
     font-weight: 700;
     margin: 15px;
   }
@@ -125,7 +124,7 @@ const ConfirmBtn = styled.button`
   background-color: rgba(0, 0, 0, 0);
   color: #7b758b;
   border: 0px;
-  margin: 0px;
+  margin-right: -15px;
   font-family: Roboto;
   font-style: Bold;
   font-weight: 700;

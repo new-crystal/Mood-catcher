@@ -9,6 +9,7 @@ import {
   __getUser,
   __patchUser,
   __getHeaderUser,
+  __editOrigin,
 } from "../async/login";
 import Swal from "sweetalert2";
 
@@ -125,6 +126,19 @@ const loginSlice = createSlice({
         state.changeStatus = false;
         state.isFetching = false;
         state.errorMessage = action.errorMessage;
+      })
+      //프로필 기본 이미지로 수정
+      .addCase(__editOrigin.pending, (state, action) => {
+        state.isFetching = true;
+      })
+      .addCase(__editOrigin.fulfilled, (state, action) => {
+        state.changeStatus = true;
+        state.isFetching = false;
+      })
+      .addCase(__editOrigin.rejected, (state, action) => {
+        state.isFetching = false;
+        state.changeStatus = false;
+        state.errorMessage = action.payload;
       })
       // 회원 탈퇴
       .addCase(__delUser.fulfilled, (state, action) => {})

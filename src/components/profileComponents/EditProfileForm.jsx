@@ -8,6 +8,7 @@ import {
   __editProfile,
   __checkNickname,
   __getUser,
+  __editOrigin,
 } from "../../redux/async/login";
 import { changeNickname } from "../../redux/modules/loginSlice";
 import { deleteCookie, getCookie } from "../../shared/cookie";
@@ -19,6 +20,7 @@ const EditProfileForm = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [editNickname, setEditNickname] = useState(false);
+  const [original, setOriginal] = useState(false);
   const checkNickname = useSelector((state) => state.login.checkNickname);
   const users = useSelector((state) => state.login.userStatus);
   const [gender, setGender] = useState(users?.gender);
@@ -75,6 +77,15 @@ const EditProfileForm = () => {
   const onChangeHandler = (e) => {
     setAge(e.target.value);
   };
+  //기본 이미지로 변경하기
+  const onClickBasicBtn = () => {
+    setImage({
+      image_file: "",
+      preview_URL:
+        "https://cdn.discordapp.com/attachments/1014169130045292625/1014194232250077264/Artboard_1.png",
+    });
+    setOriginal(true);
+  };
 
   //이미지 미리보기
   const saveImg = (e) => {
@@ -122,10 +133,12 @@ const EditProfileForm = () => {
   //수정된 프로필 이미지, 닉네임, 성별, 나이 전송하기
   const onSubmit = async () => {
     const nickname = getValues("nickname");
+    //이미지 파일 없고 닉네임 수정을 하지 않고 기본 이미지로 바꾸지 않았을 때
     if (
       image.image_file === "" &&
       editNickname === false &&
-      errors.nickname === undefined
+      errors.nickname === undefined &&
+      original === false
     ) {
       dispatch(__editProfile({ nickname: users.nickname, gender, age }))
         .then(
@@ -138,10 +151,32 @@ const EditProfileForm = () => {
         )
         .then(navigate(`/mypage/${userId}`));
     }
+    //이미지 파일 없고 닉네임 수정을 하지 않고 기본 이미지로 바꾸었을 때
+    if (
+      image.image_file === "" &&
+      editNickname === false &&
+      errors.nickname === undefined &&
+      original === true
+    ) {
+      dispatch(
+        __editOrigin({ nickname: users.nickname, gender, age, original })
+      )
+        .then(
+          Swal.fire({
+            icon: "success",
+            title: "캐처님의 프로필이 수정되었습니다",
+            showConfirmButton: false,
+            timer: 1500,
+          })
+        )
+        .then(navigate(`/mypage/${userId}`));
+    }
+    //이미지 파일 없고 닉네임 수정을 하고 기본 이미지로 바꾸지 않았을 때
     if (
       image.image_file === "" &&
       editNickname === true &&
-      errors.nickname === undefined
+      errors.nickname === undefined &&
+      original === false
     ) {
       dispatch(__editProfile({ nickname, gender, age }))
         .then(
@@ -154,9 +189,29 @@ const EditProfileForm = () => {
         )
         .then(navigate(`/mypage/${userId}`));
     }
+    //이미지 파일 없고 닉네임 수정을 하고 기본 이미지로 바꾸었을 때
+    if (
+      image.image_file === "" &&
+      editNickname === true &&
+      errors.nickname === undefined &&
+      original === true
+    ) {
+      dispatch(__editOrigin({ nickname, gender, age, original }))
+        .then(
+          Swal.fire({
+            icon: "success",
+            title: "캐처님의 프로필이 수정되었습니다",
+            showConfirmButton: false,
+            timer: 1500,
+          })
+        )
+        .then(navigate(`/mypage/${userId}`));
+    }
+    //이미지 파일 넣었을 때
     if (image.image_file !== "") {
       const formData = new FormData();
       formData.append("userValue", image.image_file);
+      //닉네임 수정을 하지 않았을 경우
       if (editNickname === false && errors.nickname === undefined) {
         dispatch(
           __editProfile({
@@ -164,6 +219,7 @@ const EditProfileForm = () => {
             nickname: users.nickname,
             gender,
             age,
+            original,
           })
         )
           .then(
@@ -176,8 +232,17 @@ const EditProfileForm = () => {
           )
           .then(navigate(`/mypage/${userId}`));
       }
+      //닉네임 수정을 했을 경우 에러가 없을 때
       if (editNickname === true && errors.nickname === undefined) {
-        dispatch(__editProfile({ userValue: formData, nickname, gender, age }))
+        dispatch(
+          __editProfile({
+            userValue: formData,
+            nickname,
+            gender,
+            age,
+            original,
+          })
+        )
           .then(
             Swal.fire({
               icon: "success",
@@ -188,6 +253,7 @@ const EditProfileForm = () => {
           )
           .then(navigate(`/mypage/${userId}`));
       }
+      //닉네임 수정을 했을 경우 에러가 있을 때
       if (editNickname === true && errors.nickname !== undefined) {
         setError(
           "nickname",
@@ -230,7 +296,7 @@ const EditProfileForm = () => {
       cancelButtonText: "탈퇴취소",
     }).then((result) => {
       if (result.isConfirmed) {
-        dispatch(__delUser);
+        dispatch(__delUser());
         deleteCookie("token");
         navigate("/login");
       }
@@ -260,18 +326,23 @@ const EditProfileForm = () => {
         <h3>프로필 설정</h3>
       </ProfileBox>
       <Img url={image.preview_URL}></Img>
-      <ChangeProfile onClick={() => inputRef.click()}>
-        <input
-          hidden
-          name="userValue"
-          accept="image/*"
-          type="file"
-          onChange={saveImg}
-          onClick={(e) => (e.target.value = null)}
-          ref={(refParam) => (inputRef = refParam)}
-        />
-        프로필 사진 변경하기
-      </ChangeProfile>
+      <Wrapper>
+        <ChangeProfile onClick={() => inputRef.click()}>
+          <input
+            hidden
+            name="userValue"
+            accept="image/*"
+            type="file"
+            onChange={saveImg}
+            onClick={(e) => (e.target.value = null)}
+            ref={(refParam) => (inputRef = refParam)}
+          />
+          프로필 사진 변경하기
+        </ChangeProfile>
+        <BasicBtn type="button" onClick={onClickBasicBtn}>
+          기본 이미지로 변경하기
+        </BasicBtn>
+      </Wrapper>
       <form onSubmit={handleSubmit(onSubmit)}>
         {editNickname ? (
           <>
@@ -399,7 +470,12 @@ const Container = styled.div`
     margin-left: -190px;
   }
 `;
-
+const Wrapper = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+`;
 const ProfileBox = styled.div`
   width: 380px;
   height: 40px;
@@ -423,13 +499,22 @@ const ChangeProfile = styled.button`
   text-align: center;
   border: 0px;
   color: #6a6578;
-  margin-top: -20px;
+  margin-top: 20px;
   font-family: "Roboto";
   font-style: normal;
   font-weight: 700;
   font-size: 12px;
 `;
-
+const BasicBtn = styled.button`
+  background-color: transparent;
+  font-family: "Roboto";
+  font-style: normal;
+  font-weight: 700;
+  color: #6a6578;
+  font-size: 12px;
+  margin: 10px auto -10px auto;
+  border: 0px;
+`;
 const NicknameInput = styled.input`
   box-shadow: 5px 5px 4px rgba(0, 0, 0, 0.25);
 `;

@@ -37,11 +37,20 @@ const SearchItem = ({ item }) => {
     dispatch(__patchMood(item.postId));
   };
 
+  //리사이징 에러 났을 경우
+  const onErrorHandler = (e) => {
+    const url = item.imgUrl.split("w280")[0];
+    const name = item.imgUrl.split("w280")[1];
+    e.target.src = `${url}post${name}`;
+  };
+
   return (
     <OtherClosetBox key={item.postId}>
       <ImgBox
-        url={item.imgUrl}
+        src={item?.imgUrl}
         onClick={() => navigate(`/item_detail/${item.postId}/${item.userId}`)}
+        alt="search_image"
+        onError={onErrorHandler}
       ></ImgBox>
       <TextBox>
         <p>{item.title}</p>
@@ -73,14 +82,11 @@ const OtherClosetBox = styled.div`
   flex-direction: row;
 `;
 
-const ImgBox = styled.div`
+const ImgBox = styled.img`
   margin-left: 10px;
   width: 130px;
   height: 170px;
   border-radius: 20px;
-  background-position: center;
-  background-size: cover;
-  background-image: url(${(props) => props.url});
 `;
 const TextBox = styled.div`
   margin-left: 10px;

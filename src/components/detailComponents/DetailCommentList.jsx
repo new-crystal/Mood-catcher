@@ -79,7 +79,7 @@ const DetailCommentList = (props) => {
       <CommentBox>
         <CommentImg
           onClick={() => {
-            navigate(`/closet/${item.userId}`);
+            navigate(`/mypage/${item.userId}`);
             window.location.reload();
           }}
           url={

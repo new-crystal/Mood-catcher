@@ -26,6 +26,8 @@ const SearchForm = () => {
   const gender = users?.gender;
   const last = useSelector((state) => state.search.postLast);
 
+  console.log(recommended);
+
   //react-hook-form에서 불러오기
   const {
     register,
