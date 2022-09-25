@@ -4,7 +4,7 @@ import styled from "styled-components";
 import Header from "../elem/Header";
 import NavigationBar from "../elem/NavigationBar";
 import { useNavigate } from "react-router-dom";
-import "./MapImageStyle.css";
+import "../shared/style/MapImageStyle.css";
 import axios from "axios";
 import { getCookie, setCookie, deleteCookie } from "../shared/cookie";
 import { useDispatch, useSelector } from "react-redux";
@@ -179,7 +179,7 @@ const Grid = styled.div`
   margin-bottom: 57px;
   max-width: 428px;
   width: 100vw;
-  height: calc(var(--vh, 1vh) * 100 + 50px);
+  //height: calc(var(--vh, 1vh) * 100 + 50px);
   background: linear-gradient(#a396c9, #ffffff);
   /* background: #a396c9; */
 `;

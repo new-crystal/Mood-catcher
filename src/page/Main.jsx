@@ -13,6 +13,7 @@ import { getCookie } from "../shared/cookie";
 import jwt from "jwt-decode"; // to get userId from loggedIn user's token
 import PwaButton from "../elem/PwaButton";
 import { useNavigate } from "react-router-dom";
+import _ from "lodash";
 
 const upButton = "/images/upArrow.png";
 
@@ -43,6 +44,11 @@ const Main = (props) => {
   const preview_URL =
     "https://cdn.discordapp.com/attachments/1014169130045292625/1014194232250077264/Artboard_1.png";
 
+  const _scrollPosition = _.throttle(() => {
+    const scrollHeight = document.documentElement.scrollTop;
+    SetScrollHeightInfo(scrollHeight);
+  }, 300);
+
   // toTop버튼
   const [scrollHeightInfo, SetScrollHeightInfo] = useState(0);
   const showTopButton = () => {
@@ -53,6 +59,13 @@ const Main = (props) => {
       return null;
     }
   };
+
+  useEffect(() => {
+    window.addEventListener("scroll", _scrollPosition); // scroll event listener 등록
+    return () => {
+      window.removeEventListener("scroll", _scrollPosition); // scroll event listener 해제(스크롤이벤트 클린업)
+    };
+  }, [scrollHeightInfo]);
 
   // 실행시 맨위로 올라옴
   const ScrollToTop = () => {
@@ -114,7 +127,7 @@ const Grid = styled.div`
   margin-bottom: 57px;
   max-width: 428px;
   width: 100vw;
-  height: calc(var(--vh, 1vh) * 100 + 50px);
+  //height: calc(var(--vh, 1vh) * 100 + 50px);
   background: linear-gradient(#a396c9, #ffffff);
   /* background: #a396c9; */
 `;

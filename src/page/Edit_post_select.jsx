@@ -1,4 +1,4 @@
-import React, { Fragment, Suspense, useRef, useState } from "react";
+import React, { useEffect, Fragment, Suspense, useRef, useState } from "react";
 import styled from "styled-components";
 import Header from "../elem/Header";
 import NavigationBar from "../elem/NavigationBar";
@@ -6,12 +6,17 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import "../shared/style/myBeer.css";
 import EachMusinsa from "../components/uploadCompnents/EachMusinsa";
+import ScrollX from "../elem/ScrollX";
+import { selectItem, deleteItem } from "../redux/modules/uploadSlice";
 
 import { __getMusinsa, __editPost, __uploadImage } from "../redux/async/upload";
 import { changeCheckPostId } from "../redux/modules/uploadSlice";
 import Swal from "sweetalert2";
+import _ from "lodash";
 
 const Search = "./images/search.png";
+const upButton = "/images/upArrow.png";
+const Cancel = "/images/cancel.png";
 
 const Edit_post_select = (props) => {
   const dispatch = useDispatch();
@@ -42,9 +47,10 @@ const Edit_post_select = (props) => {
     postId: "",
     postImage: formdata,
   });
+  const [scrollRef, isDrag, onDragStart, onDragEnd, onThrottleDragMove] =
+    ScrollX();
 
   const { postId } = useParams();
-
   React.useEffect(() => {
     setTotalPost({ ...totalPost, post: post, items: selectedItems });
     setImagePost({ ...imagePost, postImage: formdata, postId: post.postId });
@@ -81,19 +87,52 @@ const Edit_post_select = (props) => {
     }
   }, [checkPostId]);
 
-  // const writeImage = () => {
-  //   console.log("test");
-  //   if (checkPostId === true) {
-  //     console.log("test2");
-  //     console.log(post.postId);
+  // 새로고침 막기
+  const preventClose = (e) => {
+    console.log(e);
+    e.preventDefault();
+    e.returnValue = ""; //Chrome에서 동작하도록; deprecated
+  };
 
-  //     setImagePost({ ...imagePost, postId: 3 });
-  //     console.log(imagePost);
-  //     dispatch(__uploadImage(imagePost));
-  //     dispatch(changeCheckPostId(false));
-  //     navigate("/");
-  //   }
-  // };
+  useEffect(() => {
+    (() => {
+      window.addEventListener("beforeunload", preventClose);
+    })();
+    return () => {
+      window.removeEventListener("beforeunload", preventClose);
+    };
+  }, []);
+
+  const _scrollPosition = _.throttle(() => {
+    const scrollHeight = document.documentElement.scrollTop;
+    SetScrollHeightInfo(scrollHeight);
+  }, 300);
+
+  // toTop버튼
+  const [scrollHeightInfo, SetScrollHeightInfo] = useState(0);
+  const showTopButton = () => {
+    if (scrollHeightInfo > 2000) {
+      //2000px밑으로 스크롤 내려갔을때 위로가는 Top 버튼 보이기
+      return <TopButton onClick={ScrollToTop}></TopButton>;
+    } else {
+      return null;
+    }
+  };
+
+  useEffect(() => {
+    window.addEventListener("scroll", _scrollPosition); // scroll event listener 등록
+    return () => {
+      window.removeEventListener("scroll", _scrollPosition); // scroll event listener 해제(스크롤이벤트 클린업)
+    };
+  }, [scrollHeightInfo]);
+
+  // 실행시 맨위로 올라옴
+  const ScrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  };
 
   return (
     <Fragment>
@@ -114,7 +153,13 @@ const Edit_post_select = (props) => {
                 />
               </div>
             </StImageBox>
-            <SliderContainer>
+            <SliderContainer
+              ref={scrollRef}
+              onMouseDown={onDragStart}
+              onMouseMove={isDrag ? onThrottleDragMove : null}
+              onMouseUp={onDragEnd}
+              onMouseLeave={onDragEnd}
+            >
               {selectedItems?.map((item, idx) => (
                 <StMusinsaItemBox key={idx} className={searchTogle}>
                   <StMusinsaImage>
@@ -135,18 +180,33 @@ const Edit_post_select = (props) => {
                     ) : (
                       <Fragment>
                         <StText>{item.name}</StText>
-                        <StText>{item.price}</StText>
+                        {item.price.indexOf(" ") !== -1 ? (
+                          <StText>
+                            {item.price.slice(item.price.indexOf(" "))}
+                          </StText>
+                        ) : (
+                          <StText>{item.price}</StText>
+                        )}
                       </Fragment>
                     )}
                   </StTextBox>
+                  <Delete
+                    onClick={() => {
+                      dispatch(deleteItem(item.name));
+                    }}
+                  >
+                    <DeleteImageWrap
+                      style={{ backgroundImage: `url(${Cancel})` }}
+                    />
+                  </Delete>
                 </StMusinsaItemBox>
               ))}
             </SliderContainer>
             <StSearchInput>
               <input
                 type="text"
-                onClick={() => {
-                  setSearchTogle((togle) => !togle);
+                onClick={(e) => {
+                  if (searchTogle === false) setSearchTogle((togle) => !togle);
                 }}
                 onChange={(e) => {
                   setSearch(e.target.value);
@@ -154,16 +214,18 @@ const Edit_post_select = (props) => {
                 onKeyPress={(e) => {
                   if (e.key === "Enter" && search === "") {
                     Swal.fire({
-                      icon: "warning",
+                      icon: "info",
                       title: "검색 키워드를 입력해주세요!",
                       showConfirmButton: false,
                       timer: 1500,
                     });
-                    setSearch("");
-                  } else if (e.key === "Enter") {
+                  } else if (e.key === "Enter" && searchTogle === false) {
+                    setSearchTogle((togle) => !togle);
                     e.preventDefault();
                     dispatch(__getMusinsa(search));
-                    setSearch("");
+                  } else if (e.key === "Enter" && searchTogle === true) {
+                    e.preventDefault();
+                    dispatch(__getMusinsa(search));
                   }
                 }}
               ></input>
@@ -173,35 +235,69 @@ const Edit_post_select = (props) => {
                   onClick={(e) => {
                     if (search === "") {
                       Swal.fire({
-                        icon: "warning",
+                        icon: "info",
                         title: "검색 키워드를 입력해주세요!",
                         showConfirmButton: false,
                         timer: 1500,
                       });
-                      setSearch("");
-                    } else {
+                    } else if (searchTogle === false) {
+                      setSearchTogle((togle) => !togle);
                       e.preventDefault();
                       dispatch(__getMusinsa(search));
-                      setSearch("");
+                    } else if (searchTogle === true) {
+                      e.preventDefault();
+                      dispatch(__getMusinsa(search));
                     }
                   }}
                 />
               </ButtonWrap>
             </StSearchInput>
+            <MusinsaButton
+              className={!searchTogle}
+              onClick={(e) => {
+                setSearchTogle((togle) => !togle);
+              }}
+            >
+              무신사 선택 완료
+            </MusinsaButton>
             <List className={searchTogle}>
               {items?.map((item, idx) => (
-                <EachMusinsa key={idx} item={item} />
+                <EachMusinsa idx={idx} item={item} />
               ))}
             </List>
           </StUploadBox>
         </Grid>
       </Container>
+      {showTopButton()}
       <NavigationBar props={props} />
     </Fragment>
   );
 };
 
 export default Edit_post_select;
+const Delete = styled.div`
+  width: 16px;
+  height: 16px;
+  position: relative;
+  top: 6px;
+  right: 6px;
+  /* margin-right: 6px; */
+
+  background-color: rgba(0, 0, 0, 0);
+  background-position: center;
+  background-size: cover;
+  background-image: url(${(props) => props.url});
+  z-index: 20;
+`;
+
+const DeleteImageWrap = styled.div`
+  margin: 0 auto;
+  /* margin-top: 3px; */
+  /* margin-top: 13px; */
+  width: 16px;
+  height: 16px;
+  background-size: cover;
+`;
 
 const LoaderWrap = styled.div`
   position: absolute;
@@ -232,7 +328,7 @@ const Grid = styled.div`
   margin-bottom: 57px;
   max-width: 428px;
   width: 100vw;
-  height: calc(var(--vh, 1vh) * 100 + 50px);
+  //height: calc(var(--vh, 1vh) * 100 + 50px);
   background: linear-gradient(#a396c9, #ffffff);
   /* background-color: royalblue; */
 `;
@@ -332,7 +428,7 @@ const StMusinsaItemBox = styled.div`
   font-size: 20px;
   outline: none;
   text-align: center;
-  cursor: pointer;
+  /* cursor: pointer; */
   &.true {
     height: 0;
   }
@@ -372,7 +468,8 @@ const StTextBox = styled.div`
 
 const StText = styled.span`
   margin-top: 18px;
-  font-size: 16px;
+  margin-right: 6px;
+  font-size: 8px;
   color: #7b758b;
   font-weight: bold;
 `;
@@ -387,12 +484,13 @@ const StSearchInput = styled.div`
     margin-left: 20px;
     margin-top: 3px;
     width: 250px;
-    height: 47px;
+    height: 40px;
     border: none;
     outline: none;
     background: #e6e5ea;
     outline: none;
     font-size: 30px;
+    font-family: "Noto Sans KR", sans-serif;
   }
 `;
 
@@ -419,4 +517,33 @@ const List = styled.div`
     display: flex;
   }
   transition: 0.5s;
+`;
+
+const MusinsaButton = styled.button`
+  text-align: center;
+  margin: 0 20px 5px;
+  color: white;
+  font-size: 16px;
+  font-weight: bold;
+  line-height: 20px;
+  width: 350px;
+  height: 30px;
+  background-color: #7b758b;
+  border-radius: 10px;
+  border: none;
+  &.true {
+    display: none;
+  }
+`;
+
+const TopButton = styled.div`
+  position: fixed;
+  bottom: 74px;
+  left: 50%;
+  margin-left: -20px;
+  width: 40px;
+  height: 40px;
+  background-image: url(${upButton});
+  background-size: cover;
+  cursor: pointer;
 `;
