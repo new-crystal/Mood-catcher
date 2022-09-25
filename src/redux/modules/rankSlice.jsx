@@ -53,7 +53,8 @@ const rankSlice = createSlice({
         state.isFetching = true;
       })
       .addCase(__getBestPosts.fulfilled, (state, action) => {
-        state.bestPosts = action.payload;
+        const reversed = action.payload.reverse();
+        state.bestPosts = [...state.bestPosts, ...reversed];
         state.isFetching = false;
       })
       .addCase(__getBestPosts.rejected, (state, action) => {

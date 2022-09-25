@@ -29,25 +29,15 @@ const EachMusinsa = (props) => {
             <MusinsaPrice>{item.price}</MusinsaPrice>
           )}
         </MusinsaInfoWrap>
-        {selected === false ? (
-          <MusinsaCheckButton
-            onClick={() => {
-              dispatch(selectItem(item));
-              setSelected((selected) => !selected);
-            }}
-          >
-            선택
-          </MusinsaCheckButton>
-        ) : (
-          <MusinsaCheckButton
-            onClick={() => {
-              dispatch(deleteItem(item.name));
-              setSelected((selected) => !selected);
-            }}
-          >
-            해제
-          </MusinsaCheckButton>
-        )}
+
+        <MusinsaCheckButton
+          onClick={() => {
+            dispatch(selectItem(item));
+            // setSelected((selected) => !selected);
+          }}
+        >
+          +
+        </MusinsaCheckButton>
       </RecomandMusinsaWrap>
     </Fragment>
   );

@@ -161,127 +161,130 @@ const MyPageForm = () => {
         <MoodHeader>
           <MyClosetText>My Closet</MyClosetText>
         </MoodHeader>
-        <ClosetList
-          ref={scrollRef}
-          onMouseDown={onDragStart}
-          onMouseMove={isDrag ? onThrottleDragMove : null}
-          onMouseUp={onDragEnd}
-          onMouseLeave={onDragEnd}
-        >
-          {myClosetList?.length === 0 ? (
-            <>
-              <EmptyCloset onClick={() => navigate("/upload")}>
-                <p>{users.nickname}님의</p>
-                <p>옷장이 비어있습니다</p>
-              </EmptyCloset>
-              <EmptyCloset onClick={() => navigate("/upload")}>
-                <p>옷장도 꾸미고</p>
-                <p>무드도 캐치하세요</p>
-              </EmptyCloset>
-            </>
-          ) : (
-            <>
-              {myClosetList?.length === 1 && (
-                <>
-                  <Closet url={myClosetList[0]?.imgUrl}></Closet>
-                  <Closet
-                    url="https://m.spadegagu.com/web/product/extra/big/20200214/f614adca4a7b75279a0142f3657bfafe.jpg"
-                    onClick={() => navigate(`/closet/${userId}`)}
-                  >
-                    <OpenCloset>
-                      <h4>{users?.nickname}님의</h4>
-                      <h4>옷장 열어보기</h4>
-                    </OpenCloset>
-                  </Closet>
-                </>
-              )}
-              {myClosetList?.length === 2 && (
-                <>
-                  <Closet url={myClosetList[0]?.imgUrl}></Closet>
-                  <Closet url={myClosetList[1]?.imgUrl}></Closet>
-                  <Closet
-                    url="https://m.spadegagu.com/web/product/extra/big/20200214/f614adca4a7b75279a0142f3657bfafe.jpg"
-                    onClick={() => navigate(`/closet/${userId}`)}
-                  >
-                    <OpenCloset>
-                      <h4>{users?.nickname}님의</h4>
-                      <h4>옷장 열어보기</h4>
-                    </OpenCloset>
-                  </Closet>
-                </>
-              )}
-              {myClosetList?.length === 3 && (
-                <>
-                  <Closet url={myClosetList[0]?.imgUrl}></Closet>
-                  <Closet url={myClosetList[1]?.imgUrl}></Closet>
-                  <Closet url={myClosetList[2]?.imgUrl}></Closet>
-                  <Closet
-                    url="https://m.spadegagu.com/web/product/extra/big/20200214/f614adca4a7b75279a0142f3657bfafe.jpg"
-                    onClick={() => navigate(`/closet/${userId}`)}
-                  >
-                    <OpenCloset>
-                      <h4>{users?.nickname}님의</h4>
-                      <h4>옷장 열어보기</h4>
-                    </OpenCloset>
-                  </Closet>
-                </>
-              )}
-              {myClosetList?.length === 4 && (
-                <>
-                  <Closet url={myClosetList[0]?.imgUrl}></Closet>
-                  <Closet url={myClosetList[1]?.imgUrl}></Closet>
-                  <Closet url={myClosetList[2]?.imgUrl}></Closet>
-                  <Closet url={myClosetList[3]?.imgUrl}></Closet>
-                  <Closet
-                    url="https://m.spadegagu.com/web/product/extra/big/20200214/f614adca4a7b75279a0142f3657bfafe.jpg"
-                    onClick={() => navigate(`/closet/${userId}`)}
-                  >
-                    <OpenCloset>
-                      <h4>{users?.nickname}님의</h4>
-                      <h4>옷장 열어보기</h4>
-                    </OpenCloset>
-                  </Closet>
-                </>
-              )}
-              {myClosetList?.length === 5 && (
-                <>
-                  <Closet url={myClosetList[0]?.imgUrl}></Closet>
-                  <Closet url={myClosetList[1]?.imgUrl}></Closet>
-                  <Closet url={myClosetList[2]?.imgUrl}></Closet>
-                  <Closet url={myClosetList[3]?.imgUrl}></Closet>
-                  <Closet url={myClosetList[4]?.imgUrl}></Closet>
-                  <Closet
-                    url="https://m.spadegagu.com/web/product/extra/big/20200214/f614adca4a7b75279a0142f3657bfafe.jpg"
-                    onClick={() => navigate(`/closet/${userId}`)}
-                  >
-                    <OpenCloset>
-                      <h4>{users?.nickname}님의</h4>
-                      <h4>옷장 열어보기</h4>
-                    </OpenCloset>
-                  </Closet>
-                </>
-              )}
-              {myClosetList?.length > 5 && (
-                <>
-                  <Closet url={myClosetList[0]?.imgUrl}></Closet>
-                  <Closet url={myClosetList[1]?.imgUrl}></Closet>
-                  <Closet url={myClosetList[2]?.imgUrl}></Closet>
-                  <Closet url={myClosetList[3]?.imgUrl}></Closet>
-                  <Closet url={myClosetList[4]?.imgUrl}></Closet>
-                  <Closet
-                    url="https://m.spadegagu.com/web/product/extra/big/20200214/f614adca4a7b75279a0142f3657bfafe.jpg"
-                    onClick={() => navigate(`/closet/${userId}`)}
-                  >
-                    <OpenCloset>
-                      <h4>{users?.nickname}님의</h4>
-                      <h4>옷장 열어보기</h4>
-                    </OpenCloset>
-                  </Closet>
-                </>
-              )}
-            </>
-          )}
-        </ClosetList>
+        <Wrapper>
+          <ClosetList
+            ref={scrollRef}
+            onMouseDown={onDragStart}
+            onMouseMove={isDrag ? onThrottleDragMove : null}
+            onMouseUp={onDragEnd}
+            onMouseLeave={onDragEnd}
+          >
+            {myClosetList?.length === 0 ? (
+              <>
+                <EmptyCloset onClick={() => navigate("/upload")}>
+                  <p>{users.nickname}님의</p>
+                  <p>옷장이 비어있습니다</p>
+                </EmptyCloset>
+                <EmptyCloset onClick={() => navigate("/upload")}>
+                  <p>옷장도 꾸미고</p>
+                  <p>무드도 캐치하세요</p>
+                </EmptyCloset>
+              </>
+            ) : (
+              <>
+                {myClosetList?.length === 1 && (
+                  <>
+                    <Closet url={myClosetList[0]?.imgUrl}></Closet>
+                    <Closet
+                      url="https://m.spadegagu.com/web/product/extra/big/20200214/f614adca4a7b75279a0142f3657bfafe.jpg"
+                      onClick={() => navigate(`/closet/${userId}`)}
+                    >
+                      <OpenCloset>
+                        <h4>{users?.nickname}님의</h4>
+                        <h4>옷장 열어보기</h4>
+                      </OpenCloset>
+                    </Closet>
+                  </>
+                )}
+                {myClosetList?.length === 2 && (
+                  <>
+                    <Closet url={myClosetList[0]?.imgUrl}></Closet>
+                    <Closet url={myClosetList[1]?.imgUrl}></Closet>
+                    <Closet
+                      url="https://m.spadegagu.com/web/product/extra/big/20200214/f614adca4a7b75279a0142f3657bfafe.jpg"
+                      onClick={() => navigate(`/closet/${userId}`)}
+                    >
+                      <OpenCloset>
+                        <h4>{users?.nickname}님의</h4>
+                        <h4>옷장 열어보기</h4>
+                      </OpenCloset>
+                    </Closet>
+                  </>
+                )}
+                {myClosetList?.length === 3 && (
+                  <>
+                    <Closet url={myClosetList[0]?.imgUrl}></Closet>
+                    <Closet url={myClosetList[1]?.imgUrl}></Closet>
+                    <Closet url={myClosetList[2]?.imgUrl}></Closet>
+                    <Closet
+                      url="https://m.spadegagu.com/web/product/extra/big/20200214/f614adca4a7b75279a0142f3657bfafe.jpg"
+                      onClick={() => navigate(`/closet/${userId}`)}
+                    >
+                      <OpenCloset>
+                        <h4>{users?.nickname}님의</h4>
+                        <h4>옷장 열어보기</h4>
+                      </OpenCloset>
+                    </Closet>
+                  </>
+                )}
+                {myClosetList?.length === 4 && (
+                  <>
+                    <Closet url={myClosetList[0]?.imgUrl}></Closet>
+                    <Closet url={myClosetList[1]?.imgUrl}></Closet>
+                    <Closet url={myClosetList[2]?.imgUrl}></Closet>
+                    <Closet url={myClosetList[3]?.imgUrl}></Closet>
+                    <Closet
+                      url="https://m.spadegagu.com/web/product/extra/big/20200214/f614adca4a7b75279a0142f3657bfafe.jpg"
+                      onClick={() => navigate(`/closet/${userId}`)}
+                    >
+                      <OpenCloset>
+                        <h4>{users?.nickname}님의</h4>
+                        <h4>옷장 열어보기</h4>
+                      </OpenCloset>
+                    </Closet>
+                  </>
+                )}
+                {myClosetList?.length === 5 && (
+                  <>
+                    <Closet url={myClosetList[0]?.imgUrl}></Closet>
+                    <Closet url={myClosetList[1]?.imgUrl}></Closet>
+                    <Closet url={myClosetList[2]?.imgUrl}></Closet>
+                    <Closet url={myClosetList[3]?.imgUrl}></Closet>
+                    <Closet url={myClosetList[4]?.imgUrl}></Closet>
+                    <Closet
+                      url="https://m.spadegagu.com/web/product/extra/big/20200214/f614adca4a7b75279a0142f3657bfafe.jpg"
+                      onClick={() => navigate(`/closet/${userId}`)}
+                    >
+                      <OpenCloset>
+                        <h4>{users?.nickname}님의</h4>
+                        <h4>옷장 열어보기</h4>
+                      </OpenCloset>
+                    </Closet>
+                  </>
+                )}
+                {myClosetList?.length > 5 && (
+                  <>
+                    <Closet url={myClosetList[0]?.imgUrl}></Closet>
+                    <Closet url={myClosetList[1]?.imgUrl}></Closet>
+                    <Closet url={myClosetList[2]?.imgUrl}></Closet>
+                    <Closet url={myClosetList[3]?.imgUrl}></Closet>
+                    <Closet url={myClosetList[4]?.imgUrl}></Closet>
+                    <Closet
+                      url="https://m.spadegagu.com/web/product/extra/big/20200214/f614adca4a7b75279a0142f3657bfafe.jpg"
+                      onClick={() => navigate(`/closet/${userId}`)}
+                    >
+                      <OpenCloset>
+                        <h4>{users?.nickname}님의</h4>
+                        <h4>옷장 열어보기</h4>
+                      </OpenCloset>
+                    </Closet>
+                  </>
+                )}
+              </>
+            )}
+          </ClosetList>
+          <Margin></Margin>
+        </Wrapper>
       </Wrap>
     </Fragment>
   );
@@ -303,6 +306,7 @@ const Img = styled.div`
 `;
 
 const ProfileBox = styled.div`
+  margin: 0 auto;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -449,9 +453,11 @@ const HighLight = styled.div`
   flex-direction: column;
   background-color: #fff;
   border-radius: 10px;
-  height: 11px;
+  height: 12px;
   width: ${(props) => props.width};
   margin: 1px;
+  position: relative;
+  top: 0.5px;
 `;
 const PostImg = styled.div`
   width: 180px;
@@ -469,6 +475,7 @@ const ClosetList = styled.div`
   height: 230px;
   background-color: #fff;
   border-radius: 10px;
+  margin-left: 30px;
   margin-left: 30px;
   margin-top: 20px;
   align-items: center;
@@ -516,7 +523,7 @@ const OpenCloset = styled.div`
 `;
 
 const EmptyCloset = styled.div`
-  width: 180px;
+  width: 160px;
   height: 190px;
   margin: 10px;
   border-radius: 10px;
@@ -534,6 +541,15 @@ const EmptyCloset = styled.div`
     text-align: center;
     color: #534b67;
   }
+`;
+const Margin = styled.div`
+  width: 32px;
+`;
+const Wrapper = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: row;
 `;
 
 export default React.memo(MyPageForm);

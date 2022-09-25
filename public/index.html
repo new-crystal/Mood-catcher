@@ -1,30 +1,44 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-242728374-1"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'UA-242728374-1');
+    </script>
+
+
+    <script type="text/javascript" src="http://dapi.kakao.com/v2/maps/sdk.js?appkey=%REACT_APP_KAKAO%"></script>
     <script src="https://developers.kakao.com/sdk/js/kakao.min.js"></script>
     <meta charset="utf-8" />
-    <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
+    <link rel="icon" href="/favicon.ico" />
     <meta name="viewport" content="initial-scale=1, viewport-fit=cover, width=device-width, maximum-scale=1.0, user-scalable=0"></meta>
     <meta name="apple-mobile-web-app-capable" content="yes"></meta>
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"></meta>
     
     <meta name="theme-color" content="#000000" />
 
-    <meta name="description" content="안녕하세요. 무드캐쳐입니다."/>
+    <meta name="description" content="패션의 바다에서 무드를 건지다."/>
     <meta name="keywords" content="패션커뮤니티"  />
-    <meta property="og:title" content="무드캐쳐"/>
-    <meta property="og:site_name" content="ohsool" />
-    <meta property="og:description" content="안녕하세요. 무드캐쳐입니다." />
+    <meta property="og:title" content="무드캐처"/>
+    <meta property="og:image" content="./moodcatcher.png" />
+    <meta property="og:site_name" content="무드캐처" />
+    <meta property="og:description" content="패션의 바다에서 무드를 건지다." />
 
-    <meta name="twitter:title" content="무드캐쳐" />
+    <meta name="twitter:title" content="무드캐처" />
+    <meta name="twitter:image" content="./moodcatcher.png" />
     <meta name="twitter:card" content="summary" />
-    <meta name="twitter:description" content="안녕하세요. 무드캐쳐입니다." />
+    <meta name="twitter:description" content="패션의 바다에서 무드를 건지다." />
     
     <!--
       manifest.json provides metadata used when your web app is installed on a
       user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/
     -->
-    <link rel="manifest" href="%PUBLIC_URL%/manifest.json">
+    <link rel="manifest" href="/manifest.json">
     <link rel="apple-touch-icon" sizes="192x192" href="moodcatcher150.png">
     <link rel="apple-touch-icon" sizes="512x512" href="moodcatcher512.png">
 
@@ -39,11 +53,10 @@
       Learn how to configure a non-root public URL by running `npm run build`.
     -->
     <title>Mood Catcher</title>
-  <style type="text/css">
-  </style>
+    <script src="https://developers.kakao.com/sdk/js/kakao.min.js"></script>
+
   </head>
   <body>
-    <noscript>You need to enable JavaScript to run this app.</noscript>
     <!-- Fonts to support Material Design -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" />
     <!-- Icons to support Material Design -->

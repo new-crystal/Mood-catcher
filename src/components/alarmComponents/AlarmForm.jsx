@@ -13,6 +13,7 @@ const AlarmForm = () => {
   const alarms = useSelector((state) => state.alarm.notices);
   const alarmList = [...alarms].reverse();
 
+  console.log(alarms);
   const delAlarm = () => {
     Swal.fire({
       title: "알람을 전부 삭제하시겠습니까?",
@@ -67,9 +68,13 @@ const AlarmForm = () => {
                   navigate(`/item_detail/${alarm.postId}/${alarm.userId}`)
                 }
               >
-                <p>{alarm.msg}</p>
-                <h6>해당 게시글로 이동하기</h6>
-                {alarm.duplecation > 1 && <h5>{alarm.duplecation}</h5>}
+                {alarm.duplecation > 1 && (
+                  <p>
+                    {alarm.msg}({alarm.duplecation})
+                  </p>
+                )}
+                {alarm.duplecation === 1 && <p>{alarm.msg}</p>}
+                <ArrowBtn></ArrowBtn>
               </AlarmBox>
             );
           })
@@ -156,8 +161,9 @@ const AlarmBox = styled.div`
   }
   h5 {
     position: relative;
-    top: -35px;
-    left: 160px;
+    top: -17px;
+    color: #4e148c;
+    font-size: 10px;
   }
 
   h6 {
@@ -167,4 +173,17 @@ const AlarmBox = styled.div`
     cursor: pointer;
   }
 `;
+const ArrowBtn = styled.div`
+  transform: scaleX(-1);
+  width: 15px;
+  height: 15px;
+  background-position: center;
+  background-size: cover;
+  background-image: url("https://www.pngmart.com/files/16/Left-Arrow-Icon-PNG-Transparent-Image.png");
+  position: relative;
+  top: -30px;
+  left: 330px;
+  opacity: 70%;
+`;
+
 export default AlarmForm;

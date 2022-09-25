@@ -1,5 +1,5 @@
 import axios from "axios";
-import { getCookie, setCookie, deleteCookie } from "./cookie";
+import { getCookie, getToken, setCookie, deleteCookie } from "./cookie";
 import Swal from "sweetalert2";
 
 // axios 기본 주소 & header 타입 세팅
@@ -7,56 +7,56 @@ export const instance = axios.create({
   baseURL: process.env.REACT_APP_ENDPOINT,
 });
 
-// 매 실행 시 토큰값 넣기, 없으면 null값이 들어간다
-instance.interceptors.request.use(function (config) {
-  const accessToken = getCookie("token");
-  config.headers.common["authorization"] = `Bearer ${accessToken}`;
-  return config;
-});
-
-// //┏----------interceptor를 통한 header 설정----------┓
-// instance.interceptors.request.use(async (config) => {
-//   config.headers["content-type"] = "application/json; charset=utf-8";
-//   config.headers["X-Requested-With"] = "XMLHttpRequest";
-//   config.headers["Accept"] = "*/*";
-//   //getToken는 로컬 스토리지에 토큰이 있다면 반환한다 없다면 null 값 반환
-//   config.headers["authorization"] = await getToken();
+// // 매 실행 시 토큰값 넣기, 없으면 null값이 들어간다
+// instance.interceptors.request.use(function (config) {
+//   const accessToken = getCookie("token");
+//   config.headers.common["authorization"] = `Bearer ${accessToken}`;
 //   return config;
 // });
 
-// // ┏----------interceptor를 통한 response 설정----------┓
-// instance.interceptors.response.use(
-//   async (response) => {
-//     if (response.data.message === "new token") {
-//       const { config } = response;
-//       const originalRequest = config;
+//┏----------interceptor를 통한 header 설정----------┓
+instance.interceptors.request.use(async (config) => {
+  config.headers["content-type"] = "application/json; charset=utf-8";
+  config.headers["X-Requested-With"] = "XMLHttpRequest";
+  config.headers["Accept"] = "*/*";
+  //getToken는 로컬 스토리지에 토큰이 있다면 반환한다 없다면 null 값 반환
+  config.headers["authorization"] = await getToken();
+  return config;
+});
 
-//       const newAccessToken = response.data.myNewToken;
-//       setCookie("token", newAccessToken);
+// ┏----------interceptor를 통한 response 설정----------┓
+instance.interceptors.response.use(
+  async (response) => {
+    if (response.data.message === "new token") {
+      const { config } = response;
+      const originalRequest = config;
 
-//       axios.defaults.headers.common.authorization = `Bearer ${newAccessToken}`;
-//       originalRequest.headers.authorization = `Bearer ${newAccessToken}`;
-//       return axios(originalRequest);
-//     }
+      const newAccessToken = response.data.myNewToken;
+      setCookie("token", newAccessToken);
 
-//     return response;
-//   },
-//   async (error) => {
-//     const {
-//       config,
-//       response: { status },
-//     } = error;
+      axios.defaults.headers.common.authorization = `Bearer ${newAccessToken}`;
+      originalRequest.headers.authorization = `Bearer ${newAccessToken}`;
+      return axios(originalRequest);
+    }
 
-//     if (
-//       status === 401 &&
-//       error.response.data.message !== "비밀번호가 틀렸습니다."
-//     ) {
-//       deleteCookie("token");
-//       Swal.fire("로그인", "로그인 시간이 만료되었습니다.", "error");
-//     }
-//     return Promise.reject(error);
-//   }
-// );
+    return response;
+  },
+  async (error) => {
+    const {
+      config,
+      response: { status },
+    } = error;
+
+    if (
+      status === 401 &&
+      error.response.data.message !== "비밀번호가 틀렸습니다."
+    ) {
+      deleteCookie("token");
+      Swal.fire("로그인", "로그인 시간이 만료되었습니다.", "error");
+    }
+    return Promise.reject(error);
+  }
+);
 
 // 알람 관련 axios API 통신
 // alarmSlice
@@ -99,13 +99,22 @@ export const commentApi = {
     instance.delete(`/recomments/${reComment.recommentId}`),
 };
 
+// 카카오 관련 axios API 통신
+// kakaoSlice
+export const kakaoApi = {
+  // kakao맵 유저 위치 보내기
+  patchKakaoMap: (data) => instance.patch("/map", { data }),
+  // kakao맵 유저들 위치 받기
+  getKakaoUsers: () => instance.get("/map?dist=5.0"),
+};
+
 // 좋아요 관련 axios API 통신
 // likeSlice
 export const likeApi = {
   // 게시물 조회하기 (좋아요페이지)
   getLikeAllPosts: (data) =>
     instance.get(
-      `/posts?userId=${data.userId}&type=like&page=${data.paging}&count=2`
+      `/posts?userId=${data.userId}&type=like&page=${data.paging}&count=4`
     ),
   // 무드(좋아요) 등록/취소
   patchMood: (postId) => instance.patch(`/like?postId=${postId}`),
@@ -184,11 +193,20 @@ export const signupApi = {
   // 초기화면 조회하기
   getOpen: () => instance.get("/start"),
   //이메일 인증번호 발송하기
-  postEmail: (data) => instance.post("/auth/sendEmail", data),
+  postEmail: (data) => instance.post("/auth/sendEmail?type=signup", data),
   //비밀번호 찾을 때 이메일 발송
-  findEmail: (data) => instance.post("/auth/forgetPw", data),
+  findEmail: (data) => instance.post("/auth/sendEmail?type=password", data),
   //비밀번호 변경
-  putPW: (data) => instance.put(`/api/auth/updatePw?email=${data.email}`, data),
+  putPW: (data) =>
+    instance.put(`/auth/updatePw?email=${data.email}&authNum=${data.authNum}`, {
+      password: data.password,
+      confirmPw: data.confirmPw,
+    }),
+  //인증번호 확인
+  postAuthNum: (data) =>
+    instance.get(
+      `/auth/check-authnum?email=${data.email}&authNum=${data.authNum}`
+    ),
 };
 
 // 업로드 관련 axios API 통신

@@ -14,8 +14,6 @@ import SearchItem from "./SearchItem";
 const SearchForm = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const token = getCookie("token");
-  const payload = jwt_decode(token);
   const [mood, setMood] = useState(`${heart}`);
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(false);
@@ -38,7 +36,12 @@ const SearchForm = () => {
   //검색하기
   const onSubmit = async (data) => {
     await new Promise((r) => setTimeout(r, 300));
-    navigate(`/search/result/keyword=${data.search}?sort=${data.sort}`);
+    if (title && !writer) {
+      navigate(`/search/result/keyword=${data.search}?sort=title`);
+    }
+    if (!title && writer) {
+      navigate(`/search/result/keyword=${data.search}?sort=writer`);
+    }
   };
 
   //추천게시글 불러오기
@@ -123,27 +126,10 @@ const SearchForm = () => {
         {title && !writer && (
           <>
             <CheckBox>
-              <LabelTitle htmlFor={search.sort} onClick={onChangeTitle}>
-                <input
-                  hidden
-                  id={search.sort}
-                  type="radio"
-                  value="title"
-                  checked
-                  {...register("sort")}
-                />
-                제목으로 검색하기
-              </LabelTitle>
+              <LabelTitle onClick={onChangeTitle}>제목으로 검색하기</LabelTitle>
             </CheckBox>
             <NotCheckBox>
-              <LabelWriter htmlFor={search.sort} onClick={onChangeWriter}>
-                <input
-                  hidden
-                  id={search.sort}
-                  type="radio"
-                  value="writer"
-                  {...register("sort")}
-                />
+              <LabelWriter onClick={onChangeWriter}>
                 작성자로 검색하기
               </LabelWriter>
             </NotCheckBox>
@@ -153,27 +139,10 @@ const SearchForm = () => {
         {!title && writer && (
           <>
             <NotCheckBox>
-              <LabelTitle htmlFor={search.sort} onClick={onChangeTitle}>
-                <input
-                  hidden
-                  id={search.sort}
-                  type="radio"
-                  value="title"
-                  checked
-                  {...register("sort")}
-                />
-                제목으로 검색하기
-              </LabelTitle>
+              <LabelTitle onClick={onChangeTitle}>제목으로 검색하기</LabelTitle>
             </NotCheckBox>
             <CheckBox>
-              <LabelWriter htmlFor={search.sort} onClick={onChangeWriter}>
-                <input
-                  hidden
-                  id={search.sort}
-                  type="radio"
-                  value="writer"
-                  {...register("sort")}
-                />
+              <LabelWriter onClick={onChangeWriter}>
                 작성자로 검색하기
               </LabelWriter>
             </CheckBox>
@@ -233,13 +202,13 @@ const LabelWriter = styled.label`
   color: #2d273f;
 `;
 const CheckBox = styled.div`
-  width: 120px;
+  width: 125px;
   height: 15px;
   padding: 5px;
   border-bottom: 2px solid #fff;
 `;
 const NotCheckBox = styled.div`
-  width: 120px;
+  width: 125px;
   height: 15px;
   padding: 5px;
 `;

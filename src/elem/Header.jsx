@@ -10,11 +10,11 @@ import { useDispatch, useSelector } from "react-redux";
 import { __getHeaderUser } from "../redux/async/login";
 import { getCookie } from "../shared/cookie";
 import jwt_decode from "jwt-decode";
-import { set } from "lodash";
 import Setting from "../image/settings.png";
 
 const Back = "/images/Back2.png";
 const arrow_back = "/images/arrow_back.png";
+const Map = "/images/Map.png";
 
 const Header = () => {
   const dispatch = useDispatch();
@@ -62,7 +62,10 @@ const Header = () => {
     ) {
       setHeaderText("Search");
     }
-    if (window.location.pathname.split("/")[1] === "closet") {
+    if (
+      window.location.pathname.split("/")[1] === "closet" &&
+      window.location.pathname.split("/")[2] == userId
+    ) {
       setHeaderText("My Closet");
     }
     if (window.location.pathname === "/main") {
@@ -91,13 +94,22 @@ const Header = () => {
               ></GoBack>
               <HeaderLogo
                 margin="-10.313rem"
-                style={{ marginLeft: "3.5rem", top: "0.75rem" }}
+                style={{ marginLeft: "3.5rem", top: "0.7rem" }}
                 onClick={() => {
                   navigate("/main");
                 }}
               >
                 <span>{headerText}</span>
               </HeaderLogo>
+              <a
+                href="javascript:void(0);"
+                onClick={() => {
+                  let pageUrl = `/kakao`;
+                  document.location.href = pageUrl;
+                }}
+              >
+                <Star style={{ backgroundImage: `url(${Map})` }} />
+              </a>
             </>
           )}
           {/* 로그인 상태가 아닐 때 */}
@@ -128,6 +140,15 @@ const Header = () => {
               >
                 <span>{headerText}</span>
               </HeaderLogo>
+              <a
+                href="javascript:void(0);"
+                onClick={() => {
+                  let pageUrl = `/kakao`;
+                  document.location.href = pageUrl;
+                }}
+              >
+                <Star style={{ backgroundImage: `url(${Map})` }} />
+              </a>
             </>
           )}
           {/* 로고는 span을 이용해 그냥 텍스트로 처리하고
@@ -155,6 +176,11 @@ const Header = () => {
               onClick={() => navigate("/edit_profile")}
             ></Notifications>
           )}
+
+          {/* <Star
+            onClick={() => navigate("/kakao")}
+            style={{ backgroundImage: `url(${star})` }}
+          ></Star> */}
         </HeaderBox>
       </Headers>
     </Fragment>
@@ -162,6 +188,28 @@ const Header = () => {
 };
 
 export default Header;
+const Star = styled.div`
+  width: 25px;
+  height: 25px;
+  margin-top: -32px;
+  float: right;
+  margin-right: 70px;
+  background-color: rgba(0, 0, 0, 0);
+  background-position: center;
+  background-size: cover;
+  background-image: url(${(props) => props.url});
+  z-index: 20;
+  opacity: 60%;
+`;
+
+const ImageWrap = styled.div`
+  margin: 0 auto;
+  margin-top: 13px;
+  width: 22px;
+  height: 22px;
+  background-size: cover;
+`;
+
 const Headers = styled.div`
   max-width: 428px;
   width: 100vw;
@@ -176,7 +224,7 @@ const MainHeaderLine = styled.div`
   width: 90vw;
   border-bottom: 0.125rem solid #fff;
   position: relative;
-  top: 80px;
+  top: 90px;
   left: 23px;
 `;
 
@@ -196,9 +244,9 @@ const GoBack = styled.div`
   background-size: cover;
   margin: 20px 0 0 25px;
   cursor: pointer;
-  opacity: 60%;
+  opacity: 50%;
   position: relative;
-  top: 30px;
+  top: 28px;
 `;
 
 const HeaderLogo = styled.div`
@@ -207,7 +255,7 @@ const HeaderLogo = styled.div`
   top: 12px;
   left: 50%; */
   //margin-left: ${(props) => props.margin};
-  margin-top: 0px;
+  margin-top: -3px;
   margin-left: 40px;
   font-size: 30px;
   color: #fff;

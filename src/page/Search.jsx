@@ -40,7 +40,7 @@ const Grid = styled.div`
   /* min-height: 928px; */
   /* min-height: 808px; */
   background: linear-gradient(#a396c9, #ffffff);
-  height: calc(var(--vh, 1vh) * 100 + 50px);
+  //height: calc(var(--vh, 1vh) * 100 + 50px);
 `;
 
 export default Search;

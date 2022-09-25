@@ -6,14 +6,12 @@ import EditPasswordForm from "../components/signupComponents/EditPasswordForm";
 const Edit_password = () => {
   return (
     <Fragment>
-      <Container>
-        <Grid>
-          <LoginWrap>
-            <Header />
-            <EditPasswordForm />
-          </LoginWrap>
-        </Grid>
-      </Container>
+      <LoginWrap>
+        <Container>
+          <Header />
+          <EditPasswordForm />
+        </Container>
+      </LoginWrap>
     </Fragment>
   );
 };
@@ -27,24 +25,18 @@ const LoaderWrap = styled.div`
 `;
 
 const Container = styled.div`
-  display: flex;
-  height: 984px;
-  flex-direction: column;
-  bottom: 110px;
-  & > span {
-    display: -webkit-box;
-    -webkit-box-orient: vertical;
-    -webkit-line-clamp: 1;
-    overflow: auto;
-    text-align: left;
-  }
+  max-width: 26.75rem;
+  width: 100vw;
+  //height: calc(var(--vh, 1vh) * 100 + 50px);
+  margin: 0 auto;
+  margin-top: 60px;
+  background: linear-gradient(#a396c9, #ffffff);
 `;
 
 const Grid = styled.div`
   max-width: 428px;
   width: 100vw;
-  height: calc(var(--vh, 1vh) * 100 + 50px);
-
+  //height: calc(var(--vh, 1vh) * 100 + 50px);
   margin: 0 auto;
   background-color: royalblue;
   margin-top: 60px;
@@ -53,10 +45,9 @@ const Grid = styled.div`
 
 const LoginWrap = styled.div`
   width: 100%;
-  background-color: #ffffff;
   display: flex;
   flex-direction: column;
-  background: linear-gradient(#a396c9, #ffffff);
+  text-align: center;
 `;
 
 export default Edit_password;

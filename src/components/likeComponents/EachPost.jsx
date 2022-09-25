@@ -57,11 +57,14 @@ const EachPost = (props) => {
         </ClosetImage>
         <ClosetTextWrap>
           <GridHorizon>
+            <CreatedText>
+              <span>{item?.createdAt.slice(0, 10)}</span>
+            </CreatedText>
             <TitleText>
               <span>{item?.title}</span>
             </TitleText>
             <ContentText>
-              <span>{item?.createdAt.slice(5)}</span>
+              {/* <span>{item?.createdAt.slice(5)}</span> */}
               <br />
               <span>{item?.content}</span>
             </ContentText>
@@ -128,6 +131,17 @@ const GridHorizon = styled.div`
   flex-direction: column;
   justify-content: space-between;
   height: 20px;
+`;
+const CreatedText = styled.div`
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 20px;
+  text-align: end;
+  color: #7b758b;
+  position: relative;
+  left: 20px;
+  margin-top: -55px;
+  margin-bottom: 30px;
 `;
 
 const TitleText = styled.p`

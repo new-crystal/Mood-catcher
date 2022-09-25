@@ -5,14 +5,11 @@ import search from "../../image/search.png";
 import { useDispatch, useSelector } from "react-redux";
 import { __getSearchResult } from "../../redux/async/search";
 import { useNavigate, useParams } from "react-router-dom";
-import more from "../../image/more.png";
 import _ from "lodash";
-import { __getUser } from "../../redux/async/login";
 
 const SearchResultForm = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [moreBox, setMoreBox] = useState(false);
   const { keyword } = useParams();
   const key = keyword.split("=")[1];
   const sort = window.location.href.split("sort=")[1];
@@ -25,8 +22,7 @@ const SearchResultForm = () => {
 
   //검색 결과 받아오기/유저 정보 불러오기
   const searchList = useSelector((state) => state.search.searchResult);
-
-  // console.log(searchList);
+  console.log(searchList);
 
   //react-hook-form 사용하기
   const {
@@ -38,8 +34,12 @@ const SearchResultForm = () => {
   //다시 검색하기
   const onSubmit = async (data) => {
     await new Promise((r) => setTimeout(r, 300));
-    navigate(`/search/result/keyword=${data.search}?sort=${data.sort}`);
-    //setSearching(!searching);
+    if (title && !writer) {
+      navigate(`/search/result/keyword=${data.search}?sort=title`);
+    }
+    if (!title && writer) {
+      navigate(`/search/result/keyword=${data.search}?sort=writer`);
+    }
     window.location.reload();
   };
 
@@ -90,6 +90,18 @@ const SearchResultForm = () => {
     };
   }, [page, loading, key]);
 
+  //sort값 유지해주기
+  useEffect(() => {
+    if (sort === "title") {
+      setTitle(true);
+      setWriter(false);
+    }
+    if (sort === "writer") {
+      setTitle(false);
+      setWriter(true);
+    }
+  }, [sort]);
+
   //제목으로 검색 눌렀을 때
   const onChangeTitle = () => {
     setTitle(true);
@@ -127,27 +139,12 @@ const SearchResultForm = () => {
             {title && !writer && (
               <>
                 <CheckBox>
-                  <LabelTitle htmlFor={search.sort} onClick={onChangeTitle}>
-                    <input
-                      hidden
-                      id={search.sort}
-                      type="radio"
-                      value="title"
-                      checked
-                      {...register("sort")}
-                    />
+                  <LabelTitle onClick={onChangeTitle}>
                     제목으로 검색하기
                   </LabelTitle>
                 </CheckBox>
                 <NotCheckBox>
-                  <LabelWriter htmlFor={search.sort} onClick={onChangeWriter}>
-                    <input
-                      hidden
-                      id={search.sort}
-                      type="radio"
-                      value="writer"
-                      {...register("sort")}
-                    />
+                  <LabelWriter onClick={onChangeWriter}>
                     작성자로 검색하기
                   </LabelWriter>
                 </NotCheckBox>
@@ -156,27 +153,12 @@ const SearchResultForm = () => {
             {!title && writer && (
               <>
                 <NotCheckBox>
-                  <LabelTitle htmlFor={search.sort} onClick={onChangeTitle}>
-                    <input
-                      hidden
-                      id={search.sort}
-                      type="radio"
-                      value="title"
-                      checked
-                      {...register("sort")}
-                    />
+                  <LabelTitle onClick={onChangeTitle}>
                     제목으로 검색하기
                   </LabelTitle>
                 </NotCheckBox>
                 <CheckBox>
-                  <LabelWriter htmlFor={search.sort} onClick={onChangeWriter}>
-                    <input
-                      hidden
-                      id={search.sort}
-                      type="radio"
-                      value="writer"
-                      {...register("sort")}
-                    />
+                  <LabelWriter onClick={onChangeWriter}>
                     작성자로 검색하기
                   </LabelWriter>
                 </CheckBox>
@@ -189,27 +171,12 @@ const SearchResultForm = () => {
             {title && !writer && (
               <>
                 <CheckBox>
-                  <LabelTitle htmlFor={search.sort} onClick={onChangeTitle}>
-                    <input
-                      hidden
-                      id={search.sort}
-                      type="radio"
-                      value="title"
-                      checked
-                      {...register("sort")}
-                    />
+                  <LabelTitle onClick={onChangeTitle}>
                     제목으로 검색하기
                   </LabelTitle>
                 </CheckBox>
                 <NotCheckBox>
-                  <LabelWriter htmlFor={search.sort} onClick={onChangeWriter}>
-                    <input
-                      hidden
-                      id={search.sort}
-                      type="radio"
-                      value="writer"
-                      {...register("sort")}
-                    />
+                  <LabelWriter onClick={onChangeWriter}>
                     작성자로 검색하기
                   </LabelWriter>
                 </NotCheckBox>
@@ -218,30 +185,16 @@ const SearchResultForm = () => {
 
             {!title && writer && (
               <>
+                <NotCheckBox>
+                  <LabelWriter onClick={onChangeTitle}>
+                    제목으로 검색하기
+                  </LabelWriter>
+                </NotCheckBox>
                 <CheckBox>
-                  <LabelWriter htmlFor={search.sort} onClick={onChangeWriter}>
-                    <input
-                      hidden
-                      id={search.sort}
-                      type="radio"
-                      value="writer"
-                      {...register("sort")}
-                    />
+                  <LabelWriter onClick={onChangeWriter}>
                     작성자로 검색하기
                   </LabelWriter>
                 </CheckBox>
-                <NotCheckBox>
-                  <LabelWriter htmlFor={search.sort} onClick={onChangeWriter}>
-                    <input
-                      hidden
-                      id={search.sort}
-                      type="radio"
-                      value="writer"
-                      {...register("sort")}
-                    />
-                    작성자로 검색하기
-                  </LabelWriter>
-                </NotCheckBox>
               </>
             )}
           </>
@@ -275,11 +228,10 @@ const SearchResultForm = () => {
           ))}
         {sort === "writer" &&
           searchList?.map((search) => (
-            <NickImgBox style={{ textAlign: "center" }}>
+            <NickImgBox key={search.postId} style={{ textAlign: "center" }}>
               <Nickname>{search.nickname} 님의</Nickname>
               <Nickname> 대표게시물</Nickname>
               <Img
-                key={search.postId}
                 url={search.imgUrl}
                 onClick={() =>
                   navigate(`/item_detail/${search.postId}/${search.userId}`)
@@ -340,13 +292,13 @@ const LabelWriter = styled.label`
   color: #2d273f;
 `;
 const CheckBox = styled.div`
-  width: 110px;
+  width: 125px;
   height: 15px;
   padding: 5px;
   border-bottom: 2px solid #fff;
 `;
 const NotCheckBox = styled.div`
-  width: 110px;
+  width: 125px;
   height: 15px;
   padding: 5px;
 `;
@@ -364,42 +316,7 @@ const SearchImg = styled.button`
   top: -50px;
   cursor: pointer;
 `;
-const More = styled.div`
-  width: 30px;
-  height: 30px;
-  background-position: center;
-  background-size: cover;
-  background-image: url(${more});
-  display: block;
-  float: right;
-  margin-top: -40px;
-`;
-const MoreList = styled.div`
-  width: 140px;
-  height: 140px;
-  background-color: #ddd;
-  border-radius: 20px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  float: right;
-  margin-bottom: -150px;
-`;
-const Mores = styled.div`
-  width: 120px;
-  height: 40px;
-  background-color: white;
-  border-radius: 10px;
-  margin: 5px;
-  text-align: center;
-  z-index: 222;
 
-  p {
-    font-size: 10px;
-    margin: 4px;
-  }
-`;
 const ImgBox = styled.div`
   display: flex;
   flex-wrap: wrap;
