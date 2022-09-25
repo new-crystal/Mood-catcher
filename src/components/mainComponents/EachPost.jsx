@@ -48,21 +48,21 @@ const PostImage = styled.div`
     width: 140px;
     height: 185px;
     border-radius: 20px;
-    //box-shadow: 5px 5px 4px #877f92;
+    /* box-shadow: 5px 5px 4px #877f92; */
   }
-  /* @media (img: img) {
+  @media (img: img) {
     & > img {
       width: 130px;
-      height: 130px;
+      height: 196px;
       margin: 9px;
     }
   }
   @media (img: img) {
     & > img {
       width: 148px;
-      height: 148px;
+      height: 196px;
     }
-  } */
+  }
 `;
 
 const PostInfoWrap = styled.div`

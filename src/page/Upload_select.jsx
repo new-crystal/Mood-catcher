@@ -1,4 +1,4 @@
-import React, { Fragment, Suspense, useRef, useState } from "react";
+import React, { useEffect, Fragment, Suspense, useRef, useState } from "react";
 import styled from "styled-components";
 import Header from "../elem/Header";
 import NavigationBar from "../elem/NavigationBar";
@@ -7,12 +7,16 @@ import { useSelector, useDispatch } from "react-redux";
 import "../shared/style/myBeer.css";
 import EachMusinsa from "../components/uploadCompnents/EachMusinsa";
 import ScrollX from "../elem/ScrollX";
+import { selectItem, deleteItem } from "../redux/modules/uploadSlice";
 
 import { __getMusinsa, __addPost, __uploadImage } from "../redux/async/upload";
 import { changeCheckPostId } from "../redux/modules/uploadSlice";
 import Swal from "sweetalert2";
+import _ from "lodash";
 
 const Search = "./images/search.png";
+const upButton = "/images/upArrow.png";
+const Cancel = "/images/cancel.png";
 
 const Upload_select = (props) => {
   const dispatch = useDispatch();
@@ -80,6 +84,53 @@ const Upload_select = (props) => {
     }
   }, [checkPostId]);
 
+  // 새로고침 막기
+  const preventClose = (e) => {
+    console.log(e);
+    e.preventDefault();
+    e.returnValue = ""; //Chrome에서 동작하도록; deprecated
+  };
+
+  useEffect(() => {
+    (() => {
+      window.addEventListener("beforeunload", preventClose);
+    })();
+    return () => {
+      window.removeEventListener("beforeunload", preventClose);
+    };
+  }, []);
+
+  const _scrollPosition = _.throttle(() => {
+    const scrollHeight = document.documentElement.scrollTop;
+    SetScrollHeightInfo(scrollHeight);
+  }, 300);
+
+  // toTop버튼
+  const [scrollHeightInfo, SetScrollHeightInfo] = useState(0);
+  const showTopButton = () => {
+    if (scrollHeightInfo > 2000) {
+      //2000px밑으로 스크롤 내려갔을때 위로가는 Top 버튼 보이기
+      return <TopButton onClick={ScrollToTop}></TopButton>;
+    } else {
+      return null;
+    }
+  };
+
+  useEffect(() => {
+    window.addEventListener("scroll", _scrollPosition); // scroll event listener 등록
+    return () => {
+      window.removeEventListener("scroll", _scrollPosition); // scroll event listener 해제(스크롤이벤트 클린업)
+    };
+  }, [scrollHeightInfo]);
+
+  // 실행시 맨위로 올라옴
+  const ScrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  };
+
   return (
     <Fragment>
       <Container>
@@ -132,6 +183,15 @@ const Upload_select = (props) => {
                       </Fragment>
                     )}
                   </StTextBox>
+                  <Delete
+                    onClick={() => {
+                      dispatch(deleteItem(item.name));
+                    }}
+                  >
+                    <DeleteImageWrap
+                      style={{ backgroundImage: `url(${Cancel})` }}
+                    />
+                  </Delete>
                 </StMusinsaItemBox>
               ))}
             </SliderContainer>
@@ -201,12 +261,36 @@ const Upload_select = (props) => {
           </StUploadBox>
         </Grid>
       </Container>
+      {showTopButton()}
       <NavigationBar props={props} />
     </Fragment>
   );
 };
 
 export default Upload_select;
+const Delete = styled.div`
+  width: 16px;
+  height: 16px;
+  position: relative;
+  top: 6px;
+  right: 6px;
+  /* margin-right: 6px; */
+
+  background-color: rgba(0, 0, 0, 0);
+  background-position: center;
+  background-size: cover;
+  background-image: url(${(props) => props.url});
+  z-index: 20;
+`;
+
+const DeleteImageWrap = styled.div`
+  margin: 0 auto;
+  /* margin-top: 3px; */
+  /* margin-top: 13px; */
+  width: 16px;
+  height: 16px;
+  background-size: cover;
+`;
 
 const LoaderWrap = styled.div`
   position: absolute;
@@ -237,7 +321,7 @@ const Grid = styled.div`
   margin-bottom: 57px;
   max-width: 428px;
   width: 100vw;
-  height: calc(var(--vh, 1vh) * 100 + 50px);
+  //height: calc(var(--vh, 1vh) * 100 + 50px);
   background: linear-gradient(#a396c9, #ffffff);
   /* background-color: royalblue; */
 `;
@@ -443,4 +527,16 @@ const MusinsaButton = styled.button`
   &.true {
     display: none;
   }
+`;
+
+const TopButton = styled.div`
+  position: fixed;
+  bottom: 74px;
+  left: 50%;
+  margin-left: -20px;
+  width: 40px;
+  height: 40px;
+  background-image: url(${upButton});
+  background-size: cover;
+  cursor: pointer;
 `;

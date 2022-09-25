@@ -37,7 +37,7 @@ const Grid = styled.div`
   margin-bottom: 57px;
   max-width: 428px;
   width: 100vw;
-  height: calc(var(--vh, 1vh) * 100);
+  //height: calc(var(--vh, 1vh) * 100);
   background: linear-gradient(#a396c9, #ffffff);
 `;
 

@@ -8,7 +8,7 @@ import { useDispatch } from "react-redux";
 import { regFormdata, regPost } from "../redux/modules/uploadSlice";
 import Swal from "sweetalert2";
 
-const junsu = "./images/junsu.PNG";
+const preview_URL = "./images/preview_URL.PNG";
 
 const Edit_post = (props) => {
   const dispatch = useDispatch();
@@ -87,7 +87,7 @@ const Edit_post = (props) => {
               />
               <div className="ImgDiv">
                 <img
-                  src={attachment ? attachment : junsu}
+                  src={attachment ? attachment : preview_URL}
                   alt=""
                   className="default"
                 />
@@ -95,11 +95,21 @@ const Edit_post = (props) => {
             </StImageBox>
             <StText>제목</StText>
             <StTitleInput>
-              <input id="title" required onChange={changeInput} />
+              <input
+                id="title"
+                maxLength={17}
+                required
+                onChange={changeInput}
+              />
             </StTitleInput>
             <StText>내용</StText>
             <StContentInput>
-              <input id="content" required onChange={changeInput} />
+              <input
+                id="content"
+                maxLength={25}
+                required
+                onChange={changeInput}
+              />
             </StContentInput>
           </StUploadBox>
         </Grid>
@@ -139,7 +149,7 @@ const Grid = styled.div`
   margin-bottom: 57px;
   max-width: 428px;
   width: 100vw;
-  height: calc(var(--vh, 1vh) * 100 + 50px);
+  //height: calc(var(--vh, 1vh) * 100 + 50px);
   background: linear-gradient(#a396c9, #ffffff);
 
   /* background-color: royalblue; */
@@ -245,7 +255,7 @@ const StTitleInput = styled.div`
   border-radius: 15px;
   outline: none;
   & > input {
-    width: 250px;
+    width: 300px;
     height: 50px;
     border: none;
     outline: none;
@@ -262,7 +272,7 @@ const StContentInput = styled.div`
   border-radius: 15px;
   outline: none;
   & > input {
-    width: 250px;
+    width: 300px;
     height: 90px;
     border: none;
     outline: none;
