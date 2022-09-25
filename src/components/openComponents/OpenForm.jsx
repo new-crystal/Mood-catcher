@@ -39,19 +39,22 @@ const OpenForm = () => {
         }, 3000);
       }
     }
-    // if (window.location.search === "") {
-    //   const token = getCookie("token");
-    //   if (token !== undefined) {
-    //     setTimeout(() => {
-    //       navigate("/main");
-    //     }, 3000);
-    //   }
-    //   if (token === undefined) {
-    //     setTimeout(() => {
-    //       navigate("/login");
-    //     }, 3000);
-    //   }
-    // }
+  }, []);
+
+  useEffect(() => {
+    if (window.location.search === "") {
+      const token = getCookie("token");
+      if (token !== undefined) {
+        setTimeout(() => {
+          navigate("/main");
+        }, 3000);
+      }
+      if (token === undefined) {
+        setTimeout(() => {
+          navigate("/login");
+        }, 3000);
+      }
+    }
   }, []);
 
   return (

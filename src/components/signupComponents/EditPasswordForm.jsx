@@ -22,7 +22,6 @@ const EditPasswordForm = () => {
   const salt = bcrypt.genSaltSync(10);
 
   const checkEmail = useSelector((state) => state.signup.checkEmail);
-  const sendEmailNum = useSelector((state) => state.signup.sendEmailNum);
   const authNum = useSelector((state) => state.signup.checkAuthNum);
 
   //react-hook-form에서 불러오기
@@ -71,6 +70,7 @@ const EditPasswordForm = () => {
         { message: "인증번호를 확인해주세요" },
         { shouldFocus: true }
       );
+      setNewPw(false);
     }
     if (authNum) {
       setNewPw(true);
@@ -112,13 +112,6 @@ const EditPasswordForm = () => {
           { shouldFocus: true }
         );
       }
-      // if (data.sendEmail !== sendEmailNum) {
-      //   setError(
-      //     "sendEmail",
-      //     { message: "이메일 인증번호를 확인해주세요" },
-      //     { shouldFocus: true }
-      //   );
-      // }
     }
   };
 

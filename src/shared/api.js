@@ -198,14 +198,14 @@ export const signupApi = {
   findEmail: (data) => instance.post("/auth/sendEmail?type=password", data),
   //비밀번호 변경
   putPW: (data) =>
-    instance.put(
-      `/api/auth/updatePw?email=${data.email}&authNum=${data.authNum}`,
-      data
-    ),
+    instance.put(`/auth/updatePw?email=${data.email}&authNum=${data.authNum}`, {
+      password: data.password,
+      confirmPw: data.confirmPw,
+    }),
   //인증번호 확인
   postAuthNum: (data) =>
     instance.get(
-      `/auth/check-authnum?email=${data.email}&autnNum=${data.authNum}`
+      `/auth/check-authnum?email=${data.email}&authNum=${data.authNum}`
     ),
 };
 
