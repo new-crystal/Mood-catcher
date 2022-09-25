@@ -104,13 +104,22 @@ export const commentApi = {
     instance.delete(`/recomments/${reComment.recommentId}`),
 };
 
+// 카카오 관련 axios API 통신
+// kakaoSlice
+export const kakaoApi = {
+  // kakao맵 유저 위치 보내기
+  patchKakaoMap: (data) => instance.patch("/map", { data }),
+  // kakao맵 유저들 위치 받기
+  getKakaoUsers: () => instance.get("/map?dist=5.0"),
+};
+
 // 좋아요 관련 axios API 통신
 // likeSlice
 export const likeApi = {
   // 게시물 조회하기 (좋아요페이지)
   getLikeAllPosts: (data) =>
     instance.get(
-      `/posts?userId=${data.userId}&type=like&page=${data.paging}&count=2`
+      `/posts?userId=${data.userId}&type=like&page=${data.paging}&count=4`
     ),
   // 무드(좋아요) 등록/취소
   patchMood: (postId) => instance.patch(`/like?postId=${postId}`),

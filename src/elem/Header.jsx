@@ -15,6 +15,7 @@ import Setting from "../image/settings.png";
 
 const Back = "/images/Back2.png";
 const arrow_back = "/images/arrow_back.png";
+const Map = "/images/Map.png";
 
 const Header = () => {
   const dispatch = useDispatch();
@@ -151,6 +152,19 @@ const Header = () => {
               onClick={() => navigate("/edit_profile")}
             ></Notifications>
           )}
+          <a
+            href="javascript:void(0);"
+            onClick={() => {
+              let pageUrl = `/kakao`;
+              document.location.href = pageUrl;
+            }}
+          >
+            <Star style={{ backgroundImage: `url(${Map})` }} />
+          </a>
+          {/* <Star
+            onClick={() => navigate("/kakao")}
+            style={{ backgroundImage: `url(${star})` }}
+          ></Star> */}
         </HeaderBox>
       </Headers>
     </Fragment>
@@ -158,8 +172,29 @@ const Header = () => {
 };
 
 export default Header;
+const Star = styled.div`
+  width: 25px;
+  height: 25px;
+  margin-top: -32px;
+  float: right;
+  margin-right: 70px;
+  background-color: rgba(0, 0, 0, 0);
+  background-position: center;
+  background-size: cover;
+  background-image: url(${(props) => props.url});
+  z-index: 20;
+`;
+
+const ImageWrap = styled.div`
+  margin: 0 auto;
+  margin-top: 13px;
+  width: 22px;
+  height: 22px;
+  background-size: cover;
+`;
+
 const Headers = styled.div`
-  max-width: 26.75rem;
+  max-width: 428px;
   width: 100vw;
   display: flex;
   align-items: center;
@@ -214,7 +249,8 @@ const Notifications = styled.div`
   width: 1.875rem;
   height: 1.875rem;
   margin-top: -2.188rem;
-  margin-left: 23.125rem;
+  float: right;
+  margin-right: 25px;
   background-color: rgba(0, 0, 0, 0);
   background-position: center;
   background-size: cover;

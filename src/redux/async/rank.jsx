@@ -12,7 +12,7 @@ export const __getHotPosts = createAsyncThunk(
         return response.data.data.hotPosts;
       }
     } catch (err) {
-      Swal.fire("에러", "네트워크 연결 상태를 확인해주세요.!", "error");
+      // Swal.fire("에러", "네트워크 연결 상태를 확인해주세요.!", "error");
       return thunkAPI.rejectWithValue(err.response.msg);
     }
   }

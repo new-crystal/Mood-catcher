@@ -129,93 +129,87 @@ const Item_detail = (props) => {
 
   return (
     <Fragment>
-      <Suspense
-        fallback={
-          <LoaderWrap>
-            <Loader />
-          </LoaderWrap>
-        }
-      >
-        <Container>
-          <Grid>
-            <Header />
-            <ProfileBox>
-              <ProfileImg
-                onClick={() => {
-                  navigate(`/closet/${userId}`);
-                  window.location.reload();
-                }}
-                url={
-                  userStatus.imgUrl === undefined ||
-                  userStatus.imgUrl.slice(-4) === "null"
-                    ? preview_URL
-                    : userStatus?.imgUrl
-                }
-              ></ProfileImg>
-              <NickTitle
-                onClick={() => {
-                  navigate(`/closet/${userId}`);
-                  window.location.reload();
-                }}
-              >
-                <span>{detailPost.title}</span>
-                <span className="nickname">{userStatus.nickname}</span>
-              </NickTitle>
+      <Container>
+        <Grid>
+          <Header />
+          <ProfileBox>
+            <ProfileImg
+              onClick={() => {
+                navigate(`/closet/${userId}`);
+                window.location.reload();
+              }}
+              url={
+                userStatus.imgUrl === undefined ||
+                userStatus.imgUrl.slice(-4) === "null"
+                  ? preview_URL
+                  : userStatus?.imgUrl
+              }
+            ></ProfileImg>
+            <NickTitle
+              onClick={() => {
+                navigate(`/closet/${userId}`);
+                window.location.reload();
+              }}
+            >
+              <span>{detailPost.title}</span>
+              <span className="nickname">{userStatus.nickname}</span>
+            </NickTitle>
 
-              {payload.userId == userId ? (
-                <DropdownContainer>
-                  <DropdownButton onClick={myPageHandler} ref={myPageRef}>
-                    <StLoginList />
-                  </DropdownButton>
-                  <Menu isDropped={myPageIsOpen}>
-                    <Ul>
-                      <Li>
-                        <LinkWrapper href="#1-1">
-                          <AddCommentButton2 onClick={patchRep}>
-                            대표 게시물 지정하기
-                          </AddCommentButton2>
-                          <AddCommentButton2 onClick={putPost}>
-                            수정하기
-                          </AddCommentButton2>
-                          <AddCommentButton2 onClick={deletePost}>
-                            삭제하기
-                          </AddCommentButton2>
-                        </LinkWrapper>
-                      </Li>
-                    </Ul>
-                  </Menu>
-                </DropdownContainer>
-              ) : null}
-            </ProfileBox>
-            {/* <TitleText>{detailPost.title}</TitleText> */}
+            {payload.userId == userId ? (
+              <DropdownContainer>
+                <DropdownButton onClick={myPageHandler} ref={myPageRef}>
+                  <StLoginList />
+                </DropdownButton>
+                <Menu isDropped={myPageIsOpen}>
+                  <Ul>
+                    <Li>
+                      <LinkWrapper href="#1-1">
+                        <AddCommentButton2 onClick={patchRep}>
+                          대표 게시물 지정하기
+                        </AddCommentButton2>
+                        <AddCommentButton2 onClick={putPost}>
+                          수정하기
+                        </AddCommentButton2>
+                        <AddCommentButton2 onClick={deletePost}>
+                          삭제하기
+                        </AddCommentButton2>
+                      </LinkWrapper>
+                    </Li>
+                  </Ul>
+                </Menu>
+              </DropdownContainer>
+            ) : null}
+          </ProfileBox>
+          {/* <TitleText>{detailPost.title}</TitleText> */}
 
-            <DetailImage>
-              <img src={detailPost.imgUrl} />
-            </DetailImage>
-            {likeStatus ? (
-              <img
-                className="heart"
-                src={mood}
-                alt="heart"
-                onClick={onClickMoodCancelBtn}
-              />
-            ) : (
-              <img
-                className="heart"
-                src={mood}
-                alt="heart"
-                onClick={onClickMoodBtn}
-              />
-            )}
-            <span className="heartNum">{moodNum}</span>
-            <ContentText>{detailPost.content}</ContentText>
-            <Line />
-            <SliderContainer
-              ref={scrollRef}
-              onMouseDown={onDragStart}
-              onMouseMove={isDrag ? onThrottleDragMove : null}
-              onMouseUp={onDragEnd}
-              onMouseLeave={onDragEnd}
+          <DetailImage>
+            <img src={detailPost.imgUrl} />
+          </DetailImage>
+          {likeStatus ? (
+            <img
+              className="heart"
+              src={mood}
+              alt="heart"
+              onClick={onClickMoodCancelBtn}
+            />
+          ) : (
+            <img
+              className="heart"
+              src={mood}
+              alt="heart"
+              onClick={onClickMoodBtn}
+            />
+          )}
+          <span className="heartNum">{moodNum}</span>
+          <ContentText>{detailPost.content}</ContentText>
+          <Line />
+          <SliderContainer
+            ref={scrollRef}
+            onMouseDown={onDragStart}
+            onMouseMove={isDrag ? onThrottleDragMove : null}
+            onMouseUp={onDragEnd}
+            onMouseLeave={onDragEnd}
+          >
             {detailItems?.map((item, idx) => (
               <StMusinsaItemBox key={idx}>
                 <StMusinsaImage>

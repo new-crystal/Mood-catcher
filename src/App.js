@@ -64,6 +64,9 @@ const Alarm = loadable(() => import("./page/Alarm"), {
 const Edit_password = loadable(() => import("./page/Edit_password"), {
   fallback: <Loader />,
 });
+const Kakao = loadable(() => import("./page/MapImage"), {
+  fallback: <Loader />,
+});
 
 function App() {
   const token = getCookie("token");
@@ -83,6 +86,7 @@ function App() {
     <Fragment>
       <Routes>
         <Route path="/main" element={<Main />} />
+        <Route path="/kakao" element={<Kakao />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/login/detail" element={<SignupGenderAge />} />
