@@ -157,7 +157,7 @@ const MudiBtn = styled.button`
   height: 20px;
   background-color: rgba(0, 0, 0, 0);
   font-weight: 700;
-  font-size: 15px;
+  font-size: 14px;
   color: #3f3c47;
   border: 0px;
   margin-left: 170px;

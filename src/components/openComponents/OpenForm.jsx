@@ -13,27 +13,45 @@ const OpenForm = () => {
 
   useEffect(() => {
     dispatch(__getOpen());
-    setTimeout(() => {
-      navigate("/main");
-    }, 3000);
   }, []);
 
   //url에 있는 exist와 토큰 받아오기
   useEffect(() => {
+    //url에 exist와 token이 있는 경우
     if (window.location.search !== "") {
       const existList = window.location.href.split("=")[1];
       const exist = existList.split("&")[0];
       const token = getCookie("token");
+
+      //카카오 로그인->토큰이 없는 경우
       if (token === undefined) {
         setCookie("token", window.location.href.split("token=")[1]);
       }
       if (exist === "true") {
-        navigate("/main");
+        setTimeout(() => {
+          navigate("/main");
+        }, 3000);
       }
       if (exist === "false") {
-        navigate("/login/detail");
+        setCookie("token", window.location.href.split("token=")[1]);
+        setTimeout(() => {
+          navigate("/login/detail");
+        }, 3000);
       }
     }
+    // if (window.location.search === "") {
+    //   const token = getCookie("token");
+    //   if (token !== undefined) {
+    //     setTimeout(() => {
+    //       navigate("/main");
+    //     }, 3000);
+    //   }
+    //   if (token === undefined) {
+    //     setTimeout(() => {
+    //       navigate("/login");
+    //     }, 3000);
+    //   }
+    // }
   }, []);
 
   return (

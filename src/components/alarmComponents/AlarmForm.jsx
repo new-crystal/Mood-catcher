@@ -68,7 +68,7 @@ const AlarmForm = () => {
                 }
               >
                 <p>{alarm.msg}</p>
-                <h6>해당 게시글로 이동하기</h6>
+                <ArrowBtn></ArrowBtn>
                 {alarm.duplecation > 1 && <h5>{alarm.duplecation}</h5>}
               </AlarmBox>
             );
@@ -166,5 +166,17 @@ const AlarmBox = styled.div`
     left: 120px;
     cursor: pointer;
   }
+`;
+const ArrowBtn = styled.div`
+  transform: scaleX(-1);
+  width: 15px;
+  height: 15px;
+  background-position: center;
+  background-size: cover;
+  background-image: url("https://www.pngmart.com/files/16/Left-Arrow-Icon-PNG-Transparent-Image.png");
+  position: relative;
+  top: -30px;
+  left: 330px;
+  opacity: 70%;
 `;
 export default AlarmForm;

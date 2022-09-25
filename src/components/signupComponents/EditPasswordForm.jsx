@@ -1,7 +1,11 @@
 import styled from "styled-components";
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
-import { __postEmailNum, __putPassword } from "../../redux/async/signup";
+import {
+  __postAuthNum,
+  __postEmailNum,
+  __putPassword,
+} from "../../redux/async/signup";
 import { changeEmail } from "../../redux/modules/signUpSlice";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
@@ -19,6 +23,7 @@ const EditPasswordForm = () => {
 
   const checkEmail = useSelector((state) => state.signup.checkEmail);
   const sendEmailNum = useSelector((state) => state.signup.sendEmailNum);
+  const authNum = useSelector((state) => state.signup.checkAuthNum);
 
   //react-hook-form에서 불러오기
   const {
@@ -55,23 +60,20 @@ const EditPasswordForm = () => {
     dispatch(changeEmail());
   };
 
-  //인증번호 비교하기
+  //인증번호 발송하기
   const onClickOKBtn = () => {
-    //인증번호 암호화해서 비교
     const key = getValues("sendEmail");
-    const secretKey = "12345678901234567890123456789012";
-    const cipherNum = CryptoJS.AES.decrypt(sendEmailNum, secretKey);
-    const decrypted = JSON.parse(cipherNum.toString(CryptoJS.enc.Utf8));
-
-    if (decrypted == key) {
-      setNewPw(true);
-    } else {
-      Swal.fire("에러", "이메일 인증번호를 확인해주세요!", "error");
+    const email = getValues("email");
+    dispatch(__postAuthNum({ email, authNum: key }));
+    if (!authNum) {
       setError(
         "sendEmail",
-        { message: "이메일 인증번호를 확인해주세요" },
+        { message: "인증번호를 확인해주세요" },
         { shouldFocus: true }
       );
+    }
+    if (authNum) {
+      setNewPw(true);
     }
   };
 
@@ -97,11 +99,11 @@ const EditPasswordForm = () => {
         const password = ciphertext;
         const confirmPw = ciphertext;
         const email = getValues("email");
-        //const cookie = getCookie("cookie");
+        const authNum = getValues("sendEmail");
 
-        dispatch(
-          __putPassword({ email, password, confirmPw, cookie: sendEmailNum })
-        ).then(navigate("/"));
+        dispatch(__putPassword({ email, authNum, password, confirmPw })).then(
+          navigate("/")
+        );
       }
       if (data.password !== data.confirmPw) {
         setError(
@@ -110,13 +112,13 @@ const EditPasswordForm = () => {
           { shouldFocus: true }
         );
       }
-      if (data.sendEmail !== sendEmailNum) {
-        setError(
-          "sendEmail",
-          { message: "이메일 인증번호를 확인해주세요" },
-          { shouldFocus: true }
-        );
-      }
+      // if (data.sendEmail !== sendEmailNum) {
+      //   setError(
+      //     "sendEmail",
+      //     { message: "이메일 인증번호를 확인해주세요" },
+      //     { shouldFocus: true }
+      //   );
+      // }
     }
   };
 

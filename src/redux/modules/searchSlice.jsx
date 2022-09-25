@@ -32,9 +32,9 @@ const searchSlice = createSlice({
         state.isFetching = false;
         state.errorMessage = action.errorMessage;
       })
-      // 추천 게시물 조회하기 (검색 결과창)
+      //검색 게시물 조회하기 (검색 결과창)
       .addCase(__getSearchResult.fulfilled, (state, action) => {
-        state.searchResult = [...state.searchResult, ...action.payload];
+        state.searchResult = [...action.payload];
         state.isFetching = false;
         state.errorMessage = null;
       })

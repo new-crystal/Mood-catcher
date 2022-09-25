@@ -331,13 +331,14 @@ const Grid = styled.div`
   background: linear-gradient(#a396c9, #ffffff);
 
   .heart {
-    width: 40px;
-    height: 40px;
+    width: 35px;
+    height: 35px;
     position: relative;
     top: 0px;
     left: 50px;
   }
   .heartNum {
+    font-size: 18px;
     position: relative;
     top: -10px;
     left: 55px;

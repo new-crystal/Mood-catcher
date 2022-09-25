@@ -449,9 +449,11 @@ const HighLight = styled.div`
   flex-direction: column;
   background-color: #fff;
   border-radius: 10px;
-  height: 11px;
+  height: 12px;
   width: ${(props) => props.width};
   margin: 1px;
+  position: relative;
+  top: 0.5px;
 `;
 const PostImg = styled.div`
   width: 180px;

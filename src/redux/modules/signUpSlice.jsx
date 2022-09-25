@@ -6,6 +6,7 @@ import {
   __postEmail,
   __postEmailNum,
   __putPassword,
+  __postAuthNum,
 } from "../async/signup";
 import { createSlice } from "@reduxjs/toolkit";
 import Swal from "sweetalert2";
@@ -19,6 +20,7 @@ const initialState = {
   errorMessage: null,
   sendEmail: null,
   sendEmailNum: null,
+  checkAuthNum: false,
 };
 
 const signUpSlice = createSlice({
@@ -28,6 +30,10 @@ const signUpSlice = createSlice({
     //email이 바뀔 때마다 state 변경
     changeEmail: (state, payload) => {
       state.checkEmail = false;
+    },
+    //인증번호 값이 바뀔 때마다 state 변경
+    changeAuthNum: (state, payload) => {
+      state.checkAuthNum = false;
     },
   },
   extraReducers: (builder) =>
@@ -137,8 +143,22 @@ const signUpSlice = createSlice({
       .addCase(__putPassword.rejected, (state, action) => {
         state.isFetching = false;
         state.errorMessage = action.errorMessage;
+      })
+      //이메일 인증번호 발송 확인
+      .addCase(__postAuthNum.pending, (state, action) => {
+        state.isFetching = true;
+      })
+      .addCase(__postAuthNum.fulfilled, (state, action) => {
+        state.checkAuthNum = action.payload;
+        state.isFetching = false;
+        state.errorMessage = null;
+      })
+      .addCase(__postAuthNum.rejected, (state, action) => {
+        state.checkAuthNum = false;
+        state.isFetching = false;
+        state.errorMessage = action.payload;
       }),
 });
 
-export const { changeEmail } = signUpSlice.actions;
+export const { changeEmail, changeAuthNum } = signUpSlice.actions;
 export default signUpSlice.reducer;

@@ -10,7 +10,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { __getHeaderUser } from "../redux/async/login";
 import { getCookie } from "../shared/cookie";
 import jwt_decode from "jwt-decode";
-import { set } from "lodash";
 import Setting from "../image/settings.png";
 
 const Back = "/images/Back2.png";
@@ -62,7 +61,10 @@ const Header = () => {
     ) {
       setHeaderText("Search");
     }
-    if (window.location.pathname.split("/")[1] === "closet") {
+    if (
+      window.location.pathname.split("/")[1] === "closet" &&
+      window.location.pathname.split("/")[2] == userId
+    ) {
       setHeaderText("My Closet");
     }
     if (window.location.pathname === "/main") {
@@ -176,7 +178,7 @@ const MainHeaderLine = styled.div`
   width: 90vw;
   border-bottom: 0.125rem solid #fff;
   position: relative;
-  top: 80px;
+  top: 90px;
   left: 23px;
 `;
 
@@ -196,7 +198,7 @@ const GoBack = styled.div`
   background-size: cover;
   margin: 20px 0 0 25px;
   cursor: pointer;
-  opacity: 60%;
+  opacity: 50%;
   position: relative;
   top: 30px;
 `;
