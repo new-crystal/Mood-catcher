@@ -13,7 +13,6 @@ const Search = (props) => {
           <SearchResultForm />
         </Container>
       </LoginWrap>
-
       <NavigationBar props={props} />
     </Fragment>
   );

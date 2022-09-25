@@ -94,13 +94,22 @@ const Header = () => {
               ></GoBack>
               <HeaderLogo
                 margin="-10.313rem"
-                style={{ marginLeft: "3.5rem", top: "0.75rem" }}
+                style={{ marginLeft: "3.5rem", top: "0.7rem" }}
                 onClick={() => {
                   navigate("/main");
                 }}
               >
                 <span>{headerText}</span>
               </HeaderLogo>
+              <a
+                href="javascript:void(0);"
+                onClick={() => {
+                  let pageUrl = `/kakao`;
+                  document.location.href = pageUrl;
+                }}
+              >
+                <Star style={{ backgroundImage: `url(${Map})` }} />
+              </a>
             </>
           )}
           {/* 로그인 상태가 아닐 때 */}
@@ -131,6 +140,15 @@ const Header = () => {
               >
                 <span>{headerText}</span>
               </HeaderLogo>
+              <a
+                href="javascript:void(0);"
+                onClick={() => {
+                  let pageUrl = `/kakao`;
+                  document.location.href = pageUrl;
+                }}
+              >
+                <Star style={{ backgroundImage: `url(${Map})` }} />
+              </a>
             </>
           )}
           {/* 로고는 span을 이용해 그냥 텍스트로 처리하고
@@ -158,15 +176,7 @@ const Header = () => {
               onClick={() => navigate("/edit_profile")}
             ></Notifications>
           )}
-          <a
-            href="javascript:void(0);"
-            onClick={() => {
-              let pageUrl = `/kakao`;
-              document.location.href = pageUrl;
-            }}
-          >
-            <Star style={{ backgroundImage: `url(${Map})` }} />
-          </a>
+
           {/* <Star
             onClick={() => navigate("/kakao")}
             style={{ backgroundImage: `url(${star})` }}
@@ -189,6 +199,7 @@ const Star = styled.div`
   background-size: cover;
   background-image: url(${(props) => props.url});
   z-index: 20;
+  opacity: 60%;
 `;
 
 const ImageWrap = styled.div`
@@ -235,7 +246,7 @@ const GoBack = styled.div`
   cursor: pointer;
   opacity: 50%;
   position: relative;
-  top: 30px;
+  top: 28px;
 `;
 
 const HeaderLogo = styled.div`
@@ -244,7 +255,7 @@ const HeaderLogo = styled.div`
   top: 12px;
   left: 50%; */
   //margin-left: ${(props) => props.margin};
-  margin-top: 0px;
+  margin-top: -3px;
   margin-left: 40px;
   font-size: 30px;
   color: #fff;

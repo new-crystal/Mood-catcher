@@ -72,8 +72,7 @@ export const __postEmail = createAsyncThunk(
   async (data, thunkAPI) => {
     try {
       const response = await signupApi.postEmail(data);
-      console.log(response);
-      return thunkAPI.fulfillWithValue(response.data.data.hashAuthNum);
+      return thunkAPI.fulfillWithValue(response.data);
     } catch (err) {
       Swal.fire("에러", err.response.data, "error");
       return thunkAPI.rejectWithValue(err.response.data);
@@ -87,22 +86,20 @@ export const __postEmailNum = createAsyncThunk(
   async (data, thunkAPI) => {
     try {
       const response = await signupApi.findEmail(data);
-      console.log(response);
-      //setCookie("cookie", response.data.data.hashAuthNum);
-      return thunkAPI.fulfillWithValue(response.data.data.hashAuthNum);
+      return thunkAPI.fulfillWithValue(response.data);
     } catch (err) {
       Swal.fire("에러", err.response.data, "error");
       return thunkAPI.rejectWithValue(err.response.data);
     }
   }
 );
-// //비밀번호 변경하기
+
+//비밀번호 변경하기
 export const __putPassword = createAsyncThunk(
   "PUT/PASSWORD",
   async (data, thunkAPI) => {
     try {
       const response = await signupApi.putPW(data);
-      console.log(response);
       return thunkAPI.fulfillWithValue(response.data);
     } catch (err) {
       Swal.fire("에러", err.response.data, "error");
@@ -116,10 +113,9 @@ export const __postAuthNum = createAsyncThunk(
   async (data, thunkAPI) => {
     try {
       const response = await signupApi.postAuthNum(data);
-      console.log(response);
       return thunkAPI.fulfillWithValue(response.data.data.result);
     } catch (err) {
-      console.log(err);
+      Swal.fire("에러", err.response.data.msg, "error");
       return thunkAPI.rejectWithValue(err);
     }
   }
