@@ -4,38 +4,40 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { __getAlarm, __deleteAlarm } from "../../redux/async/alarm";
+import Swal from "sweetalert2";
 
 const AlarmForm = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [alarm, setAlarm] = useState(false);
+  const [alarmStatus, setAlarmStatus] = useState(false);
   const alarms = useSelector((state) => state.alarm.notices);
-  const alarmStatus = useSelector((state) => state.alarm.status);
-  const error = useSelector((state) => state.alarm.error);
+  const alarmList = [...alarms].reverse();
 
   const delAlarm = () => {
-    const result = window.confirm("모든 알람을 지우시겠습니까?");
-    if (result) {
-      dispatch(__deleteAlarm());
-      setAlarm(true);
-    }
+    Swal.fire({
+      title: "알람을 전부 삭제하시겠습니까?",
+      text: "지우신 알람은 되돌릴 수 없습니다!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "delete",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        Swal.fire(
+          "삭제되었습니다",
+          "캐처님의 알람이 모두 삭제되었습니다",
+          "success"
+        );
+        dispatch(__deleteAlarm());
+        setAlarmStatus(!alarmStatus);
+      }
+    });
   };
 
   useEffect(() => {
-    if (alarmStatus === "idle") {
-      dispatch(__getAlarm());
-    }
+    dispatch(__getAlarm());
   }, [alarmStatus]);
-
-  let content;
-
-  //로딩중과 에러 발생했을 때 처리
-  if (alarmStatus === "loading") {
-    content = <div> Loading ...</div>;
-  }
-  if (alarmStatus === "failed") {
-    content = <div>{error}</div>;
-  }
 
   return (
     <AlarmContainer>
@@ -52,7 +54,7 @@ const AlarmForm = () => {
             <p>아직 새로운 알림이 없습니다!</p>
           </AlarmBox>
         ) : (
-          alarms?.map((alarm, idx) => {
+          alarmList?.map((alarm, idx) => {
             return alarm?.postId === -1 ? (
               <AlarmBox key={idx}>
                 <p>{alarm.msg}</p>

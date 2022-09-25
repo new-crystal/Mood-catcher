@@ -8,6 +8,7 @@ import {
   __putPassword,
 } from "../async/signup";
 import { createSlice } from "@reduxjs/toolkit";
+import Swal from "sweetalert2";
 
 const initialState = {
   checkEmail: false,
@@ -36,7 +37,12 @@ const signUpSlice = createSlice({
         state.is_signup = action.payload;
         state.isFetching = false;
         state.errorMessage = null;
-        alert("무드캐처 회원가입에 성공하셨습니다.");
+        Swal.fire({
+          icon: "success",
+          title: "무드캐처의 캐처님이 되신 것을 환영합니다",
+          showConfirmButton: false,
+          timer: 1500,
+        });
       })
       .addCase(__signUp.pending, (state, action) => {
         state.isFetching = true;
@@ -44,7 +50,12 @@ const signUpSlice = createSlice({
       .addCase(__signUp.rejected, (state, action) => {
         state.isFetching = false;
         state.errorMessage = action.errorMessage;
-        alert("무드캐처 회원가입에 실패하셨습니다");
+        Swal.fire({
+          icon: "error",
+          title: "무드캐처의 회원가입에 실패하셨습니다",
+          showConfirmButton: false,
+          timer: 1500,
+        });
       })
       // 이메일 중복 체크
       .addCase(__checkEmail.fulfilled, (state, action) => {

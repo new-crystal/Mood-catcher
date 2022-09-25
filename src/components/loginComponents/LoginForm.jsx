@@ -3,7 +3,6 @@ import { useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
 import { __login, __socialLogin } from "../../redux/async/login";
 import { useNavigate } from "react-router-dom";
-import crypto from "crypto-js";
 import { Fragment } from "react";
 import { useEffect } from "react";
 import { getCookie } from "../../shared/cookie";
@@ -43,9 +42,11 @@ const LoginForm = () => {
 
     dispatch(__login({ email, password }));
   };
+
   //소셜로그인 버튼
   const onClickKakao = () => {
-    dispatch(__socialLogin());
+    //dispatch(__socialLogin());
+    window.location.href = "https://moodcatchers.link/api/auth/kakao";
   };
 
   return (
@@ -116,11 +117,20 @@ const LoginForm = () => {
           </LogBox>
           <BtnBox>
             <LogText>무드캐쳐가 처음이신가요?</LogText>
-            <LogBtn kakao onClick={() => onClickKakao()}>
-              <a href="https://moodcatchers.link/api/auth/kakao">
-                카카오 로그인
-              </a>
+            <LogBtn
+              kakao
+              onClick={() => {
+                window.location.href =
+                  "https://kauth.kakao.com/oauth/authorize?client_id=c1fcfdc01631a1e8f1f65dab8f0c5c6b&redirect_uri=http://moodcatchers.link/api/auth/kakao/callback&response_type=code";
+              }}
+            >
+              카카오 로그인
             </LogBtn>
+            {/* <LogBtn kakao onClick={() => onClickKakao()}>
+              <a href="https://moodcatchers.link/api/auth/kakao">
+              카카오 로그인
+              </a>
+            </LogBtn> */}
             <LogBtn type="button" onClick={() => navigate("/signup")}>
               <p>이메일로 회원가입</p>
             </LogBtn>

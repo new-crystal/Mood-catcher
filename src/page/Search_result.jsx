@@ -32,7 +32,6 @@ const LoginWrap = styled.div`
   background-color: #ffffff;
   display: flex;
   flex-direction: column;
-  text-align: center;
 `;
 
 const Container = styled.div`

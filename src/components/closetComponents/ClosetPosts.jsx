@@ -16,7 +16,7 @@ const ClosetPosts = () => {
   const last = useSelector((state) => state.upload.postLast);
 
   const { userId } = useParams();
-  // console.log(userId);
+
   const getInfinityList = useCallback(() => {
     async function getData() {
       await dispatch(__getMyCloset({ userId: userId, paging: paging })); //api요청

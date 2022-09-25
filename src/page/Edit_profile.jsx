@@ -62,5 +62,5 @@ const LoginWrap = styled.div`
   background: linear-gradient(#a396c9, #ffffff);
   display: flex;
   flex-direction: column;
-  text-align: center;
+  //text-align: center;
 `;

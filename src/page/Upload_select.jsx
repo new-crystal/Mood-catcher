@@ -10,6 +10,7 @@ import ScrollX from "../elem/ScrollX";
 
 import { __getMusinsa, __addPost, __uploadImage } from "../redux/async/upload";
 import { changeCheckPostId } from "../redux/modules/uploadSlice";
+import Swal from "sweetalert2";
 
 const Search = "./images/search.png";
 
@@ -145,7 +146,12 @@ const Upload_select = (props) => {
                 }}
                 onKeyPress={(e) => {
                   if (e.key === "Enter" && search === "") {
-                    window.alert("검색 키워드를 입력해주세요!");
+                    Swal.fire({
+                      icon: "info",
+                      title: "검색 키워드를 입력해주세요!",
+                      showConfirmButton: false,
+                      timer: 1500,
+                    });
                   } else if (e.key === "Enter" && searchTogle === false) {
                     setSearchTogle((togle) => !togle);
                     e.preventDefault();
@@ -161,7 +167,12 @@ const Upload_select = (props) => {
                   style={{ backgroundImage: `url(${Search})` }}
                   onClick={(e) => {
                     if (search === "") {
-                      window.alert("검색 키워드를 입력해주세요!");
+                      Swal.fire({
+                        icon: "info",
+                        title: "검색 키워드를 입력해주세요!",
+                        showConfirmButton: false,
+                        timer: 1500,
+                      });
                     } else if (searchTogle === false) {
                       setSearchTogle((togle) => !togle);
                       e.preventDefault();

@@ -67,12 +67,15 @@ const Edit_password = loadable(() => import("./page/Edit_password"), {
 const Kakao = loadable(() => import("./page/MapImage"), {
   fallback: <Loader />,
 });
+const Best_Posts = loadable(() => import("./page/BestPosts"), {
+  fallback: <Loader />,
+});
 
 function App() {
   const token = getCookie("token");
   const navigate = useNavigate();
   useEffect(() => {
-    if (token === undefined) navigate("/login");
+    //if (token === undefined) navigate("/login");
     setScreenSize();
     window.addEventListener("resize", () => setScreenSize());
   }, []);
@@ -107,6 +110,7 @@ function App() {
         <Route path="/" element={<Open />} />
         <Route path="/alarm/:userId" element={<Alarm />} />
         <Route path="/edit_password" element={<Edit_password />} />
+        <Route path="/best" element={<Best_Posts />} />
         <Route path="*" element={<Main />} />
       </Routes>
       <GlobalStyle />

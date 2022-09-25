@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import openCloset from "../../image/6565656.png";
 import { __getOpen } from "../../redux/async/signup";
+import { getCookie, setCookie } from "../../shared/cookie";
 
 const OpenForm = () => {
   const dispatch = useDispatch();
@@ -13,8 +14,26 @@ const OpenForm = () => {
   useEffect(() => {
     dispatch(__getOpen());
     setTimeout(() => {
-      navigate("/login");
+      navigate("/main");
     }, 3000);
+  }, []);
+
+  //url에 있는 exist와 토큰 받아오기
+  useEffect(() => {
+    if (window.location.search !== "") {
+      const existList = window.location.href.split("=")[1];
+      const exist = existList.split("&")[0];
+      const token = getCookie("token");
+      if (token === undefined) {
+        setCookie("token", window.location.href.split("token=")[1]);
+      }
+      if (exist === "true") {
+        navigate("/main");
+      }
+      if (exist === "false") {
+        navigate("/login/detail");
+      }
+    }
   }, []);
 
   return (

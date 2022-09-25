@@ -22,7 +22,6 @@ const Header = () => {
   const navigate = useNavigate();
   const [isLogin, setIsLogin] = useState(false);
   const [headerText, setHeaderText] = useState("Mood Catcher");
-  //const [detail, setDetail] = useState(true);
   const [headerLine, setHeaderLine] = useState(false);
   const [main, setMain] = useState(true);
   const [settings, setSettings] = useState(false);
@@ -67,9 +66,6 @@ const Header = () => {
     if (window.location.pathname.split("/")[1] === "closet") {
       setHeaderText("My Closet");
     }
-    // if (window.location.pathname.split("/")[1] === "item_detail") {
-    //   setDetail(false);
-    // }
     if (window.location.pathname === "/main") {
       setHeaderLine(true);
       setMain(false);
@@ -82,7 +78,9 @@ const Header = () => {
       <Headers className={"header"}>
         {/* marginTop을 0으로 줘서 제일 위에 붙을 수 있게 합니다. */}
         <HeaderBox style={{ marginTop: "0" }}>
+          {/* 메인에서 헤더에  줄을 줍니다*/}
           {headerLine ? <MainHeaderLine> </MainHeaderLine> : null}
+          {/* 로그인 상태이고 메인이 아닐때 */}
           {isLogin && main && (
             <>
               {/* 뒤로가기 이미지와 뒤로가기 기능 */}
@@ -103,6 +101,7 @@ const Header = () => {
               </HeaderLogo>
             </>
           )}
+          {/* 로그인 상태가 아닐 때 */}
           {!isLogin && (
             <>
               <GoBack></GoBack>
@@ -117,12 +116,13 @@ const Header = () => {
               </HeaderLogo>
             </>
           )}
+          {/* 메인화면일 때 */}
           {!main && (
             <>
               <GoBack></GoBack>
               <HeaderLogo
                 margin="-11.563rem"
-                style={{ marginLeft: "1.5rem", color: "#7B758B" }}
+                style={{ marginLeft: "1.5rem", color: "#fff" }}
                 onClick={() => {
                   navigate("/login");
                 }}
@@ -133,19 +133,23 @@ const Header = () => {
           )}
           {/* 로고는 span을 이용해 그냥 텍스트로 처리하고
           누르면 main으로 갈 수 있게 합니다. */}
-          {isLogin && !settings ? (
-            users?.isExistsNotice === 0 ? (
+          {/* 로그인 상태이고 알람표시가 필요할 때 */}
+          {isLogin &&
+            !settings &&
+            (users?.isExistsNotice === 0 ? (
               <Notifications
                 url={`${Notification}`}
+                style={{ opacity: "60%" }}
                 onClick={() => navigate(`/alarm/${users.userId}`)}
               ></Notifications>
             ) : (
               <Notifications
                 url={`${NotificationTrue}`}
+                style={{ opacity: "60%" }}
                 onClick={() => navigate(`/alarm/${users.userId}`)}
               ></Notifications>
-            )
-          ) : null}
+            ))}
+          {/* 알람표시가 아닌 프로필 설정이 필요할 때 */}
           {settings && (
             <Notifications
               url={`${Setting}`}
@@ -203,7 +207,7 @@ const Headers = styled.div`
   background: #a396c9;
 `;
 const MainHeaderLine = styled.div`
-  max-width: 23.75rem;
+  max-width: 380px;
   width: 90vw;
   border-bottom: 0.125rem solid #fff;
   position: relative;
@@ -216,20 +220,20 @@ const HeaderBox = styled.div`
   width: 100vw;
   z-index: 10;
   position: relative;
-  top: -1.25rem;
+  top: -20px;
   /* background: linear-gradient(#a396c9, white); */
 `;
 
 const GoBack = styled.div`
   display: inline-block;
-  width: 1.25rem;
-  height: 1.25rem;
+  width: 20px;
+  height: 20px;
   background-size: cover;
-  margin: 1.25rem 0 0 1.563rem;
+  margin: 20px 0 0 25px;
   cursor: pointer;
   opacity: 60%;
   position: relative;
-  top: 1.875rem;
+  top: 30px;
 `;
 
 const HeaderLogo = styled.div`
@@ -239,18 +243,19 @@ const HeaderLogo = styled.div`
   left: 50%; */
   //margin-left: ${(props) => props.margin};
   margin-top: 0px;
-  margin-left: 2.5rem;
-  font-size: 1.875rem;
+  margin-left: 40px;
+  font-size: 30px;
   color: #fff;
   cursor: pointer;
 `;
 
 const Notifications = styled.div`
-  width: 1.875rem;
-  height: 1.875rem;
-  margin-top: -2.188rem;
+  width: 30px;
+  height: 30px;
+  margin-top: -35px;
   float: right;
   margin-right: 25px;
+  /* margin-left: 22em; */
   background-color: rgba(0, 0, 0, 0);
   background-position: center;
   background-size: cover;
