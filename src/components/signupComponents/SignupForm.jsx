@@ -1,11 +1,14 @@
 import styled from "styled-components";
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
-import { __checkEmail, __postEmail, __signUp } from "../../redux/async/signup";
-import { changeEmail } from "../../redux/modules/signUpSlice";
+import {
+  __checkEmail,
+  __postAuthNum,
+  __postEmail,
+  __signUp,
+} from "../../redux/async/signup";
+import { changeEmail, changeAuthNum } from "../../redux/modules/signUpSlice";
 
-import crypto from "crypto-js";
-import CryptoJS from "crypto-js";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { getCookie } from "../../shared/cookie";
@@ -18,7 +21,7 @@ const SigupForm = () => {
   const [sendEmail, setSendEmail] = useState(false);
 
   const checkEmail = useSelector((state) => state.signup.checkEmail);
-  const sendEmailNum = useSelector((state) => state.signup.sendEmail);
+  const authNum = useSelector((state) => state.signup.checkAuthNum);
 
   //로그인 한 경우
   useEffect(() => {
@@ -42,11 +45,18 @@ const SigupForm = () => {
     if (checkEmail === true) {
       setError("email", { message: "사용 가능한 이메일입니다." });
     }
-  }, [checkEmail, sendEmailNum]);
+    if (authNum == true) {
+      setError("sendEmail", { message: "인증번호가 일치하였습니다." });
+    }
+  }, [checkEmail, authNum]);
 
   //이메일이 바뀐 값 디스패치하기
   const onChangeEmail = () => {
     dispatch(changeEmail());
+  };
+
+  const onChangeSendEmail = () => {
+    dispatch(changeAuthNum());
   };
 
   //이메일 중복확인 눌렀을 때
@@ -70,6 +80,29 @@ const SigupForm = () => {
       );
     }
   };
+  //인증번호 발송을 눌렀을 때
+  const onClickSendAuthNum = async () => {
+    const authEmailNum = await getValues("sendEmail");
+    if (errors.sendEmail !== undefined) {
+      setError(
+        "sendEmail",
+        { message: "인증번호를 확인해주세요" },
+        { shouldFocus: true }
+      );
+    }
+    if (authEmailNum !== "" && errors.sendEmail === undefined) {
+      const email = getValues("email");
+      dispatch(__postAuthNum({ email, authNum: authEmailNum }));
+      if (authNum === false) {
+        setError(
+          "sendEmail",
+          { message: "인증번호를 확인해주세요" },
+          { shouldFocus: true }
+        );
+      }
+    }
+  };
+  console.log(authNum);
 
   //회원가입 버튼을 눌렀을 때
   const onValid = async (data) => {
@@ -84,26 +117,18 @@ const SigupForm = () => {
       ///비밀번호 암호화
       const salt = bcrypt.genSaltSync(10);
       const key = getValues("password").toString();
-      const secretKey = "12345678901234567890123456789012";
       const ciphertext = bcrypt.hashSync(key, "$2a$10$CwTycUXWue0Thq9StjUM0u");
 
-      // //인증번호 복호화
-      // const emailNum = getValues("sendEmail");
-      // const cipherNum = CryptoJS.AES.decrypt(sendEmailNum, secretKey);
-      // const decrypted = JSON.parse(cipherNum.toString(CryptoJS.enc.Utf8));
-
       //비밀번호 값과 비밀번호 확인 값이 같을 때만
-      if (
-        data.password === data.confirmPw
-        // && decrypted == emailNum
-      ) {
+      if (data.password === data.confirmPw && authNum === true) {
         await new Promise((r) => setTimeout(r, 300));
 
         const password = ciphertext;
         const confirmPw = ciphertext;
         const email = getValues("email");
+        const authNum = getValues("sendEmail");
 
-        dispatch(__signUp({ email, password, confirmPw })).then(
+        dispatch(__signUp({ email, authNum, password, confirmPw })).then(
           navigate("/login")
         );
       }
@@ -114,13 +139,13 @@ const SigupForm = () => {
           { shouldFocus: true }
         );
       }
-      // if (cipherNum !== sendEmailNum) {
-      //   setError(
-      //     "sendEmail",
-      //     { message: "이메일 인증번호를 확인해주세요" },
-      //     { shouldFocus: true }
-      //   );
-      // }
+      if (!authNum) {
+        setError(
+          "sendEmail",
+          { message: "이메일 인증번호를 확인해주세요" },
+          { shouldFocus: true }
+        );
+      }
     }
   };
 
@@ -129,6 +154,7 @@ const SigupForm = () => {
     const email = getValues("email");
     if (!checkEmail) {
       Swal.fire("에러", "이메일 중복확인을 해주세요!", "error");
+      setSendEmail(false);
     }
     if (checkEmail) {
       Swal.fire({
@@ -192,16 +218,27 @@ const SigupForm = () => {
               인증번호 발송하기
             </SendEmailBtn>
           ) : (
-            <input
-              name="sendEmail"
-              placeholder="이메일로 발송 된 인증번호를 입력해주세요"
-              aria-invalid={
-                !isDirty ? undefined : errors.sendEmail ? "true" : "false"
-              }
-              {...register("sendEmail", {
-                required: "인증번호는 필수 입력입니다.",
-              })}
-            />
+            <>
+              <input
+                name="sendEmail"
+                className="email"
+                placeholder="이메일로 발송 된 인증번호를 입력해주세요"
+                aria-invalid={
+                  !isDirty ? undefined : errors.sendEmail ? "true" : "false"
+                }
+                {...register("sendEmail", {
+                  onChange: () => onChangeSendEmail(),
+                  required: "인증번호는 필수 입력입니다.",
+                  pattern: {
+                    value: /^[0-9]+$/,
+                    message: "인증번호를 숫자로만 작성해주세요",
+                  },
+                })}
+              />
+              <ConfirmNumBtn type="button" onClick={() => onClickSendAuthNum()}>
+                인증번호 확인
+              </ConfirmNumBtn>
+            </>
           )}
         </div>
         <div>
@@ -303,6 +340,20 @@ const ConfirmBtn = styled.button`
   cursor: pointer;
 `;
 
+const ConfirmNumBtn = styled.button`
+  background: linear-gradient(78.32deg, #7b758b 41.41%, #ffffff 169.58%);
+  border: 0px;
+  width: 90px;
+  height: 50px;
+  color: white;
+  border-radius: 10px;
+  margin-left: 20px;
+  font-family: "Roboto";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 13px;
+  cursor: pointer;
+`;
 const SendEmailBtn = styled.button`
   background: linear-gradient(78.32deg, #7b758b 41.41%, #ffffff 169.58%);
   border: 0px;

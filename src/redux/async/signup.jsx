@@ -110,3 +110,17 @@ export const __putPassword = createAsyncThunk(
     }
   }
 );
+//이메일 인증번호 확인하기
+export const __postAuthNum = createAsyncThunk(
+  "GET/AUTHNUM",
+  async (data, thunkAPI) => {
+    try {
+      const response = await signupApi.postAuthNum(data);
+      console.log(response);
+      return thunkAPI.fulfillWithValue(response.data.data.result);
+    } catch (err) {
+      console.log(err);
+      return thunkAPI.rejectWithValue(err);
+    }
+  }
+);

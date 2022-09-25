@@ -14,7 +14,6 @@ const BestPostsForm = () => {
 
   const bestPosts = useSelector((state) => state.rank.bestPosts);
   const last = useSelector((state) => state.rank.postLast);
-  const bestPostList = [...bestPosts].reverse();
 
   //명예의 전당 게시물 불러오기
   const getBestPostList = useCallback(() => {
@@ -64,7 +63,7 @@ const BestPostsForm = () => {
   }, [page, loading]);
   return (
     <Fragment>
-      {bestPostList?.map((bestPost) => (
+      {bestPosts?.map((bestPost) => (
         <BestItems key={bestPost.postId} item={bestPost} />
       ))}
     </Fragment>

@@ -2,6 +2,7 @@ import React, { Fragment } from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import { useCallback } from "react";
+import gender from "..//../image/gender.png";
 
 const HotPosts = ({ hotPosts }) => {
   const navigate = useNavigate();
@@ -68,9 +69,10 @@ const Wrap = styled.div`
     font-style: normal;
     font-weight: 700;
     font-size: 13px;
-    margin-bottom: -7px;
     margin-right: 7px;
     cursor: pointer;
+    position: relative;
+    top: 10px;
   }
 `;
 

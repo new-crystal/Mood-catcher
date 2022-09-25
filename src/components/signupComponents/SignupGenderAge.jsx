@@ -15,13 +15,15 @@ import { __detail } from "../../redux/async/login";
 import { useForm } from "react-hook-form";
 import { __checkNickname } from "../../redux/async/login";
 import { changeNickname } from "../../redux/modules/loginSlice";
+import { __getUser } from "../../redux/async/login";
 
 import male from "../../image/5man.png";
 import female from "../../image/girl5.png";
 import board from "../../image/board.png";
 import { useNavigate } from "react-router-dom";
 import gender from "../../image/gender.png";
-import { getCookie, setCookie } from "../../shared/cookie";
+import { getCookie } from "../../shared/cookie";
+import jwt_decode from "jwt-decode";
 
 const SignupGenderAge = (location) => {
   const dispatch = useDispatch();
@@ -37,16 +39,29 @@ const SignupGenderAge = (location) => {
 
   //닉네임 중복확인 성공 여부 값 받아오기
   const checkNickname = useSelector((state) => state.login.checkNickname);
+  const users = useSelector((state) => state.login.userStatus);
+  console.log(users);
 
-  //url에 있는 exist와 토큰 받아오기
+  //로그인을 안 한 경우
+  useEffect(() => {
+    const token = getCookie("token");
+    if (token === undefined) {
+      navigate("/login");
+    }
+  }, []);
+
+  // //닉네임이 입력된 경우
   // useEffect(() => {
-  //   const existList = window.location.href.split("=")[1];
-  //   const exist = existList.split("&")[0];
-  //   const token = getCookie("token");
-  //   if (exist === "true") {
+  //   if (users.nickname !== null) {
   //     navigate("/main");
   //   }
   // }, []);
+
+  useEffect(() => {
+    const token = getCookie("token");
+    const payload = jwt_decode(token);
+    dispatch(__getUser(payload.userId));
+  }, []);
 
   //닉네임 인풋 값 받아오기
   const nickname = getValues("nickname");

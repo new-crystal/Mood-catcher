@@ -95,6 +95,7 @@ const TextBox = styled.div`
   color: #7b758b;
   p {
     font-size: 18px;
+    margin-left: 5px;
   }
   h5 {
     font-size: 13px;

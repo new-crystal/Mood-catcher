@@ -193,11 +193,20 @@ export const signupApi = {
   // 초기화면 조회하기
   getOpen: () => instance.get("/start"),
   //이메일 인증번호 발송하기
-  postEmail: (data) => instance.post("/auth/sendEmail", data),
+  postEmail: (data) => instance.post("/auth/sendEmail?type=signup", data),
   //비밀번호 찾을 때 이메일 발송
-  findEmail: (data) => instance.post("/auth/forgetPw", data),
+  findEmail: (data) => instance.post("/auth/sendEmail?type=password", data),
   //비밀번호 변경
-  putPW: (data) => instance.put(`/api/auth/updatePw?email=${data.email}`, data),
+  putPW: (data) =>
+    instance.put(
+      `/api/auth/updatePw?email=${data.email}&authNum=${data.authNum}`,
+      data
+    ),
+  //인증번호 확인
+  postAuthNum: (data) =>
+    instance.get(
+      `/auth/check-authnum?email=${data.email}&autnNum=${data.authNum}`
+    ),
 };
 
 // 업로드 관련 axios API 통신
