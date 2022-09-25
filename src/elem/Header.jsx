@@ -199,7 +199,7 @@ const Star = styled.div`
   background-size: cover;
   background-image: url(${(props) => props.url});
   z-index: 20;
-  opacity: 60%;
+  opacity: 50%;
 `;
 
 const ImageWrap = styled.div`

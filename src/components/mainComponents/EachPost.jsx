@@ -6,7 +6,14 @@ import styled from "styled-components";
 const EachPost = (props) => {
   const navigate = useNavigate();
   const { item } = props;
-  // console.log(item);
+
+  //리사이징 에러 났을 경우
+  const onErrorHandler = (e) => {
+    const url = item.imgUrl.split("w280")[0];
+    const name = item.imgUrl.split("w280")[1];
+    e.target.src = `${url}post${name}`;
+  };
+
   return (
     <Fragment>
       <PostWrap
@@ -16,7 +23,11 @@ const EachPost = (props) => {
         }}
       >
         <PostImage>
-          <img src={item?.imgUrl} alt="post_image"></img>
+          <img
+            src={item?.imgUrl}
+            alt="post_image"
+            onError={onErrorHandler}
+          ></img>
         </PostImage>
         <PostInfoWrap>
           <JustifyAlign>

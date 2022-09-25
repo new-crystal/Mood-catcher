@@ -160,7 +160,7 @@ const Item_detail = (props) => {
           <ProfileBox>
             <ProfileImg
               onClick={() => {
-                navigate(`/closet/${userId}`);
+                navigate(`/mypage/${userId}`);
                 window.location.reload();
               }}
               url={
@@ -172,7 +172,7 @@ const Item_detail = (props) => {
             ></ProfileImg>
             <NickTitle
               onClick={() => {
-                navigate(`/closet/${userId}`);
+                navigate(`/mypage/${userId}`);
                 window.location.reload();
               }}
             >
