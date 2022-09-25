@@ -233,13 +233,13 @@ const LabelWriter = styled.label`
   color: #2d273f;
 `;
 const CheckBox = styled.div`
-  width: 120px;
+  width: 125px;
   height: 15px;
   padding: 5px;
   border-bottom: 2px solid #fff;
 `;
 const NotCheckBox = styled.div`
-  width: 120px;
+  width: 125px;
   height: 15px;
   padding: 5px;
 `;
