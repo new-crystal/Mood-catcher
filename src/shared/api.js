@@ -145,8 +145,15 @@ export const loginApi = {
         },
       }
     ),
+  //프로필 기본 이미지로 변경
+  editOriginProfile: (data) =>
+    instance.put(
+      `/users?nickname=${encodeURI(data.nickname)}&gender=${data.gender}&age=${
+        data.age
+      }&original=true`
+    ),
   // 회원 탈퇴
-  deleteUser: () => instance.delete("/user/signout"),
+  deleteUser: () => instance.delete("/users/signout"),
   // 유저 정보 조회
   getUser: (userId) => instance.get(`/users/${userId}`),
   // 프로필 아이콘 바꾸기

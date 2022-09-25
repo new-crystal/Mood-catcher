@@ -50,12 +50,16 @@ const SignupGenderAge = (location) => {
     }
   }, []);
 
-  // //닉네임이 입력된 경우
-  // useEffect(() => {
-  //   if (users.nickname !== null) {
-  //     navigate("/main");
-  //   }
-  // }, []);
+  //로컬로그인 exist 값 찾기
+  useEffect(() => {
+    if (window.location.search !== "") {
+      const end = window.location.search.split("&")[0];
+      const exist = end.split("=")[1];
+      if (exist === "true") {
+        navigate("/main");
+      }
+    }
+  }, []);
 
   useEffect(() => {
     const token = getCookie("token");

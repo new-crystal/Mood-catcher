@@ -22,7 +22,6 @@ const SearchResultForm = () => {
 
   //검색 결과 받아오기/유저 정보 불러오기
   const searchList = useSelector((state) => state.search.searchResult);
-  console.log(searchList);
 
   //react-hook-form 사용하기
   const {
@@ -116,8 +115,8 @@ const SearchResultForm = () => {
 
   return (
     <Fragment>
+      {errors.search && <ErrorMsg>{errors.search.message}</ErrorMsg>}
       <Form onSubmit={handleSubmit(onSubmit)}>
-        {errors.search && <ErrorMsg>{errors.search.message}</ErrorMsg>}
         <SearchInput
           type="search"
           name="search"
@@ -220,10 +219,11 @@ const SearchResultForm = () => {
           searchList?.map((search) => (
             <Img
               key={search.postId}
-              url={search.imgUrl}
+              src={search.imgUrl}
               onClick={() =>
                 navigate(`/item_detail/${search.postId}/${search.userId}`)
               }
+              alt="search_result_image"
             ></Img>
           ))}
         {sort === "writer" &&
@@ -236,6 +236,7 @@ const SearchResultForm = () => {
                 onClick={() =>
                   navigate(`/item_detail/${search.postId}/${search.userId}`)
                 }
+                alt="search_result_image"
               ></Img>
             </NickImgBox>
           ))}
@@ -252,8 +253,8 @@ const Form = styled.form`
 const ErrorMsg = styled.p`
   color: #c60000;
   font-size: 10px;
-  margin-left: -150px;
-  margin-bottom: -10px;
+  margin-left: 40px;
+  margin-bottom: -20px;
 `;
 
 const SearchInput = styled.input`
@@ -323,16 +324,13 @@ const ImgBox = styled.div`
   width: 420px;
   white-space: pre-wrap;
 `;
-const Img = styled.div`
+const Img = styled.img`
   flex-direction: column;
   margin-left: 22.5px;
   margin-bottom: 25px;
   width: 180px;
   height: 240px;
   border-radius: 20px;
-  background-position: center;
-  background-size: cover;
-  background-image: url(${(props) => props.url});
   /* position: relative;
   overflow: hidden; */
 `;

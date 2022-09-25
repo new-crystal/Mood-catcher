@@ -85,6 +85,22 @@ export const __editProfile = createAsyncThunk(
   }
 );
 
+//프로필 기본 이미지로 수정
+export const __editOrigin = createAsyncThunk(
+  "PUT/ORIGIM",
+  async (data, thunkAPI) => {
+    try {
+      const response = await loginApi.editOriginProfile(data);
+      if (response.status === 201) {
+        return thunkAPI.fulfillWithValue(response.data.userStatus);
+      }
+    } catch (err) {
+      Swal.fire("에러", err.response.data, "error");
+      return thunkAPI.rejectWithValue(err.response.data);
+    }
+  }
+);
+
 // 회원 탈퇴
 export const __delUser = createAsyncThunk(
   "DELETE/USER",
