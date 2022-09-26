@@ -10,7 +10,7 @@ export const getCookie = (name) => {
 };
 
 export const deleteCookie = (name) => {
-  return cookies.remove(name);
+  return cookies.remove(name, { maxAge: -1 });
 };
 
 export const getToken = async () => {

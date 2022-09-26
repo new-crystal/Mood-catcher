@@ -59,7 +59,7 @@ export const __socialLogin = createAsyncThunk(
     try {
       const response = await loginApi.socialLogin(data);
       if (response.status === 200) {
-        setCookie("token", window.location.url.split("=")[2]);
+        // setCookie("token", window.location.url.split("=")[2]);
         thunkAPI.fulfillWithValue(response.data);
       }
     } catch (err) {
@@ -107,6 +107,9 @@ export const __delUser = createAsyncThunk(
   async (data, thunkAPI) => {
     try {
       const response = await loginApi.deleteUser(data);
+      if (response.status === 200) {
+        return true;
+      }
     } catch (err) {
       Swal.fire("에러", err.response.data, "error");
       return thunkAPI.rejectWithValue(err.response.data);

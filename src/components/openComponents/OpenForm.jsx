@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { Fragment, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
@@ -58,11 +58,13 @@ const OpenForm = () => {
   }, []);
 
   return (
-    <OpenBox>
-      <TextBox>
-        <p>{startMsg}</p>
-      </TextBox>
-    </OpenBox>
+    <Fragment>
+      <OpenBox>
+        <TextBox>
+          <p>{startMsg}</p>
+        </TextBox>
+      </OpenBox>
+    </Fragment>
   );
 };
 

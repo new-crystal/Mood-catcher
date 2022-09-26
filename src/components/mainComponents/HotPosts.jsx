@@ -69,7 +69,7 @@ const Wrap = styled.div`
     font-style: normal;
     font-weight: 700;
     font-size: 13px;
-    margin-right: 7px;
+    margin-right: 15px;
     cursor: pointer;
     position: relative;
     top: 10px;

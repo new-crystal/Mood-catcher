@@ -31,8 +31,8 @@ const Container = styled.div`
 
 const Grid = styled.div`
   margin: 0 auto;
-  margin-top: 60px;
-  margin-bottom: 57px;
+  /* margin-top: 60px; */
+  /* margin-bottom: 57px; */
   max-width: 428px;
   width: 100vw;
   //height: calc(var(--vh, 1vh) * 100 + 50px);

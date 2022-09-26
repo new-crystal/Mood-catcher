@@ -8,6 +8,7 @@ import InfinityScrollLoader from "./InfinityScrollLoader";
 import _ from "lodash";
 import { deleteCookie, getCookie } from "../../shared/cookie";
 import jwt from "jwt-decode"; // to get userId from loggedIn user's token
+import hanger from "../../image/옷걸이.png";
 
 const LikePosts = () => {
   const dispatch = useDispatch();
@@ -75,6 +76,12 @@ const LikePosts = () => {
 
   return (
     <Fragment>
+      {allLikePosts?.length === 0 && (
+        <EmptyLike>
+          <p>캐처님께서 아직</p>
+          <p>좋아하신 게시물이 없습니다</p>
+        </EmptyLike>
+      )}
       {allLikePosts?.map((item, idx) => (
         <EachPost key={idx} item={item} />
       ))}
@@ -83,5 +90,23 @@ const LikePosts = () => {
     </Fragment>
   );
 };
+
+const EmptyLike = styled.div`
+  margin: 200px auto auto auto;
+  width: 250px;
+  height: 150px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  margin-top: 230px;
+  font-family: Roboto;
+  font-style: Bold;
+  font-weight: 700;
+  font-size: 17px;
+  background-position: center;
+  background-size: cover;
+  background-image: url(${hanger});
+`;
 
 export default LikePosts;
