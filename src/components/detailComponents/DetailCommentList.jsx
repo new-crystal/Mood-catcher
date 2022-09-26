@@ -175,6 +175,8 @@ const R_Count = styled.div`
   width: 30px;
   height: 30px;
   margin-top: 16px;
+  opacity: 70%;
+  font-size: 15px;
   /* margin-left: -10px; */
   /* align-items: center; */
   background-image: url(${chat});

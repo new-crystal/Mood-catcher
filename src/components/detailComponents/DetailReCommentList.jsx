@@ -4,6 +4,8 @@ import { useDispatch } from "react-redux/es/exports";
 import { __deleteRecomment } from "../../redux/async/comment";
 import DetailChangeReComment from "./DetailChangeReComments";
 import DetailRecomments from "./DetailRecomments";
+import { useNavigate } from "react-router-dom";
+
 import { getCookie } from "../../shared/cookie";
 import jwt_decode from "jwt-decode";
 import Swal from "sweetalert2";
@@ -14,11 +16,12 @@ const more = "/images/more.png";
 // 상세페이지에 댓글 list 컴포넌트
 const DetailReCommentList = (props) => {
   const [myPageIsOpen, myPageRef, myPageHandler] = useDetectClose(false);
+  const navigate = useNavigate();
 
   const dispatch = useDispatch();
   const { item } = props;
   const { postId } = props;
-  // console.log(item);
+  console.log(item);
   const token = getCookie("token");
   const payload = jwt_decode(token);
 
@@ -70,6 +73,10 @@ const DetailReCommentList = (props) => {
 
       <CommentBox>
         <CommentImg
+          onClick={() => {
+            navigate(`/mypage/${item.userId}`);
+            window.location.reload();
+          }}
           url={
             item.imgUrl === undefined || item.imgUrl.slice(-4) === "null"
               ? preview_URL
@@ -79,6 +86,8 @@ const DetailReCommentList = (props) => {
         <WrapComment
           onClick={() => {
             setRecommentState(true);
+            navigate(`/mypage/${item.userId}`);
+            window.location.reload();
           }}
         >
           <span>{item.createdAt}</span>

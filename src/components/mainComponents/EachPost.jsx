@@ -42,14 +42,14 @@ const EachPost = (props) => {
 export default EachPost;
 
 const PostWrap = styled.div`
-  width: 148px;
+  width: 158px;
   margin-bottom: 20px;
   margin-right: 16px;
   //z-index: 1px;
 `;
 
 const PostImage = styled.div`
-  width: 148px;
+  width: 140px;
   height: 196px;
   border-radius: 13px;
   background-color: transparent;

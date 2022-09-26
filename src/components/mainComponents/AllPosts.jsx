@@ -24,7 +24,7 @@ const AllPosts = () => {
       setLoading(false); //요청하고나면 loading false로
     }
     return getMainData();
-  }, [paging, allMainPosts]); //usecallback의 deps에 페이지랑 맥주목록 바뀔때마다 실행되게
+  }, [paging, allMainPosts]);
 
   // 스크롤위치 계산
   const _handleScroll = _.throttle(() => {

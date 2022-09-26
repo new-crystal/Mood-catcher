@@ -7,6 +7,7 @@ import { Fragment } from "react";
 import { useEffect } from "react";
 import { getCookie } from "../../shared/cookie";
 import bcrypt from "bcryptjs";
+import PwaButton from "../../elem/PwaButton";
 
 const LoginForm = () => {
   const dispatch = useDispatch();
@@ -141,6 +142,9 @@ const LoginForm = () => {
             <LogBtn type="button" onClick={() => navigate("/edit_password")}>
               <p>비밀번호 찾기</p>
             </LogBtn>
+            <div>
+              <PwaButton />
+            </div>
           </BtnBox>
         </LoginBox>
       </BackGround>

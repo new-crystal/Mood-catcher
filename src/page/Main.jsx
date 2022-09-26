@@ -11,7 +11,6 @@ import { __getRepresentative } from "../redux/async/upload";
 import { __getHotPosts } from "../redux/async/rank";
 import { getCookie } from "../shared/cookie";
 import jwt from "jwt-decode"; // to get userId from loggedIn user's token
-import PwaButton from "../elem/PwaButton";
 import { useNavigate } from "react-router-dom";
 import _ from "lodash";
 
@@ -92,9 +91,7 @@ const Main = (props) => {
           )}
           {/* 대표게시물 출력 */}
           <RepPost myRepPost={repPost} />
-          <div>
-            <PwaButton />
-          </div>
+
           {/* 랭킹게시물 출력 */}
           <HotPosts hotPosts={hotPosts} />
           <AllPosts />

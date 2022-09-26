@@ -1,4 +1,10 @@
-import React, { useEffect, useState, Fragment, Suspense, useRef } from "react";
+import React, {
+  useEffect,
+  useState,
+  Fragment,
+  useCallback,
+  useRef,
+} from "react";
 import styled, { css } from "styled-components";
 import Header from "../elem/Header";
 import NavigationBar from "../elem/NavigationBar";
@@ -23,8 +29,11 @@ import heartFalse from "../image/heart.png";
 import heartTrue from "../image/heartTrue.png";
 import { __patchMood } from "../redux/async/like";
 import Swal from "sweetalert2";
+import _ from "lodash";
+import InfinityScrollLoader from "../elem/InfinityScrollLoader";
 
 const more = "/images/more.png";
+const upButton = "/images/upArrow.png";
 
 const Item_detail = (props) => {
   const preview_URL =
@@ -52,6 +61,11 @@ const Item_detail = (props) => {
   const [myPageIsOpen, myPageRef, myPageHandler] = useDetectClose(false);
   const [scrollRef, isDrag, onDragStart, onDragEnd, onThrottleDragMove] =
     ScrollX();
+
+  const [paging, setPaging] = useState(1); //페이지넘버
+  const [loading, setLoading] = useState(false); //데이터 받아오는동안 로딩 true로 하고 api요청 그동안 한번만되게
+  const last = useSelector((state) => state.rank.postLast);
+
   console.log(detailPost);
   // 댓글 input
   let commentText = useRef("");
@@ -158,6 +172,84 @@ const Item_detail = (props) => {
     const name = detailPost.imgUrl.split("w560")[1];
     e.target.src = `${url}post${name}`;
   };
+
+  // toTop버튼
+  const _scrollPosition = _.throttle(() => {
+    const scrollHeight = document.documentElement.scrollTop;
+    SetScrollHeightInfo(scrollHeight);
+  }, 300);
+
+  // toTop버튼
+  const [scrollHeightInfo, SetScrollHeightInfo] = useState(0);
+  const showTopButton = () => {
+    if (scrollHeightInfo > 100) {
+      //2000px밑으로 스크롤 내려갔을때 위로가는 Top 버튼 보이기
+      return <TopButton onClick={ScrollToTop}></TopButton>;
+    } else {
+      return null;
+    }
+  };
+
+  // toTop버튼
+  useEffect(() => {
+    window.addEventListener("scroll", _scrollPosition); // scroll event listener 등록
+    return () => {
+      window.removeEventListener("scroll", _scrollPosition); // scroll event listener 해제(스크롤이벤트 클린업)
+    };
+  }, [scrollHeightInfo]);
+
+  // 실행시 맨위로 올라옴
+  const ScrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  };
+
+  // const getCommentList = useCallback(() => {
+  //   async function getCommentData() {
+  //     await dispatch(__getComments({ paging: paging, postId: postId })); //api요청
+  //     setLoading(false); //요청하고나면 loading false로
+  //   }
+  //   return getCommentData();
+  // }, [paging, commentList]);
+
+  // // 스크롤위치 계산
+  // const _handleScroll = _.throttle(() => {
+  //   const scrollHeight = document.documentElement.scrollHeight;
+  //   const scrollTop = document.documentElement.scrollTop;
+  //   const clientHeight = document.documentElement.clientHeight;
+  //   //스크롤계산 사용자의 현재위치 + 스크롤위에서부터 위치가 전체 높이보다 커지면 함수실행
+  //   if (scrollTop + clientHeight >= scrollHeight - 100 && loading === false) {
+  //     // 페이지 끝에 도달하면 추가 데이터를 받아온다
+  //     if (last) {
+  //       return;
+  //     }
+  //     setPaging(paging + 1); //다음페이지
+  //     getCommentList(); //api요청 실행
+  //     setLoading(true); //실행동안 loading true로 바꾸고 요청 막기
+  //   }
+  // }, 500);
+
+  // useEffect(() => {
+  //   if (paging === 1 && commentList.length === 0) {
+  //     dispatch(__getComments({ paging: paging, postId: postId }));
+  //     setPaging(paging + 1);
+  //   } //첫렌더링시 0페이지 받아오기
+  //   if (commentList.length !== 0) {
+  //     setPaging(commentList.length);
+  //   } //다른컴포넌트 갔다 올때 렌더링시 페이지넘버 계산
+  // }, []);
+
+  // useEffect(() => {
+  //   if (loading) {
+  //     return;
+  //   } //로딩이 true일 경우 리턴
+  //   window.addEventListener("scroll", _handleScroll); // scroll event listener 등록
+  //   return () => {
+  //     window.removeEventListener("scroll", _handleScroll); // scroll event listener 해제
+  //   };
+  // }, [paging, loading]);
 
   return (
     <Fragment>
@@ -292,7 +384,11 @@ const Item_detail = (props) => {
               }
             ></CommentImg>
             <WrapComment>
-              <Textarea placeholder="댓글을 작성해주세요." ref={commentText} />
+              <Textarea
+                placeholder="댓글을 작성해주세요."
+                ref={commentText}
+                maxLength={15}
+              />
             </WrapComment>
             <AddCommentButton onClick={addComment}>완료</AddCommentButton>
           </CommentBox>
@@ -305,8 +401,11 @@ const Item_detail = (props) => {
               userId={userId}
             />
           ))}
+          {loading ? <InfinityScrollLoader /> : ""}
+          {showTopButton()}
         </Grid>
       </Container>
+
       <NavigationBar props={props} />
     </Fragment>
   );
@@ -323,6 +422,7 @@ const HeartBox = styled.div`
 const ImgBox = styled.div`
   /* margin: 0 20px 0 40px; */
   display: flex;
+  opacity: 70%;
 
   &.heart {
     width: 35px;
@@ -669,4 +769,16 @@ const StText = styled.span`
   font-size: 8px;
   color: #7b758b;
   font-weight: bold;
+`;
+
+const TopButton = styled.div`
+  position: fixed;
+  bottom: 74px;
+  left: 50%;
+  margin-left: -20px;
+  width: 40px;
+  height: 40px;
+  background-image: url(${upButton});
+  background-size: cover;
+  cursor: pointer;
 `;
