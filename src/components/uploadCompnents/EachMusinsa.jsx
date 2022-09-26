@@ -7,6 +7,7 @@ const EachMusinsa = (props) => {
 
   const { idx } = props;
   const { item } = props;
+  const { toTop } = props;
 
   const [selected, setSelected] = useState(false);
   // console.log(item);
@@ -33,7 +34,7 @@ const EachMusinsa = (props) => {
         <MusinsaCheckButton
           onClick={() => {
             dispatch(selectItem(item));
-            // setSelected((selected) => !selected);
+            toTop();
           }}
         >
           +

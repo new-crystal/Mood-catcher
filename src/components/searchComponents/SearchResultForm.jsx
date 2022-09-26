@@ -22,7 +22,6 @@ const SearchResultForm = () => {
 
   //검색 결과 받아오기/유저 정보 불러오기
   const searchList = useSelector((state) => state.search.searchResult);
-  console.log(searchList);
 
   //react-hook-form 사용하기
   const {
@@ -211,8 +210,8 @@ const SearchResultForm = () => {
         )}
         {sort === "writer" && searchList?.length === 0 && (
           <div style={{ margin: "30px auto", textAlign: "center" }}>
-            <h1>검색하신 {key}님의 </h1>
-            <h1> 대표게시물이 없습니다</h1>
+            <h1>검색하신 {key}님이 </h1>
+            <h1> 없습니다</h1>
             <h3>다시 검색해주세요</h3>
           </div>
         )}
@@ -235,8 +234,7 @@ const SearchResultForm = () => {
         {sort === "writer" &&
           searchList?.map((search) => (
             <NickImgBox key={search.postId} style={{ textAlign: "center" }}>
-              <Nickname>{search.nickname} 님의</Nickname>
-              <Nickname> 대표게시물</Nickname>
+              <Nickname>{search.nickname}님</Nickname>
               <Img
                 src={search.imgUrl}
                 onClick={() => navigate(`/mypage/${search.userId}`)}

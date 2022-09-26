@@ -312,6 +312,10 @@ const Container = styled.form`
     border-radius: 10px;
     height: 50px;
     width: 350px;
+    padding-left: 5px;
+    :focus {
+      outline: none;
+    }
   }
 `;
 

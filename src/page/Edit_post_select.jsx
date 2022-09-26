@@ -14,7 +14,7 @@ import { changeCheckPostId } from "../redux/modules/uploadSlice";
 import Swal from "sweetalert2";
 import _ from "lodash";
 
-const Search = "./images/search.png";
+const Search = "/images/search.png";
 const upButton = "/images/upArrow.png";
 const Cancel = "/images/cancel.png";
 
@@ -161,14 +161,10 @@ const Edit_post_select = (props) => {
               onMouseLeave={onDragEnd}
             >
               {selectedItems?.map((item, idx) => (
-                <StMusinsaItemBox key={idx} className={searchTogle}>
+                <StMusinsaItemBox key={idx}>
                   <StMusinsaImage>
                     <div className="ImgDiv">
-                      <img
-                        src={item.imgUrl}
-                        alt=""
-                        className={searchTogle.toString()}
-                      />
+                      <img src={item.imgUrl} alt="" />
                     </div>
                   </StMusinsaImage>
                   <StTextBox>
@@ -262,7 +258,7 @@ const Edit_post_select = (props) => {
             </MusinsaButton>
             <List className={searchTogle}>
               {items?.map((item, idx) => (
-                <EachMusinsa idx={idx} item={item} />
+                <EachMusinsa idx={idx} item={item} toTop={ScrollToTop} />
               ))}
             </List>
           </StUploadBox>

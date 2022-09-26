@@ -352,65 +352,7 @@ const MyPageForm = () => {
                     </GoCloset>
                   </>
                 )}
-                {myClosetList?.length === 5 && (
-                  <>
-                    <Closet
-                      alt="closet_img"
-                      src={myClosetList[0]?.imgUrl}
-                      onError={(e) =>
-                        (e.target.src = `${
-                          myClosetList[0].imgUrl.split("w280")[0]
-                        }post${myClosetList[0].imgUrl.split("w280")[1]}`)
-                      }
-                    ></Closet>
-                    <Closet
-                      alt="closet_img"
-                      src={myClosetList[1]?.imgUrl}
-                      onError={(e) =>
-                        (e.target.src = `${
-                          myClosetList[1].imgUrl.split("w280")[0]
-                        }post${myClosetList[1].imgUrl.split("w280")[1]}`)
-                      }
-                    ></Closet>
-                    <Closet
-                      alt="closet_img"
-                      src={myClosetList[2]?.imgUrl}
-                      onError={(e) =>
-                        (e.target.src = `${
-                          myClosetList[2].imgUrl.split("w280")[0]
-                        }post${myClosetList[2].imgUrl.split("w280")[1]}`)
-                      }
-                    ></Closet>
-                    <Closet
-                      alt="closet_img"
-                      src={myClosetList[3]?.imgUrl}
-                      onError={(e) =>
-                        (e.target.src = `${
-                          myClosetList[3].imgUrl.split("w280")[0]
-                        }post${myClosetList[3].imgUrl.split("w280")[1]}`)
-                      }
-                    ></Closet>
-                    <Closet
-                      alt="closet_img"
-                      src={myClosetList[4]?.imgUrl}
-                      onError={(e) =>
-                        (e.target.src = `${
-                          myClosetList[4].imgUrl.split("w280")[0]
-                        }post${myClosetList[4].imgUrl.split("w280")[1]}`)
-                      }
-                    ></Closet>
-                    <GoCloset
-                      url="https://m.spadegagu.com/web/product/extra/big/20200214/f614adca4a7b75279a0142f3657bfafe.jpg"
-                      onClick={() => navigate(`/closet/${userId}`)}
-                    >
-                      <OpenCloset>
-                        <h4>{users?.nickname}님의</h4>
-                        <h4>옷장 열어보기</h4>
-                      </OpenCloset>
-                    </GoCloset>
-                  </>
-                )}
-                {myClosetList?.length > 5 && (
+                {myClosetList?.length >= 5 && (
                   <>
                     <Closet
                       alt="closet_img"
@@ -667,7 +609,7 @@ const ClosetList = styled.div`
   margin-left: 30px;
   margin-top: 20px;
   align-items: center;
-  display: flexbox;
+  display: flex;
   overflow-x: scroll;
   overflow-y: hidden;
 
@@ -692,11 +634,13 @@ const Closet = styled.img`
   height: 190px;
   margin: 10px;
   border-radius: 10px;
+  flex-shrink: 0;
 `;
 const GoCloset = styled.div`
+  flex-shrink: 0;
   width: 160px;
-  height: 190px;
-  margin: 10px;
+  height: 200px;
+  margin: 5px;
   border-radius: 10px;
   background-position: center;
   background-size: cover;

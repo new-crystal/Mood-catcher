@@ -3,12 +3,22 @@ import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import { useCallback } from "react";
 import gender from "..//../image/gender.png";
+import Swal from "sweetalert2";
 
 const HotPosts = ({ hotPosts }) => {
+  console.log(hotPosts);
   const navigate = useNavigate();
 
   const onClickHandler = useCallback(
     (hotPosts) => {
+      if (hotPosts.delete) {
+        Swal.fire({
+          icon: "info",
+          title: "삭제된 게시물입니다.",
+          showConfirmButton: false,
+          timer: 3000,
+        }).then(window.location.reload());
+      }
       navigate(`/item_detail/${hotPosts.postId}/${hotPosts.userId}`);
     },
     [navigate]

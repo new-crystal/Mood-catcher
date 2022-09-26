@@ -7,6 +7,7 @@ import { Fragment } from "react";
 import { useEffect } from "react";
 import { getCookie } from "../../shared/cookie";
 import bcrypt from "bcryptjs";
+import PwaButton from "../../elem/PwaButton";
 
 const LoginForm = () => {
   const dispatch = useDispatch();
@@ -141,6 +142,9 @@ const LoginForm = () => {
             <LogBtn type="button" onClick={() => navigate("/edit_password")}>
               <p>비밀번호 찾기</p>
             </LogBtn>
+            <div>
+              <PwaButton />
+            </div>
           </BtnBox>
         </LoginBox>
       </BackGround>
@@ -182,7 +186,8 @@ const UploadText = styled.span`
 const ErrorMsg = styled.p`
   color: #c60000;
   font-size: 10px;
-  /* margin-left: 30px; */
+  margin-left: -130px;
+  margin-bottom: 0px;
 `;
 
 const LogInBtn = styled.button`
@@ -215,6 +220,10 @@ const LogBox = styled.form`
     height: 50px;
     width: 280px;
     margin: 10px;
+    padding-left: 10px;
+    :focus {
+      outline: none;
+    }
   }
 `;
 

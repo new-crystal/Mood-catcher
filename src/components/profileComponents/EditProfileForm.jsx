@@ -461,6 +461,10 @@ const Container = styled.div`
     width: 250px;
     margin-left: 20px;
     margin-bottom: 40px;
+    padding-left: 5px;
+    :focus {
+      outline: none;
+    }
   }
   p {
     color: #c60000;
