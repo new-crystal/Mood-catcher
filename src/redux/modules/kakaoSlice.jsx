@@ -6,6 +6,7 @@ const initialState = {
   myLatitude: "",
   myLongitude: "",
   checkPatch: false,
+  checkUsersMap: false,
   isFetching: false,
   errorMessage: null,
 };
@@ -34,8 +35,8 @@ const kakaoSlice = createSlice({
       })
       // kakao맵 유저들 위치 받기
       .addCase(__getUsersMap.fulfilled, (state, action) => {
-        console.log("test");
         state.aroundUser = action.payload;
+        state.checkUsersMap = !state.checkUsersMap;
         state.isFetching = false;
         state.errorMessage = null;
       })

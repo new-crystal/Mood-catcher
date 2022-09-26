@@ -24,7 +24,7 @@ import heartTrue from "../image/heartTrue.png";
 import { __patchMood } from "../redux/async/like";
 import Swal from "sweetalert2";
 
-const home = "/images/more.png";
+const more = "/images/more.png";
 
 const Item_detail = (props) => {
   const preview_URL =
@@ -221,23 +221,30 @@ const Item_detail = (props) => {
               onError={onErrorHandler}
             />
           </DetailImage>
-          {likeStatus ? (
-            <img
-              className="heart"
-              src={mood}
-              alt="heart"
-              onClick={onClickMoodCancelBtn}
-            />
-          ) : (
-            <img
-              className="heart"
-              src={mood}
-              alt="heart"
-              onClick={onClickMoodBtn}
-            />
-          )}
-          <span className="heartNum">{moodNum}</span>
-          <ContentText>{detailPost.content}</ContentText>
+          <HeartBox>
+            <ImgBox>
+              {likeStatus ? (
+                <img
+                  className="heart"
+                  src={mood}
+                  alt="heart"
+                  onClick={onClickMoodCancelBtn}
+                />
+              ) : (
+                <img
+                  className="heart"
+                  src={mood}
+                  alt="heart"
+                  onClick={onClickMoodBtn}
+                />
+              )}
+              <span>{moodNum}</span>
+            </ImgBox>
+          </HeartBox>
+
+          <ContentText>
+            <div>{detailPost.content}</div>
+          </ContentText>
           <Line />
           <SliderContainer
             ref={scrollRef}
@@ -307,8 +314,39 @@ const Item_detail = (props) => {
 
 export default Item_detail;
 
+const HeartBox = styled.div`
+  margin: -30px auto 0;
+  width: 336px;
+  display: flex;
+`;
+
+const ImgBox = styled.div`
+  /* margin: 0 20px 0 40px; */
+  display: flex;
+
+  &.heart {
+    width: 35px;
+    height: 35px;
+    /* position: relative; */
+    /* top: 0px; */
+    /* left: 50px; */
+    margin-left: 5px;
+  }
+  & > span {
+    font-size: 18px;
+    width: 280px;
+    margin-top: 7px;
+    margin-left: 7px;
+    align-items: center;
+
+    /* position: relative;
+    top: -10px; */
+    /* left: 55px; */
+  }
+`;
+
 const StLoginList = styled.div`
-  background-image: url(${home});
+  background-image: url(${more});
   width: 30px;
   height: 30px;
   /* margin-right: 50px; */
@@ -340,30 +378,17 @@ const Grid = styled.div`
   min-height: 926px;
 
   background: linear-gradient(#a396c9, #ffffff);
-
-  .heart {
-    width: 35px;
-    height: 35px;
-    position: relative;
-    top: 0px;
-    left: 50px;
-  }
-  .heartNum {
-    font-size: 18px;
-    position: relative;
-    top: -10px;
-    left: 55px;
-  }
 `;
 
 const ProfileBox = styled.div`
   display: flex;
+  justify-content: center;
   align-items: center;
   flex-direction: row;
 `;
 
 const ProfileImg = styled.div`
-  margin: 5px 6px 4px 43px;
+  margin: 5px 6px 4px 5px;
   width: 45px;
   height: 45px;
   border-radius: 50%;
@@ -400,7 +425,7 @@ const Menu = styled.div`
   background: gray;
   position: absolute;
   top: 52px;
-  left: -75%;
+  left: -235%;
   width: 200px;
   text-align: center;
   box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.2);
@@ -417,7 +442,7 @@ const Menu = styled.div`
     width: 0;
     position: absolute;
     top: -3px;
-    left: 50%;
+    left: 69%;
     transform: translate(150%, -50%);
     border: 12px solid transparent;
     border-top-width: 0;
@@ -430,7 +455,7 @@ const Menu = styled.div`
       opacity: 1;
       visibility: visible;
       transform: translate(-50%, 0);
-      left: -75%;
+      left: -235%;
     `};
 `;
 
@@ -466,7 +491,7 @@ const LinkWrapper = styled.div`
 // `;
 
 const DetailImage = styled.div`
-  margin: 4px 47px 8px 40px;
+  margin: 4px auto 40px;
   border-radius: 20px;
   width: 341px;
   height: 452px;
@@ -481,8 +506,10 @@ const DetailImage = styled.div`
 `;
 
 const ContentText = styled.div`
-  margin: 0 48px 10px 42px;
+  margin: 10px auto 10px;
+  padding-left: 10px;
   font-size: 16px;
+  width: 336px;
 `;
 
 const Line = styled.div`
@@ -492,7 +519,7 @@ const Line = styled.div`
 `;
 
 const SliderContainer = styled.div`
-  margin: 0 29px;
+  margin: 0 auto 0;
   width: 350px;
   overflow: hidden;
   display: flexbox;
@@ -542,11 +569,13 @@ const StMusinsaItemBox = styled.div`
 `;
 
 const CommentBox = styled.div`
+  margin: 0 auto 0;
+  justify-content: center;
   display: flex;
 `;
 
 const CommentImg = styled.div`
-  margin: 8px 6px 4px 29px;
+  margin: 8px 6px 4px 8px;
   width: 45px;
   height: 45px;
   border-radius: 50%;
@@ -563,13 +592,14 @@ const WrapComment = styled.div`
 const Textarea = styled.textarea`
   width: 200px;
   height: 25px;
-  padding-top: 13px;
+  padding-top: 10px;
   border: none;
   outline: none;
   font-size: 16px;
   border: 1px solid var(--grey);
   border-radius: 10px;
   background-color: transparent;
+  font-family: "Noto Sans KR", sans-serif;
   ::placeholder {
   }
   resize: none;
