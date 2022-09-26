@@ -196,8 +196,8 @@ const TimeText = styled.div`
   font-style: Bold;
   font-weight: 700;
   font-size: 3px;
-  position: absolute;
-  left: 505px;
+  position: relative;
+  /* left: 505px; */
   margin-top: -35px;
 `;
 const AlarmImg = styled.div`
@@ -217,8 +217,8 @@ const ArrowBtn = styled.div`
   background-position: center;
   background-size: cover;
   background-image: url("https://www.pngmart.com/files/16/Left-Arrow-Icon-PNG-Transparent-Image.png");
-  position: absolute;
-  left: 520px;
+  position: relative;
+  left: -10px;
   opacity: 70%;
   margin-top: 10px;
 `;
