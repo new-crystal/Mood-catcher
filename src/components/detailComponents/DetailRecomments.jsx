@@ -107,17 +107,18 @@ const BackgroundDiv = styled.div`
   width: 100%;
   height: 100%;
   background-color: rgba(0, 0, 0, 0.2);
+  z-index: 99;
 `;
 
 const Wrapdiv = styled.div`
   position: fixed;
   left: 50%;
-  top: 200px;
+  top: 100px;
   transform: translate(-50%, 0);
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  width: 370px;
+  width: 330px;
   height: 500px;
   padding: 20px 15px;
   background-color: #eeeeee;
@@ -187,12 +188,12 @@ const WrapCommentData = styled.div`
   display: flex;
   justify-content: space-between;
   /* padding: 0 20px; */
-  margin-top: 7px;
+  /* margin-top: 7px; */
   /* background-color: orange; */
   /* border: 1px solid black; */
   border-radius: 10px;
   pre {
-    width: 300px;
+    width: 220px;
     height: 20px;
     background-color: royalblue;
     /* padding-top: 7px; */
@@ -201,6 +202,7 @@ const WrapCommentData = styled.div`
     outline: none;
     overflow: hidden;
     font-size: 16px;
+    font-family: "Noto Sans KR", sans-serif;
     /* border: 1px solid black; */
     border-radius: 5px;
     background-color: transparent;
@@ -218,11 +220,13 @@ const WrapComment = styled.div`
 `;
 
 const Textarea = styled.textarea`
-  width: 240px;
+  width: 190px;
   height: 25px;
-  padding-top: 13px;
+  padding-top: 7px;
+  margin-left: 3px;
   outline: none;
   font-size: 16px;
+  font-family: "Noto Sans KR", sans-serif;
   border: 1px solid var(--grey);
   border-radius: 10px;
   background-color: transparent;
