@@ -259,6 +259,9 @@ const Container = styled.form`
     border-radius: 0.625rem;
     height: 3.125rem;
     width: 21.875rem;
+    :focus {
+      outline: none;
+    }
   }
 `;
 
