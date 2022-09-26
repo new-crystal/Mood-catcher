@@ -399,7 +399,7 @@ const ProfileImg = styled.div`
 `;
 
 const NickTitle = styled.div`
-  width: 260px;
+  width: 280px;
   display: flex;
   flex-direction: column;
   & > span {
