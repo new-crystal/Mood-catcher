@@ -9,6 +9,7 @@ import { __getUser } from "../../redux/async/login";
 import { getCookie } from "../../shared/cookie";
 import jwt_decode from "jwt-decode";
 import ScrollX from "../../elem/ScrollX";
+import Swal from "sweetalert2";
 
 import man1 from "../../image/1man.png";
 import man2 from "../../image/2man.png";
@@ -113,9 +114,17 @@ const MyPageForm = () => {
               <p className="name">Mood Point</p>
             </MoodHeader>
             <MoodBody>
-              <h1 onClick={() => setMoodPoint(true)}>{users?.moodPoint}</h1>
+              <h1
+                style={{ cursor: "pointer" }}
+                onClick={() => setMoodPoint(true)}
+              >
+                {users?.moodPoint}
+              </h1>
               {payload.userId == userId ? (
-                <MoodQuestion onClick={() => setMoodPoint(true)}></MoodQuestion>
+                <MoodQuestion
+                  style={{ cursor: "pointer" }}
+                  onClick={() => setMoodPoint(true)}
+                ></MoodQuestion>
               ) : null}
               {moodPoint ? <MoodPoint setMoodPoint={setMoodPoint} /> : null}
             </MoodBody>
@@ -132,7 +141,10 @@ const MyPageForm = () => {
                   {grade === "4" && <h6>조끼</h6>}
                   {grade === "5" && <h6>자켓</h6>}
                   {payload.userId == userId ? (
-                    <Question onClick={() => setGradeList(true)}></Question>
+                    <Question
+                      style={{ cursor: "pointer" }}
+                      onClick={() => setGradeList(true)}
+                    ></Question>
                   ) : null}
                   {gradeList ? <GradeList setGradeList={setGradeList} /> : null}
                 </GradeQuestion>
@@ -148,7 +160,17 @@ const MyPageForm = () => {
             </MoodBody>
           </MoodBox>
           {rep?.imgUrl === undefined ? (
-            <PostImg url={`${hanger}`}></PostImg>
+            <PostImg
+              style={{ cursor: "pointer" }}
+              onClick={() => {
+                Swal.fire(
+                  "대표게시물을 찾을 수 없습니다",
+                  "캐처님의 게시물의 상세페이지에서 대표 게시물을 등록해주세요",
+                  "question"
+                );
+              }}
+              url={`${hanger}`}
+            ></PostImg>
           ) : (
             <PostImg
               url={rep?.imgUrl}
@@ -171,11 +193,17 @@ const MyPageForm = () => {
           >
             {myClosetList?.length === 0 ? (
               <>
-                <EmptyCloset onClick={() => navigate("/upload")}>
+                <EmptyCloset
+                  style={{ cursor: "pointer" }}
+                  onClick={() => navigate("/upload")}
+                >
                   <p>{users.nickname}님의</p>
                   <p>옷장이 비어있습니다</p>
                 </EmptyCloset>
-                <EmptyCloset onClick={() => navigate("/upload")}>
+                <EmptyCloset
+                  style={{ cursor: "pointer" }}
+                  onClick={() => navigate("/upload")}
+                >
                   <p>옷장도 꾸미고</p>
                   <p>무드도 캐치하세요</p>
                 </EmptyCloset>
@@ -184,8 +212,16 @@ const MyPageForm = () => {
               <>
                 {myClosetList?.length === 1 && (
                   <>
-                    <Closet url={myClosetList[0]?.imgUrl}></Closet>
                     <Closet
+                      alt="closet_img"
+                      src={myClosetList[0]?.imgUrl}
+                      onError={(e) =>
+                        (e.target.src = `${
+                          myClosetList[0].imgUrl.split("w280")[0]
+                        }post${myClosetList[0].imgUrl.split("w280")[1]}`)
+                      }
+                    ></Closet>
+                    <GoCloset
                       url="https://m.spadegagu.com/web/product/extra/big/20200214/f614adca4a7b75279a0142f3657bfafe.jpg"
                       onClick={() => navigate(`/closet/${userId}`)}
                     >
@@ -193,14 +229,30 @@ const MyPageForm = () => {
                         <h4>{users?.nickname}님의</h4>
                         <h4>옷장 열어보기</h4>
                       </OpenCloset>
-                    </Closet>
+                    </GoCloset>
                   </>
                 )}
                 {myClosetList?.length === 2 && (
                   <>
-                    <Closet url={myClosetList[0]?.imgUrl}></Closet>
-                    <Closet url={myClosetList[1]?.imgUrl}></Closet>
                     <Closet
+                      alt="closet_img"
+                      src={myClosetList[0]?.imgUrl}
+                      onError={(e) =>
+                        (e.target.src = `${
+                          myClosetList[0].imgUrl.split("w280")[0]
+                        }post${myClosetList[0].imgUrl.split("w280")[1]}`)
+                      }
+                    ></Closet>
+                    <Closet
+                      alt="closet_img"
+                      src={myClosetList[1]?.imgUrl}
+                      onError={(e) =>
+                        (e.target.src = `${
+                          myClosetList[1].imgUrl.split("w280")[0]
+                        }post${myClosetList[1].imgUrl.split("w280")[1]}`)
+                      }
+                    ></Closet>
+                    <GoCloset
                       url="https://m.spadegagu.com/web/product/extra/big/20200214/f614adca4a7b75279a0142f3657bfafe.jpg"
                       onClick={() => navigate(`/closet/${userId}`)}
                     >
@@ -208,15 +260,39 @@ const MyPageForm = () => {
                         <h4>{users?.nickname}님의</h4>
                         <h4>옷장 열어보기</h4>
                       </OpenCloset>
-                    </Closet>
+                    </GoCloset>
                   </>
                 )}
                 {myClosetList?.length === 3 && (
                   <>
-                    <Closet url={myClosetList[0]?.imgUrl}></Closet>
-                    <Closet url={myClosetList[1]?.imgUrl}></Closet>
-                    <Closet url={myClosetList[2]?.imgUrl}></Closet>
                     <Closet
+                      alt="closet_img"
+                      src={myClosetList[0]?.imgUrl}
+                      onError={(e) =>
+                        (e.target.src = `${
+                          myClosetList[0].imgUrl.split("w280")[0]
+                        }post${myClosetList[0].imgUrl.split("w280")[1]}`)
+                      }
+                    ></Closet>
+                    <Closet
+                      alt="closet_img"
+                      src={myClosetList[1]?.imgUrl}
+                      onError={(e) =>
+                        (e.target.src = `${
+                          myClosetList[1].imgUrl.split("w280")[0]
+                        }post${myClosetList[1].imgUrl.split("w280")[1]}`)
+                      }
+                    ></Closet>
+                    <Closet
+                      alt="closet_img"
+                      src={myClosetList[2]?.imgUrl}
+                      onError={(e) =>
+                        (e.target.src = `${
+                          myClosetList[2].imgUrl.split("w280")[0]
+                        }post${myClosetList[2].imgUrl.split("w280")[1]}`)
+                      }
+                    ></Closet>
+                    <GoCloset
                       url="https://m.spadegagu.com/web/product/extra/big/20200214/f614adca4a7b75279a0142f3657bfafe.jpg"
                       onClick={() => navigate(`/closet/${userId}`)}
                     >
@@ -224,16 +300,48 @@ const MyPageForm = () => {
                         <h4>{users?.nickname}님의</h4>
                         <h4>옷장 열어보기</h4>
                       </OpenCloset>
-                    </Closet>
+                    </GoCloset>
                   </>
                 )}
                 {myClosetList?.length === 4 && (
                   <>
-                    <Closet url={myClosetList[0]?.imgUrl}></Closet>
-                    <Closet url={myClosetList[1]?.imgUrl}></Closet>
-                    <Closet url={myClosetList[2]?.imgUrl}></Closet>
-                    <Closet url={myClosetList[3]?.imgUrl}></Closet>
                     <Closet
+                      alt="closet_img"
+                      src={myClosetList[0]?.imgUrl}
+                      onError={(e) =>
+                        (e.target.src = `${
+                          myClosetList[0].imgUrl.split("w280")[0]
+                        }post${myClosetList[0].imgUrl.split("w280")[1]}`)
+                      }
+                    ></Closet>
+                    <Closet
+                      alt="closet_img"
+                      src={myClosetList[1]?.imgUrl}
+                      onError={(e) =>
+                        (e.target.src = `${
+                          myClosetList[1].imgUrl.split("w280")[0]
+                        }post${myClosetList[1].imgUrl.split("w280")[1]}`)
+                      }
+                    ></Closet>
+                    <Closet
+                      alt="closet_img"
+                      src={myClosetList[2]?.imgUrl}
+                      onError={(e) =>
+                        (e.target.src = `${
+                          myClosetList[2].imgUrl.split("w280")[0]
+                        }post${myClosetList[2].imgUrl.split("w280")[1]}`)
+                      }
+                    ></Closet>
+                    <Closet
+                      alt="closet_img"
+                      src={myClosetList[3]?.imgUrl}
+                      onError={(e) =>
+                        (e.target.src = `${
+                          myClosetList[3].imgUrl.split("w280")[0]
+                        }post${myClosetList[3].imgUrl.split("w280")[1]}`)
+                      }
+                    ></Closet>
+                    <GoCloset
                       url="https://m.spadegagu.com/web/product/extra/big/20200214/f614adca4a7b75279a0142f3657bfafe.jpg"
                       onClick={() => navigate(`/closet/${userId}`)}
                     >
@@ -241,17 +349,57 @@ const MyPageForm = () => {
                         <h4>{users?.nickname}님의</h4>
                         <h4>옷장 열어보기</h4>
                       </OpenCloset>
-                    </Closet>
+                    </GoCloset>
                   </>
                 )}
                 {myClosetList?.length === 5 && (
                   <>
-                    <Closet url={myClosetList[0]?.imgUrl}></Closet>
-                    <Closet url={myClosetList[1]?.imgUrl}></Closet>
-                    <Closet url={myClosetList[2]?.imgUrl}></Closet>
-                    <Closet url={myClosetList[3]?.imgUrl}></Closet>
-                    <Closet url={myClosetList[4]?.imgUrl}></Closet>
                     <Closet
+                      alt="closet_img"
+                      src={myClosetList[0]?.imgUrl}
+                      onError={(e) =>
+                        (e.target.src = `${
+                          myClosetList[0].imgUrl.split("w280")[0]
+                        }post${myClosetList[0].imgUrl.split("w280")[1]}`)
+                      }
+                    ></Closet>
+                    <Closet
+                      alt="closet_img"
+                      src={myClosetList[1]?.imgUrl}
+                      onError={(e) =>
+                        (e.target.src = `${
+                          myClosetList[1].imgUrl.split("w280")[0]
+                        }post${myClosetList[1].imgUrl.split("w280")[1]}`)
+                      }
+                    ></Closet>
+                    <Closet
+                      alt="closet_img"
+                      src={myClosetList[2]?.imgUrl}
+                      onError={(e) =>
+                        (e.target.src = `${
+                          myClosetList[2].imgUrl.split("w280")[0]
+                        }post${myClosetList[2].imgUrl.split("w280")[1]}`)
+                      }
+                    ></Closet>
+                    <Closet
+                      alt="closet_img"
+                      src={myClosetList[3]?.imgUrl}
+                      onError={(e) =>
+                        (e.target.src = `${
+                          myClosetList[3].imgUrl.split("w280")[0]
+                        }post${myClosetList[3].imgUrl.split("w280")[1]}`)
+                      }
+                    ></Closet>
+                    <Closet
+                      alt="closet_img"
+                      src={myClosetList[4]?.imgUrl}
+                      onError={(e) =>
+                        (e.target.src = `${
+                          myClosetList[4].imgUrl.split("w280")[0]
+                        }post${myClosetList[4].imgUrl.split("w280")[1]}`)
+                      }
+                    ></Closet>
+                    <GoCloset
                       url="https://m.spadegagu.com/web/product/extra/big/20200214/f614adca4a7b75279a0142f3657bfafe.jpg"
                       onClick={() => navigate(`/closet/${userId}`)}
                     >
@@ -259,17 +407,57 @@ const MyPageForm = () => {
                         <h4>{users?.nickname}님의</h4>
                         <h4>옷장 열어보기</h4>
                       </OpenCloset>
-                    </Closet>
+                    </GoCloset>
                   </>
                 )}
                 {myClosetList?.length > 5 && (
                   <>
-                    <Closet url={myClosetList[0]?.imgUrl}></Closet>
-                    <Closet url={myClosetList[1]?.imgUrl}></Closet>
-                    <Closet url={myClosetList[2]?.imgUrl}></Closet>
-                    <Closet url={myClosetList[3]?.imgUrl}></Closet>
-                    <Closet url={myClosetList[4]?.imgUrl}></Closet>
                     <Closet
+                      alt="closet_img"
+                      src={myClosetList[0]?.imgUrl}
+                      onError={(e) =>
+                        (e.target.src = `${
+                          myClosetList[0].imgUrl.split("w280")[0]
+                        }post${myClosetList[0].imgUrl.split("w280")[1]}`)
+                      }
+                    ></Closet>
+                    <Closet
+                      alt="closet_img"
+                      src={myClosetList[1]?.imgUrl}
+                      onError={(e) =>
+                        (e.target.src = `${
+                          myClosetList[1].imgUrl.split("w280")[0]
+                        }post${myClosetList[1].imgUrl.split("w280")[1]}`)
+                      }
+                    ></Closet>
+                    <Closet
+                      alt="closet_img"
+                      src={myClosetList[2]?.imgUrl}
+                      onError={(e) =>
+                        (e.target.src = `${
+                          myClosetList[2].imgUrl.split("w280")[0]
+                        }post${myClosetList[2].imgUrl.split("w280")[1]}`)
+                      }
+                    ></Closet>
+                    <Closet
+                      alt="closet_img"
+                      src={myClosetList[3]?.imgUrl}
+                      onError={(e) =>
+                        (e.target.src = `${
+                          myClosetList[3].imgUrl.split("w280")[0]
+                        }post${myClosetList[3].imgUrl.split("w280")[1]}`)
+                      }
+                    ></Closet>
+                    <Closet
+                      alt="closet_img"
+                      src={myClosetList[4]?.imgUrl}
+                      onError={(e) =>
+                        (e.target.src = `${
+                          myClosetList[4].imgUrl.split("w280")[0]
+                        }post${myClosetList[4].imgUrl.split("w280")[1]}`)
+                      }
+                    ></Closet>
+                    <GoCloset
                       url="https://m.spadegagu.com/web/product/extra/big/20200214/f614adca4a7b75279a0142f3657bfafe.jpg"
                       onClick={() => navigate(`/closet/${userId}`)}
                     >
@@ -277,7 +465,7 @@ const MyPageForm = () => {
                         <h4>{users?.nickname}님의</h4>
                         <h4>옷장 열어보기</h4>
                       </OpenCloset>
-                    </Closet>
+                    </GoCloset>
                   </>
                 )}
               </>
@@ -499,7 +687,13 @@ const ClosetList = styled.div`
   }
 `;
 
-const Closet = styled.div`
+const Closet = styled.img`
+  width: 160px;
+  height: 190px;
+  margin: 10px;
+  border-radius: 10px;
+`;
+const GoCloset = styled.div`
   width: 160px;
   height: 190px;
   margin: 10px;
@@ -507,7 +701,6 @@ const Closet = styled.div`
   background-position: center;
   background-size: cover;
   background-image: url(${(props) => props.url});
-
   h4 {
     display: block;
     font-family: "Unna";

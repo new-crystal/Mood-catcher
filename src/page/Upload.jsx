@@ -50,7 +50,16 @@ const Upload = (props) => {
         timer: 1500,
       });
       navigate("/upload");
-    } else {
+    }
+    if (post.title === "") {
+      Swal.fire({
+        icon: "info",
+        title: "캐처님의 옷장 제목을 넣어주세요!",
+        showConfirmButton: false,
+        timer: 1500,
+      });
+    }
+    if (fileInput.current.files[0] !== undefined && post.title !== "") {
       const formdata = new FormData();
       formdata.append("postImage", fileInput.current.files[0]);
 

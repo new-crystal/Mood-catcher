@@ -6,7 +6,8 @@ import NavigationBar from "../elem/NavigationBar";
 import { useNavigate } from "react-router-dom";
 import Loader from "../shared/Loader";
 import "../shared/style/MapImageStyle.css";
-import { getCookie, setCookie, deleteCookie } from "../shared/cookie";
+import axios from "axios";
+import { getCookie, deleteCookie } from "../shared/cookie";
 import { useDispatch, useSelector } from "react-redux";
 import { __patchMap, __getUsersMap } from "../redux/async/kakao";
 

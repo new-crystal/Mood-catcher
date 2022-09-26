@@ -58,7 +58,7 @@ export const __deleteComment = createAsyncThunk(
       const response = await commentApi.deleteComment(data);
       if (response.status === 200) {
         if (response.request.status === 200) {
-          alert(response.data.msg);
+          //alert(response.data.msg);
         }
         return data;
       }

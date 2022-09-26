@@ -297,7 +297,6 @@ const EditProfileForm = () => {
     }).then((result) => {
       if (result.isConfirmed) {
         dispatch(__delUser());
-        deleteCookie("token");
         navigate("/login");
       }
     });

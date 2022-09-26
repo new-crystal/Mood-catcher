@@ -173,6 +173,7 @@ const Header = () => {
           {settings && (
             <Notifications
               url={`${Setting}`}
+              style={{ cursor: "pointer" }}
               onClick={() => navigate("/edit_profile")}
             ></Notifications>
           )}

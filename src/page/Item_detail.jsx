@@ -52,7 +52,7 @@ const Item_detail = (props) => {
   const [myPageIsOpen, myPageRef, myPageHandler] = useDetectClose(false);
   const [scrollRef, isDrag, onDragStart, onDragEnd, onThrottleDragMove] =
     ScrollX();
-
+  console.log(detailPost);
   // 댓글 input
   let commentText = useRef("");
 
@@ -152,6 +152,13 @@ const Item_detail = (props) => {
     dispatch(__patchMood(detailPost.postId));
   };
 
+  //리사이징 에러 났을 경우
+  const onErrorHandler = (e) => {
+    const url = detailPost.imgUrl.split("w560")[0];
+    const name = detailPost.imgUrl.split("w560")[1];
+    e.target.src = `${url}post${name}`;
+  };
+
   return (
     <Fragment>
       <Container>
@@ -208,7 +215,11 @@ const Item_detail = (props) => {
           {/* <TitleText>{detailPost.title}</TitleText> */}
 
           <DetailImage>
-            <img src={detailPost.imgUrl} />
+            <img
+              src={detailPost.imgUrl}
+              alt="detail_img"
+              onError={onErrorHandler}
+            />
           </DetailImage>
           <HeartBox>
             <ImgBox>
