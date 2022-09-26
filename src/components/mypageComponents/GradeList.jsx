@@ -62,7 +62,11 @@ const GradeList = ({ setGradeList }) => {
       <ListBox>
         <TitleBox>
           <h3>mood grade</h3>
-          <ConfirmBtn type="button" onClick={() => setGradeList(false)}>
+          <ConfirmBtn
+            style={{ cursor: "pointer" }}
+            type="button"
+            onClick={() => setGradeList(false)}
+          >
             ✖️
           </ConfirmBtn>
         </TitleBox>
@@ -118,7 +122,11 @@ const GradeList = ({ setGradeList }) => {
             <h6>(100000 무드 이상)</h6>
           </TextBox>
         </Grade>
-        <MudiBtn type="button" onClick={onClickMoodyBtn}>
+        <MudiBtn
+          style={{ cursor: "pointer" }}
+          type="button"
+          onClick={onClickMoodyBtn}
+        >
           {moody === true ? "사람으로 바꾸기" : "무디로 바꾸기"}
         </MudiBtn>
       </ListBox>

@@ -7,6 +7,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
 import InfinityScrollLoader from "./InfinityScrollLoader";
 import _ from "lodash";
+import hanger from "../../image/옷걸이.png";
 
 const ClosetPosts = () => {
   const dispatch = useDispatch();
@@ -63,6 +64,12 @@ const ClosetPosts = () => {
 
   return (
     <Fragment>
+      {ranksIF?.length === 0 && (
+        <EmptyLike>
+          <p>캐처님의</p>
+          <p>옷장이 비어있습니다</p>
+        </EmptyLike>
+      )}
       {ranksIF?.map((item, idx) => (
         <EachPost key={idx} item={item} />
       ))}
@@ -71,5 +78,21 @@ const ClosetPosts = () => {
     </Fragment>
   );
 };
-
+const EmptyLike = styled.div`
+  margin: 200px auto auto auto;
+  width: 250px;
+  height: 150px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  margin-top: 230px;
+  font-family: Roboto;
+  font-style: Bold;
+  font-weight: 700;
+  font-size: 17px;
+  background-position: center;
+  background-size: cover;
+  background-image: url(${hanger});
+`;
 export default ClosetPosts;

@@ -26,8 +26,6 @@ const SearchForm = () => {
   const gender = users?.gender;
   const last = useSelector((state) => state.search.postLast);
 
-  console.log(recommended);
-
   //react-hook-form에서 불러오기
   const {
     register,
@@ -117,7 +115,7 @@ const SearchForm = () => {
           {...register("search", {
             required: "검색어를 입력해주세요",
             pattern: {
-              value: /^[0-9|a-z|A-Z|가-힣]*$/,
+              value: /^[0-9|a-z|A-Z|가-힣|ㄱ-ㅎ|ㅏ-ㅣ]*$/,
               message: "검색어는 공백이나 특수문자는 포함할 수 없습니다.",
             },
           })}
@@ -198,10 +196,12 @@ const SearchBox = styled.div`
 `;
 const LabelTitle = styled.label`
   color: #2d273f;
+  cursor: pointer;
 `;
 const LabelWriter = styled.label`
   display: block;
   color: #2d273f;
+  cursor: pointer;
 `;
 const CheckBox = styled.div`
   width: 125px;

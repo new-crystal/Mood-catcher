@@ -41,6 +41,13 @@ const EachPost = (props) => {
     dispatch(__patchMood(item.postId));
   };
 
+  //리사이징 에러 났을 경우
+  const onErrorHandler = (e) => {
+    const url = item.imgUrl.split("w280")[0];
+    const name = item.imgUrl.split("w280")[1];
+    e.target.src = `${url}post${name}`;
+  };
+
   console.log(item);
   return (
     <Fragment>
@@ -49,6 +56,7 @@ const EachPost = (props) => {
           <img
             src={item?.imgUrl}
             alt="test"
+            onError={onErrorHandler}
             onClick={() => {
               navigate(`/item_detail/${item.postId}/${item.userId}`);
               window.location.reload();

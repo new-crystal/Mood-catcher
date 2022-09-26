@@ -58,7 +58,6 @@ const AlarmForm = () => {
             return alarm?.postId === -1 ? (
               <AlarmBox key={idx}>
                 <p>{alarm.msg}</p>
-                {alarm.duplecation > 1 && <h5>{alarm.duplecation}</h5>}
               </AlarmBox>
             ) : (
               <AlarmBox
@@ -111,8 +110,10 @@ const TitleWrap = styled.div`
   display: flex;
   align-items: baseline;
   flex-direction: row;
+  justify-content: space-between;
 `;
 const BtnWrap = styled.div`
+  width: 100px;
   display: flex;
   flex-direction: row;
   margin-left: 160px;
@@ -124,11 +125,11 @@ const ConfirmBtn = styled.button`
   background-color: rgba(0, 0, 0, 0);
   color: #7b758b;
   border: 0px;
-  margin-right: -15px;
+  margin-right: -10px;
   font-family: Roboto;
   font-style: Bold;
   font-weight: 700;
-  font-size: 13px;
+  font-size: 11px;
 `;
 const BackBtn = styled.button`
   width: 20px;
@@ -136,7 +137,7 @@ const BackBtn = styled.button`
   background-color: rgba(0, 0, 0, 0);
   color: #7b758b;
   border: 0px;
-  margin: 0px;
+  margin-left: 5px;
   font-family: Roboto;
   font-style: Bold;
   font-weight: 700;

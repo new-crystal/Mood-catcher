@@ -46,7 +46,7 @@ const MoodPoint = ({ setMoodPoint }) => {
         <Grade>
           <TextBox>
             <h4>메인 Hot Rank 등재</h4>
-            <h6>3000무드</h6>
+            <h6>1등 3000무드/2등 2000무드/3등 1000무드</h6>
           </TextBox>
         </Grade>
       </ListBox>

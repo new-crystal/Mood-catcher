@@ -22,6 +22,7 @@ const SearchResultForm = () => {
 
   //검색 결과 받아오기/유저 정보 불러오기
   const searchList = useSelector((state) => state.search.searchResult);
+  console.log(searchList);
 
   //react-hook-form 사용하기
   const {
@@ -125,7 +126,7 @@ const SearchResultForm = () => {
           {...register("search", {
             required: "검색어를 입력해주세요",
             pattern: {
-              value: /^[0-9|a-z|A-Z|가-힣]*$/,
+              value: /^[0-9|a-z|A-Z|가-힣|ㄱ-ㅎ|ㅏ-ㅣ]*$/,
               message: "검색어에는 공백이나 특수문자는 포함할 수 없습니다.",
             },
           })}
@@ -224,6 +225,11 @@ const SearchResultForm = () => {
                 navigate(`/item_detail/${search.postId}/${search.userId}`)
               }
               alt="search_result_image"
+              onError={(e) =>
+                (e.target.src = `${search.imgUrl.split("w280")[0]}post${
+                  search.imgUrl.split("w280")[1]
+                }`)
+              }
             ></Img>
           ))}
         {sort === "writer" &&
@@ -232,10 +238,8 @@ const SearchResultForm = () => {
               <Nickname>{search.nickname} 님의</Nickname>
               <Nickname> 대표게시물</Nickname>
               <Img
-                url={search.imgUrl}
-                onClick={() =>
-                  navigate(`/item_detail/${search.postId}/${search.userId}`)
-                }
+                src={search.imgUrl}
+                onClick={() => navigate(`/mypage/${search.userId}`)}
                 alt="search_result_image"
               ></Img>
             </NickImgBox>
@@ -287,10 +291,12 @@ const SearchBox = styled.div`
 `;
 const LabelTitle = styled.label`
   color: #2d273f;
+  cursor: pointer;
 `;
 const LabelWriter = styled.label`
   display: block;
   color: #2d273f;
+  cursor: pointer;
 `;
 const CheckBox = styled.div`
   width: 125px;
