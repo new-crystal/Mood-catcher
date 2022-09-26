@@ -14,7 +14,7 @@ import { changeCheckPostId } from "../redux/modules/uploadSlice";
 import Swal from "sweetalert2";
 import _ from "lodash";
 
-const Search = "./images/search.png";
+const Search = "/images/search.png";
 const upButton = "/images/upArrow.png";
 const Cancel = "/images/cancel.png";
 
@@ -255,7 +255,7 @@ const Upload_select = (props) => {
             </MusinsaButton>
             <List className={searchTogle}>
               {items?.map((item, idx) => (
-                <EachMusinsa idx={idx} item={item} />
+                <EachMusinsa idx={idx} item={item} toTop={ScrollToTop} />
               ))}
             </List>
           </StUploadBox>

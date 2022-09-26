@@ -12,15 +12,18 @@ const Button = ({ theme, text, click, disabled }) => {
 export default Button;
 
 const Btn = styled.button`
-  width: 327px;
-  height: 56px;
-  border-radius: 10px;
-  font-size: 16px;
+  width: 280px;
+  height: 50px;
+  border-radius: 20px;
+  border: 0px;
+  font-size: 20px;
+  /* margin-top: -100px; */
+  font-family: "Roboto";
   line-height: 130%;
+  font-weight: bold;
   background-color: ${(props) =>
-    props.theme === "dark" ? "#956C4A" : "#1E1919"};
-  color: ${(props) =>
-    props.theme === "dark" ? "var(--white)" : "var(--white)"};
+    props.theme === "dark" ? "#C4C2CA" : "#1E1919"};
+  color: #2d273f;
   @media screen and (max-width: 350px) {
     width: 250px;
   }

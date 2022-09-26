@@ -56,6 +56,7 @@ const uploadSlice = createSlice({
       // 게시물 작성하기
       .addCase(__addPost.fulfilled, (state, action) => {
         state.post = action.payload.post;
+        state.selectedItems = [];
         state.checkPostId = true;
         state.isFetching = false;
         state.errorMessage = null;

@@ -72,6 +72,7 @@ const DetailRecomments = ({ commentData, btnState, postId }) => {
             <Textarea
               placeholder="대댓글을 작성해주세요."
               ref={recommentText}
+              maxLength={15}
             />
           </WrapComment>
           <AddCommentButton onClick={addRecomment}>완료</AddCommentButton>
