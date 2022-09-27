@@ -48,7 +48,6 @@ const EachPost = (props) => {
     e.target.src = `${url}post${name}`;
   };
 
-  console.log(item);
   return (
     <Fragment>
       <WritedClosetInfo>

@@ -7,10 +7,8 @@ export const __patchMap = createAsyncThunk(
   "PATCH/MAP",
   async (data, thunkAPI) => {
     try {
-      console.log(data);
       const response = await kakaoApi.patchKakaoMap(data);
       if (response.status === 200) {
-        console.log(response);
         return response.data.data;
       }
     } catch (err) {
@@ -25,10 +23,8 @@ export const __getUsersMap = createAsyncThunk(
   "GET/USERSMAP",
   async (data, thunkAPI) => {
     try {
-      console.log(data);
       const response = await kakaoApi.getKakaoUsers();
       if (response.status === 200) {
-        console.log(response);
         return response.data.data.aroundUser;
       }
     } catch (err) {

@@ -12,7 +12,6 @@ export const __signUp = createAsyncThunk(
         return response.data;
       }
     } catch (err) {
-      console.log(err);
       Swal.fire("에러", err.response.data, "error");
       return thunkAPI.rejectWithValue(err.response.data);
     }

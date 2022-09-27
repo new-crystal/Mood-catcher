@@ -23,18 +23,9 @@ const DetailCommentList = (props) => {
   const { item } = props;
   const { postId } = props;
   const { userId } = props;
-  // console.log(item);
 
   const token = getCookie("token");
-  // console.log(jwt(token));
   const payload = jwt(token);
-  // console.log(payload.userId);
-  // console.log(userId);
-  // console.log(postId);
-  console.log(item);
-
-  // console.log(ranksIF);
-  // console.log(item.data.comment.createComment.imgUrl);
 
   const preview_URL =
     "https://cdn.discordapp.com/attachments/1014169130045292625/1014194232250077264/Artboard_1.png";

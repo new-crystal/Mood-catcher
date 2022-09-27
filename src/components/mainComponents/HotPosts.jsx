@@ -5,7 +5,6 @@ import { useCallback } from "react";
 import Swal from "sweetalert2";
 
 const HotPosts = ({ hotPosts }) => {
-  console.log(hotPosts);
   const navigate = useNavigate();
 
   const onClickHandler = useCallback(

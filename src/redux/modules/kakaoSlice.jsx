@@ -19,7 +19,6 @@ const kakaoSlice = createSlice({
     builder
       // kakao맵 유저 위치 보내기
       .addCase(__patchMap.fulfilled, (state, action) => {
-        console.log(action.payload);
         state.myLatitude = action.payload.latitude;
         state.myLongitude = action.payload.longitude;
         state.checkPatch = !state.checkPatch;

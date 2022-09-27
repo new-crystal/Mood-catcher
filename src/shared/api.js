@@ -64,7 +64,8 @@ export const alarmApi = {
 // commentSlice
 export const commentApi = {
   // 댓글 조회하기
-  getComments: (postId) => instance.get(`/comments?postId=${postId}`),
+  getComments: (data) =>
+    instance.get(`/comments?postId=${data.postId}&page=${data.paging}&count=4`),
   // 댓글 작성하기
   addComment: (data) =>
     instance.post(`/comments?postId=${data.postId}`, {

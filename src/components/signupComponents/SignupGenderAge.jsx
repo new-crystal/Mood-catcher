@@ -40,7 +40,6 @@ const SignupGenderAge = (location) => {
   //닉네임 중복확인 성공 여부 값 받아오기
   const checkNickname = useSelector((state) => state.login.checkNickname);
   const users = useSelector((state) => state.login.userStatus);
-  console.log(users);
 
   //로그인을 안 한 경우
   useEffect(() => {
@@ -123,7 +122,6 @@ const SignupGenderAge = (location) => {
 
   //성별, 나이, 닉네임 보내기
   const onClickGenderHandler = async (key) => {
-    // console.log(key.target.innerText);
     const keyGender = await key.target.innerText;
     const nickname = getValues("nickname");
     dispatch(__detail({ age, gender: keyGender, nickname })).then(

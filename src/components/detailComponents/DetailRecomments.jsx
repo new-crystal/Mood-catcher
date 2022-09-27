@@ -6,14 +6,10 @@ import DetailReCommentList from "./DetailReCommentList";
 
 const DetailRecomments = ({ commentData, btnState, postId }) => {
   const userStatus = useSelector((state) => state.signup.userStatus);
-  // console.log(userStatus);
 
   const dispatch = useDispatch();
   const recommentText = useRef("");
-  // console.log(commentData);
   const commentList = useSelector((state) => state.comment.comments);
-  // console.log(commentData);
-  // console.log(commentData.recommentId);
 
   const preview_URL =
     "https://cdn.discordapp.com/attachments/1014169130045292625/1014194232250077264/Artboard_1.png";

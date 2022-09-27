@@ -63,7 +63,6 @@ const SigupForm = () => {
   const onClickCheckBtnHandler = async () => {
     const email = await getValues("email");
     if (email !== "" && errors.email === undefined) {
-      // console.log(email);
       dispatch(__checkEmail(email));
       if (checkEmail === false) {
         setError(
@@ -102,7 +101,6 @@ const SigupForm = () => {
       }
     }
   };
-  console.log(authNum);
 
   //회원가입 버튼을 눌렀을 때
   const onValid = async (data) => {

@@ -20,7 +20,6 @@ const DetailReCommentList = (props) => {
   const dispatch = useDispatch();
   const { item } = props;
   const { postId } = props;
-  console.log(item);
   const token = getCookie("token");
   const payload = jwt_decode(token);
 

@@ -3,7 +3,9 @@ import React, { Fragment, useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import Header from "../elem/Header";
 import NavigationBar from "../elem/NavigationBar";
+import { useNavigate } from "react-router-dom";
 import "../shared/style/MapImageStyle.css";
+import { getCookie, deleteCookie } from "../shared/cookie";
 import { useDispatch, useSelector } from "react-redux";
 import { __patchMap, __getUsersMap } from "../redux/async/kakao";
 
@@ -15,7 +17,7 @@ const MapImage = (props) => {
   const kakao = window.kakao;
   //맵 컨테이너 Ref로 받아오기
   const mapContainer = useRef(null);
-  const [mapState, setMapState] = useState(false);
+  const [mapState, setMapState] = useState(true);
 
   const checkPatch = useSelector((state) => state.kakao.checkPatch);
   const checkUsersMap = useSelector((state) => state.kakao.checkUsersMap);
@@ -127,6 +129,7 @@ const MapImage = (props) => {
       <Container>
         <Grid>
           <Header />
+
           <div
             id="map"
             ref={mapContainer}
@@ -135,7 +138,6 @@ const MapImage = (props) => {
               height: "calc(var(--vh, 1vh) * 100 + 50px)",
             }}
           ></div>
-          )
         </Grid>
       </Container>
       <NavigationBar props={props} />
@@ -165,6 +167,13 @@ const Grid = styled.div`
   //height: calc(var(--vh, 1vh) * 100 + 50px);
   background: linear-gradient(#a396c9, #ffffff);
   /* background: #a396c9; */
+`;
+
+const LoaderWrap = styled.div`
+  position: absolute;
+  top: 200px;
+  left: 50%;
+  margin-left: -100px;
 `;
 
 export default React.memo(MapImage);
