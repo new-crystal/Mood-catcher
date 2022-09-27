@@ -1,7 +1,5 @@
-import React, { useState, Fragment, Suspense, useEffect } from "react";
+import React, { Fragment } from "react";
 import styled from "styled-components";
-import Header from "../elem/Header";
-import NavigationBar from "../elem/NavigationBar";
 import OpenForm from "../components/openComponents/OpenForm";
 
 const Mypage = (props) => {

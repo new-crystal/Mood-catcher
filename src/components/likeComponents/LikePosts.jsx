@@ -6,7 +6,7 @@ import EachPost from "./EachPost";
 import styled from "styled-components";
 import InfinityScrollLoader from "./InfinityScrollLoader";
 import _ from "lodash";
-import { deleteCookie, getCookie } from "../../shared/cookie";
+import { getCookie } from "../../shared/cookie";
 import jwt from "jwt-decode"; // to get userId from loggedIn user's token
 import hanger from "../../image/옷걸이.png";
 
@@ -22,9 +22,7 @@ const LikePosts = () => {
 
   // 토큰 decode를 통해서 현재 로그인한 유저 id 가져오기
   const token = getCookie("token");
-  // console.log(jwt(token));
   const { userId } = jwt(token);
-  // console.log(ranksIF);
 
   const getLikeList = useCallback(() => {
     const getLikeData = async () => {
@@ -51,10 +49,7 @@ const LikePosts = () => {
   }, 500);
 
   useEffect(() => {
-    // console.log(paging, userId, allLikePosts);
-
     if (paging === 1 && allLikePosts.length === 0) {
-      // console.log(paging, userId);
       dispatch(__getLikeAllPosts({ paging: paging, userId: userId }));
       setPaging(paging + 1);
     } //첫렌더링시 0페이지 받아오기
@@ -72,7 +67,6 @@ const LikePosts = () => {
       window.removeEventListener("scroll", _handleScroll); // scroll event listener 해제
     };
   }, [paging, loading]);
-  // console.log(ranksIF);
 
   return (
     <Fragment>

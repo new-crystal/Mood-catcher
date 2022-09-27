@@ -1,5 +1,4 @@
-import React, { Fragment, Suspense } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import React, { Fragment } from "react";
 import styled from "styled-components";
 import Header from "../elem/Header";
 import NavigationBar from "../elem/NavigationBar";

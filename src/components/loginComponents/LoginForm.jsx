@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
-import { __login, __socialLogin } from "../../redux/async/login";
+import { __login } from "../../redux/async/login";
 import { useNavigate } from "react-router-dom";
 import { Fragment } from "react";
 import { useEffect } from "react";
@@ -42,12 +42,6 @@ const LoginForm = () => {
     const password = ciphertext;
 
     dispatch(__login({ email, password }));
-  };
-
-  //소셜로그인 버튼
-  const onClickKakao = () => {
-    //dispatch(__socialLogin());
-    window.location.href = "https://moodcatchers.link/api/auth/kakao";
   };
 
   return (
@@ -128,11 +122,6 @@ const LoginForm = () => {
             >
               <p>카카오 로그인</p>
             </LogBtn>
-            {/* <LogBtn kakao onClick={() => onClickKakao()}>
-              <a href="https://moodcatchers.link/api/auth/kakao">
-              카카오 로그인
-              </a>
-            </LogBtn> */}
             <LogBtn type="button" onClick={() => navigate("/signup")}>
               <p>이메일로 회원가입</p>
             </LogBtn>

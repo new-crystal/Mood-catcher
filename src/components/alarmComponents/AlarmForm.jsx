@@ -13,17 +13,16 @@ const AlarmForm = () => {
   const alarms = useSelector((state) => state.alarm.notices);
   const alarmList = [...alarms].reverse();
 
-  console.log(alarms);
-
   const delAlarm = () => {
     Swal.fire({
-      title: "알람을 전부 삭제하시겠습니까?",
-      text: "지우신 알람은 되돌릴 수 없습니다!",
+      title: "알림을 전부 삭제하시겠습니까?",
+      text: "지우신 알림은 되돌릴 수 없습니다!",
       icon: "warning",
       showCancelButton: true,
       confirmButtonColor: "#3085d6",
       cancelButtonColor: "#d33",
-      confirmButtonText: "delete",
+      confirmButtonText: "삭제",
+      cancelButtonText: "취소",
     }).then((result) => {
       if (result.isConfirmed) {
         Swal.fire(
@@ -61,7 +60,9 @@ const AlarmForm = () => {
               <>
                 <AlarmBox key={idx}>
                   <AlarmImg url={alarm.imgUrl}> </AlarmImg>
-                  <p>{alarm.msg}</p>
+                  <TextBox>
+                    <p>{alarm.msg}</p>
+                  </TextBox>
                   <TimeText>{alarm.createdAt}</TimeText>
                 </AlarmBox>
               </>
@@ -69,17 +70,20 @@ const AlarmForm = () => {
               <>
                 <AlarmBox
                   key={idx}
+                  style={{ cursor: "pointer" }}
                   onClick={() =>
                     navigate(`/item_detail/${alarm.postId}/${alarm.userId}`)
                   }
                 >
                   <AlarmImg url={alarm.imgUrl}> </AlarmImg>
-                  {alarm.duplecation > 1 && (
-                    <p>
-                      {alarm.msg}({alarm.duplecation})
-                    </p>
-                  )}
-                  {alarm.duplecation === 1 && <p>{alarm.msg}</p>}
+                  <TextBox>
+                    {alarm.duplecation > 1 && (
+                      <p>
+                        {alarm.msg}({alarm.duplecation})
+                      </p>
+                    )}
+                    {alarm.duplecation === 1 && <p>{alarm.msg}</p>}
+                  </TextBox>
                   <TimeText>{alarm.createdAt}</TimeText>
                   <ArrowBtn></ArrowBtn>
                 </AlarmBox>
@@ -174,7 +178,7 @@ const AlarmBox = styled.div`
     font-family: "Roboto";
     font-style: Bold;
     font-weight: 700;
-    font-size: 14px;
+    font-size: 13px;
     white-space: pre-wrap;
   }
   h5 {
@@ -191,15 +195,21 @@ const AlarmBox = styled.div`
     cursor: pointer;
   }
 `;
+const TextBox = styled.div`
+  width: 255px;
+  margin: 0px;
+`;
 const TimeText = styled.div`
+  width: 41px;
   font-family: "Roboto";
-  font-style: Bold;
-  font-weight: 700;
+  font-style: normal;
+  font-weight: 500;
   font-size: 3px;
   position: relative;
-  /* left: 505px; */
-  margin-top: -35px;
+  top: -19px;
+  left: -10px;
 `;
+
 const AlarmImg = styled.div`
   width: 34px;
   height: 34px;
@@ -220,7 +230,6 @@ const ArrowBtn = styled.div`
   position: relative;
   left: -10px;
   opacity: 70%;
-  margin-top: 10px;
 `;
 
 export default AlarmForm;

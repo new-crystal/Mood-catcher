@@ -1,18 +1,11 @@
 import axios from "axios";
-import { getCookie, getToken, setCookie, deleteCookie } from "./cookie";
+import { getToken, setCookie, deleteCookie } from "./cookie";
 import Swal from "sweetalert2";
 
 // axios 기본 주소 & header 타입 세팅
 export const instance = axios.create({
   baseURL: process.env.REACT_APP_ENDPOINT,
 });
-
-// // 매 실행 시 토큰값 넣기, 없으면 null값이 들어간다
-// instance.interceptors.request.use(function (config) {
-//   const accessToken = getCookie("token");
-//   config.headers.common["authorization"] = `Bearer ${accessToken}`;
-//   return config;
-// });
 
 //┏----------interceptor를 통한 header 설정----------┓
 instance.interceptors.request.use(async (config) => {
@@ -71,7 +64,8 @@ export const alarmApi = {
 // commentSlice
 export const commentApi = {
   // 댓글 조회하기
-  getComments: (postId) => instance.get(`/comments?postId=${postId}`),
+  getComments: (data) =>
+    instance.get(`/comments?postId=${data.postId}&page=${data.paging}&count=4`),
   // 댓글 작성하기
   addComment: (data) =>
     instance.post(`/comments?postId=${data.postId}`, {
@@ -171,7 +165,7 @@ export const rankApi = {
       `/posts?userId=${data.userId}&type=all&page=${data.paging}&count=8`
     ),
   //명예의 전당 게시물 조회하기
-  getBestPosts: (data) => instance.get(`/posts/honor?page=${data}&count=3`),
+  getBestPosts: (data) => instance.get(`/posts/honor?page=${data}&count=4`),
 };
 
 // 검색 관련 axios API 통신

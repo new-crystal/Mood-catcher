@@ -1,4 +1,4 @@
-import React, { Fragment, Suspense } from "react";
+import React, { Fragment } from "react";
 import styled from "styled-components";
 import Header from "../elem/Header";
 import EditPasswordForm from "../components/signupComponents/EditPasswordForm";
@@ -47,7 +47,7 @@ const LoginWrap = styled.div`
   width: 100%;
   display: flex;
   flex-direction: column;
-  text-align: center;
+  //text-align: center;
 `;
 
 export default Edit_password;

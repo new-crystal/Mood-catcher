@@ -63,7 +63,6 @@ const SigupForm = () => {
   const onClickCheckBtnHandler = async () => {
     const email = await getValues("email");
     if (email !== "" && errors.email === undefined) {
-      // console.log(email);
       dispatch(__checkEmail(email));
       if (checkEmail === false) {
         setError(
@@ -102,7 +101,6 @@ const SigupForm = () => {
       }
     }
   };
-  console.log(authNum);
 
   //회원가입 버튼을 눌렀을 때
   const onValid = async (data) => {
@@ -236,7 +234,7 @@ const SigupForm = () => {
                 })}
               />
               <ConfirmNumBtn type="button" onClick={() => onClickSendAuthNum()}>
-                인증번호 확인
+                인증번호확인
               </ConfirmNumBtn>
             </>
           )}
@@ -340,7 +338,7 @@ const ConfirmBtn = styled.button`
   font-family: "Roboto";
   font-style: normal;
   font-weight: 700;
-  font-size: 16px;
+  font-size: 15px;
   cursor: pointer;
 `;
 
