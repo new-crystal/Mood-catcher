@@ -39,10 +39,6 @@ const Main = (props) => {
   // 랭크게시물 불러옴
   const hotPosts = useSelector((state) => state.rank.hotPosts);
 
-  useEffect(() => {
-    if (userStatus.nickname == null) deleteCookie("token");
-  }, [userStatus]);
-
   // 유저 프로필 이미지 없을때 미리보기 이미지
   const preview_URL =
     "https://cdn.discordapp.com/attachments/1014169130045292625/1014194232250077264/Artboard_1.png";
