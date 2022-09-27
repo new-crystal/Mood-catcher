@@ -38,7 +38,6 @@ const Main = (props) => {
   const repPost = useSelector((state) => state.upload.representative);
   // 랭크게시물 불러옴
   const hotPosts = useSelector((state) => state.rank.hotPosts);
-  console.log(userStatus);
 
   useEffect(() => {
     if (userStatus.nickname == null) deleteCookie("token");

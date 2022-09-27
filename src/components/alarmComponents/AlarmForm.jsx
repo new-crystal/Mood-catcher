@@ -120,7 +120,7 @@ const AlarmList = styled.div`
     font-style: Bold;
     font-size: 18px;
     font-weight: 700;
-    width: 70px;
+    width: 80px;
     margin: 15px;
     margin-right: 0px;
   }
