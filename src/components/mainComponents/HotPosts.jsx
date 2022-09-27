@@ -15,7 +15,7 @@ const HotPosts = ({ hotPosts }) => {
           title: "삭제된 게시물입니다.",
           showConfirmButton: false,
           timer: 3000,
-        }).then(window.location.reload());
+        }).then(navigate(`/main`).then(window.location.reload()));
       }
       navigate(`/item_detail/${hotPosts.postId}/${hotPosts.userId}`);
       window.location.reload();
@@ -144,7 +144,7 @@ const HotImage2 = styled.div`
   height: 90px;
   background-color: #ffffff;
   & > img {
-    width: 98px;
+    width: 110px;
     height: 130px;
     border-radius: 20px;
     //box-shadow: 5px 5px 4px #877f92;
@@ -159,7 +159,7 @@ const HotImage3 = styled.div`
 
   background-color: #ffffff;
   & > img {
-    width: 98px;
+    width: 110px;
     height: 130px;
     border-radius: 20px;
     //box-shadow: 5px 5px 4px #877f92;
