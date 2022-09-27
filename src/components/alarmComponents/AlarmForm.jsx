@@ -71,9 +71,10 @@ const AlarmForm = () => {
                 <AlarmBox
                   key={idx}
                   style={{ cursor: "pointer" }}
-                  onClick={() =>
-                    navigate(`/item_detail/${alarm.postId}/${alarm.userId}`)
-                  }
+                  onClick={() => {
+                    navigate(`/item_detail/${alarm.postId}/${alarm.userId}`);
+                    window.location.reload();
+                  }}
                 >
                   <AlarmImg url={alarm.imgUrl}> </AlarmImg>
                   <TextBox>
