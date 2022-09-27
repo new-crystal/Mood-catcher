@@ -584,7 +584,7 @@ const HighLight = styled.div`
   background-color: #fff;
   border-radius: 10px;
   height: 12px;
-  width: ${(props) => props.width - "1px"};
+  width: ${(props) => props.width};
   margin: 1px;
   position: relative;
   top: 0.5px;
