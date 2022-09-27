@@ -6,15 +6,15 @@ import Swal from "sweetalert2";
 export const __getComments = createAsyncThunk(
   "GET/COMMENTS",
   async (data, thunkAPI) => {
-    // try {
-    const response = await commentApi.getComments(data);
-    if (response.status === 200) {
-      return response.data.data.comments;
+    try {
+      const response = await commentApi.getComments(data);
+      if (response.status === 200) {
+        return response.data.data;
+      }
+    } catch (err) {
+      Swal.fire("에러", "네트워크 연결 상태를 확인해주세요.!", "error");
+      return thunkAPI.rejectWithValue(err.response.msg);
     }
-    // } catch (err) {
-    //   Swal.fire("에러", "네트워크 연결 상태를 확인해주세요.!", "error");
-    //   return thunkAPI.rejectWithValue(err.response.msg);
-    // }
   }
 );
 

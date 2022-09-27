@@ -1,7 +1,7 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { loginApi } from "../../shared/api";
 import Swal from "sweetalert2";
-import { setCookie } from "../../shared/cookie";
+import { setCookie, deleteCookie } from "../../shared/cookie";
 
 // 로그인
 export const __login = createAsyncThunk(
@@ -12,6 +12,23 @@ export const __login = createAsyncThunk(
       if (response.status === 200) {
         setCookie("token", response.data.url.split("=")[2]);
         return (window.location.href = response.data.url);
+      }
+    } catch (err) {
+      Swal.fire("에러", err.response.data, "error");
+      return thunkAPI.rejectWithValue(err.response.data);
+    }
+  }
+);
+
+// 로그아웃
+export const __logout = createAsyncThunk(
+  "POST/LOGOUT",
+  async (data, thunkAPI) => {
+    try {
+      const response = await loginApi.logout();
+      if (response.status === 200) {
+        console.log(response.data);
+        return response.data;
       }
     } catch (err) {
       Swal.fire("에러", err.response.data, "error");

@@ -10,6 +10,7 @@ import {
   __patchUser,
   __getHeaderUser,
   __editOrigin,
+  __logout,
 } from "../async/login";
 import Swal from "sweetalert2";
 import { deleteCookie } from "../../shared/cookie";
@@ -62,6 +63,20 @@ const loginSlice = createSlice({
       .addCase(__login.rejected, (state, action) => {
         state.loading = false;
         state.exist = action.payload;
+        state.isFetching = false;
+        state.errorMessage = action.errorMessage;
+      })
+      // 로그아웃
+      .addCase(__logout.fulfilled, (state, action) => {
+        deleteCookie("token");
+        window.location.href = "/login";
+        state.isFetching = false;
+        state.errorMessage = null;
+      })
+      .addCase(__logout.pending, (state, action) => {
+        state.isFetching = true;
+      })
+      .addCase(__logout.rejected, (state, action) => {
         state.isFetching = false;
         state.errorMessage = action.errorMessage;
       })
