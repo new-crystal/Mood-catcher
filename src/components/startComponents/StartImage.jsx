@@ -4,14 +4,18 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { useNavigate } from "react-router-dom";
-import start from "../../image/6565656.png";
+import one from "../../image/1.png";
+import two from "../../image/2.png";
+import three from "../../image/3.png";
+import four from "../../image/4.png";
+import twotwo from "../../image/Vector.png";
 
 const StartImage = () => {
   const navigate = useNavigate();
   const settings = {
     infinite: false,
-    speed: 400,
-    arrows: true,
+    speed: 300,
+    dots: true,
     autoplay: true,
     autoplaySpeed: 3000,
     slidesToShow: 1,
@@ -21,42 +25,44 @@ const StartImage = () => {
     centerPadding: "0px",
   };
 
-  const text2 = "나만의 옷장을 \n꾸미고 하고 싶으셨나요?";
-  const text3 = "내 주의 사람들의 \n옷장을 구경하고 \n싶으신가요?";
-  const text4 = "무드캐처에서 \n무드 포인트도 쌓고 \n옷장도 구경하세요!";
+  const text1 = "패션의 바다에서 \n나만의 무드를";
+  const text2 = "내 근처의 사람들의\n패션을 한눈에";
+  const text3 = "본인만의 무드를 쌓아\n명예의 전당으로";
+  const text4 = "무드캐처\n한 번 시작해볼까요?";
+  const text5 = "무드맵을 이용하여 근처 사람들의 패션을 \n알아봐요";
 
   return (
     <Container>
       <Slider {...settings}>
-        <div>
-          <ImageBox
-            id="2"
-            url={
-              "https://img.freepik.com/premium-vector/partnership-and-friendship-staff-cooperation-concept_140689-296.jpg?w=1800"
-            }
-          >
-            <h1 style={{ color: "#f4a261", top: "0px" }}>{text3}</h1>
-          </ImageBox>
-        </div>
-        <div>
-          <ImageBox
-            id="1"
-            url={"http://shopimg.co.kr//shoppingmall/TN/AHS000301_01.jpg"}
-          >
-            <h1 style={{ color: "#d4a373" }}>{text2}</h1>
-          </ImageBox>
-        </div>
-        <div>
-          <ImageBox
-            id="3"
-            url={
-              "https://img.freepik.com/free-vector/flat-hand-drawn-fashion-designer-illustration_23-2148829813.jpg?w=1800&t=st=1664271916~exp=1664272516~hmac=7e808646c6050a2074f294492efdfee7c5615864bfdf48da65e63241d5032afd"
-            }
-          >
-            <h1 style={{ color: "#9c89da", top: "0px" }}>{text4}</h1>
-            <button onClick={() => navigate("/")}>무드캐처로 이동하기!</button>
-          </ImageBox>
-        </div>
+        <Wrap id="1">
+          <Text1>{text1}</Text1>
+          <Content>캐처님들의 개성을 뽐내주세요!</Content>
+          <ImageBox1 url={`${one}`}></ImageBox1>
+        </Wrap>
+        <Wrap id="2">
+          <Text1>{text2}</Text1>
+          <Content>{text5}</Content>
+          <Image22></Image22>
+          <ImageBox2 url={`${two}`}></ImageBox2>
+        </Wrap>
+        <Wrap id="3">
+          <Text1>{text3}</Text1>
+          <Content>무드캐처 속 인플루언서가 되어 보세요</Content>
+          <ImageBox3 url={`${three}`}></ImageBox3>
+        </Wrap>
+        <Wrap id="4">
+          <Text1>{text4}</Text1>
+          <Content>캐처님들의 패션을 뽐내주세요</Content>
+          <ImageBox4 url={`${four}`}>
+            <Button
+              style={{ background: "#7b758b" }}
+              onClick={() => navigate("/")}
+            >
+              무드캐치하러가기
+            </Button>
+            <Button style={{ background: "#C4C2CA" }}>앱다운받기</Button>
+          </ImageBox4>
+        </Wrap>
       </Slider>
     </Container>
   );
@@ -65,53 +71,132 @@ const StartImage = () => {
 const Container = styled.div`
   max-width: 420px;
   width: 100vw;
-  height: 100vh;
+  height: 900px;
   margin: 0px auto 0px auto;
   text-align: left;
   padding: 20px;
-
-  h1 {
-    font-family: "Roboto";
-    font-style: Bold;
-    font-weight: 700;
-    font-size: 35px;
-    white-space: pre-wrap;
-    position: relative;
-    top: 70px;
-    left: 20px;
-    white-space: pre-wrap;
-  }
-`;
-
-const ImageBox = styled.div`
-  max-width: 420px;
-  width: 100vw;
-  height: 100vh;
-  background-position: center;
-  background-size: cover;
-  background-image: url(${(props) => props.url});
-
-  button {
-    width: 250px;
-    height: 50px;
-    position: relative;
-    top: 450px;
-    left: 90px;
-    background-color: #9c89da;
-    border: 3px solid #fff;
-    border-radius: 10px;
-    padding: 5px;
-    color: white;
-    font-family: "Roboto";
-    font-style: Bold;
-    font-weight: 700;
-    font-size: 15px;
-
-    :hover {
-      background-color: #7364a4;
+  .slick-dots {
+    .slick-active {
+      button::before {
+        color: #807e7e;
+      }
+    }
+    button::before {
+      color: #878787;
     }
   }
 `;
+
+const Wrap = styled.div`
+  max-width: 428px;
+  width: 100vw;
+  height: 926px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+`;
+
+const ImageBox1 = styled.div`
+  width: 420px;
+  height: 410px;
+  background-position: center;
+  background-size: cover;
+  background-image: url(${(props) => props.url});
+  position: relative;
+  top: 180px;
+  flex-shrink: 0;
+`;
+
+const Text1 = styled.h1`
+  color: #2d273f;
+  font-family: "Roboto";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 40px;
+  line-height: 47px;
+  white-space: pre-wrap;
+  position: relative;
+  top: 70px;
+  left: 27px;
+`;
+
+const ImageBox2 = styled.div`
+  width: 420px;
+  height: 560px;
+  background-position: center;
+  background-size: cover;
+  background-image: url(${(props) => props.url});
+  position: relative;
+  top: 30px;
+`;
+
+const Image22 = styled.div`
+  max-width: 73px;
+  width: 100vw;
+  height: 105px;
+  background-position: center;
+  background-size: cover;
+  background-image: url(${twotwo});
+  position: relative;
+  top: 30px;
+  left: 170px;
+`;
+
+const ImageBox3 = styled.div`
+  width: 420px;
+  height: 420px;
+  background-position: center;
+  background-size: cover;
+  background-image: url(${(props) => props.url});
+  position: relative;
+  top: 130px;
+  flex-shrink: 0;
+`;
+
+const ImageBox4 = styled.div`
+  width: 420px;
+  height: 420px;
+  background-position: center;
+  background-size: cover;
+  background-image: url(${(props) => props.url});
+  position: relative;
+  top: 100px;
+  flex-shrink: 0;
+`;
+
+const Content = styled.p`
+  font-family: "Roboto";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 19px;
+  color: #7b758b;
+  position: relative;
+  white-space: pre-wrap;
+  top: 50px;
+  left: 27px;
+`;
+
+const Button = styled.button`
+  width: 364px;
+  height: 65px;
+  border: 0px;
+  margin: 10px;
+  border-radius: 15px;
+  font-family: "Roboto";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 30px;
+  line-height: 35px;
+  text-align: center;
+  align-items: center;
+  color: #ffffff;
+  position: relative;
+  top: 430px;
+  left: 15px;
+`;
+
 const StyledSlide = styled(Slider)`
   position: relative;
   margin-top: 60px;

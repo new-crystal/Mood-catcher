@@ -125,7 +125,7 @@ const SignupGenderAge = (location) => {
     const keyGender = await key.target.innerText;
     const nickname = getValues("nickname");
     dispatch(__detail({ age, gender: keyGender, nickname })).then(
-      navigate("/main")
+      navigate("/start")
     );
   };
 
