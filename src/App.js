@@ -130,4 +130,7 @@ const GlobalStyle = createGlobalStyle`
   :root {
     --vh:100%
   }
+  a {
+    cursor: default;
+  }
 `;

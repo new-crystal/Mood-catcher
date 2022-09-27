@@ -1,4 +1,10 @@
-import React, { useEffect, useState, Fragment, useRef } from "react";
+import React, {
+  useEffect,
+  useState,
+  Fragment,
+  useRef,
+  useCallback,
+} from "react";
 import styled, { css } from "styled-components";
 import Header from "../elem/Header";
 import NavigationBar from "../elem/NavigationBar";
@@ -76,7 +82,7 @@ const Item_detail = (props) => {
       __addComment({ comment: commentText.current.value, postId: postId }) // , postId: postId
     );
     commentText.current.value = "";
-    // window.location.reload();
+    window.location.reload();
   };
   // 대표 게시물 지정하기
   const patchRep = () => {
