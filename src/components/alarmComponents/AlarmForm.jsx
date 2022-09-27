@@ -122,6 +122,7 @@ const AlarmList = styled.div`
     font-weight: 700;
     width: 70px;
     margin: 15px;
+    margin-right: 0px;
   }
 `;
 const TitleWrap = styled.div`
@@ -211,7 +212,7 @@ const TextBox = styled.div`
   margin: 0px;
 `;
 const TimeText = styled.div`
-  width: 41px;
+  width: 42px;
   font-family: "Roboto";
   font-style: normal;
   font-weight: 500;
@@ -219,6 +220,7 @@ const TimeText = styled.div`
   position: relative;
   top: -19px;
   left: -10px;
+  margin-right: 0px;
 `;
 
 const AlarmImg = styled.div`
