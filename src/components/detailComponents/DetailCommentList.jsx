@@ -94,7 +94,11 @@ const DetailCommentList = (props) => {
           <span>작성자 : {item.nickname}</span>
           <pre>{item.content}</pre>
         </WrapComment>
-        <R_Count>
+        <R_Count
+          onClick={() => {
+            setRecommentState(true);
+          }}
+        >
           <div>{item.recommentCount}</div>
         </R_Count>
 

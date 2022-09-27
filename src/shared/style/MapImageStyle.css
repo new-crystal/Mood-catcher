@@ -79,6 +79,9 @@
   color: #888;
   overflow: hidden;
 }
+img {
+  object-fit: cover;
+}
 .info:after {
   content: "";
   position: absolute;

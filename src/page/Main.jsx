@@ -9,7 +9,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { __getUsers } from "../redux/async/signup";
 import { __getRepresentative } from "../redux/async/upload";
 import { __getHotPosts } from "../redux/async/rank";
-import { getCookie } from "../shared/cookie";
+import { getCookie, deleteCookie } from "../shared/cookie";
 import jwt from "jwt-decode"; // to get userId from loggedIn user's token
 import { useNavigate } from "react-router-dom";
 import _ from "lodash";
@@ -38,6 +38,11 @@ const Main = (props) => {
   const repPost = useSelector((state) => state.upload.representative);
   // 랭크게시물 불러옴
   const hotPosts = useSelector((state) => state.rank.hotPosts);
+  console.log(userStatus);
+
+  useEffect(() => {
+    if (userStatus.nickname == null) deleteCookie("token");
+  }, [userStatus]);
 
   // 유저 프로필 이미지 없을때 미리보기 이미지
   const preview_URL =
