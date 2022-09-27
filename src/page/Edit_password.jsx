@@ -47,7 +47,7 @@ const LoginWrap = styled.div`
   width: 100%;
   display: flex;
   flex-direction: column;
-  text-align: center;
+  //text-align: center;
 `;
 
 export default Edit_password;
