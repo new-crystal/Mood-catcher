@@ -13,8 +13,6 @@ const AlarmForm = () => {
   const alarms = useSelector((state) => state.alarm.notices);
   const alarmList = [...alarms].reverse();
 
-  console.log(alarms);
-
   const delAlarm = () => {
     Swal.fire({
       title: "알람을 전부 삭제하시겠습니까?",

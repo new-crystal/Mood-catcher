@@ -37,7 +37,6 @@ const Edit_post_select = (props) => {
   const selectedItems = useSelector((state) => state.upload.selectedItems);
   // postId 잘 가져왔는지 확인합니다.
   const checkPostId = useSelector((state) => state.upload.checkPostId);
-  // console.log(checkPostId);
   const [totalPost, setTotalPost] = useState({
     post: {},
     items: [],
@@ -76,7 +75,6 @@ const Edit_post_select = (props) => {
   }, [searchTogle]);
 
   const writeTotalPost = () => {
-    // console.log(totalPost);
     dispatch(__editPost({ postId: postId, totalPost: totalPost }));
   };
   React.useEffect(() => {
@@ -89,7 +87,6 @@ const Edit_post_select = (props) => {
 
   // 새로고침 막기
   const preventClose = (e) => {
-    console.log(e);
     e.preventDefault();
     e.returnValue = ""; //Chrome에서 동작하도록; deprecated
   };
