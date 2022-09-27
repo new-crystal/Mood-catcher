@@ -10,8 +10,6 @@ const EachMusinsa = (props) => {
   const { toTop } = props;
 
   const [selected, setSelected] = useState(false);
-  // console.log(item);
-  // console.log(idx);
 
   return (
     <Fragment>

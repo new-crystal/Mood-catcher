@@ -119,7 +119,6 @@ export const __getMyCloset = createAsyncThunk(
   "GET/MYCLOSET",
   async (data, thunkAPI) => {
     // try {
-    //console.log(payload);
     const response = await uploadApi.getMyCloset(data);
     if (response.status === 200) {
       return response.data;

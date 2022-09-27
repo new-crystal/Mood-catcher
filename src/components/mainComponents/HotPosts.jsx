@@ -6,7 +6,6 @@ import gender from "..//../image/gender.png";
 import Swal from "sweetalert2";
 
 const HotPosts = ({ hotPosts }) => {
-  console.log(hotPosts);
   const navigate = useNavigate();
 
   const onClickHandler = useCallback(
