@@ -37,9 +37,23 @@ const commentSlice = createSlice({
         state.isFetching = false;
         state.errorMessage = action.errorMessage;
       })
+      // 댓글 수정하기
+      .addCase(__editComment.fulfilled, (state, action) => {
+        // state.comments = action.payload.comments;
+        state.comments = [...state.comments, ...action.payload];
+        state.isFetching = false;
+        state.errorMessage = null;
+      })
+      .addCase(__editComment.pending, (state, action) => {
+        state.isFetching = true;
+      })
+      .addCase(__editComment.rejected, (state, action) => {
+        state.isFetching = false;
+        state.errorMessage = action.errorMessage;
+      })
       // 댓글 작성하기
       .addCase(__addComment.fulfilled, (state, action) => {
-        state.comments = [action.payload, ...state.comments];
+        state.comments = action.payload.comments;
         state.isFetching = false;
         state.errorMessage = null;
       })
@@ -52,7 +66,7 @@ const commentSlice = createSlice({
       })
       // 대댓글 추가하기
       .addCase(__addRecomment.fulfilled, (state, action) => {
-        state.comments = [action.payload, ...state.comments];
+        state.comments = [...state.comments, ...action.payload];
         state.isFetching = false;
         state.errorMessage = null;
       })
