@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { __getAlarm, __deleteAlarm } from "../async/alarm";
+import { __getAlarm } from "../async/alarm";
 
 const initialState = {
   notices: [],

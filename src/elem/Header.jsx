@@ -1,6 +1,6 @@
 import React, { Fragment, useState } from "react";
 import styled from "styled-components";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 // 따로 shared에 있는 스타일을 사용합니다.
 import "../shared/style/TestHeader.css";
 import Notification from "../image/notification.png";

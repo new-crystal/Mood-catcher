@@ -1,4 +1,4 @@
-import React, { useState, Fragment, Suspense, useEffect } from "react";
+import React, { Fragment } from "react";
 import styled from "styled-components";
 import SearchForm from "../components/searchComponents/SearchFrom";
 import Header from "../elem/Header";

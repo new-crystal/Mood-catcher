@@ -18,7 +18,6 @@ const SearchResultForm = () => {
   const [title, setTitle] = useState(true);
   const [writer, setWriter] = useState(false);
   const last = useSelector((state) => state.search.resultPostLast);
-  const [searching, setSearching] = useState(false);
 
   //검색 결과 받아오기/유저 정보 불러오기
   const searchList = useSelector((state) => state.search.searchResult);

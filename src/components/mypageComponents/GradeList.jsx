@@ -86,7 +86,7 @@ const GradeList = ({ setGradeList }) => {
           )}
           <TextBox>
             <h4>와이셔츠</h4>
-            <h6>(3000 무드 이상) </h6>
+            <h6>(1000 무드 이상) </h6>
           </TextBox>
         </Grade>
         <Grade>
@@ -97,7 +97,7 @@ const GradeList = ({ setGradeList }) => {
           )}
           <TextBox>
             <h4>넥타이</h4>
-            <h6>(10000 무드 이상) </h6>
+            <h6>(3000 무드 이상) </h6>
           </TextBox>
         </Grade>
         <Grade>
@@ -108,7 +108,7 @@ const GradeList = ({ setGradeList }) => {
           )}
           <TextBox>
             <h4>조끼</h4>
-            <h6>(50000 무드 이상)</h6>
+            <h6>(6000 무드 이상)</h6>
           </TextBox>
         </Grade>
         <Grade>
@@ -119,7 +119,7 @@ const GradeList = ({ setGradeList }) => {
           )}
           <TextBox>
             <h4>자켓</h4>
-            <h6>(100000 무드 이상)</h6>
+            <h6>(10000 무드 이상)</h6>
           </TextBox>
         </Grade>
         <MudiBtn

@@ -7,7 +7,6 @@ const initialState = {
   searchResult: [],
   postLast: null,
   resultPostLast: null,
-
   isFetching: false,
   errorMessage: null,
 };

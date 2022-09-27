@@ -1,5 +1,4 @@
 import { Fragment, useEffect, useState, useCallback } from "react";
-import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
 import { __getBestPosts } from "../../redux/async/rank";
 import _ from "lodash";

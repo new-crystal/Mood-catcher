@@ -33,6 +33,7 @@ const EditProfileForm = () => {
   const token = getCookie("token");
   const payload = jwt_decode(token);
   const userId = payload.userId;
+  const [edit, setEdit] = useState(false);
 
   //토큰이 없는 상태일 경우 로그인 페이지로 이동
   useEffect(() => {
@@ -311,7 +312,8 @@ const EditProfileForm = () => {
       showCancelButton: true,
       confirmButtonColor: "#3085d6",
       cancelButtonColor: "#d33",
-      confirmButtonText: "change",
+      confirmButtonText: "변경하기",
+      cancelButtonText: "취소하기",
     }).then((result) => {
       if (result.isConfirmed) {
         setEditNickname(true);
@@ -326,21 +328,28 @@ const EditProfileForm = () => {
       </ProfileBox>
       <Img url={image.preview_URL}></Img>
       <Wrapper>
-        <ChangeProfile onClick={() => inputRef.click()}>
-          <input
-            hidden
-            name="userValue"
-            accept="image/*"
-            type="file"
-            onChange={saveImg}
-            onClick={(e) => (e.target.value = null)}
-            ref={(refParam) => (inputRef = refParam)}
-          />
-          프로필 사진 변경하기
-        </ChangeProfile>
-        <BasicBtn type="button" onClick={onClickBasicBtn}>
-          기본 이미지로 변경하기
-        </BasicBtn>
+        <h5 style={{ cursor: "pointer" }} onClick={() => setEdit(!edit)}>
+          프로필 사진 수정하기 ▼
+        </h5>
+        {edit ? (
+          <EditBox>
+            <ChangeProfile onClick={() => inputRef.click()}>
+              <input
+                hidden
+                name="userValue"
+                accept="image/*"
+                type="file"
+                onChange={saveImg}
+                onClick={(e) => (e.target.value = null)}
+                ref={(refParam) => (inputRef = refParam)}
+              />
+              프로필 사진 변경하기
+            </ChangeProfile>
+            <BasicBtn type="button" onClick={onClickBasicBtn}>
+              기본 이미지로 변경하기
+            </BasicBtn>
+          </EditBox>
+        ) : null}
       </Wrapper>
       <form onSubmit={handleSubmit(onSubmit)}>
         {editNickname ? (
@@ -496,17 +505,28 @@ const Img = styled.div`
   background-size: cover;
   background-image: url(${(props) => props.url});
 `;
-
+const EditBox = styled.div`
+  margin-top: -15px;
+  display: flex;
+  background-color: #fff;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  border: 2px solid #e6e5ea;
+  border-radius: 10px;
+  height: 67px;
+`;
 const ChangeProfile = styled.button`
   background-color: rgba(0, 0, 0, 0);
   text-align: center;
   border: 0px;
   color: #6a6578;
-  margin-top: 20px;
+  margin-top: 10px;
   font-family: "Roboto";
   font-style: normal;
   font-weight: 700;
   font-size: 12px;
+  margin-top: 0px;
 `;
 const BasicBtn = styled.button`
   background-color: transparent;
@@ -515,7 +535,7 @@ const BasicBtn = styled.button`
   font-weight: 700;
   color: #6a6578;
   font-size: 12px;
-  margin: 10px auto -10px auto;
+  margin: 10px auto 0px auto;
   border: 0px;
 `;
 const NicknameInput = styled.input`

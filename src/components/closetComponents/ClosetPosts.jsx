@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { __getMyCloset } from "../../redux/async/upload";
 import { InfinityCloset } from "../../redux/modules/uploadSlice";
 import EachPost from "./EachPost";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import styled from "styled-components";
 import InfinityScrollLoader from "./InfinityScrollLoader";
 import _ from "lodash";

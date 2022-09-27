@@ -1,7 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
-import { __editComment } from "../../redux/async/comment";
 import { __addRecomment } from "../../redux/async/comment";
 import DetailReCommentList from "./DetailReCommentList";
 

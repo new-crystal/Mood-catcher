@@ -1,4 +1,4 @@
-import React, { useEffect, Fragment, Suspense, useRef, useState } from "react";
+import React, { useEffect, Fragment, useState } from "react";
 import styled from "styled-components";
 import Header from "../elem/Header";
 import NavigationBar from "../elem/NavigationBar";
@@ -7,7 +7,7 @@ import { useSelector, useDispatch } from "react-redux";
 import "../shared/style/myBeer.css";
 import EachMusinsa from "../components/uploadCompnents/EachMusinsa";
 import ScrollX from "../elem/ScrollX";
-import { selectItem, deleteItem } from "../redux/modules/uploadSlice";
+import { deleteItem } from "../redux/modules/uploadSlice";
 
 import { __getMusinsa, __editPost, __uploadImage } from "../redux/async/upload";
 import { changeCheckPostId } from "../redux/modules/uploadSlice";

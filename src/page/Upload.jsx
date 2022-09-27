@@ -1,4 +1,4 @@
-import React, { useRef, useState, Fragment, Suspense } from "react";
+import React, { useRef, useState, Fragment } from "react";
 import styled from "styled-components";
 import Header from "../elem/Header";
 import NavigationBar from "../elem/NavigationBar";
