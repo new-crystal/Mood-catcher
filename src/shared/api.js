@@ -64,8 +64,9 @@ export const alarmApi = {
 // commentSlice
 export const commentApi = {
   // 댓글 조회하기
-  getComments: (data) =>
-    instance.get(`/comments?postId=${data.postId}&page=${data.paging}&count=8`),
+  // getComments: (data) =>
+  //   instance.get(`/comments?postId=${data.postId}&page=${data.paging}&count=8`),
+  getComments: (postId) => instance.get(`/comments?postId=${postId}`),
   // 댓글 작성하기
   addComment: (data) =>
     instance.post(`/comments?postId=${data.postId}`, {
@@ -119,6 +120,8 @@ export const likeApi = {
 export const loginApi = {
   // 로그인
   login: (data) => instance.post("auth/login", data),
+  // 로그아웃
+  logout: () => instance.delete("auth/logout"),
   // 닉네임 중복 체크
   checkNickname: (nickname) =>
     instance.get(`/auth/checkNickname?nickname=${encodeURI(nickname)}`),

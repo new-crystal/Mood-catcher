@@ -9,9 +9,10 @@ import {
   __checkNickname,
   __getUser,
   __editOrigin,
+  __logout,
 } from "../../redux/async/login";
 import { changeNickname } from "../../redux/modules/loginSlice";
-import { getCookie } from "../../shared/cookie";
+import { deleteCookie, getCookie } from "../../shared/cookie";
 import { useNavigate } from "react-router-dom";
 import jwt_decode from "jwt-decode";
 import Swal from "sweetalert2";
@@ -278,22 +279,22 @@ const EditProfileForm = () => {
       cancelButtonText: "취소",
     }).then((result) => {
       if (result.isConfirmed) {
-        deleteAllCookies();
-        navigate("/login");
+        dispatch(__logout());
       }
     });
   };
 
-  //쿠키 삭제 함수
-  function deleteAllCookies() {
-    const cookies = document.cookie.split(";");
-    for (let i = 0; i < cookies.length; i++) {
-      const cookie = cookies[i];
-      const eqPos = cookie.indexOf("=");
-      const name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
-      document.cookie = name + "=;max-age=-1";
-    }
-  }
+  // //쿠키 삭제 함수
+  // function deleteAllCookies() {
+  //   const cookies = document.cookie.split(";");
+  //   for (let i = 0; i < cookies.length; i++) {
+  //     const cookie = cookies[i];
+  //     const eqPos = cookie.indexOf("=");
+  //     const name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
+  //     document.cookie = name + "=;max-age=-1";
+  //   }
+  //   deleteCookie("token");
+  // }
 
   //회원탍퇴
   const onClickDelBtn = () => {
@@ -466,7 +467,7 @@ const EditProfileForm = () => {
 };
 
 const Container = styled.div`
-  width: 428px;
+  width: 412px;
   height: 926px;
   text-align: center;
   form {
@@ -478,7 +479,7 @@ const Container = styled.div`
     border: 0px;
     border-radius: 7px;
     height: 50px;
-    width: 250px;
+    width: 150px;
     margin-left: 20px;
     margin-bottom: 40px;
     padding-left: 5px;
@@ -568,7 +569,7 @@ const EditNicknameBtn = styled.button`
   box-shadow: 5px 5px 4px rgba(0, 0, 0, 0.25);
 `;
 const GenderAgeBox = styled.div`
-  width: 390px;
+  width: 380px;
   padding: 15px;
   display: flex;
   justify-content: space-between;
