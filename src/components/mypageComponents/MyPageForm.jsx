@@ -564,7 +564,7 @@ const MoodQuestion = styled.div`
 `;
 
 const Progress = styled.div`
-  width: 72px;
+  width: 73px;
   height: 15px;
   border-radius: 10px;
   background-color: #7b758b;
@@ -584,7 +584,7 @@ const HighLight = styled.div`
   background-color: #fff;
   border-radius: 10px;
   height: 12px;
-  width: ${(props) => props.width};
+  width: ${(props) => props.width - "1px"};
   margin: 1px;
   position: relative;
   top: 0.5px;

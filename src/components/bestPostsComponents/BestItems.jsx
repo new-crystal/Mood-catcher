@@ -40,14 +40,22 @@ const BestItem = (item) => {
     setMoodNum(moodNum - 1);
     dispatch(__patchMood(item.item.postId));
   };
+  //리사이징 에러 났을 경우
+  const onErrorHandler = (e) => {
+    const url = item.item.imgUrl.split("w560")[0];
+    const name = item.item.imgUrl.split("w560")[1];
+    e.target.src = `${url}post${name}`;
+  };
 
   return (
     <OtherClosetBox key={item.item.postId}>
       <ImgBox
-        url={item.item.imgUrl}
+        src={item.item.imgUrl}
+        alt="best_image"
         onClick={() =>
           navigate(`/item_detail/${item.item.postId}/${item.item.userId}`)
         }
+        onError={onErrorHandler}
       ></ImgBox>
       <TextBox>
         <RankText>
@@ -81,14 +89,11 @@ const OtherClosetBox = styled.div`
   flex-direction: row;
 `;
 
-const ImgBox = styled.div`
+const ImgBox = styled.img`
   margin-left: 10px;
   width: 130px;
   height: 170px;
   border-radius: 20px;
-  background-position: center;
-  background-size: cover;
-  background-image: url(${(props) => props.url});
 `;
 const TextBox = styled.div`
   margin-left: 10px;

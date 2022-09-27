@@ -11,7 +11,7 @@ import {
   __editOrigin,
 } from "../../redux/async/login";
 import { changeNickname } from "../../redux/modules/loginSlice";
-import { deleteCookie, getCookie } from "../../shared/cookie";
+import { getCookie } from "../../shared/cookie";
 import { useNavigate } from "react-router-dom";
 import jwt_decode from "jwt-decode";
 import Swal from "sweetalert2";
@@ -278,11 +278,22 @@ const EditProfileForm = () => {
       cancelButtonText: "취소",
     }).then((result) => {
       if (result.isConfirmed) {
-        deleteCookie("token");
+        deleteAllCookies();
         navigate("/login");
       }
     });
   };
+
+  //쿠키 삭제 함수
+  function deleteAllCookies() {
+    const cookies = document.cookie.split(";");
+    for (let i = 0; i < cookies.length; i++) {
+      const cookie = cookies[i];
+      const eqPos = cookie.indexOf("=");
+      const name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
+      document.cookie = name + "=;max-age=-1";
+    }
+  }
 
   //회원탍퇴
   const onClickDelBtn = () => {
@@ -373,7 +384,7 @@ const EditProfileForm = () => {
                   message: "닉네임을 16자 이하로 작성해주세요",
                 },
                 pattern: {
-                  value: /^(?=.*[a-z0-9가-힣])[a-z0-9가-힣]{2,16}$/,
+                  value: /^(?=.*[a-zA-Z0-9가-힣])[a-zA-Z0-9가-힣]{2,16}$/,
                   message:
                     "닉네임은 영문 대소문자, 글자 단위 한글, 숫자만 가능합니다.",
                 },
