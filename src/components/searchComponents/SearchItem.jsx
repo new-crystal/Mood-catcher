@@ -49,6 +49,7 @@ const SearchItem = ({ item }) => {
       <ImgBox
         style={{ cursor: "pointer" }}
         src={item?.imgUrl}
+        srcSet={item?.imgUrl}
         onClick={() => navigate(`/item_detail/${item.postId}/${item.userId}`)}
         alt="search_image"
         onError={onErrorHandler}

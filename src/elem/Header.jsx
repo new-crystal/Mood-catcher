@@ -101,13 +101,7 @@ const Header = () => {
               >
                 <span>{headerText}</span>
               </HeaderLogo>
-              <a
-                href="javascript:void(0);"
-                onClick={() => {
-                  let pageUrl = `/kakao`;
-                  document.location.href = pageUrl;
-                }}
-              >
+              <a href="/kakao">
                 <Star style={{ backgroundImage: `url(${Map})` }} />
               </a>
             </>
@@ -140,13 +134,7 @@ const Header = () => {
               >
                 <span>{headerText}</span>
               </HeaderLogo>
-              <a
-                href="javascript:void(0);"
-                onClick={() => {
-                  let pageUrl = `/kakao`;
-                  document.location.href = pageUrl;
-                }}
-              >
+              <a href="/kakao">
                 <Star style={{ backgroundImage: `url(${Map})` }} />
               </a>
             </>

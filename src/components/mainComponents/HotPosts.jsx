@@ -18,6 +18,7 @@ const HotPosts = ({ hotPosts }) => {
         }).then(window.location.reload());
       }
       navigate(`/item_detail/${hotPosts.postId}/${hotPosts.userId}`);
+      window.location.reload();
     },
     [navigate]
   );

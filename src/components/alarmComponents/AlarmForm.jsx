@@ -13,6 +13,8 @@ const AlarmForm = () => {
   const alarms = useSelector((state) => state.alarm.notices);
   const alarmList = [...alarms].reverse();
 
+  console.log(alarms);
+
   const delAlarm = () => {
     Swal.fire({
       title: "알림을 전부 삭제하시겠습니까?",
@@ -71,9 +73,10 @@ const AlarmForm = () => {
                 <AlarmBox
                   key={idx}
                   style={{ cursor: "pointer" }}
-                  onClick={() =>
-                    navigate(`/item_detail/${alarm.postId}/${alarm.userId}`)
-                  }
+                  onClick={() => {
+                    navigate(`/item_detail/${alarm.postId}/${alarm.userId}`);
+                    window.location.reload();
+                  }}
                 >
                   <AlarmImg url={alarm.imgUrl}> </AlarmImg>
                   <TextBox>
@@ -113,11 +116,13 @@ const AlarmList = styled.div`
   flex-direction: column;
 
   h4 {
-    font-family: Roboto;
+    font-family: "Roboto";
     font-style: Bold;
     font-size: 18px;
     font-weight: 700;
+    width: 70px;
     margin: 15px;
+    margin-right: 0px;
   }
 `;
 const TitleWrap = styled.div`
@@ -134,8 +139,8 @@ const BtnWrap = styled.div`
   padding: 0px;
 `;
 const ConfirmBtn = styled.button`
-  width: 110px;
-  height: 20px;
+  /* width: 110px;
+  height: 20px; */
   background-color: rgba(0, 0, 0, 0);
   color: #7b758b;
   border: 0px;
@@ -145,15 +150,15 @@ const ConfirmBtn = styled.button`
   font-weight: 700;
   font-size: 11px;
   position: relative;
-  top: 10px;
+  top: 6px;
 `;
 const BackBtn = styled.button`
-  width: 20px;
-  height: 20px;
+  /* width: 20px;
+  height: 20px; */
   background-color: rgba(0, 0, 0, 0);
   color: #7b758b;
   border: 0px;
-  margin-left: -20px;
+  margin-left: 20px;
   margin-top: -5px;
   font-family: Roboto;
   font-style: normal;
@@ -171,6 +176,13 @@ const AlarmBox = styled.div`
   align-items: center;
   justify-content: baseline;
   flex-direction: row;
+  display: flex;
+  overflow-x: hidden;
+  overflow-y: scroll;
+
+  ::-webkit-scrollbar {
+    display: none;
+  }
 
   & p {
     margin-top: 16px;
@@ -200,7 +212,7 @@ const TextBox = styled.div`
   margin: 0px;
 `;
 const TimeText = styled.div`
-  width: 41px;
+  width: 42px;
   font-family: "Roboto";
   font-style: normal;
   font-weight: 500;
@@ -208,6 +220,7 @@ const TimeText = styled.div`
   position: relative;
   top: -19px;
   left: -10px;
+  margin-right: 0px;
 `;
 
 const AlarmImg = styled.div`

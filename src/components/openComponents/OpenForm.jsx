@@ -77,6 +77,7 @@ const OpenBox = styled.div`
   text-align: center;
   align-items: center;
   justify-content: center;
+  transition: none;
 
   p {
     margin-top: 0px;

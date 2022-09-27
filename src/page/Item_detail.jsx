@@ -82,7 +82,7 @@ const Item_detail = (props) => {
       __addComment({ comment: commentText.current.value, postId: postId }) // , postId: postId
     );
     commentText.current.value = "";
-    // window.location.reload();
+    window.location.reload();
   };
   // 대표 게시물 지정하기
   const patchRep = () => {

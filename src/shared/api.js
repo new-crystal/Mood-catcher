@@ -65,7 +65,7 @@ export const alarmApi = {
 export const commentApi = {
   // 댓글 조회하기
   getComments: (data) =>
-    instance.get(`/comments?postId=${data.postId}&page=${data.paging}&count=4`),
+    instance.get(`/comments?postId=${data.postId}&page=${data.paging}&count=8`),
   // 댓글 작성하기
   addComment: (data) =>
     instance.post(`/comments?postId=${data.postId}`, {
@@ -99,7 +99,7 @@ export const kakaoApi = {
   // kakao맵 유저 위치 보내기
   patchKakaoMap: (data) => instance.patch("/map", { data }),
   // kakao맵 유저들 위치 받기
-  getKakaoUsers: () => instance.get("/map?dist=5.0"),
+  getKakaoUsers: () => instance.get("/map?dist=500.0"),
 };
 
 // 좋아요 관련 axios API 통신

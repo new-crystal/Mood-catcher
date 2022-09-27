@@ -70,6 +70,9 @@ const Kakao = loadable(() => import("./page/MapImage"), {
 const Best_Posts = loadable(() => import("./page/BestPosts"), {
   fallback: <Loader />,
 });
+const Start = loadable(() => import("./page/Start"), {
+  fallback: <Loader />,
+});
 
 function App() {
   const token = getCookie("token");
@@ -113,6 +116,7 @@ function App() {
         <Route path="/alarm/:userId" element={<Alarm />} />
         <Route path="/edit_password" element={<Edit_password />} />
         <Route path="/best" element={<Best_Posts />} />
+        <Route path="/start" element={<Start />} />
         <Route path="*" element={<Main />} />
       </Routes>
       <GlobalStyle />
@@ -129,5 +133,8 @@ const GlobalStyle = createGlobalStyle`
   }
   :root {
     --vh:100%
+  }
+  a {
+    cursor: default;
   }
 `;
