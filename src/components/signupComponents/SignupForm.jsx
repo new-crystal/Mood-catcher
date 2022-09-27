@@ -234,7 +234,7 @@ const SigupForm = () => {
                 })}
               />
               <ConfirmNumBtn type="button" onClick={() => onClickSendAuthNum()}>
-                인증번호 확인
+                인증번호확인
               </ConfirmNumBtn>
             </>
           )}
@@ -338,7 +338,7 @@ const ConfirmBtn = styled.button`
   font-family: "Roboto";
   font-style: normal;
   font-weight: 700;
-  font-size: 16px;
+  font-size: 15px;
   cursor: pointer;
 `;
 

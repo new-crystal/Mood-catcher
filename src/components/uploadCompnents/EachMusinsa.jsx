@@ -1,7 +1,7 @@
-import React, { Fragment, useEffect, useState } from "react";
+import React, { Fragment, useState } from "react";
 import styled from "styled-components";
 import { useDispatch } from "react-redux";
-import { selectItem, deleteItem } from "../../redux/modules/uploadSlice";
+import { selectItem } from "../../redux/modules/uploadSlice";
 const EachMusinsa = (props) => {
   const dispatch = useDispatch();
 

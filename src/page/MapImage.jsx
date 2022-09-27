@@ -4,7 +4,6 @@ import styled from "styled-components";
 import Header from "../elem/Header";
 import NavigationBar from "../elem/NavigationBar";
 import { useNavigate } from "react-router-dom";
-
 import "../shared/style/MapImageStyle.css";
 import { getCookie, deleteCookie } from "../shared/cookie";
 import { useDispatch, useSelector } from "react-redux";

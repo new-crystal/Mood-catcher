@@ -6,7 +6,7 @@ import EachPost from "./EachPost";
 import styled from "styled-components";
 import InfinityScrollLoader from "./InfinityScrollLoader";
 import _ from "lodash";
-import { deleteCookie, getCookie } from "../../shared/cookie";
+import { getCookie } from "../../shared/cookie";
 import jwt from "jwt-decode"; // to get userId from loggedIn user's token
 import hanger from "../../image/옷걸이.png";
 

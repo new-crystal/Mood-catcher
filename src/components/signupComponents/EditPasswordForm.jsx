@@ -9,10 +9,6 @@ import {
 import { changeEmail } from "../../redux/modules/signUpSlice";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
-import Swal from "sweetalert2";
-import crypto from "crypto-js";
-import CryptoJS from "crypto-js";
-import { getCookie } from "../../shared/cookie";
 import bcrypt from "bcryptjs";
 
 const EditPasswordForm = () => {

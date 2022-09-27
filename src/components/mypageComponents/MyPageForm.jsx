@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef, useCallback } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
@@ -165,7 +165,7 @@ const MyPageForm = () => {
               onClick={() => {
                 Swal.fire(
                   "대표게시물을 찾을 수 없습니다",
-                  "캐처님의 게시물의 상세페이지에서 대표 게시물을 등록해주세요",
+                  "캐처님의 게시물 상세페이지에서 대표 게시물을 등록해주세요",
                   "question"
                 );
               }}

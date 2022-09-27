@@ -2,7 +2,6 @@ import React, { Fragment } from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import { useCallback } from "react";
-import gender from "..//../image/gender.png";
 import Swal from "sweetalert2";
 
 const HotPosts = ({ hotPosts }) => {

@@ -1,6 +1,6 @@
-import React, { Suspense, Fragment, useEffect } from "react";
+import React, { Fragment, useEffect } from "react";
 import loadable from "@loadable/component";
-import styled, { createGlobalStyle } from "styled-components";
+import { createGlobalStyle } from "styled-components";
 import { Routes, Route, useNavigate } from "react-router-dom";
 import Loader from "./shared/Loader";
 

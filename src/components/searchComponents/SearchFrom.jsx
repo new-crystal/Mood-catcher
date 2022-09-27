@@ -6,8 +6,6 @@ import heart from "../../image/heart.png";
 import { useDispatch, useSelector } from "react-redux";
 import { __getSearch } from "../../redux/async/search";
 import { useNavigate } from "react-router-dom";
-import jwt_decode from "jwt-decode";
-import { getCookie } from "../../shared/cookie";
 import _ from "lodash";
 import SearchItem from "./SearchItem";
 
@@ -21,10 +19,12 @@ const SearchForm = () => {
   const [writer, setWriter] = useState(false);
 
   //정보 불러오기
-  const recommended = useSelector((state) => state.search.recommendedPosts);
+  const recommendedList = useSelector((state) => state.search.recommendedPosts);
   const users = useSelector((state) => state.login.userStatus);
-  const gender = users?.gender;
   const last = useSelector((state) => state.search.postLast);
+  const recommended = [...new Set(recommendedList.map(JSON.stringify))].map(
+    JSON.parse
+  );
 
   //react-hook-form에서 불러오기
   const {
@@ -79,6 +79,7 @@ const SearchForm = () => {
       setPage(recommended.length);
     }
   }, [mood]);
+  console.log(recommended.length);
 
   //윈도우 스크롤 위치 계산하기
   useEffect(() => {

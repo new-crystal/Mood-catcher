@@ -1,14 +1,9 @@
-import React, { Fragment, useState, useEffect } from "react";
+import React, { Fragment } from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
-import heartFalse from "../../image/heart.png";
-import heartTrue from "../../image/heartTrue.png";
-import { useDispatch } from "react-redux";
-import { __patchMood } from "../../redux/async/like";
 import Swal from "sweetalert2";
 
 const noimage = "/images/noimage.PNG";
-const heart = "/images/heart.png";
 
 const RepPost = ({ myRepPost }) => {
   const navigate = useNavigate();
@@ -24,7 +19,7 @@ const RepPost = ({ myRepPost }) => {
           onClick={() => {
             Swal.fire(
               "대표게시물을 찾을 수 없습니다",
-              "캐처님의 게시물의 상세페이지에서 대표 게시물을 등록해주세요",
+              "캐처님의 게시물 상세페이지에서 대표 게시물을 등록해주세요",
               "question"
             );
           }}

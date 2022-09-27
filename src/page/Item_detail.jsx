@@ -1,10 +1,4 @@
-import React, {
-  useEffect,
-  useState,
-  Fragment,
-  useCallback,
-  useRef,
-} from "react";
+import React, { useEffect, useState, Fragment, useRef } from "react";
 import styled, { css } from "styled-components";
 import Header from "../elem/Header";
 import NavigationBar from "../elem/NavigationBar";
@@ -20,8 +14,8 @@ import { __getUser } from "../redux/async/login";
 import { __getUsers } from "../redux/async/signup";
 
 import DetailCommentList from "../components/detailComponents/DetailCommentList";
-import { Link, useParams } from "react-router-dom";
-import { deleteCookie, getCookie } from "../shared/cookie";
+import { useParams } from "react-router-dom";
+import { getCookie } from "../shared/cookie";
 import jwt from "jwt-decode"; // to get userId from loggedIn user's token
 import useDetectClose from "../elem/useDetectClose";
 import ScrollX from "../elem/ScrollX";
@@ -269,6 +263,7 @@ const Item_detail = (props) => {
               }
             ></ProfileImg>
             <NickTitle
+              style={{ cursor: "pointer" }}
               onClick={() => {
                 navigate(`/mypage/${userId}`);
                 window.location.reload();
@@ -316,6 +311,7 @@ const Item_detail = (props) => {
             <ImgBox>
               {likeStatus ? (
                 <img
+                  style={{ cursor: "pointer" }}
                   className="heart"
                   src={mood}
                   alt="heart"
@@ -323,6 +319,7 @@ const Item_detail = (props) => {
                 />
               ) : (
                 <img
+                  style={{ cursor: "pointer" }}
                   className="heart"
                   src={mood}
                   alt="heart"

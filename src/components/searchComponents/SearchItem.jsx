@@ -1,10 +1,10 @@
 import { useState, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import heart from "../../image/heart.png";
 import heartTrue from "../../image/heartTrue.png";
-import { addMood, __patchMood } from "../../redux/async/like";
+import { __patchMood } from "../../redux/async/like";
 
 const SearchItem = ({ item }) => {
   const navigate = useNavigate();
@@ -47,6 +47,7 @@ const SearchItem = ({ item }) => {
   return (
     <OtherClosetBox key={item.postId}>
       <ImgBox
+        style={{ cursor: "pointer" }}
         src={item?.imgUrl}
         onClick={() => navigate(`/item_detail/${item.postId}/${item.userId}`)}
         alt="search_image"

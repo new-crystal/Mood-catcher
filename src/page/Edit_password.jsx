@@ -1,4 +1,4 @@
-import React, { Fragment, Suspense } from "react";
+import React, { Fragment } from "react";
 import styled from "styled-components";
 import Header from "../elem/Header";
 import EditPasswordForm from "../components/signupComponents/EditPasswordForm";

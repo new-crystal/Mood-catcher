@@ -5,7 +5,6 @@ import { __deleteRecomment } from "../../redux/async/comment";
 import DetailChangeReComment from "./DetailChangeReComments";
 import DetailRecomments from "./DetailRecomments";
 import { useNavigate } from "react-router-dom";
-
 import { getCookie } from "../../shared/cookie";
 import jwt_decode from "jwt-decode";
 import Swal from "sweetalert2";
