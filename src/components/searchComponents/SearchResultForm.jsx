@@ -21,6 +21,7 @@ const SearchResultForm = () => {
 
   //검색 결과 받아오기/유저 정보 불러오기
   const searchList = useSelector((state) => state.search.searchResult);
+  console.log(searchList);
 
   //react-hook-form 사용하기
   const {
@@ -217,26 +218,26 @@ const SearchResultForm = () => {
         {sort === "title" &&
           searchList?.map((search) => (
             <Img
-              key={search.postId}
-              src={search.imgUrl}
+              key={search?.postId}
+              src={search?.imgUrl}
               onClick={() =>
-                navigate(`/item_detail/${search.postId}/${search.userId}`)
+                navigate(`/item_detail/${search?.postId}/${search?.userId}`)
               }
               alt="search_result_image"
               onError={(e) =>
-                (e.target.src = `${search.imgUrl.split("w280")[0]}post${
-                  search.imgUrl.split("w280")[1]
+                (e.target.src = `${search?.imgUrl.split("w280")[0]}post${
+                  search?.imgUrl.split("w280")[1]
                 }`)
               }
             ></Img>
           ))}
         {sort === "writer" &&
           searchList?.map((search) => (
-            <NickImgBox key={search.postId} style={{ textAlign: "center" }}>
-              <Nickname>{search.nickname}님</Nickname>
+            <NickImgBox key={search?.postId} style={{ textAlign: "center" }}>
+              <Nickname>{search?.nickname}님</Nickname>
               <Img
-                src={search.imgUrl}
-                onClick={() => navigate(`/mypage/${search.userId}`)}
+                src={search?.imgUrl}
+                onClick={() => navigate(`/mypage/${search?.userId}`)}
                 alt="search_result_image"
               ></Img>
             </NickImgBox>
