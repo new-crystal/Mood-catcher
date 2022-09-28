@@ -8,7 +8,7 @@ export default function GenderAge(props) {
     <Fragment>
       <LoginWrap>
         <Container>
-          <Header />
+          {/* <Header /> */}
           <SignupGenderAge />
         </Container>
       </LoginWrap>
