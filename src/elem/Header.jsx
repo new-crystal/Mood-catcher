@@ -24,6 +24,7 @@ const Header = () => {
   const [headerLine, setHeaderLine] = useState(false);
   const [main, setMain] = useState(true);
   const [settings, setSettings] = useState(false);
+  const [detail, setDetail] = useState(false);
 
   const users = useSelector((state) => state.login.headerUser);
   const [userId, setUserId] = useState(users.userId);
@@ -71,6 +72,9 @@ const Header = () => {
     if (window.location.pathname === "/main") {
       setHeaderLine(true);
       setMain(false);
+    }
+    if (window.location.pathname.split("/")[2] === "detail") {
+      setDetail(true);
     }
   }, []);
 

@@ -44,6 +44,7 @@ const SearchItem = ({ item }) => {
     e.target.src = `${url}post${name}`;
   };
 
+  console.log(item.imgUrl);
   return (
     <OtherClosetBox key={item.postId}>
       <ImgBox

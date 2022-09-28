@@ -10,6 +10,8 @@ import {
   __patchUser,
   __getHeaderUser,
   __editOrigin,
+  __logout,
+  __getMyPageUser,
 } from "../async/login";
 import Swal from "sweetalert2";
 import { deleteCookie } from "../../shared/cookie";
@@ -30,6 +32,7 @@ const initialState = {
   isFetching: false,
   errorMessage: null,
   headerUser: {},
+  myPageUser: {},
 };
 
 const loginSlice = createSlice({
@@ -62,6 +65,20 @@ const loginSlice = createSlice({
       .addCase(__login.rejected, (state, action) => {
         state.loading = false;
         state.exist = action.payload;
+        state.isFetching = false;
+        state.errorMessage = action.errorMessage;
+      })
+      // 로그아웃
+      .addCase(__logout.fulfilled, (state, action) => {
+        deleteCookie("token");
+        window.location.href = "/login";
+        state.isFetching = false;
+        state.errorMessage = null;
+      })
+      .addCase(__logout.pending, (state, action) => {
+        state.isFetching = true;
+      })
+      .addCase(__logout.rejected, (state, action) => {
         state.isFetching = false;
         state.errorMessage = action.errorMessage;
       })
@@ -190,6 +207,19 @@ const loginSlice = createSlice({
         state.isFetching = true;
       })
       .addCase(__getHeaderUser.rejected, (state, action) => {
+        state.isFetching = false;
+        state.errorMessage = action.errorMessage;
+      })
+      //마이페이지에서 유저 정보 조회
+      .addCase(__getMyPageUser.pending, (state, action) => {
+        state.isFetching = true;
+      })
+      .addCase(__getMyPageUser.fulfilled, (state, action) => {
+        state.myPageUser = action.payload;
+        state.isFetching = false;
+        state.errorMessage = null;
+      })
+      .addCase(__getMyPageUser.rejected, (state, action) => {
         state.isFetching = false;
         state.errorMessage = action.errorMessage;
       }),

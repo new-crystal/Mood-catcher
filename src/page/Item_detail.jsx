@@ -136,7 +136,7 @@ const Item_detail = (props) => {
     dispatch(__getDetail(postId));
     dispatch(__getUser(userId));
     dispatch(__getUsers(payload.userId));
-    // dispatch(__getComments(postId));
+    dispatch(__getComments(postId));
     if (userStatus.imgUrl !== undefined) {
       setProfile({ image_file: `${userStatus.imgUrl}` });
     }
@@ -204,51 +204,6 @@ const Item_detail = (props) => {
       behavior: "smooth",
     });
   };
-
-  const getCommentList = useCallback(() => {
-    async function getCommentData() {
-      await dispatch(__getComments({ paging: paging, postId: postId })); //api요청
-      setLoading(false); //요청하고나면 loading false로
-    }
-    return getCommentData();
-  }, [paging, commentList]);
-
-  // 스크롤위치 계산
-  const _handleScroll = _.throttle(() => {
-    const scrollHeight = document.documentElement.scrollHeight;
-    const scrollTop = document.documentElement.scrollTop;
-    const clientHeight = document.documentElement.clientHeight;
-    //스크롤계산 사용자의 현재위치 + 스크롤위에서부터 위치가 전체 높이보다 커지면 함수실행
-    if (scrollTop + clientHeight >= scrollHeight - 100 && loading === false) {
-      // 페이지 끝에 도달하면 추가 데이터를 받아온다
-      if (last) {
-        return;
-      }
-      setPaging(paging + 1); //다음페이지
-      getCommentList(); //api요청 실행
-      setLoading(true); //실행동안 loading true로 바꾸고 요청 막기
-    }
-  }, 500);
-
-  useEffect(() => {
-    if (paging === 1 && commentList.length === 0) {
-      dispatch(__getComments({ paging: paging, postId: postId }));
-      setPaging(paging + 1);
-    } //첫렌더링시 0페이지 받아오기
-    if (commentList.length !== 0) {
-      setPaging(commentList.length);
-    } //다른컴포넌트 갔다 올때 렌더링시 페이지넘버 계산
-  }, []);
-
-  useEffect(() => {
-    if (loading) {
-      return;
-    } //로딩이 true일 경우 리턴
-    window.addEventListener("scroll", _handleScroll); // scroll event listener 등록
-    return () => {
-      window.removeEventListener("scroll", _handleScroll); // scroll event listener 해제
-    };
-  }, [paging, loading]);
 
   return (
     <Fragment>
@@ -333,6 +288,7 @@ const Item_detail = (props) => {
                 />
               )}
               <span>{moodNum}</span>
+              <div>{detailPost?.createdAt?.slice(2, 10)}</div>
             </ImgBox>
           </HeartBox>
 
@@ -436,7 +392,7 @@ const ImgBox = styled.div`
   }
   & > span {
     font-size: 18px;
-    width: 280px;
+    width: 225px;
     margin-top: 7px;
     margin-left: 7px;
     align-items: center;
@@ -444,6 +400,10 @@ const ImgBox = styled.div`
     /* position: relative;
     top: -10px; */
     /* left: 55px; */
+  }
+  & > div {
+    font-size: 12px;
+    margin-top: -10px;
   }
 `;
 
@@ -536,7 +496,7 @@ const Menu = styled.div`
   visibility: hidden;
   transform: translate(-50%, -20px);
   transition: opacity 0.4s ease, transform 0.4s ease, visibility 0.4s;
-  z-index: 9;
+  z-index: 50;
 
   &:after {
     content: "";

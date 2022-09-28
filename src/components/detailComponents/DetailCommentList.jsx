@@ -189,7 +189,7 @@ const WrapComment = styled.div`
   /* border: 1px solid black; */
   border-radius: 10px;
   span {
-    font-size: 5px;
+    font-size: 0.313rem;
     margin-left: 5px;
   }
   pre {
@@ -290,7 +290,7 @@ const Menu = styled.div`
   visibility: hidden;
   transform: translate(-50%, -20px);
   transition: opacity 0.4s ease, transform 0.4s ease, visibility 0.4s;
-  z-index: 9;
+  z-index: 50;
 
   &:after {
     content: "";

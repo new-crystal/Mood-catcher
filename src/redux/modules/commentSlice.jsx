@@ -11,7 +11,6 @@ import {
 
 const initialState = {
   comments: [],
-  commentLast: null,
   isFetching: false,
   errorMessage: null,
 };
@@ -24,8 +23,7 @@ const commentSlice = createSlice({
     builder
       // 댓글 조회하기
       .addCase(__getComments.fulfilled, (state, action) => {
-        // state.comments = action.payload.comments;
-        state.comments = [...state.comments, ...action.payload];
+        state.comments = action.payload.comments;
         state.isFetching = false;
         state.errorMessage = null;
       })
@@ -33,7 +31,6 @@ const commentSlice = createSlice({
         state.isFetching = true;
       })
       .addCase(__getComments.rejected, (state, action) => {
-        state.commentLast = "lastPage";
         state.isFetching = false;
         state.errorMessage = action.errorMessage;
       })

@@ -20,6 +20,23 @@ export const __login = createAsyncThunk(
   }
 );
 
+// 로그아웃
+export const __logout = createAsyncThunk(
+  "POST/LOGOUT",
+  async (data, thunkAPI) => {
+    try {
+      const response = await loginApi.logout();
+      if (response.status === 200) {
+        console.log(response.data);
+        return response.data;
+      }
+    } catch (err) {
+      Swal.fire("에러", err.response.data, "error");
+      return thunkAPI.rejectWithValue(err.response.data);
+    }
+  }
+);
+
 // 닉네임 중복 체크
 export const __checkNickname = createAsyncThunk(
   "GET/CHECKNICKNAME",
@@ -30,7 +47,7 @@ export const __checkNickname = createAsyncThunk(
         return true;
       }
     } catch (err) {
-      Swal.fire("에러", err.response.data, "error");
+      Swal.fire("", "중복된 닉네임입니다", "error");
       return thunkAPI.rejectWithValue(err.response.data);
     }
   }
@@ -141,6 +158,19 @@ export const __getHeaderUser = createAsyncThunk(
       if (response.status === 200) {
         return response.data.data.userStatus;
       }
+    } catch (err) {
+      Swal.fire("에러", err.response.data, "error");
+      return thunkAPI.rejectWithValue(err.response.data);
+    }
+  }
+);
+//mypage에서 유저정보 조회
+export const __getMyPageUser = createAsyncThunk(
+  "GET/MYPAGEUSER",
+  async (data, thunkAPI) => {
+    try {
+      const response = await loginApi.getMyPageUser(data);
+      return response.data.data.userStatus;
     } catch (err) {
       Swal.fire("에러", err.response.data, "error");
       return thunkAPI.rejectWithValue(err.response.data);
