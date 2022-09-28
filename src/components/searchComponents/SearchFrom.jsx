@@ -79,7 +79,6 @@ const SearchForm = () => {
       setPage(recommended.length);
     }
   }, [mood]);
-  console.log(recommended.length);
 
   //윈도우 스크롤 위치 계산하기
   useEffect(() => {

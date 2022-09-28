@@ -153,6 +153,8 @@ export const loginApi = {
   deleteUser: () => instance.delete("/users/signout"),
   // 유저 정보 조회
   getUser: (userId) => instance.get(`/users/${userId}`),
+  //마이페이지 유저 정보 조회
+  getMyPageUser: (userId) => instance.get(`/users/${userId}`),
   // 프로필 아이콘 바꾸기
   patchUser: (data) => instance.patch("/users", data),
 };
