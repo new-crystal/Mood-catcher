@@ -81,30 +81,49 @@ const SignupGenderAge = (location) => {
     }
   }, [checkNickname]);
 
-  //닉네임 중복확인
-  const onClickCheckBtnHandler = (e) => {
-    e.preventDefault();
+  // //닉네임 중복확인
+  // const onClickCheckBtnHandler = (e) => {
+  //   e.preventDefault();
+  //   if (nickname !== "" && errors.nickname === undefined) {
+  //     dispatch(__checkNickname(nickname));
+  //     if (checkNickname === false) {
+  //       setError(
+  //         "nickname",
+  //         { message: "중복된 닉네임입니다." },
+  //         { shouldFocus: true }
+  //       );
+  //     }
+  //   }
+  // };
+
+  const onClickCheckBtnHandler = async () => {
+    const nickname = await getValues("nickname");
     if (nickname !== "" && errors.nickname === undefined) {
       dispatch(__checkNickname(nickname));
       if (checkNickname === false) {
         setError(
-          "nickname",
+          "email",
           { message: "중복된 닉네임입니다." },
           { shouldFocus: true }
         );
       }
-    }
-    if (errors.nickname !== undefined) {
+    } else {
       setError(
-        "nickname",
+        "email",
         { message: "닉네임을 확인하고 중복확인을 해주세요." },
         { shouldFocus: true }
       );
     }
   };
 
+  console.log(errors.nickname);
   //중복확인 이후 닉네임이 변할 때
   const onChangeNickname = () => {
+    setError(
+      "nickname",
+      { message: "닉네임 중복확인을 해주세요" },
+      { shouldFocus: true }
+    );
     dispatch(changeNickname());
   };
 
@@ -298,7 +317,10 @@ const SignupGenderAge = (location) => {
                           },
                         })}
                       />
-                      <ConfirmBtn onClick={(e) => onClickCheckBtnHandler(e)}>
+                      <ConfirmBtn
+                        type="button"
+                        onClick={(e) => onClickCheckBtnHandler(e)}
+                      >
                         중복확인
                       </ConfirmBtn>
                     </InputBox>
