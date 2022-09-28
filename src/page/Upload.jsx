@@ -88,7 +88,7 @@ const Upload = (props) => {
               <input
                 id="file-input"
                 type="file"
-                accept="img/*"
+                accept="image/*"
                 name="postImage"
                 ref={fileInput}
                 onChange={selectImg}
