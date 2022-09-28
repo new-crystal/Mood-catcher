@@ -83,7 +83,7 @@ const SignupGenderAge = (location) => {
 
   //닉네임 중복확인
   const onClickCheckBtnHandler = (e) => {
-    e.preventDefalut();
+    e.preventDefault();
     if (nickname !== "" && errors.nickname === undefined) {
       dispatch(__checkNickname(nickname));
       if (checkNickname === false) {
