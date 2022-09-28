@@ -47,7 +47,7 @@ export const __checkNickname = createAsyncThunk(
         return true;
       }
     } catch (err) {
-      Swal.fire("에러", err.response.data, "error");
+      Swal.fire("", "중복된 닉네임입니다", "error");
       return thunkAPI.rejectWithValue(err.response.data);
     }
   }
