@@ -92,7 +92,8 @@ const SignupGenderAge = (location) => {
           { shouldFocus: true }
         );
       }
-    } else {
+    }
+    if (errors.nickname !== undefined) {
       setError(
         "nickname",
         { message: "닉네임을 확인하고 중복확인을 해주세요." },
