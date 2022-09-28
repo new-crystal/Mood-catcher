@@ -1,7 +1,7 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { loginApi } from "../../shared/api";
 import Swal from "sweetalert2";
-import { setCookie, deleteCookie } from "../../shared/cookie";
+import { setCookie } from "../../shared/cookie";
 
 // 로그인
 export const __login = createAsyncThunk(
@@ -158,6 +158,19 @@ export const __getHeaderUser = createAsyncThunk(
       if (response.status === 200) {
         return response.data.data.userStatus;
       }
+    } catch (err) {
+      Swal.fire("에러", err.response.data, "error");
+      return thunkAPI.rejectWithValue(err.response.data);
+    }
+  }
+);
+//mypage에서 유저정보 조회
+export const __getMyPageUser = createAsyncThunk(
+  "GET/MYPAGEUSER",
+  async (data, thunkAPI) => {
+    try {
+      const response = await loginApi.getMyPageUser(data);
+      return response.data.data.userStatus;
     } catch (err) {
       Swal.fire("에러", err.response.data, "error");
       return thunkAPI.rejectWithValue(err.response.data);

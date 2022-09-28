@@ -4,15 +4,18 @@ import { useDispatch } from "react-redux";
 import { __login } from "../../redux/async/login";
 import { useNavigate } from "react-router-dom";
 import { Fragment } from "react";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { getCookie } from "../../shared/cookie";
 import bcrypt from "bcryptjs";
 import PwaButton from "../../elem/PwaButton";
+import LawForm from "./LawForm";
 
 const LoginForm = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const salt = bcrypt.genSaltSync(10);
+  const [law, setLaw] = useState(false);
+  console.log(law);
 
   //로그인 한 경우
   useEffect(() => {
@@ -111,7 +114,11 @@ const LoginForm = () => {
             </LogInBtn>
           </LogBox>
           <BtnBox>
-            <LogText>무드캐쳐가 처음이신가요?</LogText>
+            <LogLawBox>
+              <LogText>무드캐쳐가 처음이신가요?</LogText>
+              <LawText onClick={() => setLaw(!law)}>이용약관</LawText>
+              {law ? <LawForm setLaw={setLaw} /> : null}
+            </LogLawBox>
             <LogBtn
               type="button"
               kakao
@@ -178,7 +185,12 @@ const ErrorMsg = styled.p`
   margin-left: -130px;
   margin-bottom: 0px;
 `;
-
+const LogLawBox = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: row;
+`;
 const LogInBtn = styled.button`
   background: linear-gradient(78.32deg, #7b758b 41.41%, #ffffff 169.58%);
   font-family: "Roboto";
@@ -231,7 +243,17 @@ const LogText = styled.p`
   color: #2d273f;
   margin-top: 40px;
 `;
-
+const LawText = styled.p`
+  font-family: "Roboto";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 10px;
+  line-height: 12px;
+  color: #2d273f;
+  margin-top: 40px;
+  margin-left: 10px;
+  cursor: pointer;
+`;
 const LogBtn = styled.div`
   width: 280px;
   height: 50px;

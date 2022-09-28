@@ -5,7 +5,7 @@ import styled from "styled-components";
 import { __getMyPage, __getRepresentative } from "../../redux/async/upload";
 import GradeList from "./GradeList";
 import { Fragment } from "react";
-import { __getUser } from "../../redux/async/login";
+import { __getUser, __getMyPageUser } from "../../redux/async/login";
 import { getCookie } from "../../shared/cookie";
 import jwt_decode from "jwt-decode";
 import ScrollX from "../../elem/ScrollX";
@@ -46,8 +46,9 @@ const MyPageForm = () => {
   const [gradeImg, setGradeImg] = useState(cat1);
 
   //유저의 닉네임, 프로필이미지, 등급, 무드 포인트 불러오기
-  const users = useSelector((state) => state.login.userStatus);
-  const userGrade = useSelector((state) => state.login.userStatus.grade);
+  const users = useSelector((state) => state.login.myPageUser);
+  const userGrade = useSelector((state) => state.login.myPageUser.grade);
+
   const profileIcon = useSelector((state) => state.login.userIcon.grade);
   const img = users?.imgUrl?.split(".com/")[1];
   const grade = userGrade?.split(" ")[1];
@@ -66,7 +67,7 @@ const MyPageForm = () => {
   const payload = jwt_decode(token);
 
   useEffect(() => {
-    dispatch(__getUser(userId));
+    dispatch(__getMyPageUser(userId));
     dispatch(__getMyPage(userId));
     dispatch(__getRepresentative(userId));
     if (userGrade !== undefined) {
@@ -442,7 +443,6 @@ const ProfileBox = styled.div`
   justify-content: center;
   flex-direction: row;
   margin-top: -20px;
-
   h4 {
     font-family: "Roboto";
     font-style: normal;
@@ -483,7 +483,6 @@ const MoodHeader = styled.div`
   margin: 10px auto;
   box-shadow: 5px 5px 4px rgba(0, 0, 0, 0.25);
   border-radius: 17px;
-
   & .name {
     font-family: "Unna";
     font-style: normal;
@@ -512,7 +511,6 @@ const MoodBody = styled.div`
   align-items: center;
   justify-content: center;
   flex-direction: row;
-
   h1 {
     font-family: "Unna";
     font-style: normal;
@@ -612,11 +610,9 @@ const ClosetList = styled.div`
   display: flex;
   overflow-x: scroll;
   overflow-y: hidden;
-
   ::-webkit-scrollbar {
     display: none;
   }
-
   p {
     margin-top: 40px;
     display: block;
@@ -667,7 +663,6 @@ const EmptyCloset = styled.div`
   background-position: center;
   background-size: cover;
   background-image: url(${empty});
-
   h4 {
     margin-top: 80px;
     display: block;
