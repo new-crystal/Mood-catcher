@@ -189,7 +189,7 @@ const WrapComment = styled.div`
   /* border: 1px solid black; */
   border-radius: 10px;
   span {
-    font-size: 5px;
+    font-size: 0.313rem;
     margin-left: 5px;
   }
   pre {
