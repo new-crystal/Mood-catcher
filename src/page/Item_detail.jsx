@@ -288,7 +288,7 @@ const Item_detail = (props) => {
                 />
               )}
               <span>{moodNum}</span>
-              <div>{detailPost.createdAt.slice(2, 10)}</div>
+              <div>{detailPost?.createdAt?.slice(2, 10)}</div>
             </ImgBox>
           </HeartBox>
 
