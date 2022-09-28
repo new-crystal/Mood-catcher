@@ -46,7 +46,7 @@ const EditProfileForm = () => {
   //유저 정보 가져오기
   useEffect(() => {
     dispatch(__getUser(userId));
-    if (users.imgUrl.split(".com/")[1] !== "null") {
+    if (users?.imgUrl.split(".com/")[1] !== "null") {
       setImage({ preview_URL: users.imgUrl });
     }
   }, []);
@@ -310,6 +310,7 @@ const EditProfileForm = () => {
     }).then((result) => {
       if (result.isConfirmed) {
         dispatch(__delUser());
+        dispatch(__logout());
         navigate("/login");
       }
     });

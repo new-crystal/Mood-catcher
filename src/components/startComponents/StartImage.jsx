@@ -16,7 +16,7 @@ const StartImage = () => {
     infinite: false,
     speed: 300,
     dots: true,
-    autoplay: true,
+    autoplay: false,
     autoplaySpeed: 3000,
     slidesToShow: 1,
     slidesToScroll: 1,
@@ -63,6 +63,9 @@ const StartImage = () => {
             <Button style={{ background: "#C4C2CA" }}>앱다운받기</Button>
           </ImageBox4>
         </Wrap>
+        <Wrap id="5">
+          <ImageBox3></ImageBox3>
+        </Wrap>
       </Slider>
     </Container>
   );
@@ -71,10 +74,10 @@ const StartImage = () => {
 const Container = styled.div`
   max-width: 420px;
   width: 100vw;
-  height: 900px;
+  /* height: 80vh; */
   margin: 0px auto 0px auto;
   text-align: left;
-  padding: 20px;
+  background-color: aliceblue;
   .slick-dots {
     .slick-active {
       button::before {
@@ -90,7 +93,7 @@ const Container = styled.div`
 const Wrap = styled.div`
   max-width: 428px;
   width: 100vw;
-  height: 926px;
+  height: 90vh;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -104,7 +107,7 @@ const ImageBox1 = styled.div`
   background-size: cover;
   background-image: url(${(props) => props.url});
   position: relative;
-  top: 180px;
+  top: 150px;
   flex-shrink: 0;
 `;
 
@@ -117,7 +120,7 @@ const Text1 = styled.h1`
   line-height: 47px;
   white-space: pre-wrap;
   position: relative;
-  top: 70px;
+  top: 20px;
   left: 27px;
 `;
 
@@ -161,7 +164,7 @@ const ImageBox4 = styled.div`
   background-size: cover;
   background-image: url(${(props) => props.url});
   position: relative;
-  top: 100px;
+  top: 70px;
   flex-shrink: 0;
 `;
 
@@ -174,7 +177,7 @@ const Content = styled.p`
   color: #7b758b;
   position: relative;
   white-space: pre-wrap;
-  top: 50px;
+  top: 10px;
   left: 27px;
 `;
 
@@ -193,7 +196,7 @@ const Button = styled.button`
   align-items: center;
   color: #ffffff;
   position: relative;
-  top: 430px;
+  top: 340px;
   left: 15px;
 `;
 

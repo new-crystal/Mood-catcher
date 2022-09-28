@@ -11,6 +11,7 @@ import {
   __getHeaderUser,
   __editOrigin,
   __logout,
+  __getMyPageUser,
 } from "../async/login";
 import Swal from "sweetalert2";
 import { deleteCookie } from "../../shared/cookie";
@@ -31,6 +32,7 @@ const initialState = {
   isFetching: false,
   errorMessage: null,
   headerUser: {},
+  myPageUser: {},
 };
 
 const loginSlice = createSlice({
@@ -205,6 +207,19 @@ const loginSlice = createSlice({
         state.isFetching = true;
       })
       .addCase(__getHeaderUser.rejected, (state, action) => {
+        state.isFetching = false;
+        state.errorMessage = action.errorMessage;
+      })
+      //마이페이지에서 유저 정보 조회
+      .addCase(__getMyPageUser.pending, (state, action) => {
+        state.isFetching = true;
+      })
+      .addCase(__getMyPageUser.fulfilled, (state, action) => {
+        state.myPageUser = action.payload;
+        state.isFetching = false;
+        state.errorMessage = null;
+      })
+      .addCase(__getMyPageUser.rejected, (state, action) => {
         state.isFetching = false;
         state.errorMessage = action.errorMessage;
       }),

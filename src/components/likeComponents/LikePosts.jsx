@@ -73,7 +73,7 @@ const LikePosts = () => {
       {allLikePosts?.length === 0 && (
         <EmptyLike>
           <p>캐처님께서 아직</p>
-          <p>좋아하신 게시물이 없습니다</p>
+          <p>좋아요한 게시물이 없습니다</p>
         </EmptyLike>
       )}
       {allLikePosts?.map((item, idx) => (

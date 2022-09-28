@@ -135,7 +135,7 @@ const RankText = styled.h4`
   color: #7b758b;
   margin-left: 50px;
   margin-bottom: 0px;
-  margin-top: 0px;
+  margin-top: 10px;
   font-size: 12px;
 `;
 export default BestItem;
