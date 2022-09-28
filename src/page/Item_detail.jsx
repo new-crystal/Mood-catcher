@@ -288,6 +288,7 @@ const Item_detail = (props) => {
                 />
               )}
               <span>{moodNum}</span>
+              <div>{detailPost.createdAt.slice(2, 10)}</div>
             </ImgBox>
           </HeartBox>
 
@@ -391,7 +392,7 @@ const ImgBox = styled.div`
   }
   & > span {
     font-size: 18px;
-    width: 280px;
+    width: 225px;
     margin-top: 7px;
     margin-left: 7px;
     align-items: center;
@@ -399,6 +400,10 @@ const ImgBox = styled.div`
     /* position: relative;
     top: -10px; */
     /* left: 55px; */
+  }
+  & > div {
+    font-size: 12px;
+    margin-top: -10px;
   }
 `;
 
