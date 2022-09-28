@@ -10,6 +10,7 @@ import {
   __getUser,
   __editOrigin,
   __logout,
+  __getMyPageUser,
 } from "../../redux/async/login";
 import { changeNickname } from "../../redux/modules/loginSlice";
 import { deleteCookie, getCookie } from "../../shared/cookie";
@@ -23,7 +24,7 @@ const EditProfileForm = () => {
   const [editNickname, setEditNickname] = useState(false);
   const [original, setOriginal] = useState(false);
   const checkNickname = useSelector((state) => state.login.checkNickname);
-  const users = useSelector((state) => state.login.userStatus);
+  const users = useSelector((state) => state.login.myPageUser);
   const [gender, setGender] = useState(users?.gender);
   const [age, setAge] = useState(users?.age);
   const [image, setImage] = useState({
@@ -45,7 +46,7 @@ const EditProfileForm = () => {
 
   //유저 정보 가져오기
   useEffect(() => {
-    dispatch(__getUser(userId));
+    dispatch(__getMyPageUser(userId));
     if (users?.imgUrl.split(".com/")[1] !== "null") {
       setImage({ preview_URL: users.imgUrl });
     }
