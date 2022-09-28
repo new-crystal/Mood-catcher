@@ -81,21 +81,6 @@ const SignupGenderAge = (location) => {
     }
   }, [checkNickname]);
 
-  // //닉네임 중복확인
-  // const onClickCheckBtnHandler = (e) => {
-  //   e.preventDefault();
-  //   if (nickname !== "" && errors.nickname === undefined) {
-  //     dispatch(__checkNickname(nickname));
-  //     if (checkNickname === false) {
-  //       setError(
-  //         "nickname",
-  //         { message: "중복된 닉네임입니다." },
-  //         { shouldFocus: true }
-  //       );
-  //     }
-  //   }
-  // };
-
   const onClickCheckBtnHandler = async () => {
     const nickname = await getValues("nickname");
     if (nickname !== "" && errors.nickname === undefined) {
@@ -145,7 +130,7 @@ const SignupGenderAge = (location) => {
     const keyGender = await key.target.innerText;
     const nickname = getValues("nickname");
     dispatch(__detail({ age, gender: keyGender, nickname })).then(
-      navigate("/start")
+      navigate("/")
     );
   };
 
