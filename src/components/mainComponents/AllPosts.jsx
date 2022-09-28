@@ -14,8 +14,11 @@ const AllPosts = () => {
   const [paging, setPaging] = useState(1); //페이지넘버
   const token = getCookie("token");
   const { userId } = jwt(token);
-  const allMainPosts = useSelector((state) => state.rank.allPosts);
+  const allMainPostList = useSelector((state) => state.rank.allPosts);
   const last = useSelector((state) => state.rank.postLast);
+  const allMainPosts = [...new Set(allMainPostList.map(JSON.stringify))].map(
+    JSON.parse
+  );
 
   const getMainList = useCallback(() => {
     async function getMainData() {
