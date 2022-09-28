@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { __getAlarm, __deleteAlarm } from "../../redux/async/alarm";
 import Swal from "sweetalert2";
+import { Fragment } from "react";
 
 const AlarmForm = () => {
   const dispatch = useDispatch();
@@ -43,70 +44,141 @@ const AlarmForm = () => {
   }, [alarmStatus]);
 
   return (
-    <AlarmContainer>
-      <AlarmList>
-        <TitleWrap>
-          <h4>나의 알림</h4>
-          <BtnWrap>
-            <ConfirmBtn onClick={() => delAlarm()}>알림삭제</ConfirmBtn>
-            <BackBtn onClick={() => navigate(-1)}>✕</BackBtn>
-          </BtnWrap>
-        </TitleWrap>
-        {alarms.length === 0 ? (
-          <AlarmBox>
-            <p>아직 새로운 알림이 없습니다!</p>
-          </AlarmBox>
-        ) : (
-          alarmList?.map((alarm, idx) => {
-            return alarm?.postId === -1 ? (
-              <>
-                <AlarmBox key={idx}>
-                  <AlarmImg url={alarm.imgUrl}> </AlarmImg>
-                  <TextBox>
-                    <p>{alarm.msg}</p>
-                  </TextBox>
-                  <TimeText>{alarm.createdAt}</TimeText>
-                </AlarmBox>
-              </>
-            ) : (
-              <>
-                <AlarmBox
-                  key={idx}
-                  style={{ cursor: "pointer" }}
-                  onClick={() => {
-                    navigate(`/item_detail/${alarm.postId}/${alarm.userId}`);
-                    window.location.reload();
-                  }}
+    <Fragment>
+      <Container>
+        <Grid>
+          <AlarmContainer>
+            <BtnBox>
+              <Btn>
+                <a
+                  href="https://forms.gle/Eg7LN2yS1J5LeUwE9"
+                  target="_blank"
+                  rel="noreferrer"
                 >
-                  <AlarmImg url={alarm.imgUrl}> </AlarmImg>
-                  <TextBox>
-                    {alarm.duplecation > 1 && (
-                      <p>
-                        {alarm.msg}({alarm.duplecation})
-                      </p>
-                    )}
-                    {alarm.duplecation === 1 && <p>{alarm.msg}</p>}
-                  </TextBox>
-                  <TimeText>{alarm.createdAt}</TimeText>
-                  <ArrowBtn></ArrowBtn>
+                  설문조사하러가기
+                </a>
+              </Btn>
+            </BtnBox>
+
+            <AlarmList>
+              <TitleWrap>
+                <h4>나의 알림</h4>
+                <BtnWrap>
+                  <ConfirmBtn onClick={() => delAlarm()}>알림삭제</ConfirmBtn>
+                  <BackBtn onClick={() => navigate(-1)}>✕</BackBtn>
+                </BtnWrap>
+              </TitleWrap>
+              {alarms.length === 0 ? (
+                <AlarmBox>
+                  <p>아직 새로운 알림이 없습니다!</p>
                 </AlarmBox>
-              </>
-            );
-          })
-        )}
-      </AlarmList>
-    </AlarmContainer>
+              ) : (
+                alarmList?.map((alarm, idx) => {
+                  return alarm?.postId === -1 ? (
+                    <>
+                      <AlarmBox key={idx}>
+                        <AlarmImg url={alarm.imgUrl}> </AlarmImg>
+                        <TextBox>
+                          <p>{alarm.msg}</p>
+                        </TextBox>
+                        <TimeText>{alarm.createdAt}</TimeText>
+                      </AlarmBox>
+                    </>
+                  ) : (
+                    <>
+                      <AlarmBox
+                        key={idx}
+                        style={{ cursor: "pointer" }}
+                        onClick={() => {
+                          navigate(
+                            `/item_detail/${alarm.postId}/${alarm.userId}`
+                          );
+                          window.location.reload();
+                        }}
+                      >
+                        <AlarmImg url={alarm.imgUrl}> </AlarmImg>
+                        <TextBox>
+                          {alarm.duplecation > 1 && (
+                            <p>
+                              {alarm.msg}({alarm.duplecation})
+                            </p>
+                          )}
+                          {alarm.duplecation === 1 && <p>{alarm.msg}</p>}
+                        </TextBox>
+                        <TimeText>{alarm.createdAt}</TimeText>
+                        <ArrowBtn></ArrowBtn>
+                      </AlarmBox>
+                    </>
+                  );
+                })
+              )}
+            </AlarmList>
+          </AlarmContainer>
+        </Grid>
+      </Container>
+    </Fragment>
   );
 };
 
-const AlarmContainer = styled.div`
+const BtnBox = styled.div`
+  width: 380px;
+  margin: 10px auto;
+  display: flex;
+`;
+
+const Btn = styled.button`
+  width: 280px;
+  height: 50px;
+  border-radius: 20px;
+  border: 0px;
+  font-size: 20px;
+  margin: 0 auto 0;
+  /* margin-top: -100px; */
+  font-family: "Roboto";
+  line-height: 130%;
+  font-weight: bold;
+  background-color: #e6e5ea;
+  color: #2d273f;
+  & > a {
+    color: #7b758b;
+    text-decoration: none;
+    cursor: default;
+  }
+`;
+
+const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+  /* height: 926px; */
+  & > span {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 1;
+    overflow: auto;
+    text-align: left;
+  }
+`;
+
+const Grid = styled.div`
+  margin: 0 auto;
+  /* margin-top: 60px; */
+  margin-bottom: 57px;
+  max-width: 428px;
   width: 100vw;
+  //height: calc(var(--vh, 1vh) * 100 + 50px);
+  background: linear-gradient(#a396c9, #ffffff);
+  /* background: #a396c9; */
+`;
+
+const AlarmContainer = styled.div`
+  /* width: 100vw; */
   height: 100vh;
 `;
 const AlarmList = styled.div`
   width: 380px;
-  margin-top: 50px;
-  margin-left: 25px;
+  /* margin-top: 50px;
+  margin-left: 25px; */
+  margin: 20px auto 0;
   background-color: #e6e5ea;
   border-radius: 20px;
   color: #7b758b;
@@ -114,6 +186,7 @@ const AlarmList = styled.div`
   align-items: baseline;
   justify-content: center;
   flex-direction: column;
+  padding-bottom: 60px;
 
   h4 {
     font-family: "Roboto";
