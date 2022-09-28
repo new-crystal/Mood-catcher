@@ -82,8 +82,7 @@ const SignupGenderAge = (location) => {
   }, [checkNickname]);
 
   //닉네임 중복확인
-  const onClickCheckBtnHandler = (e) => {
-    e.preventDefault();
+  const onClickCheckBtnHandler = () => {
     if (nickname !== "" && errors.nickname === undefined) {
       dispatch(__checkNickname(nickname));
       if (checkNickname === false) {
@@ -297,7 +296,7 @@ const SignupGenderAge = (location) => {
                           },
                         })}
                       />
-                      <ConfirmBtn onClick={(e) => onClickCheckBtnHandler(e)}>
+                      <ConfirmBtn onClick={() => onClickCheckBtnHandler()}>
                         중복확인
                       </ConfirmBtn>
                     </InputBox>
