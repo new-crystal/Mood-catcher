@@ -65,7 +65,7 @@ const AlarmForm = () => {
                 <h4>나의 알림</h4>
                 <BtnWrap>
                   <ConfirmBtn onClick={() => delAlarm()}>알림삭제</ConfirmBtn>
-                  <BackBtn onClick={() => navigate(-1)}>✕</BackBtn>
+                  {/* <BackBtn onClick={() => navigate(-1)}>✕</BackBtn> */}
                 </BtnWrap>
               </TitleWrap>
               {alarms.length === 0 ? (
@@ -225,19 +225,19 @@ const ConfirmBtn = styled.button`
   position: relative;
   top: 6px;
 `;
-const BackBtn = styled.button`
-  /* width: 20px;
-  height: 20px; */
-  background-color: rgba(0, 0, 0, 0);
-  color: #7b758b;
-  border: 0px;
-  margin-left: 20px;
-  margin-top: -5px;
-  font-family: Roboto;
-  font-style: normal;
-  font-weight: 100;
-  font-size: 30px;
-`;
+// const BackBtn = styled.button`
+//   /* width: 20px;
+//   height: 20px; */
+//   background-color: rgba(0, 0, 0, 0);
+//   color: #7b758b;
+//   border: 0px;
+//   margin-left: 20px;
+//   margin-top: -5px;
+//   font-family: Roboto;
+//   font-style: normal;
+//   font-weight: 100;
+//   font-size: 30px;
+// `;
 const AlarmBox = styled.div`
   width: 356px;
   height: 55px;

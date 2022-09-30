@@ -175,7 +175,13 @@ const SigupForm = () => {
         <div>
           <TextBox>
             <h4>이메일</h4>
-            {errors.email && <p>{errors.email.message}</p>}
+            {errors.email !== undefined ? (
+              errors.email.message === "사용 가능한 이메일입니다." ? (
+                <p style={{ color: "blue" }}>{errors.email.message}</p>
+              ) : (
+                <p>{errors.email.message}</p>
+              )
+            ) : null}
           </TextBox>
           <input
             className="email"
@@ -209,7 +215,13 @@ const SigupForm = () => {
         <div>
           <TextBox>
             <h4>인증번호</h4>
-            {errors.sendEmail && <p>{errors.sendEmail.message}</p>}
+            {errors.sendEmail !== undefined ? (
+              errors.sendEmail.message === "인증번호가 일치하였습니다." ? (
+                <p style={{ color: "blue" }}>{errors.sendEmail.message}</p>
+              ) : (
+                <p>{errors.sendEmail.message}</p>
+              )
+            ) : null}
           </TextBox>
           {!sendEmail ? (
             <SendEmailBtn type="button" onClick={() => onClickSendEmail()}>

@@ -5,7 +5,7 @@ import styled from "styled-components";
 import { __getMyPage, __getRepresentative } from "../../redux/async/upload";
 import GradeList from "./GradeList";
 import { Fragment } from "react";
-import { __getUser, __getMyPageUser } from "../../redux/async/login";
+import { __getMyPageUser } from "../../redux/async/login";
 import { getCookie } from "../../shared/cookie";
 import jwt_decode from "jwt-decode";
 import ScrollX from "../../elem/ScrollX";
@@ -30,6 +30,7 @@ import question from "../../image/question.png";
 import empty from "../../image/옷걸이.png";
 import hanger from "../../image/hanger.png";
 import MoodPoint from "./MoodPoint";
+import closet from "../../image/empty-walkin-closet-modern-wardrobe-room-interior_107791-6726.jpeg";
 
 const MyPageForm = () => {
   const [scrollRef, isDrag, onDragStart, onDragEnd, onThrottleDragMove] =
@@ -97,6 +98,8 @@ const MyPageForm = () => {
     [users, profileIcon, gradeList]
   );
 
+  const text = `${users?.nickname}님의 \n옷장 열어보기`;
+
   return (
     <Fragment>
       <Wrap>
@@ -150,7 +153,7 @@ const MyPageForm = () => {
                   {gradeList ? <GradeList setGradeList={setGradeList} /> : null}
                 </GradeQuestion>
                 <Progress>
-                  <HighLight width={(grade / 5) * 100 + "%"}>
+                  <HighLight width={(grade / 5) * 100 - 1 + "%"}>
                     {grade === "2" && <h6>2단계</h6>}
                     {grade === "3" && <h6>3단계</h6>}
                     {grade === "4" && <h6>4단계</h6>}
@@ -223,12 +226,11 @@ const MyPageForm = () => {
                       }
                     ></Closet>
                     <GoCloset
-                      url="https://m.spadegagu.com/web/product/extra/big/20200214/f614adca4a7b75279a0142f3657bfafe.jpg"
+                      url={`${closet}`}
                       onClick={() => navigate(`/closet/${userId}`)}
                     >
                       <OpenCloset>
-                        <h4>{users?.nickname}님의</h4>
-                        <h4>옷장 열어보기</h4>
+                        <OpenText>{text}</OpenText>
                       </OpenCloset>
                     </GoCloset>
                   </>
@@ -254,12 +256,11 @@ const MyPageForm = () => {
                       }
                     ></Closet>
                     <GoCloset
-                      url="https://m.spadegagu.com/web/product/extra/big/20200214/f614adca4a7b75279a0142f3657bfafe.jpg"
+                      url={`${closet}`}
                       onClick={() => navigate(`/closet/${userId}`)}
                     >
                       <OpenCloset>
-                        <h4>{users?.nickname}님의</h4>
-                        <h4>옷장 열어보기</h4>
+                        <OpenText>{text}</OpenText>
                       </OpenCloset>
                     </GoCloset>
                   </>
@@ -294,12 +295,11 @@ const MyPageForm = () => {
                       }
                     ></Closet>
                     <GoCloset
-                      url="https://m.spadegagu.com/web/product/extra/big/20200214/f614adca4a7b75279a0142f3657bfafe.jpg"
+                      url={`${closet}`}
                       onClick={() => navigate(`/closet/${userId}`)}
                     >
                       <OpenCloset>
-                        <h4>{users?.nickname}님의</h4>
-                        <h4>옷장 열어보기</h4>
+                        <OpenText>{text}</OpenText>
                       </OpenCloset>
                     </GoCloset>
                   </>
@@ -343,12 +343,11 @@ const MyPageForm = () => {
                       }
                     ></Closet>
                     <GoCloset
-                      url="https://m.spadegagu.com/web/product/extra/big/20200214/f614adca4a7b75279a0142f3657bfafe.jpg"
+                      url={`${closet}`}
                       onClick={() => navigate(`/closet/${userId}`)}
                     >
                       <OpenCloset>
-                        <h4>{users?.nickname}님의</h4>
-                        <h4>옷장 열어보기</h4>
+                        <OpenText>{text}</OpenText>
                       </OpenCloset>
                     </GoCloset>
                   </>
@@ -401,12 +400,11 @@ const MyPageForm = () => {
                       }
                     ></Closet>
                     <GoCloset
-                      url="https://m.spadegagu.com/web/product/extra/big/20200214/f614adca4a7b75279a0142f3657bfafe.jpg"
+                      url={`${closet}`}
                       onClick={() => navigate(`/closet/${userId}`)}
                     >
                       <OpenCloset>
-                        <h4>{users?.nickname}님의</h4>
-                        <h4>옷장 열어보기</h4>
+                        <OpenText>{text}</OpenText>
                       </OpenCloset>
                     </GoCloset>
                   </>
@@ -637,6 +635,7 @@ const GoCloset = styled.div`
   width: 160px;
   height: 200px;
   margin: 5px;
+  text-align: left;
   border-radius: 10px;
   background-position: center;
   background-size: cover;
@@ -648,11 +647,12 @@ const GoCloset = styled.div`
     font-weight: 700;
     font-size: 20px;
     text-align: center;
-    color: #6b6187;
+    color: #8e5c92;
   }
 `;
 const OpenCloset = styled.div`
   margin-top: 50px;
+  cursor: pointer;
 `;
 
 const EmptyCloset = styled.div`
@@ -663,16 +663,20 @@ const EmptyCloset = styled.div`
   background-position: center;
   background-size: cover;
   background-image: url(${empty});
-  h4 {
-    margin-top: 80px;
-    display: block;
-    font-family: "Unna";
-    font-style: normal;
-    font-weight: 700;
-    font-size: 17px;
-    text-align: center;
-    color: #534b67;
-  }
+`;
+const OpenText = styled.h5`
+  margin-top: 80px;
+  display: block;
+  font-family: "Unna";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 17px;
+  text-align: center;
+  color: #534b67;
+  position: relative;
+  top: 10px;
+  white-space: pre-wrap;
+  cursor: pointer;
 `;
 const Margin = styled.div`
   width: 32px;

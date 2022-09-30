@@ -44,7 +44,6 @@ const SearchItem = ({ item }) => {
     e.target.src = `${url}post${name}`;
   };
 
-  console.log(item.imgUrl);
   return (
     <OtherClosetBox key={item.postId}>
       <ImgBox
@@ -123,6 +122,7 @@ const Heart = styled.div`
   background-position: center;
   background-size: cover;
   background-image: url(${(props) => props.url});
+  position: relative;
   cursor: pointer;
 `;
 
