@@ -13,30 +13,40 @@ import cat2 from "../../image/냥2.png";
 import cat3 from "../../image/냥3.png";
 import cat4 from "../../image/냥4.png";
 import cat5 from "../../image/냥5.png";
-import { __getUser, __patchUser } from "../../redux/async/login";
+import woman1 from "../../image/girl1.png";
+import woman2 from "../../image/girl2.png";
+import woman3 from "../../image/girl3.png";
+import woman4 from "../../image/girl4.png";
+import woman5 from "../../image/girl5.png";
+import { __getMyPageUser, __patchUser } from "../../redux/async/login";
 
 const GradeList = ({ setGradeList }) => {
   const dispatch = useDispatch();
   const [moody, setMoody] = useState(false);
+  const [gender, setGender] = useState("moody");
   const { userId } = useParams();
-  const user = useSelector((state) => state.login.userStatus);
+  const user = useSelector((state) => state.login.myPageUser);
   const grade = user?.grade?.split(" ")[0];
-
+  console.log(user);
+  console.log(grade);
   const moodyStatus = (grade) => {
     if (grade === "moody") {
       setMoody(true);
+      setGender(grade);
     }
     if (grade === "man") {
       setMoody(false);
+      setGender(grade);
     }
     if (grade === "woman") {
       setMoody(false);
+      setGender(grade);
     }
   };
 
   //유저 정보 가져오기
   useEffect(() => {
-    dispatch(__getUser(userId));
+    dispatch(__getMyPageUser(userId));
     moodyStatus(grade);
   }, [grade]);
 
@@ -71,52 +81,62 @@ const GradeList = ({ setGradeList }) => {
           </ConfirmBtn>
         </TitleBox>
         <Grade>
-          {moody === false ? (
+          {moody === false && gender === "man" && (
             <GradeImg url={`${man1}`}></GradeImg>
-          ) : (
-            <GradeImg url={`${cat1}`}></GradeImg>
           )}
+          {moody === false && gender === "woman" && (
+            <GradeImg url={`${woman1}`}></GradeImg>
+          )}
+          {moody === true && <GradeImg url={`${cat1}`}></GradeImg>}
           <h4>티셔츠</h4>
         </Grade>
         <Grade>
-          {moody === false ? (
+          {moody === false && gender === "man" && (
             <GradeImg url={`${man2}`}></GradeImg>
-          ) : (
-            <GradeImg url={`${cat2}`}></GradeImg>
           )}
+          {moody === false && gender === "woman" && (
+            <GradeImg url={`${woman2}`}></GradeImg>
+          )}
+          {moody === true && <GradeImg url={`${cat2}`}></GradeImg>}
           <TextBox>
             <h4>와이셔츠</h4>
             <h6>(1000 무드 이상) </h6>
           </TextBox>
         </Grade>
         <Grade>
-          {moody === false ? (
+          {moody === false && gender === "man" && (
             <GradeImg url={`${man3}`}></GradeImg>
-          ) : (
-            <GradeImg url={`${cat3}`}></GradeImg>
           )}
+          {moody === false && gender === "woman" && (
+            <GradeImg url={`${woman3}`}></GradeImg>
+          )}
+          {moody === true && <GradeImg url={`${cat3}`}></GradeImg>}
           <TextBox>
             <h4>넥타이</h4>
             <h6>(3000 무드 이상) </h6>
           </TextBox>
         </Grade>
         <Grade>
-          {moody === false ? (
+          {moody === false && gender === "man" && (
             <GradeImg url={`${man4}`}></GradeImg>
-          ) : (
-            <GradeImg url={`${cat4}`}></GradeImg>
           )}
+          {moody === false && gender === "woman" && (
+            <GradeImg url={`${woman4}`}></GradeImg>
+          )}
+          {moody === true && <GradeImg url={`${cat4}`}></GradeImg>}
           <TextBox>
             <h4>조끼</h4>
             <h6>(6000 무드 이상)</h6>
           </TextBox>
         </Grade>
         <Grade>
-          {moody === false ? (
+          {moody === false && gender === "man" && (
             <GradeImg url={`${man5}`}></GradeImg>
-          ) : (
-            <GradeImg url={`${cat5}`}></GradeImg>
           )}
+          {moody === false && gender === "woman" && (
+            <GradeImg url={`${woman5}`}></GradeImg>
+          )}
+          {moody === true && <GradeImg url={`${cat5}`}></GradeImg>}
           <TextBox>
             <h4>자켓</h4>
             <h6>(10000 무드 이상)</h6>

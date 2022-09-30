@@ -138,13 +138,11 @@ const SearchResultForm = () => {
             {title && !writer && (
               <>
                 <CheckBox>
-                  <LabelTitle onClick={onChangeTitle}>
-                    제목으로 검색하기
-                  </LabelTitle>
+                  <LabelTitle onClick={onChangeTitle}>제목으로 검색</LabelTitle>
                 </CheckBox>
                 <NotCheckBox>
                   <LabelWriter onClick={onChangeWriter}>
-                    작성자로 검색하기
+                    작성자로 검색
                   </LabelWriter>
                 </NotCheckBox>
               </>
@@ -152,13 +150,11 @@ const SearchResultForm = () => {
             {!title && writer && (
               <>
                 <NotCheckBox>
-                  <LabelTitle onClick={onChangeTitle}>
-                    제목으로 검색하기
-                  </LabelTitle>
+                  <LabelTitle onClick={onChangeTitle}>제목으로 검색</LabelTitle>
                 </NotCheckBox>
                 <CheckBox>
                   <LabelWriter onClick={onChangeWriter}>
-                    작성자로 검색하기
+                    작성자로 검색
                   </LabelWriter>
                 </CheckBox>
               </>
@@ -170,13 +166,11 @@ const SearchResultForm = () => {
             {title && !writer && (
               <>
                 <CheckBox>
-                  <LabelTitle onClick={onChangeTitle}>
-                    제목으로 검색하기
-                  </LabelTitle>
+                  <LabelTitle onClick={onChangeTitle}>제목으로 검색</LabelTitle>
                 </CheckBox>
                 <NotCheckBox>
                   <LabelWriter onClick={onChangeWriter}>
-                    작성자로 검색하기
+                    작성자로 검색
                   </LabelWriter>
                 </NotCheckBox>
               </>
@@ -186,12 +180,12 @@ const SearchResultForm = () => {
               <>
                 <NotCheckBox>
                   <LabelWriter onClick={onChangeTitle}>
-                    제목으로 검색하기
+                    제목으로 검색
                   </LabelWriter>
                 </NotCheckBox>
                 <CheckBox>
                   <LabelWriter onClick={onChangeWriter}>
-                    작성자로 검색하기
+                    작성자로 검색
                   </LabelWriter>
                 </CheckBox>
               </>
@@ -297,13 +291,13 @@ const LabelWriter = styled.label`
   cursor: pointer;
 `;
 const CheckBox = styled.div`
-  width: 125px;
+  width: 100px;
   height: 15px;
   padding: 5px;
   border-bottom: 2px solid #fff;
 `;
 const NotCheckBox = styled.div`
-  width: 125px;
+  width: 100px;
   height: 15px;
   padding: 5px;
 `;

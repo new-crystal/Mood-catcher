@@ -371,6 +371,7 @@ const EditProfileForm = () => {
             {errors.nickname && <p>{errors.nickname.message}</p>}
             <NicknameInput
               type="text"
+              id="nickname"
               placeholder={users.nickname}
               name="nickname"
               aria-invalid={
@@ -493,7 +494,7 @@ const Container = styled.div`
     color: #c60000;
     font-size: 10px;
     margin-top: -20px;
-    margin-left: -190px;
+    margin-left: 0px;
   }
 `;
 const Wrapper = styled.div`
