@@ -98,7 +98,10 @@ const Header = () => {
               ></GoBack>
               <HeaderLogo
                 margin="-10.313rem"
-                style={{ marginLeft: "3.5rem", top: "0.7rem" }}
+                style={{
+                  marginLeft: "4.813rem",
+                  top: "0.7rem",
+                }}
                 onClick={() => {
                   navigate("/main");
                 }}
@@ -116,7 +119,7 @@ const Header = () => {
               <GoBack></GoBack>
               <HeaderLogo
                 margin="-11.563rem"
-                style={{ marginLeft: "-12.5rem", color: "#7B758B" }}
+                style={{ marginLeft: "-6.5rem" }}
                 onClick={() => {
                   navigate("/login");
                 }}
@@ -210,7 +213,7 @@ const Headers = styled.div`
   align-items: center;
   justify-content: space-between;
   flex-direction: row;
-  background: #a396c9;
+  background: white;
 `;
 const MainHeaderLine = styled.div`
   max-width: 380px;
@@ -235,7 +238,7 @@ const GoBack = styled.div`
   width: 20px;
   height: 20px;
   background-size: cover;
-  margin: 20px 0 0 25px;
+  margin: 16px 0 4px 57px;
   cursor: pointer;
   opacity: 50%;
   position: relative;
@@ -251,8 +254,9 @@ const HeaderLogo = styled.div`
   margin-top: -3px;
   margin-left: 40px;
   font-size: 30px;
-  color: #fff;
-  cursor: pointer;
+  font-weight: 700;
+  color: #2d273f;
+  cursor: default;
 `;
 
 const Notifications = styled.div`

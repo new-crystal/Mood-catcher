@@ -43,7 +43,7 @@
   position: fixed;
   top: 0;
   height: 60px;
-  z-index: 9000;
+  z-index: 900;
 }
 
 .iphoneHeader {
@@ -54,5 +54,5 @@
   position: fixed;
   top: 0;
   height: 85px;
-  z-index: 9000;
+  z-index: 900;
 }

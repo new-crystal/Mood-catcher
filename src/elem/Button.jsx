@@ -4,7 +4,7 @@ import styled from "styled-components";
 const Button = ({ theme, text, click, disabled }) => {
   return (
     <Btn theme={theme} onClick={click} disabled={disabled}>
-      {text}
+      <p>{text}</p>
     </Btn>
   );
 };
@@ -12,19 +12,21 @@ const Button = ({ theme, text, click, disabled }) => {
 export default Button;
 
 const Btn = styled.button`
-  width: 280px;
+  width: 300px;
   height: 50px;
-  border-radius: 20px;
+  border-radius: 5px;
   border: 0px;
-  font-size: 20px;
+  font-size: 15px;
+  font-family: "Noto Sans KR", sans-serif;
+
   /* margin-top: -100px; */
-  font-family: "Roboto";
+  /* font-family: "Roboto"; */
   line-height: 130%;
   font-weight: bold;
   background-color: ${(props) =>
-    props.theme === "dark" ? "#C4C2CA" : "#1E1919"};
-  color: #2d273f;
-  @media screen and (max-width: 350px) {
+    props.theme === "dark" ? "#a8a6af" : "#a8a6af"};
+  color: white;
+  /* @media screen and (max-width: 350px) {
     width: 250px;
-  }
+  } */
 `;
