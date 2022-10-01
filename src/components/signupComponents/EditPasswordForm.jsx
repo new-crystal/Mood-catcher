@@ -123,14 +123,14 @@ const EditPasswordForm = () => {
               <div>
                 <TextBox>
                   <h4>이메일</h4>
-                    {errors.email !== undefined ? (
-                  errors.email.message ===
-                  "이메일 인증번호 발송에 성공했습니다" ? (
-                    <p style={{ color: "blue" }}>{errors.email.message}</p>
-                  ) : (
-                    <p>{errors.email.message}</p>
-                  )
-                ) : null}
+                  {errors.email !== undefined ? (
+                    errors.email.message ===
+                    "이메일 인증번호 발송에 성공했습니다" ? (
+                      <p style={{ color: "blue" }}>{errors.email.message}</p>
+                    ) : (
+                      <p>{errors.email.message}</p>
+                    )
+                  ) : null}
                 </TextBox>
                 <input
                   className="email"
@@ -185,7 +185,7 @@ const EditPasswordForm = () => {
                 OK
               </OkBtn>
             </>
-          ) }
+          )}
           {!newPw && (
             <>
               <div>
@@ -218,7 +218,7 @@ const EditPasswordForm = () => {
                     },
                   })}
                 />
-              </div>}
+              </div>
               <div>
                 <PwTextBox>
                   <h4>새로운 비밀번호 확인</h4>
