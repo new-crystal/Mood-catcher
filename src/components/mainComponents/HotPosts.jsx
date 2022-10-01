@@ -74,7 +74,8 @@ const Wrap = styled.div`
 
   & p {
     flex-direction: row;
-    font-family: "Unna";
+    /* font-family: "Unna"; */
+    font-family: "Noto Sans KR", sans-serif;
     font-style: normal;
     font-weight: 700;
     font-size: 13px;
@@ -104,17 +105,18 @@ const StTag = styled.div`
 
 const WritedHotInfo = styled.div`
   display: flex;
-  margin: 0px auto 37px;
+  margin: 0px auto 20px;
   width: 350px;
   height: 288px;
-  background-color: #f6f6f6;
+  /* background-color: #e5e5e5; */
+  background-color: #e4ddef;
   border-radius: 20px;
-  box-shadow: 5px 5px 4px #877f92;
+  /* box-shadow: 5px 5px 4px #877f92; */
 `;
 
 const HotImage1 = styled.div`
   margin: 13px;
-  border-radius: 10px;
+  border-radius: 20px;
   width: 80px;
   height: 90px;
   background-color: #ffffff;
@@ -139,7 +141,7 @@ const GridHorizonHot = styled.div`
 
 const HotImage2 = styled.div`
   margin: 0 0 40px 70px;
-  border-radius: 10px;
+  border-radius: 20px;
   width: 80px;
   height: 90px;
   background-color: #ffffff;

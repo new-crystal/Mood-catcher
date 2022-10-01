@@ -40,7 +40,7 @@ const Container = styled.div`
   margin: 0 auto;
   margin-top: 60px;
   min-height: 928px;
-  background: linear-gradient(#a396c9, #ffffff);
+  /* background: linear-gradient(#a396c9, #ffffff); */
 `;
 
 export default Search;

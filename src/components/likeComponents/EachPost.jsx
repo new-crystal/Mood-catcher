@@ -102,13 +102,14 @@ export default EachPost;
 
 const WritedClosetInfo = styled.div`
   display: flex;
-  margin: 0px auto 37px;
+  margin: 10px auto;
   width: 350px;
   height: 200px;
   background-color: #ffffff;
   border-radius: 20px;
+  border: 3px solid #e6e5ea;
   cursor: pointer;
-  box-shadow: 5px 5px 4px #877f92;
+  /* box-shadow: 5px 5px 4px #877f92; */
 `;
 
 const ClosetImage = styled.div`

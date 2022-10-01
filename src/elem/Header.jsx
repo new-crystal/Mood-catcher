@@ -230,7 +230,7 @@ const HeaderBox = styled.div`
   z-index: 10;
   position: relative;
   top: -20px;
-  /* background: linear-gradient(#a396c9, white); */
+  background: linear-gradient(#a396c9, white);
 `;
 
 const GoBack = styled.div`

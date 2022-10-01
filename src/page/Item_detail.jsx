@@ -429,7 +429,7 @@ const ImgBox = styled.div`
   }
   & > div {
     font-size: 12px;
-    margin-top: -10px;
+    /* margin-top: -10px; */
   }
 `;
 
@@ -465,7 +465,7 @@ const Grid = styled.div`
   //height: calc(var(--vh, 1vh) * 100 + 50px);
   min-height: 926px;
 
-  background: linear-gradient(#a396c9, #ffffff);
+  /* background: linear-gradient(#a396c9, #ffffff); */
 `;
 
 const ProfileBox = styled.div`
@@ -644,7 +644,7 @@ const StMusinsaItemBox = styled.div`
   display: flex;
   width: 200px;
   height: 100px;
-  background-color: white;
+  background-color: #dbd4f1;
   border-radius: 15px;
   font-size: 20px;
   outline: none;

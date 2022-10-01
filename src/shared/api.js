@@ -44,7 +44,7 @@ instance.interceptors.response.use(
       status === 401 &&
       error.response.data.message !== "비밀번호가 틀렸습니다."
     ) {
-      deleteCookie("token");
+      await deleteCookie("token");
       Swal.fire("로그인", "로그인 시간이 만료되었습니다.", "error");
     }
     return Promise.reject(error);

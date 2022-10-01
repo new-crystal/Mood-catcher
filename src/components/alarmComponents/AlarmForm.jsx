@@ -121,28 +121,32 @@ const AlarmForm = () => {
 };
 
 const BtnBox = styled.div`
-  width: 380px;
-  margin: 10px auto;
+  width: 370px;
+  margin: 10px auto 0px;
   display: flex;
 `;
 
 const Btn = styled.button`
-  width: 280px;
+  width: 370px;
   height: 50px;
   border-radius: 20px;
   border: 0px;
-  font-size: 20px;
-  margin: 0 auto 0;
-  /* margin-top: -100px; */
-  font-family: "Roboto";
-  line-height: 130%;
-  font-weight: bold;
-  background-color: #e6e5ea;
-  color: #2d273f;
-  & > a {
-    color: #7b758b;
+  /* margin: 10px auto; */
+  margin: 10px auto;
+  background: ${(props) => (props.kakao ? "#F4E769" : "#C4C2CA")};
+  cursor: default;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 15px;
+  & > a,
+  p {
+    color: #2d273f;
+    font-family: "Noto Sans KR", sans-serif;
+    /* font-family: "Roboto"; */
     text-decoration: none;
-    cursor: default;
+    font-weight: bold;
+    font-size: 16px;
   }
 `;
 
@@ -162,23 +166,23 @@ const Container = styled.div`
 const Grid = styled.div`
   margin: 0 auto;
   /* margin-top: 60px; */
-  margin-bottom: 57px;
+  /* margin-bottom: 57px; */
   max-width: 428px;
   width: 100vw;
   //height: calc(var(--vh, 1vh) * 100 + 50px);
-  background: linear-gradient(#a396c9, #ffffff);
+  /* background: linear-gradient(#a396c9, #ffffff); */
   /* background: #a396c9; */
 `;
 
 const AlarmContainer = styled.div`
   /* width: 100vw; */
-  height: 100vh;
+  /* height: 100vh; */
 `;
 const AlarmList = styled.div`
-  width: 380px;
+  width: 370px;
   /* margin-top: 50px;
   margin-left: 25px; */
-  margin: 20px auto 0;
+  margin: 10px auto 0;
   background-color: #e6e5ea;
   border-radius: 20px;
   color: #7b758b;
@@ -198,17 +202,28 @@ const AlarmList = styled.div`
     margin-right: 0px;
   }
 `;
+
 const TitleWrap = styled.div`
   display: flex;
   align-items: baseline;
   flex-direction: row;
   justify-content: space-between;
+  h4 {
+    margin: 20px 0 7px 20px;
+    /* margin-bottom: 7px; */
+    color: #2d273f;
+    font-family: "Noto Sans KR", sans-serif;
+    /* font-family: "Roboto"; */
+    font-style: normal;
+    font-weight: 700;
+    font-size: 20px;
+  }
 `;
 const BtnWrap = styled.div`
-  width: 120px;
+  width: 100px;
   display: flex;
   flex-direction: row;
-  margin-left: 160px;
+  margin: 0 0 0 160px;
   padding: 0px;
 `;
 const ConfirmBtn = styled.button`
@@ -217,13 +232,14 @@ const ConfirmBtn = styled.button`
   background-color: rgba(0, 0, 0, 0);
   color: #7b758b;
   border: 0px;
-  margin-right: -10px;
+  margin: 0 -10px 0 0;
   font-family: Roboto;
   font-style: Bold;
   font-weight: 700;
   font-size: 11px;
   position: relative;
-  top: 6px;
+  top: -4px;
+  right: -37px;
 `;
 // const BackBtn = styled.button`
 //   /* width: 20px;
@@ -239,7 +255,7 @@ const ConfirmBtn = styled.button`
 //   font-size: 30px;
 // `;
 const AlarmBox = styled.div`
-  width: 356px;
+  width: 360px;
   height: 55px;
   background-color: white;
   border-radius: 20px;
@@ -258,9 +274,11 @@ const AlarmBox = styled.div`
   }
 
   & p {
-    margin-top: 16px;
-    margin-left: 20px;
-    font-family: "Roboto";
+    /* margin-top: 5px; */
+    width: 260px;
+    margin-left: 5px;
+    /* font-family: "Roboto"; */
+    font-family: "Noto Sans KR", sans-serif;
     font-style: Bold;
     font-weight: 700;
     font-size: 13px;
@@ -285,14 +303,16 @@ const TextBox = styled.div`
   margin: 0px;
 `;
 const TimeText = styled.div`
-  width: 42px;
-  font-family: "Roboto";
+  width: 45px;
+  /* font-family: "Roboto"; */
+  font-family: "Noto Sans KR", sans-serif;
   font-style: normal;
   font-weight: 500;
   font-size: 0.188rem;
   position: relative;
   top: -19px;
-  left: -10px;
+  left: 0px;
+  text-align: center;
   margin-right: 0px;
 `;
 
@@ -300,7 +320,7 @@ const AlarmImg = styled.div`
   width: 34px;
   height: 34px;
   border-radius: 50%;
-  margin-left: 15px;
+  margin-left: 5px;
   background-position: center;
   background-size: cover;
   background-image: url(${(props) => props.url});
@@ -314,7 +334,8 @@ const ArrowBtn = styled.div`
   background-size: cover;
   background-image: url("https://www.pngmart.com/files/16/Left-Arrow-Icon-PNG-Transparent-Image.png");
   position: relative;
-  left: -10px;
+  left: -30px;
+  top: 3px;
   opacity: 70%;
 `;
 
