@@ -96,7 +96,15 @@ const Header = () => {
               ></GoBack>
               <HeaderLogo
                 margin="-10.313rem"
-                style={{ marginLeft: "3.5rem", top: "0.7rem" }}
+                //style={{ marginLeft: "3.5rem", top: "0.7rem" }}
+
+                style={{
+                  marginLeft: "4.813rem",
+                  top: "0.7rem",
+                }}
+                onClick={() => {
+                  navigate("/main");
+                }}
               >
                 <span
                   onClick={() => {
@@ -120,7 +128,11 @@ const Header = () => {
               <GoBack></GoBack>
               <HeaderLogo
                 margin="-11.563rem"
-                style={{ marginLeft: "-12.5rem", color: "#7B758B" }}
+                //style={{ marginLeft: "-12.5rem", color: "#7B758B" }}
+                style={{ marginLeft: "-6.5rem" }}
+                onClick={() => {
+                  navigate("/login");
+                }}
               >
                 <span
                   onClick={() => {
@@ -146,6 +158,16 @@ const Header = () => {
                 >
                   {headerText}
                 </span>
+
+              //<HeaderLogo
+                //margin="-11.563rem"
+                //style={{ marginLeft: "1.5rem", color: "#2d273f" }}
+                //onClick={() => {
+                  //navigate("/login");
+                //}}
+              //>
+                //<span>{headerText}</span>
+
               </HeaderLogo>
               <a href="/kakao">
                 <Star
@@ -228,6 +250,7 @@ const Headers = styled.div`
     rgba(191, 182, 217, 0.699081) 40.03%,
     rgba(255, 255, 255, 0) 100%
   );
+
 `;
 
 const HeaderBox = styled.div`
@@ -236,7 +259,7 @@ const HeaderBox = styled.div`
   z-index: 10;
   position: relative;
   top: -20px;
-  /* background: linear-gradient(#a396c9, white); */
+  background: linear-gradient(#a396c9, white);
 `;
 
 const GoBack = styled.div`
@@ -244,7 +267,7 @@ const GoBack = styled.div`
   width: 20px;
   height: 20px;
   background-size: cover;
-  margin: 20px 0 0 25px;
+  margin: 16px 0 4px 57px;
   cursor: pointer;
   opacity: 50%;
   position: relative;
@@ -260,8 +283,9 @@ const HeaderLogo = styled.div`
   margin-top: -3px;
   margin-left: 40px;
   font-size: 30px;
-  color: #7b758b;
-  cursor: pointer;
+  font-weight: 700;
+  color: #2d273f;
+  cursor: default;
 `;
 
 const Notifications = styled.div`

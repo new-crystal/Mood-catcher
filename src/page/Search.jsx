@@ -37,8 +37,11 @@ const Grid = styled.div`
   margin-bottom: 57px;
   max-width: 428px;
   width: 100vw;
-  //height: calc(var(--vh, 1vh) * 100);
-  background: linear-gradient(#a396c9, #ffffff);
+  /* min-height: 928px; */
+  /* min-height: 808px; */
+  /* background: linear-gradient(#a396c9, #ffffff); */
+  //height: calc(var(--vh, 1vh) * 100 + 50px);
+
 `;
 
 export default Search;

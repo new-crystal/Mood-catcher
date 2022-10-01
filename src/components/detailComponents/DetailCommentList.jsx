@@ -178,13 +178,16 @@ const R_Count = styled.div`
   background-size: 30px;
   background-repeat: no-repeat;
   font-family: "Noto Sans KR", sans-serif;
+  div {
+    margin: 4px auto 0;
+  }
 `;
 
 const WrapComment = styled.div`
   /* display: flex; */
   justify-content: space-between;
   /* padding: 0 20px; */
-  /* margin-top: 7px; */
+  margin-top: 9px;
   /* background-color: orange; */
   /* border: 1px solid black; */
   border-radius: 10px;

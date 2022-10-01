@@ -4,7 +4,7 @@ import { useDispatch } from "react-redux";
 import { __login } from "../../redux/async/login";
 import { useNavigate } from "react-router-dom";
 import { Fragment } from "react";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { getCookie } from "../../shared/cookie";
 import bcrypt from "bcryptjs";
 import PwaButton from "../../elem/PwaButton";
@@ -15,6 +15,11 @@ const LoginForm = () => {
   const navigate = useNavigate();
   const salt = bcrypt.genSaltSync(10);
   const [law, setLaw] = useState(false);
+
+  const [openAgree, setOpenAgree] = useState(false);
+  const onOpenAgreeHandler = useCallback(() => {
+    setOpenAgree((value) => !value);
+  }, []);
 
   //로그인 한 경우
   useEffect(() => {
@@ -49,6 +54,14 @@ const LoginForm = () => {
   return (
     <Fragment>
       <BackGround>
+        {openAgree && (
+          <LawForm
+            title="무드캐쳐 이용약관"
+            confirmTitle="닫기"
+            confirm={onOpenAgreeHandler}
+            setLaw={setLaw}
+          />
+        )}
         <LoginBox>
           <JustifyAlign>
             <UploadText>Log in</UploadText>
@@ -56,6 +69,9 @@ const LoginForm = () => {
           <LogBox onSubmit={handleSubmit(onSubmit)}>
             <div>
               {errors.email && <ErrorMsg>{errors.email.message}</ErrorMsg>}
+              {errors.password && (
+                <ErrorMsg>{errors.password.message}</ErrorMsg>
+              )}
               <input
                 placeholder="Email"
                 name="email"
@@ -104,21 +120,11 @@ const LoginForm = () => {
                   },
                 })}
               />
-              {errors.password && (
-                <ErrorMsg>{errors.password.message}</ErrorMsg>
-              )}
             </div>
             <LogInBtn type="submit" disabled={isSubmitting}>
-              로그인
+              <p>로그인</p>
             </LogInBtn>
-          </LogBox>
-          <BtnBox>
-            <LogLawBox>
-              <LogText>무드캐쳐가 처음이신가요?</LogText>
-              <LawText onClick={() => setLaw(!law)}>이용약관</LawText>
-              {law ? <LawForm setLaw={setLaw} /> : null}
-            </LogLawBox>
-            <LogBtn
+            <KakaoLogBtn
               type="button"
               kakao
               onClick={() => {
@@ -127,25 +133,37 @@ const LoginForm = () => {
               }}
             >
               <p>카카오 로그인</p>
-            </LogBtn>
-            <LogBtn type="button" onClick={() => navigate("/signup")}>
-              <p>이메일로 회원가입</p>
-            </LogBtn>
-          </BtnBox>
-          <BtnBox>
-            <PwText>캐처님 비밀번호가 기억나지 않으신가요?</PwText>
-            <LogBtn type="button" onClick={() => navigate("/edit_password")}>
-              <p>비밀번호 찾기</p>
-            </LogBtn>
-            <div>
-              <PwaButton />
-            </div>
-          </BtnBox>
+            </KakaoLogBtn>
+          </LogBox>
+          <BtnWrap>
+            <BtnBox>
+              <LogLawBox>
+                <LogText>무드캐쳐가 처음이신가요?</LogText>
+              </LogLawBox>
+              <LogBtn type="button" onClick={() => navigate("/signup")}>
+                <p>이메일로 회원가입</p>
+              </LogBtn>
+            </BtnBox>
+            <BtnBox>
+              <PwText>비밀번호가 기억나지 않으신가요?</PwText>
+              <LogBtn type="button" onClick={() => navigate("/edit_password")}>
+                <p>비밀번호 찾기</p>
+              </LogBtn>
+            </BtnBox>
+          </BtnWrap>
+          <div>
+            <PwaButton />
+          </div>
+          <LawText onClick={onOpenAgreeHandler}>이용약관</LawText>
         </LoginBox>
       </BackGround>
     </Fragment>
   );
 };
+
+const BtnWrap = styled.div`
+  display: flex;
+`;
 
 const BackGround = styled.div`
   width: 183px;
@@ -153,7 +171,7 @@ const BackGround = styled.div`
   margin: 0px auto;
   background-position: center;
   background-size: cover;
-  background-image: url("https://cdn.discordapp.com/attachments/1014169130045292625/1015495006418653225/a81f043032c5c11a.png");
+  /* background-image: url("https://cdn.discordapp.com/attachments/1014169130045292625/1015495006418653225/a81f043032c5c11a.png"); */
 `;
 const LoginBox = styled.div`
   display: flex;
@@ -181,7 +199,7 @@ const UploadText = styled.span`
 const ErrorMsg = styled.p`
   color: #c60000;
   font-size: 10px;
-  margin-left: -130px;
+  /* margin-left: -130px; */
   margin-bottom: 0px;
 `;
 const LogLawBox = styled.div`
@@ -191,20 +209,26 @@ const LogLawBox = styled.div`
   flex-direction: row;
 `;
 const LogInBtn = styled.button`
-  background: linear-gradient(78.32deg, #7b758b 41.41%, #ffffff 169.58%);
-  font-family: "Roboto";
+  /* background: linear-gradient(78.32deg, #7b758b 41.41%, #ffffff 169.58%); */
+  /* background: #c4c2ca; */
+  background: #a8a6af;
+
+  /* font-family: "Roboto"; */
+  font-family: "Noto Sans KR", sans-serif;
+
   font-style: normal;
   font-weight: 700;
-  font-size: 20px;
-  line-height: 23px;
+  font-size: 15px;
+  line-height: 18px;
   text-align: center;
-  width: 200px;
+  width: 300px;
   height: 50px;
   margin-top: 15px;
-  margin-right: 10px;
+  /* margin-right: 10px; */
   border: 0px;
-  border-radius: 20px;
-  cursor: pointer;
+  border-radius: 5px;
+  cursor: default;
+  color: white;
 `;
 
 const LogBox = styled.form`
@@ -214,9 +238,13 @@ const LogBox = styled.form`
   flex-direction: column;
   margin-top: 20px;
   input {
+    border-left-width: 0;
+    border-right-width: 0;
+    border-top-width: 0;
+    border-bottom-width: 1;
     background-color: #ffffff;
-    border: 0px;
-    border-radius: 15px;
+    border-bottom: 2px solid black;
+    /* border-radius: 15px; */
     height: 50px;
     width: 280px;
     margin: 10px;
@@ -228,60 +256,91 @@ const LogBox = styled.form`
 `;
 
 const BtnBox = styled.div`
-  width: 390px;
-  height: 173px;
+  width: 155px;
+  height: 100px;
   text-align: center;
 `;
 
 const LogText = styled.p`
-  font-family: "Roboto";
+  /* font-family: "Roboto"; */
   font-style: normal;
   font-weight: 400;
   font-size: 10px;
   line-height: 12px;
   color: #2d273f;
-  margin-top: 40px;
+  margin-top: 10px;
+  margin-bottom: 0px;
 `;
+
 const LawText = styled.p`
-  font-family: "Roboto";
+  /* font-family: "Roboto"; */
   font-style: normal;
   font-weight: 400;
   font-size: 10px;
   line-height: 12px;
   color: #2d273f;
-  margin-top: 40px;
-  margin-left: 10px;
-  cursor: pointer;
+  margin-top: 10px;
+  /* margin-left: 10px; */
+  margin-bottom: 0px;
+
+  cursor: default;
 `;
-const LogBtn = styled.div`
-  width: 280px;
+
+const KakaoLogBtn = styled.div`
+  width: 300px;
   height: 50px;
-  border-radius: 20px;
+  border-radius: 5px;
   border: 0px;
+  /* margin: 10px auto; */
   margin: 10px auto;
   background: ${(props) => (props.kakao ? "#F4E769" : "#C4C2CA")};
-  cursor: pointer;
+  cursor: default;
   display: flex;
   align-items: center;
   justify-content: center;
+  font-size: 15px;
   & > a,
   p {
     color: #2d273f;
-    font-family: "Roboto";
+    /* font-family: "Roboto"; */
     text-decoration: none;
     font-weight: bold;
-    font-size: 20px;
+    font-size: 15px;
+  }
+`;
+
+const LogBtn = styled.div`
+  width: 140px;
+  height: 50px;
+  border-radius: 5px;
+  border: 1px solid gray;
+  /* margin: 10px auto; */
+  margin: 10px auto;
+  background: ${(props) => (props.kakao ? "#F4E769" : "white")};
+  cursor: default;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 15px;
+  & > a,
+  p {
+    color: #2d273f;
+    /* font-family: "Roboto"; */
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 15px;
   }
 `;
 
 const PwText = styled.p`
-  font-family: "Roboto";
+  /* font-family: "Roboto"; */
   font-style: normal;
   font-weight: 400;
   font-size: 10px;
   line-height: 12px;
   color: #2d273f;
-  margin-top: 30px;
+  margin-top: 10px;
+  margin-bottom: 10px;
 `;
 
 export default LoginForm;

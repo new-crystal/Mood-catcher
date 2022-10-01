@@ -90,7 +90,7 @@ const Main = (props) => {
             <Img url={userStatus?.imgUrl}></Img>
           )} */}
           {/* 대표게시물 출력 */}
-          <RepPost myRepPost={repPost} />
+          {/* <RepPost myRepPost={repPost} /> */}
 
           {/* 랭킹게시물 출력 */}
           <HotPosts hotPosts={hotPosts} />
@@ -125,7 +125,7 @@ const Grid = styled.div`
   max-width: 428px;
   width: 100vw;
   //height: calc(var(--vh, 1vh) * 100 + 50px);
-  background: linear-gradient(#a396c9, #ffffff);
+  /* background: linear-gradient(#a396c9, #ffffff); */
   /* background: #a396c9; */
 `;
 

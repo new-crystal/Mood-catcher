@@ -329,14 +329,15 @@ const Img = styled.div`
 `;
 
 const ProfileBox = styled.div`
-  margin: 0 auto;
+  margin: 0 auto 10px;
   display: flex;
   align-items: center;
   justify-content: center;
   flex-direction: row;
-  margin-top: -20px;
+  margin-top: 0px;
   h4 {
-    font-family: "Roboto";
+    /* font-family: "Roboto"; */
+    font-family: "Noto Sans KR", sans-serif;
     font-style: normal;
     font-weight: 800;
     font-size: 16px;
@@ -372,7 +373,7 @@ const MoodHeader = styled.div`
   height: 30px;
   background: linear-gradient(78.32deg, #7b758b 41.41%, #ffffff 169.58%);
   text-align: center;
-  margin: 10px auto;
+  margin: 10px auto 5px;
   box-shadow: 5px 5px 4px rgba(0, 0, 0, 0.25);
   border-radius: 17px;
   & .name {
@@ -431,15 +432,22 @@ const GradeQuestion = styled.div`
   align-items: left;
   justify-content: baseline;
   flex-direction: row;
+  h6 {
+    font-family: "Noto Sans KR", sans-serif;
+    font-style: normal;
+    font-weight: 700;
+  }
 `;
+
 const Question = styled.div`
   width: 10px;
   height: 10px;
   margin-left: 7px;
-  margin-top: 28px;
+  margin-top: 5px;
   background-position: center;
   background-size: cover;
   background-image: url(${question});
+  z-index: 10;
 `;
 const MoodQuestion = styled.div`
   width: 15px;
@@ -458,7 +466,7 @@ const Progress = styled.div`
   height: 15px;
   border-radius: 10px;
   background-color: #7b758b;
-  margin-top: 5px;
+  margin-top: 30px;
   display: flex;
   align-items: left;
   justify-content: baseline;
@@ -478,6 +486,11 @@ const HighLight = styled.div`
   margin: 1px;
   position: relative;
   top: 0.5px;
+  h6 {
+    font-size: 8px;
+    font-style: normal;
+    font-weight: 700;
+  }
 `;
 const PostImg = styled.div`
   width: 180px;
@@ -495,9 +508,9 @@ const ClosetList = styled.div`
   height: 230px;
   background-color: #fff;
   border-radius: 10px;
-  margin-left: 30px;
-  margin-left: 30px;
-  margin-top: 20px;
+  /* margin-left: 30px; */
+  /* margin-left: 25px; */
+  margin: 0px auto 0;
   align-items: center;
   display: flex;
   overflow-x: scroll;
@@ -555,7 +568,8 @@ const EmptyCloset = styled.div`
 const OpenText = styled.h5`
   margin-top: 80px;
   display: block;
-  font-family: "Unna";
+  /* font-family: "Unna"; */
+  font-family: "Noto Sans KR", sans-serif;
   font-style: normal;
   font-weight: 700;
   font-size: 17px;

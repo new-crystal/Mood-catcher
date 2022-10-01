@@ -193,6 +193,7 @@ const WrapCommentData = styled.div`
     height: 20px;
     background-color: royalblue;
     /* padding-top: 7px; */
+    margin-top: 20px;
     margin-left: 3px;
     border: none;
     outline: none;

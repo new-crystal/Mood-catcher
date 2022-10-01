@@ -116,22 +116,26 @@ const SearchResultForm = () => {
   return (
     <Fragment>
       {errors.search && <ErrorMsg>{errors.search.message}</ErrorMsg>}
-      <Form onSubmit={handleSubmit(onSubmit)}>
-        <SearchInput
-          type="search"
-          name="search"
-          placeholder="제목이나 내용으로 검색해주세요"
-          aria-invalid={!isDirty ? undefined : errors.email ? "true" : "false"}
-          {...register("search", {
-            required: "검색어를 입력해주세요",
-            pattern: {
-              value: /^[0-9|a-z|A-Z|가-힣|ㄱ-ㅎ|ㅏ-ㅣ]*$/,
-              message: "검색어에는 공백이나 특수문자는 포함할 수 없습니다.",
-            },
-          })}
-        />
-        <SearchImg type="submit" disabled={isSubmitting}></SearchImg>
-      </Form>
+      <SearchBox1>
+        <Form onSubmit={handleSubmit(onSubmit)}>
+          <SearchInput
+            type="search"
+            name="search"
+            placeholder="제목이나 작성자로 검색해주세요"
+            aria-invalid={
+              !isDirty ? undefined : errors.email ? "true" : "false"
+            }
+            {...register("search", {
+              required: "검색어를 입력해주세요",
+              pattern: {
+                value: /^[0-9|a-z|A-Z|가-힣|ㄱ-ㅎ|ㅏ-ㅣ]*$/,
+                message: "검색어는 공백이나 특수문자는 포함할 수 없습니다.",
+              },
+            })}
+          />
+          <SearchImg type="submit" disabled={isSubmitting}></SearchImg>
+        </Form>
+      </SearchBox1>
       <SearchBox>
         {sort === "title" && (
           <>
@@ -241,45 +245,50 @@ const SearchResultForm = () => {
   );
 };
 
+const SearchBox1 = styled.div`
+  width: 350px;
+  margin: 0 auto;
+`;
+
 const Form = styled.form`
-  height: 110px;
-  margin-bottom: 0px;
+  width: 100%;
+  margin: 0 auto;
+  height: 70px;
+  display: flex;
+  align-items: center;
+  justify-content: baseline;
+  flex-direction: row;
 `;
 
 const ErrorMsg = styled.p`
   color: #c60000;
   font-size: 10px;
-  margin-left: 40px;
+  /* margin-left: 40px; */
   margin-bottom: -20px;
-`;
-
-const SearchInput = styled.input`
-  background-color: rgba(0, 0, 0, 0);
-  border: none;
-  width: 350px;
-  height: 50px;
-  border-radius: 10px;
-  margin: 10px 40px;
-  :focus {
-    outline: none;
-  }
+  display: none;
 `;
 const SearchBox = styled.div`
-  width: 348px;
-  margin: 0 auto;
+  flex-grow: 2;
+  width: 350px;
+  margin: -20px auto 10px;
   border-top: 3px solid #fff;
   padding-top: 7px;
-  position: relative;
-  top: -60px;
   display: flex;
   align-items: left;
   justify-content: baseline;
   flex-direction: row;
-  font-family: "Unna";
+  font-family: "Noto Sans KR", sans-serif;
   font-style: normal;
   font-weight: 700;
   font-size: 15px;
   color: #2d273f;
+
+  .check {
+    background-color: transparent;
+    border: none;
+    background-color: #2d273f;
+    color: red;
+  }
 `;
 const LabelTitle = styled.label`
   color: #2d273f;
@@ -291,18 +300,45 @@ const LabelWriter = styled.label`
   cursor: pointer;
 `;
 const CheckBox = styled.div`
-  width: 100px;
+  width: 100%;
   height: 15px;
-  padding: 5px;
-  border-bottom: 2px solid #fff;
+  padding: 5px 5px 10px 5px;
+  text-align: center;
+  /* background-color: rgba(0, 0, 0, 0.3); */
+  background-color: #e4ddef;
+
+  border-radius: 0 0 10px 10px;
 `;
 const NotCheckBox = styled.div`
-  width: 100px;
+  width: 100%;
   height: 15px;
-  padding: 5px;
+  text-align: center;
+  padding: 5px 5px 10px 5px;
+  border-radius: 10px;
 `;
 
-const SearchImg = styled.button`
+const SearchInput = styled.input`
+  /* background-color: rgba(0, 0, 0, 0.3); */
+  background-color: #e4ddef;
+
+  width: 350px;
+  height: 50px;
+  border: none;
+  text-align: center;
+  border-radius: 10px 10px 0 0;
+  /* margin: 0 auto; */
+  /* margin-left: 40px; */
+  :focus {
+    outline: none;
+  }
+  ::placeholder {
+    font-size: 1em;
+    font-weight: 400;
+    opacity: 1; /* Firefox */
+    font-family: "Noto Sans KR", sans-serif;
+  }
+`;
+const SearchImg = styled.div`
   width: 30px;
   height: 30px;
   border: 0;
@@ -310,26 +346,23 @@ const SearchImg = styled.button`
   background-position: center;
   background-size: cover;
   background-image: url(${search});
-  position: relative;
-  left: 340px;
-  top: -50px;
+  margin-left: -45px;
   cursor: pointer;
 `;
 
 const ImgBox = styled.div`
   display: flex;
   flex-wrap: wrap;
-  width: 420px;
+  width: 346px;
+  margin: 0 auto;
   white-space: pre-wrap;
 `;
 const Img = styled.img`
   flex-direction: column;
-  margin-left: 22.5px;
-  margin-bottom: 25px;
-  width: 180px;
-  height: 240px;
-  border-radius: 20px;
-  cursor: pointer;
+  margin: 1px 1px 1px 1px;
+  width: 171px;
+  height: 225px;
+  /* border-radius: 20px; */
   /* position: relative;
   overflow: hidden; */
 `;
@@ -340,12 +373,12 @@ const NickImgBox = styled.div`
   flex-direction: column;
   margin-top: 0px;
   position: relative;
-  top: -30px;
+  /* top: -30px; */
 `;
 const Nickname = styled.p`
   margin: 0px;
   text-align: center;
-  font-family: "Roboto";
+  font-family: "Noto Sans KR", sans-serif;
   font-style: normal;
   font-weight: 800;
   font-size: 16px;
