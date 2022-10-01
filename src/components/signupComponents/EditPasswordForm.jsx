@@ -48,7 +48,7 @@ const EditPasswordForm = () => {
     if (checkEmail) {
       setError("email", { message: "이메일 인증번호 발송에 성공했습니다" });
     }
-  }, [checkEmail]);
+  }, [checkEmail, authNum]);
 
   //이메일이 바뀐 값 디스패치하기
   const onChangeEmail = () => {
@@ -118,12 +118,19 @@ const EditPasswordForm = () => {
           <h1>Edit PW</h1>
         </SignUpBox>
         <FormCantainer>
-          {!newPw ? (
+          {newPw && (
             <>
               <div>
                 <TextBox>
                   <h4>이메일</h4>
-                  {errors.email && <p>{errors.email.message}</p>}
+                    {errors.email !== undefined ? (
+                  errors.email.message ===
+                  "이메일 인증번호 발송에 성공했습니다" ? (
+                    <p style={{ color: "blue" }}>{errors.email.message}</p>
+                  ) : (
+                    <p>{errors.email.message}</p>
+                  )
+                ) : null}
                 </TextBox>
                 <input
                   className="email"
@@ -178,7 +185,8 @@ const EditPasswordForm = () => {
                 OK
               </OkBtn>
             </>
-          ) : (
+          ) }
+          {!newPw && (
             <>
               <div>
                 <TextBox>
@@ -210,7 +218,7 @@ const EditPasswordForm = () => {
                     },
                   })}
                 />
-              </div>
+              </div>}
               <div>
                 <PwTextBox>
                   <h4>새로운 비밀번호 확인</h4>

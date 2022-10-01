@@ -21,7 +21,6 @@ const Header = () => {
   const navigate = useNavigate();
   const [isLogin, setIsLogin] = useState(false);
   const [headerText, setHeaderText] = useState("Mood Catcher");
-  const [headerLine, setHeaderLine] = useState(false);
   const [main, setMain] = useState(true);
   const [settings, setSettings] = useState(false);
   const [detail, setDetail] = useState(false);
@@ -49,7 +48,7 @@ const Header = () => {
   useEffect(() => {
     if (
       window.location.pathname.split("/")[1] === "mypage" &&
-      window.location.pathname.split("/")[2] == userId
+      window.location.pathname.split("/")[2] * 1 === userId * 1
     ) {
       setHeaderText("My Page");
       setSettings(true);
@@ -65,12 +64,11 @@ const Header = () => {
     }
     if (
       window.location.pathname.split("/")[1] === "closet" &&
-      window.location.pathname.split("/")[2] == userId
+      window.location.pathname.split("/")[2] * 1 === userId * 1
     ) {
       setHeaderText("My Closet");
     }
     if (window.location.pathname === "/main") {
-      setHeaderLine(true);
       setMain(false);
     }
     if (window.location.pathname.split("/")[2] === "detail") {
@@ -85,7 +83,7 @@ const Header = () => {
         {/* marginTop을 0으로 줘서 제일 위에 붙을 수 있게 합니다. */}
         <HeaderBox style={{ marginTop: "0" }}>
           {/* 메인에서 헤더에  줄을 줍니다*/}
-          {headerLine ? <MainHeaderLine> </MainHeaderLine> : null}
+
           {/* 로그인 상태이고 메인이 아닐때 */}
           {isLogin && main && (
             <>
@@ -98,6 +96,8 @@ const Header = () => {
               ></GoBack>
               <HeaderLogo
                 margin="-10.313rem"
+                //style={{ marginLeft: "3.5rem", top: "0.7rem" }}
+
                 style={{
                   marginLeft: "4.813rem",
                   top: "0.7rem",
@@ -106,10 +106,19 @@ const Header = () => {
                   navigate("/main");
                 }}
               >
-                <span>{headerText}</span>
+                <span
+                  onClick={() => {
+                    navigate("/main");
+                  }}
+                  style={{ cursor: "pointer" }}
+                >
+                  {headerText}
+                </span>
               </HeaderLogo>
               <a href="/kakao">
-                <Star style={{ backgroundImage: `url(${Map})` }} />
+                <Star
+                  style={{ backgroundImage: `url(${Map})`, cursor: "pointer" }}
+                />
               </a>
             </>
           )}
@@ -119,12 +128,20 @@ const Header = () => {
               <GoBack></GoBack>
               <HeaderLogo
                 margin="-11.563rem"
+                //style={{ marginLeft: "-12.5rem", color: "#7B758B" }}
                 style={{ marginLeft: "-6.5rem" }}
                 onClick={() => {
                   navigate("/login");
                 }}
               >
-                <span>{headerText}</span>
+                <span
+                  onClick={() => {
+                    navigate("/login");
+                  }}
+                  style={{ cursor: "pointer" }}
+                >
+                  {headerText}
+                </span>
               </HeaderLogo>
             </>
           )}
@@ -132,17 +149,30 @@ const Header = () => {
           {!main && (
             <>
               <GoBack></GoBack>
-              <HeaderLogo
-                margin="-11.563rem"
-                style={{ marginLeft: "1.5rem", color: "#2d273f" }}
-                onClick={() => {
-                  navigate("/login");
-                }}
-              >
-                <span>{headerText}</span>
+              <HeaderLogo margin="-11.563rem" style={{ marginLeft: "1.5rem" }}>
+                <span
+                  onClick={() => {
+                    navigate("/login");
+                  }}
+                  style={{ cursor: "pointer" }}
+                >
+                  {headerText}
+                </span>
+
+              //<HeaderLogo
+                //margin="-11.563rem"
+                //style={{ marginLeft: "1.5rem", color: "#2d273f" }}
+                //onClick={() => {
+                  //navigate("/login");
+                //}}
+              //>
+                //<span>{headerText}</span>
+
               </HeaderLogo>
               <a href="/kakao">
-                <Star style={{ backgroundImage: `url(${Map})` }} />
+                <Star
+                  style={{ backgroundImage: `url(${Map})`, cursor: "pointer" }}
+                />
               </a>
             </>
           )}
@@ -154,13 +184,13 @@ const Header = () => {
             (users?.isExistsNotice === 0 ? (
               <Notifications
                 url={`${Notification}`}
-                style={{ opacity: "60%" }}
+                style={{ opacity: "60%", cursor: "pointer" }}
                 onClick={() => navigate(`/alarm/${users.userId}`)}
               ></Notifications>
             ) : (
               <Notifications
                 url={`${NotificationTrue}`}
-                style={{ opacity: "60%" }}
+                style={{ opacity: "60%", cursor: "pointer" }}
                 onClick={() => navigate(`/alarm/${users.userId}`)}
               ></Notifications>
             ))}
@@ -213,15 +243,14 @@ const Headers = styled.div`
   align-items: center;
   justify-content: space-between;
   flex-direction: row;
-  background: white;
-`;
-const MainHeaderLine = styled.div`
-  max-width: 380px;
-  width: 90vw;
-  border-bottom: 0.125rem solid #fff;
-  position: relative;
-  top: 90px;
-  left: 23px;
+  background: linear-gradient(
+    180deg,
+    #a396c9 0%,
+    rgba(181, 170, 211, 0.810298) 31.7%,
+    rgba(191, 182, 217, 0.699081) 40.03%,
+    rgba(255, 255, 255, 0) 100%
+  );
+
 `;
 
 const HeaderBox = styled.div`

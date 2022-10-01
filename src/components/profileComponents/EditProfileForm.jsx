@@ -7,7 +7,6 @@ import {
   __delUser,
   __editProfile,
   __checkNickname,
-  __getUser,
   __editOrigin,
   __logout,
   __getMyPageUser,
@@ -179,7 +178,8 @@ const EditProfileForm = () => {
       image.image_file === "" &&
       editNickname === true &&
       errors.nickname === undefined &&
-      original === false
+      original === false &&
+      checkNickname === true
     ) {
       dispatch(__editProfile({ nickname, gender, age }))
         .then(
@@ -197,7 +197,8 @@ const EditProfileForm = () => {
       image.image_file === "" &&
       editNickname === true &&
       errors.nickname === undefined &&
-      original === true
+      original === true &&
+      checkNickname === true
     ) {
       dispatch(__editOrigin({ nickname, gender, age, original }))
         .then(
@@ -215,7 +216,11 @@ const EditProfileForm = () => {
       const formData = new FormData();
       formData.append("userValue", image.image_file);
       //닉네임 수정을 하지 않았을 경우
-      if (editNickname === false && errors.nickname === undefined) {
+      if (
+        editNickname === false &&
+        errors.nickname === undefined &&
+        checkNickname === false
+      ) {
         dispatch(
           __editProfile({
             userValue: formData,
@@ -236,7 +241,11 @@ const EditProfileForm = () => {
           .then(navigate(`/mypage/${userId}`));
       }
       //닉네임 수정을 했을 경우 에러가 없을 때
-      if (editNickname === true && errors.nickname === undefined) {
+      if (
+        editNickname === true &&
+        errors.nickname === undefined &&
+        checkNickname === true
+      ) {
         dispatch(
           __editProfile({
             userValue: formData,
@@ -257,7 +266,7 @@ const EditProfileForm = () => {
           .then(navigate(`/mypage/${userId}`));
       }
       //닉네임 수정을 했을 경우 에러가 있을 때
-      if (editNickname === true && errors.nickname !== undefined) {
+      if (editNickname === true && checkNickname === false) {
         setError(
           "nickname",
           { message: "닉네임 중복확인을 해주세요." },
@@ -321,7 +330,7 @@ const EditProfileForm = () => {
   const onClickEditNickname = () => {
     Swal.fire({
       title: "닉네임을 변경하시겠습니까?",
-      text: `${users.nickname}님의 현재 닉네임을 사용하실 수 없습니다.`,
+      text: `${users.nickname}님의 현재 닉네임이 변경됩니다`,
       icon: "warning",
       showCancelButton: true,
       confirmButtonColor: "#3085d6",
@@ -347,7 +356,10 @@ const EditProfileForm = () => {
         </h5>
         {edit ? (
           <EditBox>
-            <ChangeProfile onClick={() => inputRef.click()}>
+            <ChangeProfile
+              style={{ cursor: "pointer" }}
+              onClick={() => inputRef.click()}
+            >
               <input
                 hidden
                 name="userValue"
@@ -359,7 +371,11 @@ const EditProfileForm = () => {
               />
               프로필 사진 변경하기
             </ChangeProfile>
-            <BasicBtn type="button" onClick={onClickBasicBtn}>
+            <BasicBtn
+              style={{ cursor: "pointer" }}
+              type="button"
+              onClick={onClickBasicBtn}
+            >
               기본 이미지로 변경하기
             </BasicBtn>
           </EditBox>
@@ -367,18 +383,27 @@ const EditProfileForm = () => {
       </Wrapper>
       <form onSubmit={handleSubmit(onSubmit)}>
         {editNickname ? (
+
           <StNicknameBox>
-            {errors.nickname && <p>{errors.nickname.message}</p>}
+             {errors.nickname !== undefined ? (
+              errors.nickname.message === "사용 가능한 닉네임입니다." ? (
+                <p style={{ color: "blue" }}>{errors.nickname.message}</p>
+              ) : (
+                <p>{errors.nickname.message}</p>
+              )
+            ) : null}
+
             <NicknameInput
               type="text"
               id="nickname"
-              placeholder={users.nickname}
+              placeholder={`${users.nickname}님의 새로운 닉네임을 입력해주세요`}
               name="nickname"
               aria-invalid={
                 !isDirty ? undefined : errors.nickname ? "true" : "false"
               }
               {...register("nickname", {
                 onChange: () => onChangeNickname(),
+                required: "변경하실 닉네임을 입력해주세요",
                 minLength: {
                   value: 2,
                   message: "닉네임을 2자 이상 작성해주세요",
@@ -394,13 +419,23 @@ const EditProfileForm = () => {
                 },
               })}
             />
-            <CheckBtn type="button" onClick={(e) => onClickCheckBtnHandler(e)}>
+            <CheckBtn
+              style={{ cursor: "pointer" }}
+              type="button"
+              onClick={(e) => onClickCheckBtnHandler(e)}
+            >
               중복 확인
             </CheckBtn>
           </StNicknameBox>
         ) : (
-          <EditNicknameBtn type="button" onClick={onClickEditNickname}>
-            닉네임 변경하기
+
+          <EditNicknameBtn
+            style={{ cursor: "pointer" }}
+            type="button"
+            onClick={onClickEditNickname}
+          >
+            닉네임 변경
+
           </EditNicknameBtn>
         )}
         <GenderAgeBox>
@@ -451,7 +486,11 @@ const EditProfileForm = () => {
             </FormControl>
           </div>
         </GenderAgeBox>
-        <ChangeBtn type="submit" disabled={isSubmitting}>
+        <ChangeBtn
+          style={{ cursor: "pointer" }}
+          type="submit"
+          disabled={isSubmitting}
+        >
           완료
         </ChangeBtn>
       </form>
@@ -459,11 +498,18 @@ const EditProfileForm = () => {
         <h3 className="auth">계정 설정</h3>
       </ProfileBox>
       <LogOut>
-        <button onClick={() => navigate("/edit_password")}>
+        <button
+          style={{ cursor: "pointer" }}
+          onClick={() => navigate("/edit_password")}
+        >
           비밀번호 변경
         </button>
-        <button onClick={onClickLogOut}>로그아웃</button>
-        <button onClick={onClickDelBtn}>계정탈퇴</button>
+        <button style={{ cursor: "pointer" }} onClick={onClickLogOut}>
+          로그아웃
+        </button>
+        <button style={{ cursor: "pointer" }} onClick={onClickDelBtn}>
+          계정탈퇴
+        </button>
       </LogOut>
     </Container>
   );
@@ -484,6 +530,9 @@ const Container = styled.div`
     border: 2px solid grey;
     border-radius: 7px;
     height: 50px;
+
+    //width: 250px;
+
     box-sizing: border-box;
     width: 175px;
     margin: 20px auto 40px;
@@ -496,7 +545,7 @@ const Container = styled.div`
     color: #c60000;
     font-size: 10px;
     margin-top: -20px;
-    margin-left: 0px;
+    margin-left: -150px;
   }
 `;
 const Wrapper = styled.div`

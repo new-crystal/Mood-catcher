@@ -159,6 +159,7 @@ const SearchForm = () => {
   );
 };
 
+
 const SearchBox1 = styled.div`
   width: 350px;
   margin: 0 auto;

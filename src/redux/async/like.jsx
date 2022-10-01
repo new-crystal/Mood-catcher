@@ -28,7 +28,11 @@ export const __patchMood = createAsyncThunk(
         return response.data.data.likeCount;
       }
     } catch (err) {
-      Swal.fire("에러", "네트워크 연결 상태를 확인해주세요.!", "error");
+      Swal.fire(
+        "좋아요가 실패했습니다.",
+        "네트워크 연결 상태를 확인해주세요.!",
+        "error"
+      );
       return thunkAPI.rejectWithValue(err.response.msg);
     }
   }

@@ -86,7 +86,7 @@ export const __postEmailNum = createAsyncThunk(
       const response = await signupApi.findEmail(data);
       return thunkAPI.fulfillWithValue(response.data);
     } catch (err) {
-      Swal.fire("에러", err.response.data, "error");
+      Swal.fire("이메일을 확인해주세요", err.response.data.msg, "error");
       return thunkAPI.rejectWithValue(err.response.data);
     }
   }

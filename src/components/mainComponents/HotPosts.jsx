@@ -1,11 +1,14 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useState } from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import { useCallback } from "react";
 import Swal from "sweetalert2";
+import question from "../../image/question.png";
+import HotList from "./HotList";
 
 const HotPosts = ({ hotPosts }) => {
   const navigate = useNavigate();
+  const [hot, setHot] = useState(false);
 
   const onClickHandler = useCallback(
     (hotPosts) => {
@@ -27,7 +30,12 @@ const HotPosts = ({ hotPosts }) => {
     <Fragment>
       <Wrap>
         <StTag>Hot</StTag>
-        <p onClick={() => navigate("/best")}>명예의 전당 보러가기</p>
+        <Question
+          style={{ cursor: "pointer" }}
+          onClick={() => setHot(true)}
+        ></Question>
+        {hot ? <HotList setHot={setHot} /> : null}
+        <p onClick={() => navigate("/best")}>명예의 전당 ►</p>
       </Wrap>
       <WritedHotInfo>
         <HotImage1>
@@ -168,4 +176,13 @@ const HotImage3 = styled.div`
   }
 `;
 
+const Question = styled.div`
+  width: 10px;
+  height: 10px;
+  margin-left: -250px;
+  margin-top: 22px;
+  background-position: center;
+  background-size: cover;
+  background-image: url(${question});
+`;
 export default HotPosts;

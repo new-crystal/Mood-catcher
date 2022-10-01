@@ -1,22 +1,23 @@
-import { useState } from "react";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import { __getAlarm, __deleteAlarm } from "../../redux/async/alarm";
+import {
+  __getAlarm,
+  __deleteAlarm,
+  __deleteAllAlarm,
+} from "../../redux/async/alarm";
 import Swal from "sweetalert2";
 import { Fragment } from "react";
 
 const AlarmForm = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [alarmStatus, setAlarmStatus] = useState(false);
   const alarms = useSelector((state) => state.alarm.notices);
+  const alarmStatus = useSelector((state) => state.alarm.deleteAlarm);
   const alarmList = [...alarms].reverse();
 
-  console.log(alarms);
-
-  const delAlarm = () => {
+  const delAllAlarm = () => {
     Swal.fire({
       title: "알림을 전부 삭제하시겠습니까?",
       text: "지우신 알림은 되돌릴 수 없습니다!",
@@ -33,8 +34,7 @@ const AlarmForm = () => {
           "캐처님의 알람이 모두 삭제되었습니다",
           "success"
         );
-        dispatch(__deleteAlarm());
-        setAlarmStatus(!alarmStatus);
+        dispatch(__deleteAllAlarm());
       }
     });
   };
@@ -64,8 +64,9 @@ const AlarmForm = () => {
               <TitleWrap>
                 <h4>나의 알림</h4>
                 <BtnWrap>
-                  <ConfirmBtn onClick={() => delAlarm()}>알림삭제</ConfirmBtn>
-                  {/* <BackBtn onClick={() => navigate(-1)}>✕</BackBtn> */}
+                  <ConfirmBtn onClick={() => delAllAlarm()}>
+                    전체알림삭제
+                  </ConfirmBtn>
                 </BtnWrap>
               </TitleWrap>
               {alarms.length === 0 ? (
@@ -82,6 +83,32 @@ const AlarmForm = () => {
                           <p>{alarm.msg}</p>
                         </TextBox>
                         <TimeText>{alarm.createdAt}</TimeText>
+                        <DelAlarm
+                          style={{ cursor: "pointer" }}
+                          onClick={() =>
+                            Swal.fire({
+                              title: "알림을 삭제하시겠습니까?",
+                              text: "지우신 알림은 되돌릴 수 없습니다!",
+                              icon: "warning",
+                              showCancelButton: true,
+                              confirmButtonColor: "#3085d6",
+                              cancelButtonColor: "#d33",
+                              confirmButtonText: "삭제",
+                              cancelButtonText: "취소",
+                            }).then((result) => {
+                              if (result.isConfirmed) {
+                                Swal.fire(
+                                  "삭제되었습니다",
+                                  "캐처님의 알람이 삭제되었습니다",
+                                  "success"
+                                );
+                                dispatch(__deleteAlarm(alarm.noticeId));
+                              }
+                            })
+                          }
+                        >
+                          ✕
+                        </DelAlarm>
                       </AlarmBox>
                     </>
                   ) : (
@@ -107,6 +134,33 @@ const AlarmForm = () => {
                         </TextBox>
                         <TimeText>{alarm.createdAt}</TimeText>
                         <ArrowBtn></ArrowBtn>
+                        <DelAlarm
+                          style={{ cursor: "pointer" }}
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            Swal.fire({
+                              title: "알림을 삭제하시겠습니까?",
+                              text: "지우신 알림은 되돌릴 수 없습니다!",
+                              icon: "warning",
+                              showCancelButton: true,
+                              confirmButtonColor: "#3085d6",
+                              cancelButtonColor: "#d33",
+                              confirmButtonText: "삭제",
+                              cancelButtonText: "취소",
+                            }).then((result) => {
+                              if (result.isConfirmed) {
+                                Swal.fire(
+                                  "삭제되었습니다",
+                                  "캐처님의 알람이 삭제되었습니다",
+                                  "success"
+                                );
+                                dispatch(__deleteAlarm(alarm.noticeId));
+                              }
+                            });
+                          }}
+                        >
+                          ✕
+                        </DelAlarm>
                       </AlarmBox>
                     </>
                   );
@@ -337,6 +391,10 @@ const ArrowBtn = styled.div`
   left: -30px;
   top: 3px;
   opacity: 70%;
+`;
+const DelAlarm = styled.p`
+  margin-right: 5px;
+  margin-left: 0px;
 `;
 
 export default AlarmForm;

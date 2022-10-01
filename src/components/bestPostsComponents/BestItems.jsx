@@ -28,14 +28,16 @@ const BestItem = (item) => {
   }, [mood, likeStatus]);
 
   //무드 등록
-  const onClickMoodBtn = () => {
+  const onClickMoodBtn = (e) => {
+    e.stopPropagation();
     setLikeStatus(true);
     setMoodNum(moodNum + 1);
     dispatch(__patchMood(item.item.postId));
   };
 
   //무드 취소
-  const onClickMoodCancelBtn = () => {
+  const onClickMoodCancelBtn = (e) => {
+    e.stopPropagation();
     setLikeStatus(false);
     setMoodNum(moodNum - 1);
     dispatch(__patchMood(item.item.postId));
@@ -48,30 +50,40 @@ const BestItem = (item) => {
   };
 
   return (
-    <OtherClosetBox key={item.item.postId}>
+    <OtherClosetBox
+      key={item.item.postId}
+      onClick={() =>
+        navigate(`/item_detail/${item.item.postId}/${item.item.userId}`)
+      }
+    >
       <ImgBox
         src={item.item.imgUrl}
         alt="best_image"
-        onClick={() =>
-          navigate(`/item_detail/${item.item.postId}/${item.item.userId}`)
-        }
         onError={onErrorHandler}
       ></ImgBox>
       <TextBox>
         <RankText>
           {year}년 {month}월 {day}일 {item.item.rank}위👑
         </RankText>
-        <p>{item.item.title}</p>
-        <h5>{item.item.content}</h5>
-        <HeartBox>
-          {likeStatus ? (
-            <Heart url={`${heartTrue}`} onClick={onClickMoodCancelBtn}></Heart>
-          ) : (
-            <Heart url={`${heart}`} onClick={onClickMoodBtn}></Heart>
-          )}
+        <TextContainer>
+          <p>{item.item.title}</p>
+          <h5>{item.item.content}</h5>
+          <HeartBox>
+            {likeStatus ? (
+              <Heart
+                url={`${heartTrue}`}
+                onClick={(e) => onClickMoodCancelBtn(e)}
+              ></Heart>
+            ) : (
+              <Heart
+                url={`${heart}`}
+                onClick={(e) => onClickMoodBtn(e)}
+              ></Heart>
+            )}
 
-          <p>{moodNum}</p>
-        </HeartBox>
+            <p>{moodNum}</p>
+          </HeartBox>
+        </TextContainer>
       </TextBox>
     </OtherClosetBox>
   );
@@ -87,6 +99,7 @@ const OtherClosetBox = styled.div`
   align-items: center;
   justify-content: center;
   flex-direction: row;
+  cursor: pointer;
 `;
 
 const ImgBox = styled.img`
@@ -97,6 +110,8 @@ const ImgBox = styled.img`
 `;
 const TextBox = styled.div`
   margin-left: 10px;
+  margin-right: 10px;
+  height: 170px;
   width: 200px;
   display: flex;
   align-items: baseline;
@@ -111,6 +126,7 @@ const TextBox = styled.div`
   }
   h5 {
     font-size: 13px;
+    margin-top: -10px;
   }
 `;
 
@@ -119,6 +135,8 @@ const HeartBox = styled.div`
   align-items: center;
   justify-content: center;
   flex-direction: row;
+  position: absolute;
+  margin-top: 166px;
 `;
 const Heart = styled.div`
   width: 20px;
@@ -133,9 +151,27 @@ const RankText = styled.h4`
   font-style: normal;
   font-weight: 800;
   color: #7b758b;
-  margin-left: 50px;
+  /* margin-left: 50px;
   margin-bottom: 0px;
-  margin-top: 10px;
+  margin-top: 10px; */
   font-size: 12px;
+  position: absolute;
+  left: 57%;
+  margin-top: -160px;
 `;
+const TextContainer = styled.div`
+  margin-top: -20px;
+  margin-left: 10px;
+  height: 170px;
+  width: 200px;
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  flex-direction: column;
+  font-family: "Roboto";
+  font-style: normal;
+  font-weight: 800;
+  color: #7b758b;
+`;
+
 export default BestItem;

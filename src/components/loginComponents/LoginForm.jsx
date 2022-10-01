@@ -15,7 +15,6 @@ const LoginForm = () => {
   const navigate = useNavigate();
   const salt = bcrypt.genSaltSync(10);
   const [law, setLaw] = useState(false);
-  console.log(law);
 
   const [openAgree, setOpenAgree] = useState(false);
   const onOpenAgreeHandler = useCallback(() => {
