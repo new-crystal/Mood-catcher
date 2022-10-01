@@ -11,6 +11,7 @@ import jwt_decode from "jwt-decode";
 import ScrollX from "../../elem/ScrollX";
 import Swal from "sweetalert2";
 
+//이미지 불러오기
 import man1 from "../../image/1man.png";
 import man2 from "../../image/2man.png";
 import man3 from "../../image/3man.png";
@@ -31,6 +32,7 @@ import empty from "../../image/옷걸이.png";
 import hanger from "../../image/hanger.png";
 import MoodPoint from "./MoodPoint";
 import closet from "../../image/empty-walkin-closet-modern-wardrobe-room-interior_107791-6726.jpeg";
+import EachMyCloset from "./EachMyCloset";
 
 const MyPageForm = () => {
   const [scrollRef, isDrag, onDragStart, onDragEnd, onThrottleDragMove] =
@@ -38,9 +40,9 @@ const MyPageForm = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { userId } = useParams();
+  const [click, setClick] = useState(false);
   const [gradeList, setGradeList] = useState(false);
   const [moodPoint, setMoodPoint] = useState(false);
-  const [icon, setIcon] = useState("moody");
   const [profileImg, setProfileImg] = useState(
     "https://cdn.discordapp.com/attachments/1014169130045292625/1014194232250077264/Artboard_1.png"
   );
@@ -66,6 +68,16 @@ const MyPageForm = () => {
   //토큰에서 userId 가져오기
   const token = getCookie("token");
   const payload = jwt_decode(token);
+
+  //드래그와 클릭 구별하기
+  useEffect(() => {
+    let drag = false;
+    document.addEventListener("mousedown", () => (drag = false));
+    document.addEventListener("mousemove", () => (drag = true));
+    document.addEventListener("mouseup", () => {
+      drag ? setClick(false) : setClick(true);
+    });
+  }, []);
 
   useEffect(() => {
     dispatch(__getMyPageUser(userId));
@@ -98,7 +110,7 @@ const MyPageForm = () => {
     [users, profileIcon, gradeList]
   );
 
-  const text = `${users?.nickname}님의 \n옷장 열어보기`;
+  const text = `${users?.nickname}님의 \n옷장`;
 
   return (
     <Fragment>
@@ -153,7 +165,7 @@ const MyPageForm = () => {
                   {gradeList ? <GradeList setGradeList={setGradeList} /> : null}
                 </GradeQuestion>
                 <Progress>
-                  <HighLight width={(grade / 5) * 100 - 1 + "%"}>
+                  <HighLight width={(grade / 5) * 100 - 3 + "%"}>
                     {grade === "2" && <h6>2단계</h6>}
                     {grade === "3" && <h6>3단계</h6>}
                     {grade === "4" && <h6>4단계</h6>}
@@ -178,6 +190,7 @@ const MyPageForm = () => {
           ) : (
             <PostImg
               url={rep?.imgUrl}
+              style={{ cursor: "pointer" }}
               onClick={() =>
                 navigate(`/item_detail/${users.repPostId}/${users.userId}`)
               }
@@ -216,15 +229,9 @@ const MyPageForm = () => {
               <>
                 {myClosetList?.length === 1 && (
                   <>
-                    <Closet
-                      alt="closet_img"
-                      src={myClosetList[0]?.imgUrl}
-                      onError={(e) =>
-                        (e.target.src = `${
-                          myClosetList[0].imgUrl.split("w280")[0]
-                        }post${myClosetList[0].imgUrl.split("w280")[1]}`)
-                      }
-                    ></Closet>
+                    {myClosetList.map((item) => (
+                      <EachMyCloset item={item} click={click} />
+                    ))}
                     <GoCloset
                       url={`${closet}`}
                       onClick={() => navigate(`/closet/${userId}`)}
@@ -237,24 +244,9 @@ const MyPageForm = () => {
                 )}
                 {myClosetList?.length === 2 && (
                   <>
-                    <Closet
-                      alt="closet_img"
-                      src={myClosetList[0]?.imgUrl}
-                      onError={(e) =>
-                        (e.target.src = `${
-                          myClosetList[0].imgUrl.split("w280")[0]
-                        }post${myClosetList[0].imgUrl.split("w280")[1]}`)
-                      }
-                    ></Closet>
-                    <Closet
-                      alt="closet_img"
-                      src={myClosetList[1]?.imgUrl}
-                      onError={(e) =>
-                        (e.target.src = `${
-                          myClosetList[1].imgUrl.split("w280")[0]
-                        }post${myClosetList[1].imgUrl.split("w280")[1]}`)
-                      }
-                    ></Closet>
+                    {myClosetList.map((item) => (
+                      <EachMyCloset item={item} click={click} />
+                    ))}
                     <GoCloset
                       url={`${closet}`}
                       onClick={() => navigate(`/closet/${userId}`)}
@@ -267,33 +259,9 @@ const MyPageForm = () => {
                 )}
                 {myClosetList?.length === 3 && (
                   <>
-                    <Closet
-                      alt="closet_img"
-                      src={myClosetList[0]?.imgUrl}
-                      onError={(e) =>
-                        (e.target.src = `${
-                          myClosetList[0].imgUrl.split("w280")[0]
-                        }post${myClosetList[0].imgUrl.split("w280")[1]}`)
-                      }
-                    ></Closet>
-                    <Closet
-                      alt="closet_img"
-                      src={myClosetList[1]?.imgUrl}
-                      onError={(e) =>
-                        (e.target.src = `${
-                          myClosetList[1].imgUrl.split("w280")[0]
-                        }post${myClosetList[1].imgUrl.split("w280")[1]}`)
-                      }
-                    ></Closet>
-                    <Closet
-                      alt="closet_img"
-                      src={myClosetList[2]?.imgUrl}
-                      onError={(e) =>
-                        (e.target.src = `${
-                          myClosetList[2].imgUrl.split("w280")[0]
-                        }post${myClosetList[2].imgUrl.split("w280")[1]}`)
-                      }
-                    ></Closet>
+                    {myClosetList.map((item) => (
+                      <EachMyCloset item={item} click={click} />
+                    ))}
                     <GoCloset
                       url={`${closet}`}
                       onClick={() => navigate(`/closet/${userId}`)}
@@ -306,42 +274,9 @@ const MyPageForm = () => {
                 )}
                 {myClosetList?.length === 4 && (
                   <>
-                    <Closet
-                      alt="closet_img"
-                      src={myClosetList[0]?.imgUrl}
-                      onError={(e) =>
-                        (e.target.src = `${
-                          myClosetList[0].imgUrl.split("w280")[0]
-                        }post${myClosetList[0].imgUrl.split("w280")[1]}`)
-                      }
-                    ></Closet>
-                    <Closet
-                      alt="closet_img"
-                      src={myClosetList[1]?.imgUrl}
-                      onError={(e) =>
-                        (e.target.src = `${
-                          myClosetList[1].imgUrl.split("w280")[0]
-                        }post${myClosetList[1].imgUrl.split("w280")[1]}`)
-                      }
-                    ></Closet>
-                    <Closet
-                      alt="closet_img"
-                      src={myClosetList[2]?.imgUrl}
-                      onError={(e) =>
-                        (e.target.src = `${
-                          myClosetList[2].imgUrl.split("w280")[0]
-                        }post${myClosetList[2].imgUrl.split("w280")[1]}`)
-                      }
-                    ></Closet>
-                    <Closet
-                      alt="closet_img"
-                      src={myClosetList[3]?.imgUrl}
-                      onError={(e) =>
-                        (e.target.src = `${
-                          myClosetList[3].imgUrl.split("w280")[0]
-                        }post${myClosetList[3].imgUrl.split("w280")[1]}`)
-                      }
-                    ></Closet>
+                    {myClosetList.map((item) => (
+                      <EachMyCloset item={item} click={click} />
+                    ))}
                     <GoCloset
                       url={`${closet}`}
                       onClick={() => navigate(`/closet/${userId}`)}
@@ -354,51 +289,9 @@ const MyPageForm = () => {
                 )}
                 {myClosetList?.length >= 5 && (
                   <>
-                    <Closet
-                      alt="closet_img"
-                      src={myClosetList[0]?.imgUrl}
-                      onError={(e) =>
-                        (e.target.src = `${
-                          myClosetList[0].imgUrl.split("w280")[0]
-                        }post${myClosetList[0].imgUrl.split("w280")[1]}`)
-                      }
-                    ></Closet>
-                    <Closet
-                      alt="closet_img"
-                      src={myClosetList[1]?.imgUrl}
-                      onError={(e) =>
-                        (e.target.src = `${
-                          myClosetList[1].imgUrl.split("w280")[0]
-                        }post${myClosetList[1].imgUrl.split("w280")[1]}`)
-                      }
-                    ></Closet>
-                    <Closet
-                      alt="closet_img"
-                      src={myClosetList[2]?.imgUrl}
-                      onError={(e) =>
-                        (e.target.src = `${
-                          myClosetList[2].imgUrl.split("w280")[0]
-                        }post${myClosetList[2].imgUrl.split("w280")[1]}`)
-                      }
-                    ></Closet>
-                    <Closet
-                      alt="closet_img"
-                      src={myClosetList[3]?.imgUrl}
-                      onError={(e) =>
-                        (e.target.src = `${
-                          myClosetList[3].imgUrl.split("w280")[0]
-                        }post${myClosetList[3].imgUrl.split("w280")[1]}`)
-                      }
-                    ></Closet>
-                    <Closet
-                      alt="closet_img"
-                      src={myClosetList[4]?.imgUrl}
-                      onError={(e) =>
-                        (e.target.src = `${
-                          myClosetList[4].imgUrl.split("w280")[0]
-                        }post${myClosetList[4].imgUrl.split("w280")[1]}`)
-                      }
-                    ></Closet>
+                    {myClosetList.map((item) => (
+                      <EachMyCloset item={item} click={click} />
+                    ))}
                     <GoCloset
                       url={`${closet}`}
                       onClick={() => navigate(`/closet/${userId}`)}
@@ -623,14 +516,8 @@ const ClosetList = styled.div`
   }
 `;
 
-const Closet = styled.img`
-  width: 160px;
-  height: 190px;
-  margin: 10px;
-  border-radius: 10px;
-  flex-shrink: 0;
-`;
 const GoCloset = styled.div`
+  cursor: pointer;
   flex-shrink: 0;
   width: 160px;
   height: 200px;

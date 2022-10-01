@@ -115,12 +115,19 @@ const EditPasswordForm = () => {
     <>
       <Container onSubmit={handleSubmit(onValid)}>
         <h1>비밀번호 변경하기</h1>
-        {!newPw ? (
+        {!newPw && (
           <>
             <div>
               <TextBox>
                 <h4>이메일</h4>
-                {errors.email && <p>{errors.email.message}</p>}
+                {errors.email !== undefined ? (
+                  errors.email.message ===
+                  "이메일 인증번호 발송에 성공했습니다" ? (
+                    <p style={{ color: "blue" }}>{errors.email.message}</p>
+                  ) : (
+                    <p>{errors.email.message}</p>
+                  )
+                ) : null}
               </TextBox>
               <input
                 className="email"
@@ -175,7 +182,8 @@ const EditPasswordForm = () => {
               OK
             </OkBtn>
           </>
-        ) : (
+        )}
+        {newPw && (
           <>
             <div>
               <TextBox>
@@ -215,6 +223,7 @@ const EditPasswordForm = () => {
               <input
                 name="confirmPw"
                 type="password"
+                placeholder="비밀번호 확인을 해주세요"
                 {...register("confirmPw", {
                   required: "비밀번호 확인을 해주세요",
                 })}

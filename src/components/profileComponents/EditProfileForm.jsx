@@ -7,7 +7,6 @@ import {
   __delUser,
   __editProfile,
   __checkNickname,
-  __getUser,
   __editOrigin,
   __logout,
   __getMyPageUser,
@@ -179,7 +178,8 @@ const EditProfileForm = () => {
       image.image_file === "" &&
       editNickname === true &&
       errors.nickname === undefined &&
-      original === false
+      original === false &&
+      checkNickname === true
     ) {
       dispatch(__editProfile({ nickname, gender, age }))
         .then(
@@ -197,7 +197,8 @@ const EditProfileForm = () => {
       image.image_file === "" &&
       editNickname === true &&
       errors.nickname === undefined &&
-      original === true
+      original === true &&
+      checkNickname === true
     ) {
       dispatch(__editOrigin({ nickname, gender, age, original }))
         .then(
@@ -215,7 +216,11 @@ const EditProfileForm = () => {
       const formData = new FormData();
       formData.append("userValue", image.image_file);
       //닉네임 수정을 하지 않았을 경우
-      if (editNickname === false && errors.nickname === undefined) {
+      if (
+        editNickname === false &&
+        errors.nickname === undefined &&
+        checkNickname === false
+      ) {
         dispatch(
           __editProfile({
             userValue: formData,
@@ -236,7 +241,11 @@ const EditProfileForm = () => {
           .then(navigate(`/mypage/${userId}`));
       }
       //닉네임 수정을 했을 경우 에러가 없을 때
-      if (editNickname === true && errors.nickname === undefined) {
+      if (
+        editNickname === true &&
+        errors.nickname === undefined &&
+        checkNickname === true
+      ) {
         dispatch(
           __editProfile({
             userValue: formData,
@@ -257,7 +266,7 @@ const EditProfileForm = () => {
           .then(navigate(`/mypage/${userId}`));
       }
       //닉네임 수정을 했을 경우 에러가 있을 때
-      if (editNickname === true && errors.nickname !== undefined) {
+      if (editNickname === true && checkNickname === false) {
         setError(
           "nickname",
           { message: "닉네임 중복확인을 해주세요." },
@@ -321,7 +330,7 @@ const EditProfileForm = () => {
   const onClickEditNickname = () => {
     Swal.fire({
       title: "닉네임을 변경하시겠습니까?",
-      text: `${users.nickname}님의 현재 닉네임을 사용하실 수 없습니다.`,
+      text: `${users.nickname}님의 현재 닉네임이 변경됩니다`,
       icon: "warning",
       showCancelButton: true,
       confirmButtonColor: "#3085d6",
@@ -368,17 +377,24 @@ const EditProfileForm = () => {
       <form onSubmit={handleSubmit(onSubmit)}>
         {editNickname ? (
           <>
-            {errors.nickname && <p>{errors.nickname.message}</p>}
+            {errors.nickname !== undefined ? (
+              errors.nickname.message === "사용 가능한 닉네임입니다." ? (
+                <p style={{ color: "blue" }}>{errors.nickname.message}</p>
+              ) : (
+                <p>{errors.nickname.message}</p>
+              )
+            ) : null}
             <NicknameInput
               type="text"
               id="nickname"
-              placeholder={users.nickname}
+              placeholder={`${users.nickname}님의 새로운 닉네임을 입력해주세요`}
               name="nickname"
               aria-invalid={
                 !isDirty ? undefined : errors.nickname ? "true" : "false"
               }
               {...register("nickname", {
                 onChange: () => onChangeNickname(),
+                required: "변경하실 닉네임을 입력해주세요",
                 minLength: {
                   value: 2,
                   message: "닉네임을 2자 이상 작성해주세요",
@@ -482,7 +498,7 @@ const Container = styled.div`
     border: 0px;
     border-radius: 7px;
     height: 50px;
-    width: 150px;
+    width: 250px;
     margin-left: 20px;
     margin-bottom: 40px;
     padding-left: 5px;
@@ -494,7 +510,7 @@ const Container = styled.div`
     color: #c60000;
     font-size: 10px;
     margin-top: -20px;
-    margin-left: 0px;
+    margin-left: -150px;
   }
 `;
 const Wrapper = styled.div`

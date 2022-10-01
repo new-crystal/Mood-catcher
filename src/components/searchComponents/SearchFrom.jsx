@@ -105,58 +105,86 @@ const SearchForm = () => {
 
   return (
     <Fragment>
-      {errors.search && <ErrorMsg>{errors.search.message}</ErrorMsg>}
-      <Form onSubmit={handleSubmit(onSubmit)}>
-        <SearchInput
-          type="search"
-          name="search"
-          placeholder="제목이나 작성자로 검색해주세요"
-          aria-invalid={!isDirty ? undefined : errors.email ? "true" : "false"}
-          {...register("search", {
-            required: "검색어를 입력해주세요",
-            pattern: {
-              value: /^[0-9|a-z|A-Z|가-힣|ㄱ-ㅎ|ㅏ-ㅣ]*$/,
-              message: "검색어는 공백이나 특수문자는 포함할 수 없습니다.",
-            },
-          })}
-        />
-        <SearchImg type="submit" disabled={isSubmitting}></SearchImg>
-      </Form>
-      <SearchBox>
-        {title && !writer && (
-          <>
-            <CheckBox>
-              <LabelTitle onClick={onChangeTitle}>제목으로 검색</LabelTitle>
-            </CheckBox>
-            <NotCheckBox>
-              <LabelWriter onClick={onChangeWriter}>작성자로 검색</LabelWriter>
-            </NotCheckBox>
-          </>
-        )}
+      <Container>
+        <Grid>
+          {errors.search && <ErrorMsg>{errors.search.message}</ErrorMsg>}
+          <Form onSubmit={handleSubmit(onSubmit)}>
+            <SearchInput
+              type="search"
+              name="search"
+              placeholder="제목이나 작성자로 검색해주세요"
+              aria-invalid={
+                !isDirty ? undefined : errors.email ? "true" : "false"
+              }
+              {...register("search", {
+                required: "검색어를 입력해주세요",
+                pattern: {
+                  value: /^[0-9|a-z|A-Z|가-힣|ㄱ-ㅎ|ㅏ-ㅣ]*$/,
+                  message: "검색어는 공백이나 특수문자는 포함할 수 없습니다.",
+                },
+              })}
+            />
+            <SearchImg type="submit" disabled={isSubmitting}></SearchImg>
+          </Form>
+          <SearchBox>
+            {title && !writer && (
+              <>
+                <CheckBox>
+                  <LabelTitle onClick={onChangeTitle}>제목으로 검색</LabelTitle>
+                </CheckBox>
+                <NotCheckBox>
+                  <LabelWriter onClick={onChangeWriter}>
+                    작성자로 검색
+                  </LabelWriter>
+                </NotCheckBox>
+              </>
+            )}
 
-        {!title && writer && (
-          <>
-            <NotCheckBox>
-              <LabelTitle onClick={onChangeTitle}>제목으로 검색</LabelTitle>
-            </NotCheckBox>
-            <CheckBox>
-              <LabelWriter onClick={onChangeWriter}>작성자로 검색</LabelWriter>
-            </CheckBox>
-          </>
-        )}
-      </SearchBox>
-      <ClosetBox>
-        <h1>Other Closet</h1>
-      </ClosetBox>
-      {recommended?.map((item) => (
-        <SearchItem key={item.postId} item={item} />
-      ))}
+            {!title && writer && (
+              <>
+                <NotCheckBox>
+                  <LabelTitle onClick={onChangeTitle}>제목으로 검색</LabelTitle>
+                </NotCheckBox>
+                <CheckBox>
+                  <LabelWriter onClick={onChangeWriter}>
+                    작성자로 검색
+                  </LabelWriter>
+                </CheckBox>
+              </>
+            )}
+          </SearchBox>
+          <ClosetBox>
+            <h1>Other Closet</h1>
+          </ClosetBox>
+          {recommended?.map((item) => (
+            <SearchItem key={item.postId} item={item} />
+          ))}
+        </Grid>
+      </Container>
     </Fragment>
   );
 };
 
-const Form = styled.form`
+const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+  & > span {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 1;
+    overflow: auto;
+    text-align: left;
+  }
+`;
+
+const Grid = styled.div`
+  margin: 0 auto;
+  margin-bottom: 57px;
+  max-width: 428px;
   width: 100vw;
+`;
+
+const Form = styled.form`
   height: 70px;
   display: flex;
   align-items: center;

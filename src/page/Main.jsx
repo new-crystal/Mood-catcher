@@ -80,7 +80,7 @@ const Main = (props) => {
         <Grid>
           <Header />
           {/* imgUrl 있으면 imgUrl 출력 */}
-          {userStatus.imgUrl === undefined ||
+          {/* {userStatus.imgUrl === undefined ||
           userStatus.imgUrl.slice(-4) === "null" ? (
             <Img
               url={preview_URL}
@@ -88,7 +88,7 @@ const Main = (props) => {
             ></Img>
           ) : (
             <Img url={userStatus?.imgUrl}></Img>
-          )}
+          )} */}
           {/* 대표게시물 출력 */}
           <RepPost myRepPost={repPost} />
 

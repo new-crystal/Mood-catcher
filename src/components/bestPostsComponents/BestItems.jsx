@@ -61,17 +61,22 @@ const BestItem = (item) => {
         <RankText>
           {year}년 {month}월 {day}일 {item.item.rank}위👑
         </RankText>
-        <p>{item.item.title}</p>
-        <h5>{item.item.content}</h5>
-        <HeartBox>
-          {likeStatus ? (
-            <Heart url={`${heartTrue}`} onClick={onClickMoodCancelBtn}></Heart>
-          ) : (
-            <Heart url={`${heart}`} onClick={onClickMoodBtn}></Heart>
-          )}
+        <TextContainer>
+          <p>{item.item.title}</p>
+          <h5>{item.item.content}</h5>
+          <HeartBox>
+            {likeStatus ? (
+              <Heart
+                url={`${heartTrue}`}
+                onClick={onClickMoodCancelBtn}
+              ></Heart>
+            ) : (
+              <Heart url={`${heart}`} onClick={onClickMoodBtn}></Heart>
+            )}
 
-          <p>{moodNum}</p>
-        </HeartBox>
+            <p>{moodNum}</p>
+          </HeartBox>
+        </TextContainer>
       </TextBox>
     </OtherClosetBox>
   );
@@ -97,6 +102,8 @@ const ImgBox = styled.img`
 `;
 const TextBox = styled.div`
   margin-left: 10px;
+  margin-right: 10px;
+  height: 170px;
   width: 200px;
   display: flex;
   align-items: baseline;
@@ -111,6 +118,7 @@ const TextBox = styled.div`
   }
   h5 {
     font-size: 13px;
+    margin-top: -10px;
   }
 `;
 
@@ -119,6 +127,8 @@ const HeartBox = styled.div`
   align-items: center;
   justify-content: center;
   flex-direction: row;
+  position: absolute;
+  margin-top: 166px;
 `;
 const Heart = styled.div`
   width: 20px;
@@ -133,9 +143,27 @@ const RankText = styled.h4`
   font-style: normal;
   font-weight: 800;
   color: #7b758b;
-  margin-left: 50px;
+  /* margin-left: 50px;
   margin-bottom: 0px;
-  margin-top: 10px;
+  margin-top: 10px; */
   font-size: 12px;
+  position: absolute;
+  left: 57%;
+  margin-top: -160px;
 `;
+const TextContainer = styled.div`
+  margin-top: -20px;
+  margin-left: 10px;
+  height: 170px;
+  width: 200px;
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  flex-direction: column;
+  font-family: "Roboto";
+  font-style: normal;
+  font-weight: 800;
+  color: #7b758b;
+`;
+
 export default BestItem;

@@ -56,8 +56,10 @@ instance.interceptors.response.use(
 export const alarmApi = {
   // 알람 조회하기
   getAlarm: () => instance.get("/notice"),
-  // 알람 삭제하기
-  deleteAlarm: () => instance.delete("/notice"),
+  // 알람 전체 삭제하기
+  deleteAllAlarm: () => instance.delete("/notice"),
+  //알람 개별 삭제하기
+  deleteAlarm: (data) => instance.delete(`/notice/${data}`),
 };
 
 // 댓글 관련 axios API 통신

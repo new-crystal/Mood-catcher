@@ -15,7 +15,6 @@ const LoginForm = () => {
   const navigate = useNavigate();
   const salt = bcrypt.genSaltSync(10);
   const [law, setLaw] = useState(false);
-  console.log(law);
 
   //로그인 한 경우
   useEffect(() => {

@@ -1,52 +1,27 @@
 import styled from "styled-components";
 
-const MoodPoint = ({ setMoodPoint }) => {
+const HotList = ({ setHot }) => {
   return (
     <>
-      <Shadow onClick={() => setMoodPoint(false)}></Shadow>
+      <Shadow onClick={() => setHot(false)}></Shadow>
       <ListBox>
         <TitleBox>
-          <h3>Mood Point 쌓는 방법</h3>
-          <ConfirmBtn type="button" onClick={() => setMoodPoint(false)}>
+          <h3>Hot / 명예의 전당 적용 기준</h3>
+          <ConfirmBtn type="button" onClick={() => setHot(false)}>
             ✖️
           </ConfirmBtn>
         </TitleBox>
-        <h6>(Mood Point는 매일 자정에 업데이트 됩니다)</h6>
+        <h6>(Hot Post와 명예의 전당은 매일 자정에 업데이트 됩니다)</h6>
         <Grade>
           <TextBox>
-            <h4>회원가입/로그인</h4>
-            <h6>500무드/200 무드 </h6>
+            <h4>Hot Post</h4>
+            <h6>하루 동안 좋아요를 가장 많이 받은 게시물</h6>
           </TextBox>
         </Grade>
         <Grade>
           <TextBox>
-            <h4>옷장 채우기</h4>
-            <h6> 옷장 100무드 착장정보 100무드 </h6>
-          </TextBox>
-        </Grade>
-        <Grade>
-          <TextBox>
-            <h4>다른 캐처님이 캐처님의 옷장 열람</h4>
-            <h6>50무드</h6>
-          </TextBox>
-        </Grade>
-        <Grade>
-          <TextBox>
-            <h4>댓글 남기기/받기</h4>
-            <h6>남기기 30무드/받기30무드 </h6>
-          </TextBox>
-        </Grade>
-
-        <Grade>
-          <TextBox>
-            <h4>무드 보내기/받기</h4>
-            <h6>보내기 30무드/받기 10무드</h6>
-          </TextBox>
-        </Grade>
-        <Grade>
-          <TextBox>
-            <h4>메인 Hot Rank 등재</h4>
-            <h6>1등 3000무드/2등 2000무드/3등 1000무드</h6>
+            <h4>명예의 전당</h4>
+            <h6>전 날 Hot Post였던 게시물</h6>
           </TextBox>
         </Grade>
       </ListBox>
@@ -56,7 +31,7 @@ const MoodPoint = ({ setMoodPoint }) => {
 
 const ListBox = styled.div`
   width: 300px;
-  height: 350px;
+  height: 200px;
   background-color: white;
   border: 10px solid #ddd;
   border-radius: 20px;
@@ -67,7 +42,7 @@ const ListBox = styled.div`
   z-index: 222;
   position: absolute;
   left: 30%;
-  top: 20%;
+  top: 40%;
 
   h3 {
     margin: 0px;
@@ -117,13 +92,13 @@ const TextBox = styled.div`
   }
 `;
 const Shadow = styled.div`
+  width: 100vw;
+  height: 100vh;
   position: fixed;
-  width: 100%;
-  height: 100%;
   left: 0;
   top: 0;
   background-color: rgba(0, 0, 0, 0.5);
   z-index: 22;
 `;
 
-export default MoodPoint;
+export default HotList;

@@ -24,14 +24,16 @@ const SearchItem = ({ item }) => {
   }, [mood, likeStatus]);
 
   //무드 등록
-  const onClickMoodBtn = () => {
+  const onClickMoodBtn = (e) => {
+    e.stopPropagation();
     setLikeStatus(true);
     setMoodNum(moodNum + 1);
     dispatch(__patchMood(item.postId));
   };
 
   //무드 취소
-  const onClickMoodCancelBtn = () => {
+  const onClickMoodCancelBtn = (e) => {
+    e.stopPropagation();
     setLikeStatus(false);
     setMoodNum(moodNum - 1);
     dispatch(__patchMood(item.postId));
@@ -45,12 +47,14 @@ const SearchItem = ({ item }) => {
   };
 
   return (
-    <OtherClosetBox key={item.postId}>
+    <OtherClosetBox
+      key={item.postId}
+      style={{ cursor: "pointer" }}
+      onClick={() => navigate(`/item_detail/${item.postId}/${item.userId}`)}
+    >
       <ImgBox
-        style={{ cursor: "pointer" }}
         src={item?.imgUrl}
         srcSet={item?.imgUrl}
-        onClick={() => navigate(`/item_detail/${item.postId}/${item.userId}`)}
         alt="search_image"
         onError={onErrorHandler}
       ></ImgBox>
@@ -59,9 +63,12 @@ const SearchItem = ({ item }) => {
         <h5>{item.content}</h5>
         <HeartBox>
           {likeStatus ? (
-            <Heart url={`${heartTrue}`} onClick={onClickMoodCancelBtn}></Heart>
+            <Heart
+              url={`${heartTrue}`}
+              onClick={(e) => onClickMoodCancelBtn(e)}
+            ></Heart>
           ) : (
-            <Heart url={`${heart}`} onClick={onClickMoodBtn}></Heart>
+            <Heart url={`${heart}`} onClick={(e) => onClickMoodBtn(e)}></Heart>
           )}
 
           <p>{moodNum}</p>

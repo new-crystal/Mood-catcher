@@ -49,7 +49,7 @@ const Header = () => {
   useEffect(() => {
     if (
       window.location.pathname.split("/")[1] === "mypage" &&
-      window.location.pathname.split("/")[2] == userId
+      window.location.pathname.split("/")[2] * 1 === userId * 1
     ) {
       setHeaderText("My Page");
       setSettings(true);
@@ -65,7 +65,7 @@ const Header = () => {
     }
     if (
       window.location.pathname.split("/")[1] === "closet" &&
-      window.location.pathname.split("/")[2] == userId
+      window.location.pathname.split("/")[2] * 1 === userId * 1
     ) {
       setHeaderText("My Closet");
     }
@@ -99,14 +99,20 @@ const Header = () => {
               <HeaderLogo
                 margin="-10.313rem"
                 style={{ marginLeft: "3.5rem", top: "0.7rem" }}
-                onClick={() => {
-                  navigate("/main");
-                }}
               >
-                <span>{headerText}</span>
+                <span
+                  onClick={() => {
+                    navigate("/main");
+                  }}
+                  style={{ cursor: "pointer" }}
+                >
+                  {headerText}
+                </span>
               </HeaderLogo>
               <a href="/kakao">
-                <Star style={{ backgroundImage: `url(${Map})` }} />
+                <Star
+                  style={{ backgroundImage: `url(${Map})`, cursor: "pointer" }}
+                />
               </a>
             </>
           )}
@@ -117,11 +123,15 @@ const Header = () => {
               <HeaderLogo
                 margin="-11.563rem"
                 style={{ marginLeft: "-12.5rem", color: "#7B758B" }}
-                onClick={() => {
-                  navigate("/login");
-                }}
               >
-                <span>{headerText}</span>
+                <span
+                  onClick={() => {
+                    navigate("/login");
+                  }}
+                  style={{ cursor: "pointer" }}
+                >
+                  {headerText}
+                </span>
               </HeaderLogo>
             </>
           )}
@@ -132,14 +142,20 @@ const Header = () => {
               <HeaderLogo
                 margin="-11.563rem"
                 style={{ marginLeft: "1.5rem", color: "#fff" }}
-                onClick={() => {
-                  navigate("/login");
-                }}
               >
-                <span>{headerText}</span>
+                <span
+                  onClick={() => {
+                    navigate("/login");
+                  }}
+                  style={{ cursor: "pointer" }}
+                >
+                  {headerText}
+                </span>
               </HeaderLogo>
               <a href="/kakao">
-                <Star style={{ backgroundImage: `url(${Map})` }} />
+                <Star
+                  style={{ backgroundImage: `url(${Map})`, cursor: "pointer" }}
+                />
               </a>
             </>
           )}
@@ -151,13 +167,13 @@ const Header = () => {
             (users?.isExistsNotice === 0 ? (
               <Notifications
                 url={`${Notification}`}
-                style={{ opacity: "60%" }}
+                style={{ opacity: "60%", cursor: "pointer" }}
                 onClick={() => navigate(`/alarm/${users.userId}`)}
               ></Notifications>
             ) : (
               <Notifications
                 url={`${NotificationTrue}`}
-                style={{ opacity: "60%" }}
+                style={{ opacity: "60%", cursor: "pointer" }}
                 onClick={() => navigate(`/alarm/${users.userId}`)}
               ></Notifications>
             ))}
