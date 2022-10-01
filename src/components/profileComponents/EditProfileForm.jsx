@@ -367,7 +367,7 @@ const EditProfileForm = () => {
       </Wrapper>
       <form onSubmit={handleSubmit(onSubmit)}>
         {editNickname ? (
-          <>
+          <StNicknameBox>
             {errors.nickname && <p>{errors.nickname.message}</p>}
             <NicknameInput
               type="text"
@@ -397,10 +397,10 @@ const EditProfileForm = () => {
             <CheckBtn type="button" onClick={(e) => onClickCheckBtnHandler(e)}>
               중복 확인
             </CheckBtn>
-          </>
+          </StNicknameBox>
         ) : (
           <EditNicknameBtn type="button" onClick={onClickEditNickname}>
-            닉네임 변경
+            닉네임 변경하기
           </EditNicknameBtn>
         )}
         <GenderAgeBox>
@@ -456,7 +456,7 @@ const EditProfileForm = () => {
         </ChangeBtn>
       </form>
       <ProfileBox>
-        <h3>계정 설정</h3>
+        <h3 className="auth">계정 설정</h3>
       </ProfileBox>
       <LogOut>
         <button onClick={() => navigate("/edit_password")}>
@@ -470,21 +470,23 @@ const EditProfileForm = () => {
 };
 
 const Container = styled.div`
-  width: 412px;
-  height: 926px;
+  /* width: 412px; */
+  /* height: 926px; */
+  width: 100%;
+  margin: 0 auto;
   text-align: center;
   form {
-    margin-top: 30px;
+    margin-top: 10px;
   }
 
   input {
     background-color: #fff;
-    border: 0px;
+    border: 2px solid grey;
     border-radius: 7px;
     height: 50px;
-    width: 150px;
-    margin-left: 20px;
-    margin-bottom: 40px;
+    box-sizing: border-box;
+    width: 175px;
+    margin: 20px auto 40px;
     padding-left: 5px;
     :focus {
       outline: none;
@@ -502,26 +504,70 @@ const Wrapper = styled.div`
   align-items: center;
   justify-content: center;
   flex-direction: column;
+  h4 {
+    font-family: "Noto Sans KR", sans-serif;
+    /* font-family: "Roboto"; */
+    font-style: normal;
+    font-weight: 700;
+    font-size: 20px;
+  }
 `;
+// const ProfileBox = styled.div`
+//   width: 380px;
+//   height: 40px;
+//   border-bottom: 3px solid rgb(148, 144, 160);
+//   margin-left: 20px;
+//   text-align: left;
+// `;
+
+const StNicknameBox = styled.div`
+  width: 375px;
+  display: flex;
+  margin: 0 auto;
+`;
+
 const ProfileBox = styled.div`
-  width: 380px;
-  height: 40px;
-  border-bottom: 3px solid rgb(148, 144, 160);
-  margin-left: 20px;
-  text-align: left;
+  display: flex;
+  flex-direction: row;
+  align-items: baseline;
+
+  h3 {
+    margin: 20px 0px 0px 20px;
+    color: #2d273f;
+    font-family: "Noto Sans KR", sans-serif;
+    /* font-family: "Roboto"; */
+    font-style: normal;
+    font-weight: 700;
+    font-size: 20px;
+  }
+  h3.auth {
+    margin: 50px 0px 0px 20px;
+    color: #2d273f;
+    font-family: "Noto Sans KR", sans-serif;
+    /* font-family: "Roboto"; */
+    font-style: normal;
+    font-weight: 700;
+    font-size: 20px;
+  }
+  p {
+    color: #c60000;
+    font-size: 10px;
+    margin-left: 20px;
+    margin-bottom: 0px;
+  }
 `;
 
 const Img = styled.div`
   width: 107px;
   height: 107px;
   border-radius: 50%;
-  margin: 10px auto;
+  margin: 20px auto;
   background-position: center;
   background-size: cover;
   background-image: url(${(props) => props.url});
 `;
 const EditBox = styled.div`
-  margin-top: -15px;
+  margin-top: 7px;
   display: flex;
   background-color: #fff;
   align-items: center;
@@ -554,10 +600,10 @@ const BasicBtn = styled.button`
   border: 0px;
 `;
 const NicknameInput = styled.input`
-  box-shadow: 5px 5px 4px rgba(0, 0, 0, 0.25);
+  /* box-shadow: 5px 5px 4px rgba(0, 0, 0, 0.25); */
 `;
 const EditNicknameBtn = styled.button`
-  background: linear-gradient(78.32deg, #7b758b 41.41%, #ffffff 169.58%);
+  /* background: linear-gradient(78.32deg, #7b758b 41.41%, #ffffff 169.58%);
   border: 0px;
   border-radius: 10px;
   width: 200px;
@@ -569,14 +615,33 @@ const EditNicknameBtn = styled.button`
   font-style: normal;
   font-weight: 700;
   font-size: 16px;
-  box-shadow: 5px 5px 4px rgba(0, 0, 0, 0.25);
+  box-shadow: 5px 5px 4px rgba(0, 0, 0, 0.25); */
+  background: #a8a6af;
+  border: 0px;
+  width: 375px;
+  height: 50px;
+  border-radius: 5px;
+  color: white;
+  font-family: "Noto Sans KR", sans-serif;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 16px;
+  margin: 10px auto 10px;
+  cursor: default;
+  p {
+    color: white;
+    /* font-family: "Roboto"; */
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 15px;
+  }
 `;
 const GenderAgeBox = styled.div`
-  width: 380px;
-  padding: 15px;
+  width: 375px;
+  margin: 0 auto 10px;
+  /* padding: 15px; */
   display: flex;
   justify-content: space-between;
-  margin-bottom: 20px;
   .gender {
     width: 180px;
   }
@@ -585,7 +650,7 @@ const GenderAgeBox = styled.div`
   }
 `;
 const CheckBtn = styled.button`
-  background: linear-gradient(78.32deg, #7b758b 41.41%, #ffffff 169.58%);
+  /* background: linear-gradient(78.32deg, #7b758b 41.41%, #ffffff 169.58%);
   color: white;
   border: 0px;
   border-radius: 10px;
@@ -596,13 +661,33 @@ const CheckBtn = styled.button`
   font-style: normal;
   font-weight: 700;
   font-size: 16px;
-  box-shadow: 5px 5px 4px rgba(0, 0, 0, 0.25);
+  box-shadow: 5px 5px 4px rgba(0, 0, 0, 0.25); */
+  background: #a8a6af;
+  border: 0px;
+  width: 175px;
+  height: 50px;
+  margin: 0 auto;
+  border-radius: 5px;
+  color: white;
+  font-family: "Noto Sans KR", sans-serif;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 16px;
+  margin-top: 20px;
+  cursor: default;
+  p {
+    color: white;
+    /* font-family: "Roboto"; */
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 15px;
+  }
 `;
 
 const LogOut = styled.div`
   flex-direction: row;
   button {
-    background: linear-gradient(78.32deg, #7b758b 41.41%, #ffffff 169.58%);
+    /* background: linear-gradient(78.32deg, #7b758b 41.41%, #ffffff 169.58%);
     border: 0px;
     border-radius: 10px;
     width: 200px;
@@ -614,12 +699,31 @@ const LogOut = styled.div`
     font-style: normal;
     font-weight: 700;
     font-size: 16px;
-    box-shadow: 5px 5px 4px rgba(0, 0, 0, 0.25);
+    box-shadow: 5px 5px 4px rgba(0, 0, 0, 0.25); */
+    background: #a8a6af;
+    border: 0px;
+    width: 300px;
+    height: 50px;
+    border-radius: 5px;
+    color: white;
+    font-family: "Noto Sans KR", sans-serif;
+    font-style: normal;
+    font-weight: 700;
+    font-size: 16px;
+    margin-top: 20px;
+    cursor: default;
+    p {
+      color: white;
+      /* font-family: "Roboto"; */
+      text-decoration: none;
+      font-weight: bold;
+      font-size: 15px;
+    }
   }
 `;
 
 const ChangeBtn = styled.button`
-  background: linear-gradient(78.32deg, #7b758b 41.41%, #ffffff 169.58%);
+  /* background: linear-gradient(78.32deg, #7b758b 41.41%, #ffffff 169.58%);
   border: 0px;
   border-radius: 10px;
   width: 90px;
@@ -631,6 +735,25 @@ const ChangeBtn = styled.button`
   font-style: normal;
   font-weight: 700;
   font-size: 16px;
-  box-shadow: 5px 5px 4px rgba(0, 0, 0, 0.25);
+  box-shadow: 5px 5px 4px rgba(0, 0, 0, 0.25); */
+  background: #a8a6af;
+  border: 0px;
+  width: 375px;
+  height: 50px;
+  border-radius: 5px;
+  color: white;
+  font-family: "Noto Sans KR", sans-serif;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 16px;
+  margin: 10px auto 10px;
+  cursor: default;
+  p {
+    color: white;
+    /* font-family: "Roboto"; */
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 15px;
+  }
 `;
 export default EditProfileForm;

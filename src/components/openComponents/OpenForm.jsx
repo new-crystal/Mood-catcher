@@ -61,7 +61,7 @@ const OpenForm = () => {
     <Fragment>
       <OpenBox>
         <TextBox>
-          <p>{startMsg}</p>
+          <h4>{startMsg}</h4>
         </TextBox>
       </OpenBox>
     </Fragment>
@@ -69,8 +69,8 @@ const OpenForm = () => {
 };
 
 const OpenBox = styled.div`
-  width: 428px;
-  height: 926px;
+  width: 100%;
+  height: 100vh;
   background-position: center;
   background-size: cover;
   background-image: url(${openCloset});
@@ -79,13 +79,14 @@ const OpenBox = styled.div`
   justify-content: center;
   transition: none;
 
-  p {
+  h4 {
     margin-top: 0px;
-    font-family: "Unna";
+    /* margin-bottom: 7px; */
+    color: #dfd9e3;
+    /* font-family: "Roboto"; */
     font-style: normal;
     font-weight: 700;
-    font-size: 18px;
-    color: white;
+    font-size: 20px;
     position: relative;
     top: 190px;
   }

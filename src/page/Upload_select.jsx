@@ -320,13 +320,14 @@ const Grid = styled.div`
   max-width: 428px;
   width: 100vw;
   //height: calc(var(--vh, 1vh) * 100 + 50px);
-  background: linear-gradient(#a396c9, #ffffff);
+  /* background: linear-gradient(#a396c9, #ffffff); */
   /* background-color: royalblue; */
 `;
 
 const JustifyAlign = styled.div`
   display: flex;
-  margin: 56px auto 0;
+  /* margin: 56px auto 0; */
+  margin: 30px auto 0;
   width: 366px;
   justify-content: space-between;
   align-items: center;
@@ -334,7 +335,7 @@ const JustifyAlign = styled.div`
 `;
 
 const UploadText = styled.span`
-  margin: 0 73px 0 144px;
+  margin: 0 40px 0 144px;
   font-size: 20px;
   font-weight: bold;
   color: #7b758b;
@@ -351,19 +352,19 @@ const NextButton = styled.button`
   background-color: #7b758b;
   border-radius: 10px;
   border: none;
-  box-shadow: 5px 5px 4px #877f92;
+  /* box-shadow: 5px 5px 4px #877f92; */
 `;
 
 const StUploadBox = styled.div`
   display: flex;
   margin: 12px auto;
   flex-direction: column;
-  width: 390px;
-  min-height: 700px;
+  width: 380px;
+  /* min-height: 700px; */
   border: 3px solid #c4c2ca;
   border-radius: 20px;
   background-color: #ffffff;
-  box-shadow: 5px 5px 4px #877f92;
+  /* box-shadow: 5px 5px 4px #877f92; */
 `;
 
 const StImageBox = styled.div`
@@ -453,6 +454,7 @@ const StMusinsaImage = styled.div`
 `;
 
 const StTextBox = styled.div`
+  width: 100px;
   display: flex;
   flex-direction: column;
 `;

@@ -42,22 +42,22 @@ export default EachPost;
 
 const PostWrap = styled.div`
   width: 158px;
-  margin-bottom: 20px;
+  margin-bottom: -7px;
   margin-right: 16px;
   //z-index: 1px;
 `;
 
 const PostImage = styled.div`
-  width: 140px;
-  height: 196px;
+  width: 160px;
+  height: 225px;
   border-radius: 13px;
   background-color: transparent;
   background-size: cover;
   cursor: pointer;
   & > img {
-    width: 140px;
-    height: 185px;
-    border-radius: 20px;
+    width: 172px;
+    height: 225px;
+    /* border-radius: 5px; */
     /* box-shadow: 5px 5px 4px #877f92; */
   }
   @media (img: img) {

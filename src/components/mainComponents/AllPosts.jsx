@@ -80,7 +80,8 @@ const AllPosts = () => {
 export default AllPosts;
 
 const List = styled.div`
-  width: 312px;
+  width: 346px;
+  /* height: 440px; */
   margin: 0 auto;
   display: grid;
   grid-template-columns: repeat(2, 1fr);

@@ -112,152 +112,226 @@ const EditPasswordForm = () => {
   };
 
   return (
-    <>
+    <EditPwWrap>
       <Container onSubmit={handleSubmit(onValid)}>
-        <h1>비밀번호 변경하기</h1>
-        {!newPw ? (
-          <>
-            <div>
-              <TextBox>
-                <h4>이메일</h4>
-                {errors.email && <p>{errors.email.message}</p>}
-              </TextBox>
-              <input
-                className="email"
-                name="email"
-                type="email"
-                placeholder="가입하신 이메일을 입력해주세요"
-                aria-invalid={
-                  !isDirty ? undefined : errors.email ? "true" : "false"
-                }
-                {...register("email", {
-                  onChange: () => onChangeEmail(),
-                  required: "이메일은 필수 입력입니다.",
-                  minLength: {
-                    value: 8,
-                    message: "이메일을 8자 이상 작성해주세요",
-                  },
-                  maxLength: {
-                    value: 30,
-                    message: "이메일을 30자 이하로 작성해주세요",
-                  },
-                  pattern: {
-                    value:
-                      /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/,
-                    message: "이메일이 형식에 맞지 않습니다.",
-                  },
-                })}
-              />
-              <ConfirmBtn
-                type="button"
-                onClick={() => onClickCheckBtnHandler()}
-              >
-                확인
-              </ConfirmBtn>
-            </div>
-            <div>
-              <TextBox>
-                <h4>인증번호</h4>
-                {errors.sendEmail && <p>{errors.sendEmail.message}</p>}
-              </TextBox>
-              <input
-                name="sendEmail"
-                placeholder="이메일로 발송 된 인증번호를 입력해주세요"
-                aria-invalid={
-                  !isDirty ? undefined : errors.sendEmail ? "true" : "false"
-                }
-                {...register("sendEmail", {
-                  required: "인증번호는 필수 입력입니다.",
-                })}
-              />
-            </div>
-            <OkBtn type="button" onClick={onClickOKBtn}>
-              OK
-            </OkBtn>
-          </>
-        ) : (
-          <>
-            <div>
-              <TextBox>
-                <h4>새로운 비밀번호</h4>
-                {errors.password && <p>{errors.password.message}</p>}
-              </TextBox>
-              <input
-                name="password"
-                type="password"
-                placeholder="영문, 숫자, 특수문자(!@#$%^&*) 조합으로 8자 이상 20자 이하"
-                aria-invalid={
-                  !isDirty ? undefined : errors.password ? "true" : "false"
-                }
-                {...register("password", {
-                  required: "비밀번호는 필수 입력입니다.",
-                  minLength: {
-                    value: 8,
-                    message: "비밀번호를 8자 이상 작성해주세요",
-                  },
-                  maxLength: {
-                    value: 20,
-                    message: "비밀번호를 20자 이하로 작성해주세요",
-                  },
-                  pattern: {
-                    value:
-                      /^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{8,20}$/,
-                    message: "비밀번호가 형식에 맞지 않습니다.",
-                  },
-                })}
-              />
-            </div>
-            <div>
-              <TextBox>
-                <h4>새로운 비밀번호 확인</h4>
-                {errors.confirmPw && <p>{errors.confirmPw.message}</p>}
-              </TextBox>
-              <input
-                name="confirmPw"
-                type="password"
-                {...register("confirmPw", {
-                  required: "비밀번호 확인을 해주세요",
-                })}
-              />
-            </div>
-            <OkBtn type="submit" disabled={isSubmitting}>
-              OK
-            </OkBtn>
-          </>
-        )}
+        <SignUpBox>
+          <h1>Edit PW</h1>
+        </SignUpBox>
+        <FormCantainer>
+          {!newPw ? (
+            <>
+              <div>
+                <TextBox>
+                  <h4>이메일</h4>
+                  {errors.email && <p>{errors.email.message}</p>}
+                </TextBox>
+                <input
+                  className="email"
+                  name="email"
+                  type="email"
+                  placeholder="가입하신 이메일을 입력해주세요"
+                  aria-invalid={
+                    !isDirty ? undefined : errors.email ? "true" : "false"
+                  }
+                  {...register("email", {
+                    onChange: () => onChangeEmail(),
+                    required: "이메일은 필수 입력입니다.",
+                    minLength: {
+                      value: 8,
+                      message: "이메일을 8자 이상 작성해주세요",
+                    },
+                    maxLength: {
+                      value: 30,
+                      message: "이메일을 30자 이하로 작성해주세요",
+                    },
+                    pattern: {
+                      value:
+                        /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/,
+                      message: "이메일이 형식에 맞지 않습니다.",
+                    },
+                  })}
+                />
+                <ConfirmBtn
+                  type="button"
+                  onClick={() => onClickCheckBtnHandler()}
+                >
+                  <p>확인</p>
+                </ConfirmBtn>
+              </div>
+              <div>
+                <PwTextBox>
+                  <h4>인증번호</h4>
+                  {errors.sendEmail && <p>{errors.sendEmail.message}</p>}
+                </PwTextBox>
+                <input
+                  name="sendEmail"
+                  placeholder="이메일로 발송 된 인증번호를 입력해주세요"
+                  aria-invalid={
+                    !isDirty ? undefined : errors.sendEmail ? "true" : "false"
+                  }
+                  {...register("sendEmail", {
+                    required: "인증번호는 필수 입력입니다.",
+                  })}
+                />
+              </div>
+              <OkBtn type="button" onClick={onClickOKBtn}>
+                OK
+              </OkBtn>
+            </>
+          ) : (
+            <>
+              <div>
+                <TextBox>
+                  <h4>새로운 비밀번호</h4>
+                  {errors.password && <p>{errors.password.message}</p>}
+                </TextBox>
+                <input
+                  className="new"
+                  name="password"
+                  type="password"
+                  placeholder="영문, 숫자, 특수문자(!@#$%^&*) 조합으로 8자 이상 20자 이하"
+                  aria-invalid={
+                    !isDirty ? undefined : errors.password ? "true" : "false"
+                  }
+                  {...register("password", {
+                    required: "비밀번호는 필수 입력입니다.",
+                    minLength: {
+                      value: 8,
+                      message: "비밀번호를 8자 이상 작성해주세요",
+                    },
+                    maxLength: {
+                      value: 20,
+                      message: "비밀번호를 20자 이하로 작성해주세요",
+                    },
+                    pattern: {
+                      value:
+                        /^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{8,20}$/,
+                      message: "비밀번호가 형식에 맞지 않습니다.",
+                    },
+                  })}
+                />
+              </div>
+              <div>
+                <PwTextBox>
+                  <h4>새로운 비밀번호 확인</h4>
+                  {errors.confirmPw && <p>{errors.confirmPw.message}</p>}
+                </PwTextBox>
+                <input
+                  name="confirmPw"
+                  type="password"
+                  {...register("confirmPw", {
+                    required: "비밀번호 확인을 해주세요",
+                  })}
+                />
+              </div>
+              <OkBtn type="submit" disabled={isSubmitting}>
+                완료
+              </OkBtn>
+            </>
+          )}
+        </FormCantainer>
       </Container>
-    </>
+    </EditPwWrap>
   );
 };
 
+const EditPwWrap = styled.div`
+  width: 100%;
+  background-color: #ffffff;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+`;
+
 const Container = styled.form`
-  margin-top: 3.125rem;
-  margin-left: 1.875rem;
+  margin: 0 auto;
+
   display: flex;
   align-items: baseline;
   justify-content: left;
   flex-direction: column;
 
-  h1 {
-    font-family: "Unna";
-    font-style: normal;
-    font-weight: 700;
-    font-size: 2.188rem;
-    line-height: 2.875rem;
-    color: #2d273f;
-  }
   .email {
-    width: 15.625rem;
+    width: 183px;
+    border-left-width: 0;
+    border-right-width: 0;
+    border-top-width: 0;
+    border-bottom-width: 1;
+    background-color: #ffffff;
+    border-bottom: 2px solid black;
   }
   input {
-    background-color: #fff;
-    border: 0px;
-    border-radius: 0.625rem;
-    height: 3.125rem;
-    width: 21.875rem;
+    height: 24px;
+    width: 300px;
+    padding-left: 5px;
+    border-left-width: 0;
+    border-right-width: 0;
+    border-top-width: 0;
+    border-bottom-width: 1;
+    background-color: #ffffff;
+    border-bottom: 2px solid black;
     :focus {
       outline: none;
     }
+    ::placeholder {
+      /* color: black; */
+      font-size: 0.6em;
+      font-weight: 400;
+      opacity: 1; /* Firefox */
+    }
+  }
+  input.new {
+    height: 24px;
+    width: 300px;
+    padding-left: 5px;
+    border-left-width: 0;
+    border-right-width: 0;
+    border-top-width: 0;
+    border-bottom-width: 1;
+    background-color: #ffffff;
+    border-bottom: 2px solid black;
+    margin-top: 10px;
+    :focus {
+      outline: none;
+    }
+    ::placeholder {
+      /* color: black; */
+      font-size: 0.6em;
+      font-weight: 400;
+      opacity: 1; /* Firefox */
+    }
+  }
+`;
+
+const FormCantainer = styled.div`
+  width: 300px;
+  display: flex;
+  align-items: center;
+  justify-content: left;
+  align-items: baseline;
+  flex-direction: column;
+  margin: 50px auto 0px;
+`;
+
+const SignUpBox = styled.div`
+  border-bottom: 3px solid #fff;
+  width: 211px;
+  margin: 0 auto;
+  color: #2d273f;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+
+  h1 {
+    margin: 70px auto 0;
+    margin-bottom: 0px;
+    font-family: "Unna";
+    font-style: normal;
+    font-weight: 700;
+    font-size: 60px;
+    line-height: 69px;
   }
 `;
 
@@ -267,46 +341,87 @@ const TextBox = styled.div`
   align-items: baseline;
 
   h4 {
-    margin-bottom: 0.313rem;
+    margin-bottom: 0px;
     color: #2d273f;
-    font-family: "Roboto";
+    /* font-family: "Roboto"; */
     font-style: normal;
     font-weight: 700;
-    font-size: 1.25rem;
+    font-size: 20px;
   }
   p {
     color: #c60000;
-    font-size: 0.625rem;
-    margin-left: 1.25rem;
+    font-size: 10px;
+    margin-left: 20px;
   }
 `;
+
+const PwTextBox = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: baseline;
+
+  h4 {
+    margin-top: 20px;
+    margin-bottom: 7px;
+    color: #2d273f;
+    /* font-family: "Roboto"; */
+    font-style: normal;
+    font-weight: 700;
+    font-size: 20px;
+  }
+  p {
+    color: #c60000;
+    font-size: 10px;
+    margin-left: 20px;
+    margin-bottom: 0px;
+  }
+`;
+
 const ConfirmBtn = styled.button`
-  background: linear-gradient(78.32deg, #7b758b 41.41%, #ffffff 169.58%);
+  /* background: linear-gradient(78.32deg, #7b758b 41.41%, #ffffff 169.58%); */
+  background: #a8a6af;
   border: 0px;
-  width: 5.625rem;
-  height: 3.125rem;
+  width: 90px;
+  height: 40px;
   color: white;
-  border-radius: 10px;
-  margin-left: 1.25rem;
-  font-family: "Roboto";
+  border-radius: 5px;
+  /* margin: 5px auto; */
+  margin-left: 20px;
+  /* font-family: "Roboto"; */
+  font-family: "Noto Sans KR", sans-serif;
   font-style: normal;
-  font-weight: 700;
-  font-size: 1rem;
-  cursor: pointer;
+  /* font-weight: 700; */
+  cursor: default;
+  p {
+    color: white;
+    /* font-family: "Roboto"; */
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 15px;
+    margin: 0 auto;
+  }
 `;
 
 const OkBtn = styled.button`
-  background: linear-gradient(78.32deg, #7b758b 41.41%, #ffffff 169.58%);
-  color: white;
-  font-family: "Unna";
-  font-style: normal;
-  font-weight: 400;
-  font-size: 30px;
+  /* background: linear-gradient(78.32deg, #7b758b 41.41%, #ffffff 169.58%); */
+  background: #a8a6af;
   border: 0px;
-  border-radius: 10px;
-  width: 150px;
-  height: 40px;
-  margin: 170px auto 0 auto;
-  cursor: pointer;
+  width: 300px;
+  height: 50px;
+  border-radius: 5px;
+  color: white;
+  font-family: "Noto Sans KR", sans-serif;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 16px;
+  margin-top: 20px;
+  cursor: default;
+  p {
+    color: white;
+    /* font-family: "Roboto"; */
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 15px;
+  }
 `;
 export default EditPasswordForm;

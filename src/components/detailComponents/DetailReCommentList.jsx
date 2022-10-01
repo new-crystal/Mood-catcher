@@ -151,7 +151,7 @@ const WrapComment = styled.div`
   /* display: flex; */
   justify-content: space-between;
   /* padding: 0 20px; */
-  /* margin-top: 7px; */
+  margin-top: 9px;
   /* background-color: orange; */
   /* border: 1px solid black; */
   border-radius: 10px;
