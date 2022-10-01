@@ -159,15 +159,14 @@ const Header = () => {
                   {headerText}
                 </span>
 
-              //<HeaderLogo
-                //margin="-11.563rem"
-                //style={{ marginLeft: "1.5rem", color: "#2d273f" }}
-                //onClick={() => {
-                  //navigate("/login");
-                //}}
-              //>
-                //<span>{headerText}</span>
-
+                {/* <HeaderLogo
+                margin="-11.563rem"
+                style={{ marginLeft: "1.5rem", color: "#2d273f" }}
+                onClick={() => {
+                  navigate("/login");
+                }}
+              > */}
+                {/* <span>{headerText}</span> */}
               </HeaderLogo>
               <a href="/kakao">
                 <Star
@@ -250,7 +249,6 @@ const Headers = styled.div`
     rgba(191, 182, 217, 0.699081) 40.03%,
     rgba(255, 255, 255, 0) 100%
   );
-
 `;
 
 const HeaderBox = styled.div`

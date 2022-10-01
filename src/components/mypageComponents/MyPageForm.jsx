@@ -399,6 +399,8 @@ const MoodBody = styled.div`
   width: 150px;
   height: 80px;
   background-color: white;
+  border: 2px solid grey;
+
   border-radius: 10px;
   display: flex;
   align-items: center;
