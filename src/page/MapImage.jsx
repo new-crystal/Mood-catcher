@@ -26,6 +26,7 @@ const MapImage = (props) => {
   const longitude = useSelector((state) => state.kakao.myLongitude);
 
   useEffect(() => {
+    console.log("test");
     // 카카오 맵 실행
     if (kakao?.maps !== undefined) {
       setMapState(true);
@@ -38,6 +39,7 @@ const MapImage = (props) => {
   }, [checkPatch]);
 
   useEffect(() => {
+    console.log(longitude);
     kakaoMap(latitude, longitude, aroundUser);
   }, [checkUsersMap]);
 
@@ -66,6 +68,7 @@ const MapImage = (props) => {
 
   // 커스텀 오버레이를 닫기 위해 호출되는 함수입니다
   const kakaoMap = (latitude, longitude, dataArray) => {
+    console.log(longitude);
     const mapOption = {
       center: new kakao.maps.LatLng(latitude, longitude), // 지도의 중심좌표
       level: 3, // 지도의 확대 레벨

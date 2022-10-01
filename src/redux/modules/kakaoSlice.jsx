@@ -7,6 +7,8 @@ const initialState = {
   myLongitude: "",
   checkPatch: false,
   checkUsersMap: false,
+  // checkExist: false,
+  // isExistsMap: false,
   isFetching: false,
   errorMessage: null,
 };
@@ -17,6 +19,19 @@ const kakaoSlice = createSlice({
   reducers: {},
   extraReducers: (builder) =>
     builder
+      // kakao맵 유저 위치 보내기
+      // .addCase(__patchOnoff.fulfilled, (state, action) => {
+      //   state.checkExist = !state.checkExist;
+      //   state.isFetching = false;
+      //   state.errorMessage = null;
+      // })
+      // .addCase(__patchOnoff.pending, (state, action) => {
+      //   state.isFetching = true;
+      // })
+      // .addCase(__patchOnoff.rejected, (state, action) => {
+      //   state.isFetching = false;
+      //   state.errorMessage = action.errorMessage;
+      // })
       // kakao맵 유저 위치 보내기
       .addCase(__patchMap.fulfilled, (state, action) => {
         state.myLatitude = action.payload.latitude;

@@ -290,6 +290,9 @@ const EditProfileForm = () => {
     }).then((result) => {
       if (result.isConfirmed) {
         dispatch(__logout());
+        document.cookie =
+          `token` +
+          "=; expires=Thu, 01 Jan 1970 00:00:01 GMT;domain=localhost;path=/;";
       }
     });
   };
@@ -383,9 +386,8 @@ const EditProfileForm = () => {
       </Wrapper>
       <form onSubmit={handleSubmit(onSubmit)}>
         {editNickname ? (
-
           <StNicknameBox>
-             {errors.nickname !== undefined ? (
+            {errors.nickname !== undefined ? (
               errors.nickname.message === "사용 가능한 닉네임입니다." ? (
                 <p style={{ color: "blue" }}>{errors.nickname.message}</p>
               ) : (
@@ -428,14 +430,12 @@ const EditProfileForm = () => {
             </CheckBtn>
           </StNicknameBox>
         ) : (
-
           <EditNicknameBtn
             style={{ cursor: "pointer" }}
             type="button"
             onClick={onClickEditNickname}
           >
             닉네임 변경
-
           </EditNicknameBtn>
         )}
         <GenderAgeBox>
