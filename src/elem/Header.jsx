@@ -134,7 +134,7 @@ const Header = () => {
               <GoBack></GoBack>
               <HeaderLogo
                 margin="-11.563rem"
-                style={{ marginLeft: "1.5rem", color: "#fff" }}
+                style={{ marginLeft: "1.5rem", color: "#2d273f" }}
                 onClick={() => {
                   navigate("/login");
                 }}
