@@ -8,6 +8,7 @@ import styled from "styled-components";
 import InfinityScrollLoader from "./InfinityScrollLoader";
 import _ from "lodash";
 import hanger from "../../image/옷걸이.png";
+import CardForm from "../cardComponents/CardForm";
 
 const ClosetPosts = () => {
   const dispatch = useDispatch();
@@ -71,7 +72,8 @@ const ClosetPosts = () => {
         </EmptyLike>
       )}
       {ranksIF?.map((item, idx) => (
-        <EachPost key={idx} item={item} />
+        <CardForm key={idx} item={item} />
+        // <EachPost key={idx} item={item} />
       ))}
 
       {loading ? <InfinityScrollLoader /> : ""}

@@ -143,8 +143,8 @@ const MyPageForm = () => {
                   onClick={() => setMoodPoint(true)}
                 ></MoodQuestion>
               ) : null}
-              {moodPoint ? <MoodPoint setMoodPoint={setMoodPoint} /> : null}
             </MoodBody>
+            {moodPoint ? <MoodPoint setMoodPoint={setMoodPoint} /> : null}
             <MoodHeader>
               <p className="name">Catch Grade</p>
             </MoodHeader>
@@ -290,7 +290,7 @@ const MyPageForm = () => {
                 )}
                 {myClosetList?.length >= 5 && (
                   <>
-                    {myClosetList.map((item) => (
+                    {myClosetList.slice(0, 5).map((item) => (
                       <EachMyCloset item={item} click={click} />
                     ))}
                     <GoCloset
@@ -399,8 +399,7 @@ const MoodBody = styled.div`
   width: 150px;
   height: 80px;
   background-color: white;
-  border: 2px solid grey;
-
+  border: 3px solid #e6e5ea;
   border-radius: 10px;
   display: flex;
   align-items: center;
@@ -424,6 +423,7 @@ const GradeImg = styled.div`
   background-image: url(${(props) => props.url});
 `;
 const GradeText = styled.div`
+  margin-top: 25px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -442,10 +442,11 @@ const GradeQuestion = styled.div`
 `;
 
 const Question = styled.div`
-  width: 10px;
-  height: 10px;
+  width: 15px;
+  height: 15px;
   margin-left: 7px;
-  margin-top: 5px;
+  margin-top: 3px;
+  margin-bottom: -5px;
   background-position: center;
   background-size: cover;
   background-image: url(${question});

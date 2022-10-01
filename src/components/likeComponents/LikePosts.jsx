@@ -9,6 +9,7 @@ import _ from "lodash";
 import { getCookie } from "../../shared/cookie";
 import jwt from "jwt-decode"; // to get userId from loggedIn user's token
 import hanger from "../../image/옷걸이.png";
+import CardForm from "../cardComponents/CardForm";
 
 const LikePosts = () => {
   const dispatch = useDispatch();
@@ -77,7 +78,8 @@ const LikePosts = () => {
         </EmptyLike>
       )}
       {allLikePosts?.map((item, idx) => (
-        <EachPost key={idx} item={item} />
+        <CardForm key={idx} item={item} />
+        // <EachPost key={idx} item={item} />
       ))}
 
       {loading ? <InfinityScrollLoader /> : ""}

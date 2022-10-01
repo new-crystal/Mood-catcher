@@ -8,6 +8,7 @@ import { __getSearch } from "../../redux/async/search";
 import { useNavigate } from "react-router-dom";
 import _ from "lodash";
 import SearchItem from "./SearchItem";
+import CardForm from "../cardComponents/CardForm";
 
 const SearchForm = () => {
   const dispatch = useDispatch();
@@ -105,9 +106,8 @@ const SearchForm = () => {
 
   return (
     <Fragment>
-      {errors.search && <ErrorMsg>{errors.search.message}</ErrorMsg>}
-      <SearchBox1>
-        <Form onSubmit={handleSubmit(onSubmit)}>
+      <SearchBox1 onSubmit={handleSubmit(onSubmit)}>
+        <Form>
           <SearchInput
             type="search"
             name="search"
@@ -153,19 +153,19 @@ const SearchForm = () => {
         <h1>Other Closet</h1>
       </ClosetBox> */}
       {recommended?.map((item) => (
-        <SearchItem key={item.postId} item={item} />
+        <CardForm key={item.postId} item={item} />
+        // <SearchItem key={item.postId} item={item} />
       ))}
     </Fragment>
   );
 };
 
-
-const SearchBox1 = styled.div`
+const SearchBox1 = styled.form`
   width: 350px;
   margin: 0 auto;
 `;
 
-const Form = styled.form`
+const Form = styled.div`
   width: 100%;
   margin: 0 auto;
   height: 70px;

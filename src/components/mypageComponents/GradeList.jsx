@@ -88,7 +88,9 @@ const GradeList = ({ setGradeList }) => {
             <GradeImg url={`${woman1}`}></GradeImg>
           )}
           {moody === true && <GradeImg url={`${cat1}`}></GradeImg>}
-          <h4>티셔츠</h4>
+          <TextBox>
+            <h4>티셔츠</h4>
+          </TextBox>
         </Grade>
         <Grade>
           {moody === false && gender === "man" && (
@@ -166,11 +168,12 @@ const ListBox = styled.div`
   flex-direction: column;
   z-index: 222;
   position: absolute;
-  left: 25%;
+  left: 20;
   top: 20%;
 
   h3 {
     margin: 0px;
+    font-weight: 900;
   }
 `;
 const TitleBox = styled.div`
@@ -211,13 +214,16 @@ const Grade = styled.div`
 const TextBox = styled.div`
   display: flex;
   flex-direction: column;
+  margin-left: -20px;
 
   h4 {
     margin: 0px;
+    font-weight: 900;
   }
   h6 {
     margin: 0px;
     color: #848484;
+    font-size: small;
   }
 `;
 const GradeImg = styled.div`
