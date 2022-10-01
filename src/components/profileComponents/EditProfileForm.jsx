@@ -290,6 +290,9 @@ const EditProfileForm = () => {
     }).then((result) => {
       if (result.isConfirmed) {
         dispatch(__logout());
+        document.cookie =
+          `token` +
+          "=; expires=Thu, 01 Jan 1970 00:00:01 GMT;domain=localhost;path=/;";
       }
     });
   };
