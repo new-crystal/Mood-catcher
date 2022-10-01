@@ -105,9 +105,8 @@ const SearchForm = () => {
 
   return (
     <Fragment>
-      {errors.search && <ErrorMsg>{errors.search.message}</ErrorMsg>}
-      <SearchBox1>
-        <Form onSubmit={handleSubmit(onSubmit)}>
+      <SearchBox1 onSubmit={handleSubmit(onSubmit)}>
+        <Form>
           <SearchInput
             type="search"
             name="search"
@@ -159,13 +158,12 @@ const SearchForm = () => {
   );
 };
 
-
-const SearchBox1 = styled.div`
+const SearchBox1 = styled.form`
   width: 350px;
   margin: 0 auto;
 `;
 
-const Form = styled.form`
+const Form = styled.div`
   width: 100%;
   margin: 0 auto;
   height: 70px;

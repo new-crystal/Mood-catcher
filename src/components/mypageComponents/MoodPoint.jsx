@@ -66,14 +66,16 @@ const ListBox = styled.div`
   flex-direction: column;
   z-index: 222;
   position: absolute;
-  left: 30%;
+  left: 50;
   top: 20%;
 
   h3 {
     margin: 0px;
+    font-weight: 900;
   }
   h6 {
     margin: 0px;
+    font-size: 12px;
   }
 `;
 const TitleBox = styled.div`
@@ -110,6 +112,7 @@ const TextBox = styled.div`
   h4 {
     margin: 0px;
     font-size: small;
+    font-weight: 900;
   }
   h6 {
     margin: 0px;

@@ -37,8 +37,8 @@ const HotList = ({ setHot }) => {
 };
 
 const ListBox = styled.div`
-  width: 300px;
-  height: 200px;
+  width: 320px;
+  height: 240px;
   background-color: white;
   border: 10px solid #ddd;
   border-radius: 20px;
@@ -48,14 +48,17 @@ const ListBox = styled.div`
   flex-direction: column;
   z-index: 222;
   position: absolute;
-  left: 30%;
-  top: 40%;
+  left: 30;
+  top: 10%;
 
   h3 {
     margin: 0px;
+    font-size: 15px;
+    font-weight: 900;
   }
   h6 {
     margin: 0px;
+    font-size: 12px;
     white-space: pre-wrap;
   }
 `;
@@ -89,6 +92,9 @@ const TextBox = styled.div`
   margin-left: 20px;
   display: flex;
   flex-direction: column;
+  align-items: left;
+  justify-content: center;
+  height: 50px;
 
   h4 {
     margin: 0px;
@@ -117,7 +123,7 @@ const MoodyBox = styled.div`
   margin-bottom: 7px;
 `;
 const MoodyImg = styled.div`
-  margin-left: -40px;
+  margin-left: -10px;
   width: 50px;
   height: 50px;
   background-position: center;

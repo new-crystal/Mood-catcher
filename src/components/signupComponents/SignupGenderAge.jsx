@@ -19,7 +19,6 @@ import { __getUser } from "../../redux/async/login";
 
 import male from "../../image/5man.png";
 import female from "../../image/girl5.png";
-import board from "../../image/board.png";
 import { useNavigate } from "react-router-dom";
 import gender from "../../image/gender.png";
 import { getCookie } from "../../shared/cookie";
@@ -138,12 +137,12 @@ const SignupGenderAge = (location) => {
     {
       url: `${male}`,
       title: "남자",
-      width: "105px",
+      width: "195px",
     },
     {
       url: `${female}`,
       title: "여자",
-      width: "105px",
+      width: "195px",
     },
   ];
 
@@ -177,7 +176,16 @@ const SignupGenderAge = (location) => {
     backgroundSize: "cover",
     backgroundPosition: "center 40%",
   });
-
+  const ManImageSrc = styled("span")({
+    position: "absolute",
+    left: 0,
+    right: 0,
+    top: 0,
+    bottom: 0,
+    backgroundSize: "90%",
+    backgroundPosition: "center 20%",
+    backgroundRepeat: "no-repeat",
+  });
   const Image = styled("span")(({ theme }) => ({
     position: "absolute",
     left: 0,
@@ -237,7 +245,15 @@ const SignupGenderAge = (location) => {
                     width: image.width,
                   }}
                 >
-                  <ImageSrc style={{ backgroundImage: `url(${image.url})` }} />
+                  {image.title === "남자" ? (
+                    <ManImageSrc
+                      style={{ backgroundImage: `url(${image.url})` }}
+                    />
+                  ) : (
+                    <ImageSrc
+                      style={{ backgroundImage: `url(${image.url})` }}
+                    />
+                  )}
                   <ImageBackdrop className="MuiImageBackdrop-root" />
                   <Image>
                     <Typography
@@ -270,7 +286,13 @@ const SignupGenderAge = (location) => {
               <form method="post">
                 <NicknameBox2>
                   <h4>닉네임</h4>
-                  {errors.nickname && <p>{errors.nickname.message}</p>}
+                  {errors.nickname !== undefined ? (
+                    errors.nickname.message === "사용 가능한 닉네임입니다." ? (
+                      <p style={{ color: "blue" }}>{errors.nickname.message}</p>
+                    ) : (
+                      <p>{errors.nickname.message}</p>
+                    )
+                  ) : null}
                 </NicknameBox2>
                 {/* <InputBox> */}
                 <input
@@ -431,8 +453,7 @@ const Container = styleds.div`
 
   .genderSelector{
     width: 220px;
-    margin-top : -30px;
-    margin-left : 40px;
+    margin: 50px auto auto auto;
     display: flex;
     align-items: center;
     justify-content: center;
