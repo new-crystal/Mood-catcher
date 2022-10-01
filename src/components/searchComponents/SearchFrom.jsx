@@ -8,6 +8,7 @@ import { __getSearch } from "../../redux/async/search";
 import { useNavigate } from "react-router-dom";
 import _ from "lodash";
 import SearchItem from "./SearchItem";
+import CardForm from "../cardComponents/CardForm";
 
 const SearchForm = () => {
   const dispatch = useDispatch();
@@ -152,7 +153,8 @@ const SearchForm = () => {
         <h1>Other Closet</h1>
       </ClosetBox> */}
       {recommended?.map((item) => (
-        <SearchItem key={item.postId} item={item} />
+        <CardForm key={item.postId} item={item} />
+        // <SearchItem key={item.postId} item={item} />
       ))}
     </Fragment>
   );
