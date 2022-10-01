@@ -53,6 +53,8 @@ const Item_detail = (props) => {
   const userStatus = useSelector((state) => state.login.userStatus);
   const userStatusMe = useSelector((state) => state.signup.userStatus);
   const comments = useSelector((state) => state.comment.comments);
+  const [click, setClick] = useState(false);
+  console.log(detailItems);
 
   const [mood, setMood] = useState(`${heartFalse}`);
   const like = useSelector((state) => state.upload.detailPost.likeStatus);
@@ -75,6 +77,16 @@ const Item_detail = (props) => {
     preview_URL:
       "https://cdn.discordapp.com/attachments/1014169130045292625/1014194232250077264/Artboard_1.png",
   });
+
+  //드래그와 클릭 구별하기
+  useEffect(() => {
+    let drag = false;
+    document.addEventListener("mousedown", () => (drag = false));
+    document.addEventListener("mousemove", () => (drag = true));
+    document.addEventListener("mouseup", () => {
+      drag ? setClick(false) : setClick(true);
+    });
+  }, []);
 
   // 댓글 작성하기
   const addComment = () => {
@@ -304,7 +316,21 @@ const Item_detail = (props) => {
             onMouseLeave={onDragEnd}
           >
             {detailItems?.map((item, idx) => (
-              <StMusinsaItemBox key={idx}>
+              <StMusinsaItemBox
+                key={idx}
+                click={click}
+                onClick={() => {
+                  console.log(item.url);
+                  if (item.url === null) {
+                    Swal.fire({
+                      icon: "info",
+                      title: "무신사 링크가 아직 없습니다...",
+                      showConfirmButton: false,
+                      timer: 1500,
+                    });
+                  } else if (click) window.open(`${item.url}`, "_black");
+                }}
+              >
                 <StMusinsaImage>
                   <div className="ImgDiv">
                     <img src={item.imgUrl} alt="" />
@@ -403,7 +429,7 @@ const ImgBox = styled.div`
   }
   & > div {
     font-size: 12px;
-    margin-top: -10px;
+    /* margin-top: -10px; */
   }
 `;
 
@@ -439,7 +465,7 @@ const Grid = styled.div`
   //height: calc(var(--vh, 1vh) * 100 + 50px);
   min-height: 926px;
 
-  background: linear-gradient(#a396c9, #ffffff);
+  /* background: linear-gradient(#a396c9, #ffffff); */
 `;
 
 const ProfileBox = styled.div`
@@ -618,7 +644,7 @@ const StMusinsaItemBox = styled.div`
   display: flex;
   width: 200px;
   height: 100px;
-  background-color: white;
+  background-color: #dbd4f1;
   border-radius: 15px;
   font-size: 20px;
   outline: none;

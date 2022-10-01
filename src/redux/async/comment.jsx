@@ -12,7 +12,11 @@ export const __getComments = createAsyncThunk(
         return response.data.data;
       }
     } catch (err) {
-      Swal.fire("에러", "네트워크 연결 상태를 확인해주세요.!", "error");
+      Swal.fire(
+        "댓글을 불러오는 데 실패했습니다",
+        "네트워크 연결 상태를 확인해주세요.!",
+        "error"
+      );
       return thunkAPI.rejectWithValue(err.response.msg);
     }
   }
@@ -28,7 +32,11 @@ export const __addComment = createAsyncThunk(
         return response.data.data.comment.createComment;
       }
     } catch (err) {
-      Swal.fire("에러", "네트워크 연결 상태를 확인해주세요.!", "error");
+      Swal.fire(
+        "댓글을 작성하는 데 실패했습니다",
+        "네트워크 연결 상태를 확인해주세요.!",
+        "error"
+      );
       return thunkAPI.rejectWithValue(err.response.msg);
     }
   }
@@ -44,7 +52,11 @@ export const __editComment = createAsyncThunk(
         return response.data;
       }
     } catch (err) {
-      Swal.fire("에러", "네트워크 연결 상태를 확인해주세요.!", "error");
+      Swal.fire(
+        "댓글을 수정하는 데 실패했습니다.",
+        "네트워크 연결 상태를 확인해주세요.!",
+        "error"
+      );
       return thunkAPI.rejectWithValue(err.response.msg);
     }
   }
@@ -63,7 +75,11 @@ export const __deleteComment = createAsyncThunk(
         return data;
       }
     } catch (err) {
-      Swal.fire("에러", "네트워크 연결 상태를 확인해주세요.!", "error");
+      Swal.fire(
+        "댓글을 삭제하는 데 실패했습니다",
+        "네트워크 연결 상태를 확인해주세요.!",
+        "error"
+      );
       return thunkAPI.rejectWithValue(err.response.msg);
     }
   }
@@ -79,7 +95,11 @@ export const __addRecomment = createAsyncThunk(
         return response.data;
       }
     } catch (err) {
-      Swal.fire("에러", "네트워크 연결 상태를 확인해주세요.!", "error");
+      Swal.fire(
+        "댓글을 작성하는 데실패했습니다.",
+        "네트워크 연결 상태를 확인해주세요.!",
+        "error"
+      );
       return thunkAPI.rejectWithValue(err.response.msg);
     }
   }
@@ -95,7 +115,11 @@ export const __editRecomment = createAsyncThunk(
         return response.data;
       }
     } catch (err) {
-      Swal.fire("에러", "네트워크 연결 상태를 확인해주세요.!", "error");
+      Swal.fire(
+        "댓글을 수정하는 데 실패했습니다",
+        "네트워크 연결 상태를 확인해주세요.!",
+        "error"
+      );
       return thunkAPI.rejectWithValue(err.response.msg);
     }
   }
@@ -114,7 +138,11 @@ export const __deleteRecomment = createAsyncThunk(
         return data;
       }
     } catch (err) {
-      Swal.fire("에러", "네트워크 연결 상태를 확인해주세요.!", "error");
+      Swal.fire(
+        "댓글을 삭제하는 데 실패했습니다",
+        "네트워크 연결 상태를 확인해주세요.!",
+        "error"
+      );
       return thunkAPI.rejectWithValue(err.response.msg);
     }
   }

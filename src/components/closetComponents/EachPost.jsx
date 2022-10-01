@@ -25,14 +25,16 @@ const EachPost = (props) => {
   }, [mood, likeStatus, item]);
 
   //무드 버튼 누르기
-  const onClickMoodBtn = () => {
+  const onClickMoodBtn = (e) => {
+    e.stopPropagation();
     setMoodNum(moodNum + 1);
     setLikeStatus(true);
     dispatch(__patchMood(item.postId));
   };
 
   //무드버튼 취소하기
-  const onClickMoodCancelBtn = () => {
+  const onClickMoodCancelBtn = (e) => {
+    e.stopPropagation();
     setMoodNum(moodNum - 1);
     setLikeStatus(false);
     dispatch(__patchMood(item.postId));
@@ -47,17 +49,14 @@ const EachPost = (props) => {
 
   return (
     <Fragment>
-      <WritedClosetInfo>
+      <WritedClosetInfo
+        onClick={() => {
+          navigate(`/item_detail/${item.postId}/${item.userId}`);
+          window.location.reload();
+        }}
+      >
         <ClosetImage>
-          <img
-            src={item?.imgUrl}
-            alt="img"
-            onClick={() => {
-              navigate(`/item_detail/${item.postId}/${item.userId}`);
-              window.location.reload();
-            }}
-            onError={onErrorHandler}
-          />
+          <img src={item?.imgUrl} alt="img" onError={onErrorHandler} />
         </ClosetImage>
         <ClosetTextWrap>
           <GridHorizon>
@@ -74,13 +73,13 @@ const EachPost = (props) => {
                 <img
                   src={`${heartTrue}`}
                   alt="heart"
-                  onClick={onClickMoodCancelBtn}
+                  onClick={(e) => onClickMoodCancelBtn(e)}
                 />
               ) : (
                 <img
                   src={`${heartFalse}`}
                   alt="heart"
-                  onClick={onClickMoodBtn}
+                  onClick={(e) => onClickMoodBtn(e)}
                 />
               )}
               <span>{moodNum}</span>

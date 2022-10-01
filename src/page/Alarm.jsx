@@ -38,7 +38,7 @@ const Grid = styled.div`
   max-width: 428px;
   width: 100vw;
   //height: calc(var(--vh, 1vh) * 100);
-  background: linear-gradient(#a396c9, #ffffff);
+  /* background: linear-gradient(#a396c9, #ffffff); */
 `;
 
 export default Alarm;

@@ -28,14 +28,16 @@ const EachPost = (props) => {
   }, [mood, likeStatus, item]);
 
   //무드 버튼 누르기
-  const onClickMoodBtn = () => {
+  const onClickMoodBtn = (e) => {
+    e.stopPropagation();
     setMoodNum(moodNum + 1);
     setLikeStatus(true);
     dispatch(__patchMood(item.postId));
   };
 
   //무드버튼 취소하기
-  const onClickMoodCancelBtn = () => {
+  const onClickMoodCancelBtn = (e) => {
+    e.stopPropagation();
     setMoodNum(moodNum - 1);
     setLikeStatus(false);
     dispatch(__patchMood(item.postId));
@@ -50,17 +52,15 @@ const EachPost = (props) => {
 
   return (
     <Fragment>
-      <WritedClosetInfo>
+      <WritedClosetInfo
+        style={{ cursor: "pointer" }}
+        onClick={() => {
+          navigate(`/item_detail/${item.postId}/${item.userId}`);
+          window.location.reload();
+        }}
+      >
         <ClosetImage>
-          <img
-            src={item?.imgUrl}
-            alt="test"
-            onError={onErrorHandler}
-            onClick={() => {
-              navigate(`/item_detail/${item.postId}/${item.userId}`);
-              window.location.reload();
-            }}
-          />
+          <img src={item?.imgUrl} alt="test" onError={onErrorHandler} />
         </ClosetImage>
         <ClosetTextWrap>
           <GridHorizon>
@@ -80,13 +80,13 @@ const EachPost = (props) => {
                 <img
                   src={`${heartTrue}`}
                   alt="heart"
-                  onClick={onClickMoodCancelBtn}
+                  onClick={(e) => onClickMoodCancelBtn(e)}
                 />
               ) : (
                 <img
                   src={`${heartFalse}`}
                   alt="heart"
-                  onClick={onClickMoodBtn}
+                  onClick={(e) => onClickMoodBtn(e)}
                 />
               )}
               <span>{moodNum}</span>
@@ -102,13 +102,14 @@ export default EachPost;
 
 const WritedClosetInfo = styled.div`
   display: flex;
-  margin: 0px auto 37px;
+  margin: 10px auto;
   width: 350px;
   height: 200px;
   background-color: #ffffff;
   border-radius: 20px;
+  border: 3px solid #e6e5ea;
   cursor: pointer;
-  box-shadow: 5px 5px 4px #877f92;
+  /* box-shadow: 5px 5px 4px #877f92; */
 `;
 
 const ClosetImage = styled.div`

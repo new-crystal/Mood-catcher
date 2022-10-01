@@ -213,146 +213,170 @@ const SignupGenderAge = (location) => {
 
   return (
     <Fragment>
-      <Container>
-        <Grid>
-          <div>
-            {show ? (
-              <>
-                <GenderImg>
-                  <h1>성별</h1>
-                </GenderImg>
-                <Box
-                  className="genderSelector"
-                  sx={{
-                    display: "flex",
-                    minWidth: 300,
-                    width: "400px",
+      {show ? (
+        <NicknameWrap>
+          <MiniContainer>
+            <NicknameBox>
+              <h1>Gender</h1>
+            </NicknameBox>
+            <Box
+              className="genderSelector"
+              sx={{
+                display: "flex",
+                minWidth: 300,
+                width: "390px",
+                marginTop: "150px",
+              }}
+            >
+              {images.map((image) => (
+                <ImageButton
+                  key={image.title}
+                  onClick={(key) => onClickGenderHandler(key)}
+                  focusRipple
+                  style={{
+                    width: image.width,
                   }}
                 >
-                  {images.map((image) => (
-                    <ImageButton
-                      key={image.title}
-                      onClick={(key) => onClickGenderHandler(key)}
-                      focusRipple
-                      style={{
-                        width: image.width,
+                  <ImageSrc style={{ backgroundImage: `url(${image.url})` }} />
+                  <ImageBackdrop className="MuiImageBackdrop-root" />
+                  <Image>
+                    <Typography
+                      component="span"
+                      variant="subtitle1"
+                      color="inherit"
+                      sx={{
+                        position: "relative",
+                        p: 4,
+                        pt: 2,
+                        pb: (theme) => `calc(${theme.spacing(1)} + 6px)`,
                       }}
                     >
-                      <ImageSrc
-                        style={{ backgroundImage: `url(${image.url})` }}
-                      />
-                      <ImageBackdrop className="MuiImageBackdrop-root" />
-                      <Image>
-                        <Typography
-                          component="span"
-                          variant="subtitle1"
-                          color="inherit"
-                          sx={{
-                            position: "relative",
-                            p: 4,
-                            pt: 2,
-                            pb: (theme) => `calc(${theme.spacing(1)} + 6px)`,
-                          }}
-                        >
-                          {image.title}
-                          <ImageMarked className="MuiImageMarked-root" />
-                        </Typography>
-                      </Image>
-                    </ImageButton>
-                  ))}
-                </Box>
-                <BottomImg></BottomImg>
-              </>
-            ) : (
-              <>
-                <Img>
-                  <form method="post">
-                    <NicknameBox>
-                      <h4>닉네임</h4>
-                      {errors.nickname && <p>{errors.nickname.message}</p>}
-                    </NicknameBox>
-                    <InputBox>
-                      <input
-                        type="text"
-                        placeholder="닉네임을 입력해주세요"
-                        name="nickname"
-                        aria-invalid={
-                          !isDirty
-                            ? undefined
-                            : errors.nickname
-                            ? "true"
-                            : "false"
-                        }
-                        {...register("nickname", {
-                          onChange: () => onChangeNickname(),
-                          required: "닉네임은 필수 입력입니다.",
-                          minLength: {
-                            value: 2,
-                            message: "닉네임을 2자 이상 작성해주세요",
-                          },
-                          maxLength: {
-                            value: 16,
-                            message: "닉네임을 16자 이하로 작성해주세요",
-                          },
-                          pattern: {
-                            value:
-                              /^(?=.*[a-zA-Z0-9가-힣])[a-zA-Z0-9가-힣]{2,16}$/,
-                            message:
-                              "닉네임은 영문 대소문자, 글자 단위 한글, 숫자만 가능합니다.",
-                          },
-                        })}
-                      />
-                      <ConfirmBtn
-                        type="button"
-                        onClick={(e) => onClickCheckBtnHandler(e)}
-                      >
-                        중복확인
-                      </ConfirmBtn>
-                    </InputBox>
-                  </form>
-                  <h4>나이</h4>
-                  <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>
-                    <InputLabel
-                      id="demo-simple-select-standard-label"
-                      className="label"
-                    >
-                      Age
-                    </InputLabel>
-                    <Select
-                      labelId="demo-simple-select-standard-label"
-                      id="demo-simple-select-standard"
-                      value={age}
-                      onChange={onChangeHandler}
-                      label="Age"
-                      className="age"
-                    >
-                      <MenuItem value={"10대"}>10대 미만</MenuItem>
-                      <MenuItem value={"10대"}>10대</MenuItem>
-                      <MenuItem value={"20대"}>20대</MenuItem>
-                      <MenuItem value={"30대"}>30대</MenuItem>
-                      <MenuItem value={"40대"}>40대</MenuItem>
-                      <MenuItem value={"50대"}>50대 이상</MenuItem>
-                    </Select>
-                  </FormControl>
-                  <OkBtn onClick={() => onClickOKBtnHandler()}>OK</OkBtn>
-                </Img>
-              </>
-            )}
-          </div>
-        </Grid>
-      </Container>
+                      {image.title}
+                      <ImageMarked className="MuiImageMarked-root" />
+                    </Typography>
+                  </Image>
+                </ImageButton>
+              ))}
+            </Box>
+          </MiniContainer>
+        </NicknameWrap>
+      ) : (
+        <NicknameWrap>
+          <MiniContainer>
+            <NicknameBox>
+              <h1>Profile</h1>
+            </NicknameBox>
+            <FormCantainer>
+              <form method="post">
+                <NicknameBox2>
+                  <h4>닉네임</h4>
+                  {errors.nickname && <p>{errors.nickname.message}</p>}
+                </NicknameBox2>
+                {/* <InputBox> */}
+                <input
+                  className="nickname"
+                  type="text"
+                  placeholder="닉네임을 입력해주세요"
+                  name="nickname"
+                  aria-invalid={
+                    !isDirty ? undefined : errors.nickname ? "true" : "false"
+                  }
+                  {...register("nickname", {
+                    onChange: () => onChangeNickname(),
+                    required: "닉네임은 필수 입력입니다.",
+                    minLength: {
+                      value: 2,
+                      message: "닉네임을 2자 이상 작성해주세요",
+                    },
+                    maxLength: {
+                      value: 16,
+                      message: "닉네임을 16자 이하로 작성해주세요",
+                    },
+                    pattern: {
+                      value: /^(?=.*[a-zA-Z0-9가-힣])[a-zA-Z0-9가-힣]{2,16}$/,
+                      message: "영문, 한글, 숫자만 가능합니다.",
+                    },
+                  })}
+                />
+                <ConfirmBtn
+                  type="button"
+                  onClick={(e) => onClickCheckBtnHandler(e)}
+                >
+                  <p>중복확인</p>
+                </ConfirmBtn>
+                {/* </InputBox> */}
+              </form>
+              <NicknameBox3>
+                <h4>나이</h4>
+              </NicknameBox3>
+              <FormControl
+                style={{
+                  minWidth: "300px",
+                }}
+                variant="standard"
+                sx={{ m: 1, minWidth: 120 }}
+              >
+                <InputLabel
+                  id="demo-simple-select-standard-label"
+                  className="label"
+                >
+                  Age
+                </InputLabel>
+                <Select
+                  labelId="demo-simple-select-standard-label"
+                  id="demo-simple-select-standard"
+                  value={age}
+                  onChange={onChangeHandler}
+                  label="Age"
+                  className="age"
+                >
+                  <MenuItem value={"10대"}>10대 미만</MenuItem>
+                  <MenuItem value={"10대"}>10대</MenuItem>
+                  <MenuItem value={"20대"}>20대</MenuItem>
+                  <MenuItem value={"30대"}>30대</MenuItem>
+                  <MenuItem value={"40대"}>40대</MenuItem>
+                  <MenuItem value={"50대"}>50대 이상</MenuItem>
+                </Select>
+              </FormControl>
+            </FormCantainer>
+            <OkBtn onClick={() => onClickOKBtnHandler()}>다음</OkBtn>
+          </MiniContainer>
+        </NicknameWrap>
+      )}
     </Fragment>
   );
 };
 
+const UploadText = styleds.span`
+  margin: 70px auto 0;
+  font-size: 60px;
+  font-family: "Unna";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 60px;
+  line-height: 69px;
+  color: #2d273f;
+`;
+
 const Container = styleds.div`
-  display: flex;
-  height: 984px;
-  text-align: left;
-  flex-direction: column;
-  align-items: left;
-  bottom: 110px;
+  // display: flex;
+  // width: 100%;
+  // // height: 984px;
+  // text-align: left;
+  // flex-direction: column;
+  // align-items: left;
+  // bottom: 110px;
+  margin: 0 auto;
   
+  .nickname {
+    width: 183px;
+    border-left-width: 0;
+    border-right-width: 0;
+    border-top-width: 0;
+    border-bottom-width: 1;
+    background-color: #ffffff;
+    border-bottom: 2px solid black;
+  }
   .label {
     margin: 20px 60px;
   }
@@ -364,19 +388,31 @@ const Container = styleds.div`
     margin-bottom : 20px;
   }
   form {
-    width:428px;
+    width:300px;
     display: flex;
     align-items: left;
     justify-content:center;
     flex-direction: column;
   }
   input {
-    background-color: #e6e5ea;
-    border: 0px;
-    border-radius: 7px;
-    height: 50px;
-    width: 180px;
-    margin-left : -40px;
+    height: 24px;
+    width: 300px;
+    padding-left: 5px;
+    border-left-width: 0;
+    border-right-width: 0;
+    border-top-width: 0;
+    border-bottom-width: 1;
+    background-color: #ffffff;
+    border-bottom: 2px solid black;
+    :focus {
+      outline: none;
+    }
+    ::placeholder {
+      /* color: black; */
+      font-size: 0.6em;
+      font-weight: 400;
+      opacity: 1; /* Firefox */
+    }
   }
   h4 {
     margin-left : 50px;
@@ -386,40 +422,51 @@ const Container = styleds.div`
   font-weight: 700;
   font-size: 20px;
   color: #2D273F;
-   }
-   p {
+  }
+  p {
     position : relative;
-    top:20px;
-    left: 10px;
-   }
+    // top:20px;
+    // left: 10px;
+  }
 
-   .genderSelector{
+  .genderSelector{
     width: 220px;
     margin-top : -30px;
-    margin-left : 60px;
+    margin-left : 40px;
     display: flex;
     align-items: center;
     justify-content: center;
     flex-direction: row;
-   }
+  }
+`;
+
+const FormCantainer = styleds.div`
+  width: 300px;
+  display: flex;
+  align-items: center;
+  justify-content: left;
+  align-items: baseline;
+  flex-direction: column;
+  margin: 50px auto 0px;
 `;
 
 const Grid = styleds.div`
   //width: 100%;
-  width: 428px;
+  width: 100%;
   margin: 0 auto;
-  background: linear-gradient(#a396c9, #ffffff);
+  // background: linear-gradient(#a396c9, #ffffff);
   margin-top: 60px;
-  margin-bottom: 500px;
-  min-height: 928px;
+  // margin-bottom: 500px;
+  // min-height: 928px;
 `;
 
 const GenderImg = styleds.div`
-  width: 351px;
-  height: 125px;
-  margin : 0px auto 50px auto;
+  width: 300px;
+  height: 140px;
+  margin : 0px auto 50px;
   background-position: center;
-  background-size: cover;
+  background-size: contain;
+  background-repeat: no-repeat;
   background-image: url(${gender});
   text-aligns : center;
   align-items: center;
@@ -437,17 +484,134 @@ const GenderImg = styleds.div`
   }
 `;
 
-const Img = styleds.div`
-  margin: 60px auto 0px auto;
-  width: 383px;
-  height: 551px;
+// const Img = styleds.div`
+//   // margin: 0px auto;
+//   margin: 0px;
+//   // width: 375px;
+//   width: 100%;
+//   height: 551px;
+//   display: flex;
+//   align-items: left;
+//   justify-content: center;
+//   flex-direction: column;
+//   background-position: center;
+//   background-size: cover;
+//   // background-image: url(${board});
+// `;
+
+const NicknameWrap = styleds.div`
+  width: 100%;
+  background-color: #ffffff;
   display: flex;
-  align-items: left;
+  flex-direction: column;
+  text-align: center;
+`;
+
+const MiniContainer = styleds.form`
+  /* width: 100vw; */
+  margin: 0 auto;
+
+  .nickname {
+    width: 183px;
+    border-left-width: 0;
+    border-right-width: 0;
+    border-top-width: 0;
+    border-bottom-width: 1;
+    background-color: #ffffff;
+    border-bottom: 2px solid black;
+  }
+  input {
+    height: 24px;
+    width: 300px;
+    padding-left: 5px;
+    border-left-width: 0;
+    border-right-width: 0;
+    border-top-width: 0;
+    border-bottom-width: 1;
+    background-color: #ffffff;
+    border-bottom: 2px solid black;
+    :focus {
+      outline: none;
+    }
+    ::placeholder {
+      /* color: black; */
+      font-size: 0.6em;
+      font-weight: 400;
+      opacity: 1; /* Firefox */
+    }
+  }
+`;
+
+const NicknameBox = styleds.div`
+  border-bottom: 3px solid #fff;
+  width: 211px;
+  margin: 0 auto;
+  color: #2d273f;
+  text-align: center;
+  display: flex;
+  align-items: center;
   justify-content: center;
   flex-direction: column;
-  background-position: center;
-  background-size: cover;
-  background-image: url(${board});
+
+  h1 {
+    margin: 70px auto 0;
+    margin-bottom: 0px;
+    font-family: "Unna";
+    font-style: normal;
+    font-weight: 700;
+    font-size: 60px;
+    line-height: 69px;
+  }
+  p {
+  color: #c60000;
+  font-size: 10px;
+  margin-left: 20px;
+  margin-bottom: 0px;
+  }
+`;
+
+const NicknameBox2 = styleds.div`
+  display: flex;
+  flex-direction: row;
+  align-items: baseline;
+  h4 {
+    font-family: "Noto Sans KR", sans-serif;
+    margin-top: 0px;
+    margin-bottom: 0px;
+    color: #2d273f;
+    // font-family: "Roboto";
+    font-style: normal;
+    font-weight: 700;
+    font-size: 20px;
+  }
+  p {
+    color: #c60000;
+    font-size: 10px;
+    margin-left: 20px;
+    margin-bottom: 0px;
+  }
+`;
+
+const NicknameBox3 = styleds.div`
+display: flex;
+flex-direction: row;
+align-items: baseline;
+
+h4 {
+  margin-top: 20px;
+  margin-bottom: 7px;
+  color: #2d273f;
+  /* font-family: "Roboto"; */
+  font-style: normal;
+  font-weight: 700;
+  font-size: 20px;
+}
+p {
+  color: #c60000;
+  font-size: 10px;
+  margin-left: 20px;
+  margin-bottom: 0px;
+}
 `;
 
 const BottomImg = styleds.div`
@@ -455,69 +619,66 @@ const BottomImg = styleds.div`
   width: 264px;
   height: 93px;
   margin-top : 50px;
-  margin-left : 80px;
+  margin-left : 46px;
   background-position: center;
   background-size: cover;
   background-image: url(${gender});
 `;
 
-const NicknameBox = styleds.div`
-display: flex;
-align-items: left;
-justify-content: left;
-flex-direction: row;
-
-h4 {
-  margin-left : 50px;
-  margin-bottom : 5px;
-  font-family: 'Roboto';
+// const InputBox = styleds.div`
+//   width : 390px;
+//   margin: 0px auto;
+//   display: flex;
+//   align-items: center;
+//   justify-content: center;
+//   flex-direction: row;
+// `;
+const ConfirmBtn = styleds.button`
+/* background: linear-gradient(78.32deg, #7b758b 41.41%, #ffffff 169.58%); */
+background: #a8a6af;
+border: 0px;
+width: 90px;
+height: 40px;
+color: white;
+border-radius: 5px;
+/* margin: 5px auto; */
+margin-left: 20px;
+/* font-family: "Roboto"; */
+font-family: "Noto Sans KR", sans-serif;
 font-style: normal;
-font-weight: 700;
-font-size: 20px;
-color: #2D273F;
- }
- p {
-  color: #c60000;
-  font-size: 10px;
-  margin-bottom : -30px;
+/* font-weight: 700; */
+cursor: default;
+p {
+  color: white;
+  /* font-family: "Roboto"; */
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 15px;
+  margin: 0 auto;
 }
 `;
 
-const InputBox = styleds.div`
-width : 430px;
-  margin: 0px auto;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: row;
-`;
-const ConfirmBtn = styleds.button`
-background: linear-gradient(78.32deg, #7B758B 41.41%, #FFFFFF 169.58%);
-  color : white;
-  border: 0px;
-  border-radius: 10px;
-  width: 90px;
-  height: 50px;
-  margin: 0px 10px;
-  font-family: 'Roboto';
+const OkBtn = styleds.button`
+/* background: linear-gradient(78.32deg, #7b758b 41.41%, #ffffff 169.58%); */
+background: #a8a6af;
+border: 0px;
+width: 300px;
+height: 50px;
+border-radius: 5px;
+color: white;
+font-family: "Noto Sans KR", sans-serif;
 font-style: normal;
 font-weight: 700;
 font-size: 16px;
-`;
-
-const OkBtn = styleds.button`
-background: linear-gradient(78.32deg, #7B758B 41.41%, #FFFFFF 169.58%);
+margin-top: 20px;
+cursor: default;
+p {
   color: white;
-  border: 0px;
-  border-radius: 10px;
-  width: 90px;
-  height: 40px;
-  margin: 0px auto;
-  text-align: center;
-  font-family: 'Unna';
-font-style: normal;
-font-weight: 400;
-font-size: 30px;
+  /* font-family: "Roboto"; */
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 15px;
+}
 `;
 
 export default SignupGenderAge;

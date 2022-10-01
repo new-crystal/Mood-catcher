@@ -106,22 +106,26 @@ const SearchForm = () => {
   return (
     <Fragment>
       {errors.search && <ErrorMsg>{errors.search.message}</ErrorMsg>}
-      <Form onSubmit={handleSubmit(onSubmit)}>
-        <SearchInput
-          type="search"
-          name="search"
-          placeholder="제목이나 작성자로 검색해주세요"
-          aria-invalid={!isDirty ? undefined : errors.email ? "true" : "false"}
-          {...register("search", {
-            required: "검색어를 입력해주세요",
-            pattern: {
-              value: /^[0-9|a-z|A-Z|가-힣|ㄱ-ㅎ|ㅏ-ㅣ]*$/,
-              message: "검색어는 공백이나 특수문자는 포함할 수 없습니다.",
-            },
-          })}
-        />
-        <SearchImg type="submit" disabled={isSubmitting}></SearchImg>
-      </Form>
+      <SearchBox1>
+        <Form onSubmit={handleSubmit(onSubmit)}>
+          <SearchInput
+            type="search"
+            name="search"
+            placeholder="제목이나 작성자로 검색해주세요"
+            aria-invalid={
+              !isDirty ? undefined : errors.email ? "true" : "false"
+            }
+            {...register("search", {
+              required: "검색어를 입력해주세요",
+              pattern: {
+                value: /^[0-9|a-z|A-Z|가-힣|ㄱ-ㅎ|ㅏ-ㅣ]*$/,
+                message: "검색어는 공백이나 특수문자는 포함할 수 없습니다.",
+              },
+            })}
+          />
+          <SearchImg type="submit" disabled={isSubmitting}></SearchImg>
+        </Form>
+      </SearchBox1>
       <SearchBox>
         {title && !writer && (
           <>
@@ -145,9 +149,9 @@ const SearchForm = () => {
           </>
         )}
       </SearchBox>
-      <ClosetBox>
+      {/* <ClosetBox>
         <h1>Other Closet</h1>
-      </ClosetBox>
+      </ClosetBox> */}
       {recommended?.map((item) => (
         <SearchItem key={item.postId} item={item} />
       ))}
@@ -155,22 +159,32 @@ const SearchForm = () => {
   );
 };
 
+
+const SearchBox1 = styled.div`
+  width: 350px;
+  margin: 0 auto;
+`;
+
 const Form = styled.form`
-  width: 100vw;
+  width: 100%;
+  margin: 0 auto;
   height: 70px;
   display: flex;
   align-items: center;
   justify-content: baseline;
   flex-direction: row;
 `;
+
 const ErrorMsg = styled.p`
   color: #c60000;
   font-size: 10px;
-  margin-left: 40px;
+  /* margin-left: 40px; */
   margin-bottom: -20px;
+  display: none;
 `;
 const SearchBox = styled.div`
-  width: 348px;
+  flex-grow: 2;
+  width: 350px;
   margin: 0 auto;
   border-top: 3px solid #fff;
   padding-top: 7px;
@@ -179,7 +193,7 @@ const SearchBox = styled.div`
   align-items: left;
   justify-content: baseline;
   flex-direction: row;
-  font-family: "Unna";
+  font-family: "Noto Sans KR", sans-serif;
   font-style: normal;
   font-weight: 700;
   font-size: 15px;
@@ -188,6 +202,8 @@ const SearchBox = styled.div`
   .check {
     background-color: transparent;
     border: none;
+    background-color: #2d273f;
+    color: red;
   }
 `;
 const LabelTitle = styled.label`
@@ -200,44 +216,45 @@ const LabelWriter = styled.label`
   cursor: pointer;
 `;
 const CheckBox = styled.div`
-  width: 100px;
+  width: 100%;
   height: 15px;
-  padding: 5px;
-  border-bottom: 2px solid #fff;
+  padding: 5px 5px 10px 5px;
+  text-align: center;
+  /* background-color: rgba(0, 0, 0, 0.3); */
+  background-color: #e4ddef;
+
+  border-radius: 0 0 10px 10px;
 `;
 const NotCheckBox = styled.div`
-  width: 100px;
+  width: 100%;
   height: 15px;
-  padding: 5px;
+  text-align: center;
+  padding: 5px 5px 10px 5px;
+  border-radius: 10px;
 `;
 
 const SearchInput = styled.input`
-  background-color: rgba(0, 0, 0, 0);
+  /* background-color: rgba(0, 0, 0, 0.3); */
+  background-color: #e4ddef;
+
   width: 350px;
   height: 50px;
   border: none;
-  border-radius: 10px;
-  margin-left: 40px;
+  text-align: center;
+  border-radius: 10px 10px 0 0;
+  /* margin: 0 auto; */
+  /* margin-left: 40px; */
   :focus {
     outline: none;
   }
+  ::placeholder {
+    font-size: 1em;
+    font-weight: 400;
+    opacity: 1; /* Firefox */
+    font-family: "Noto Sans KR", sans-serif;
+  }
 `;
-
-const ClosetBox = styled.div`
-  width: 200px;
-  height: 40px;
-  border-radius: 10px;
-  background-color: rgba(0, 0, 0, 0);
-  color: white;
-  margin-top: -10px;
-  font-family: "Unna";
-  font-style: normal;
-  font-weight: 700;
-  font-size: 15px;
-  margin-left: 40px;
-`;
-
-const SearchImg = styled.button`
+const SearchImg = styled.div`
   width: 30px;
   height: 30px;
   border: 0;
@@ -247,5 +264,18 @@ const SearchImg = styled.button`
   background-image: url(${search});
   margin-left: -45px;
   cursor: pointer;
+`;
+const ClosetBox = styled.div`
+  width: 200px;
+  height: 40px;
+  border-radius: 10px;
+  background-color: #e4ddef;
+  color: white;
+  margin-top: -10px;
+  font-family: "Unna";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 15px;
+  margin-left: 40px;
 `;
 export default SearchForm;

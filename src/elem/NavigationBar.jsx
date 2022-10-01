@@ -132,6 +132,6 @@ const ImageWrap = styled.div`
 
 const Navigate = styled.div`
   width: 85px;
-  height: 2px;
+  height: 4px;
   background-color: #7b758b;
 `;

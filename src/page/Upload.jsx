@@ -76,7 +76,6 @@ const Upload = (props) => {
           <Header />
           <JustifyAlign>
             <UploadText>작성하기</UploadText>
-            <NextButton onClick={writePost}>다음</NextButton>
           </JustifyAlign>
           <StUploadBox>
             <StFileButton>
@@ -120,6 +119,11 @@ const Upload = (props) => {
                 onChange={changeInput}
               />
             </StContentInput>
+            <StNextBtnBox>
+              <NextButton onClick={writePost}>
+                <p>다음</p>
+              </NextButton>
+            </StNextBtnBox>
           </StUploadBox>
         </Grid>
       </Container>
@@ -154,12 +158,12 @@ const Container = styled.div`
 
 const Grid = styled.div`
   margin: 0 auto;
-  margin-top: 40px;
+  margin-top: 20px;
   margin-bottom: 57px;
   max-width: 428px;
   width: 100vw;
   //height: calc(var(--vh, 1vh) * 100 + 50px);
-  background: linear-gradient(#a396c9, #ffffff);
+  /* background: linear-gradient(#a396c9, #ffffff); */
 
   /* background-color: royalblue; */
 `;
@@ -174,41 +178,53 @@ const JustifyAlign = styled.div`
 `;
 
 const UploadText = styled.span`
-  margin: 0 76px 0 146px;
+  /* margin: 0 76px 0 146px; */
+  margin: 0 30px 0 146px;
   font-size: 20px;
   font-weight: bold;
   color: #7b758b;
 `;
 
 const NextButton = styled.button`
-  text-align: center;
+  /* background: linear-gradient(78.32deg, #7b758b 41.41%, #ffffff 169.58%); */
+  background: #a8a6af;
+  border: 0px;
+  width: 350px;
+  height: 50px;
+  border-radius: 15px;
   color: white;
+  margin-bottom: 20px;
+  font-family: "Noto Sans KR", sans-serif;
+  font-style: normal;
+  font-weight: 700;
   font-size: 16px;
-  font-weight: bold;
-  line-height: 20px;
-  width: 70px;
-  height: 30px;
-  background-color: #7b758b;
-  border-radius: 10px;
-  border: none;
-  box-shadow: 5px 5px 4px #877f92;
+  margin-top: 20px;
+  cursor: default;
+  p {
+    color: white;
+    /* font-family: "Roboto"; */
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 16px;
+  }
 `;
 
 const StUploadBox = styled.div`
   display: flex;
   margin: 12px auto;
   flex-direction: column;
-  width: 390px;
+  width: 370px;
   /* height: 700px; */
   border: 3px solid #c4c2ca;
   border-radius: 20px;
   background-color: #ffffff;
-  box-shadow: 5px 5px 4px #877f92;
+  /* box-shadow: 5px 5px 4px #877f92; */
 `;
 
 const StFileButton = styled.div`
+  margin: 0 auto;
   & > button {
-    margin: 23px 20px 0;
+    margin: 23px auto 0;
     width: 350px;
     height: 36px;
     font-size: 14px;
@@ -223,13 +239,14 @@ const StFileButton = styled.div`
     }
     & > label {
       display: inline-block;
+      font-family: "Noto Sans KR", sans-serif;
       width: 320px;
     }
   }
 `;
 
 const StImageBox = styled.div`
-  margin: 23px 20px 8px;
+  margin: 23px auto 23px;
   width: 350px;
   height: 452px;
   border-radius: 15px;
@@ -249,7 +266,7 @@ const StImageBox = styled.div`
 const StText = styled.p`
   display: inline-block;
   font-size: 20px;
-  margin: 0 0 0 34px;
+  margin: 0 0 0 24px;
   width: 350px;
   overflow: hidden;
   white-space: normal;
@@ -258,7 +275,7 @@ const StText = styled.p`
 `;
 
 const StTitleInput = styled.div`
-  margin: 11px 20px 8px 20px;
+  margin: 11px auto 8px;
   width: 350px;
   background: #e6e5ea;
   border-radius: 15px;
@@ -276,7 +293,7 @@ const StTitleInput = styled.div`
 
 const StContentInput = styled.div`
   width: 350px;
-  margin: 11px 20px 18px 20px;
+  margin: 11px auto 18px;
   background: #e6e5ea;
   border-radius: 15px;
   outline: none;
@@ -289,4 +306,8 @@ const StContentInput = styled.div`
     background: #e6e5ea;
     font-size: 20px;
   }
+`;
+
+const StNextBtnBox = styled.div`
+  margin: 0 auto;
 `;

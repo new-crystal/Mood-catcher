@@ -6,32 +6,27 @@ import SignupForm from "../components/signupComponents/SignupForm";
 const Signup = () => {
   return (
     <Fragment>
-      <Container>
-        <Grid>
-          <LoginWrap>
+      <LoginWrap>
+        <Container>
+          <Grid>
             <Header />
             <SignupForm />
-          </LoginWrap>
-        </Grid>
-      </Container>
+          </Grid>
+        </Container>
+      </LoginWrap>
     </Fragment>
   );
 };
 
 export default Signup;
 
-const LoaderWrap = styled.div`
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  margin-top: -100px;
-  margin-left: -100px;
-`;
-
 const Container = styled.div`
+  max-width: 26.75rem;
+  width: 100vw;
   display: flex;
-  height: 984px;
-  flex-direction: column;
+  /* height: 984px; */
+  margin: 0 auto;
+  /* flex-direction: column; */
   bottom: 110px;
   & > span {
     display: -webkit-box;
@@ -43,14 +38,14 @@ const Container = styled.div`
 `;
 
 const Grid = styled.div`
-  max-width: 428px;
+  /* max-width: 26.75rem; */
   width: 100vw;
   //height: calc(var(--vh, 1vh) * 100 + 50px);
 
   margin: 0 auto;
   background-color: royalblue;
   margin-top: 60px;
-  margin-bottom: 500px;
+  /* margin-bottom: 500px; */
 `;
 
 const LoginWrap = styled.div`
@@ -59,5 +54,5 @@ const LoginWrap = styled.div`
   display: flex;
   flex-direction: column;
   text-align: center;
-  background: linear-gradient(#a396c9, #ffffff);
+  /* background: linear-gradient(#a396c9, #ffffff); */
 `;

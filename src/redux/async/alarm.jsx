@@ -12,23 +12,49 @@ export const __getAlarm = createAsyncThunk(
         return response.data.data.notices;
       }
     } catch (err) {
-      Swal.fire("에러", "네트워크 연결 상태를 확인해주세요.!", "error");
+      Swal.fire(
+        "알람을 불러오는 데 실패했습니다.",
+        "네트워크 연결 상태를 확인해주세요.!",
+        "error"
+      );
       return thunkAPI.rejectWithValue(err.response.msg);
     }
   }
 );
 
-// 알림 삭제하기
+// 알림 전체 삭제하기
+export const __deleteAllAlarm = createAsyncThunk(
+  "DELETE/ALARMS",
+  async (data, thunkAPI) => {
+    try {
+      const response = await alarmApi.deleteAllAlarm(data);
+      if (response.status === 200) {
+        return response;
+      }
+    } catch (err) {
+      Swal.fire(
+        "알람 전체 삭제에 실패하셨습니다",
+        "네트워크 연결 상태를 확인해주세요.!",
+        "error"
+      );
+      return thunkAPI.rejectWithValue(err.response.msg);
+    }
+  }
+);
+
+//알림 개별 삭제하기
 export const __deleteAlarm = createAsyncThunk(
   "DELETE/ALARM",
   async (data, thunkAPI) => {
     try {
       const response = await alarmApi.deleteAlarm(data);
-      if (response.status === 200) {
-        return response;
-      }
+      return response;
     } catch (err) {
-      Swal.fire("에러", "네트워크 연결 상태를 확인해주세요.!", "error");
+      Swal.fire(
+        "알람 삭제에 실패하셨습니다",
+        "네트워크 연결 상태를 확인해주세요.!",
+        "error"
+      );
       return thunkAPI.rejectWithValue(err.response.msg);
     }
   }

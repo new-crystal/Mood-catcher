@@ -7,7 +7,6 @@ import {
   __delUser,
   __editProfile,
   __checkNickname,
-  __getUser,
   __editOrigin,
   __logout,
   __getMyPageUser,
@@ -179,7 +178,8 @@ const EditProfileForm = () => {
       image.image_file === "" &&
       editNickname === true &&
       errors.nickname === undefined &&
-      original === false
+      original === false &&
+      checkNickname === true
     ) {
       dispatch(__editProfile({ nickname, gender, age }))
         .then(
@@ -197,7 +197,8 @@ const EditProfileForm = () => {
       image.image_file === "" &&
       editNickname === true &&
       errors.nickname === undefined &&
-      original === true
+      original === true &&
+      checkNickname === true
     ) {
       dispatch(__editOrigin({ nickname, gender, age, original }))
         .then(
@@ -215,7 +216,11 @@ const EditProfileForm = () => {
       const formData = new FormData();
       formData.append("userValue", image.image_file);
       //닉네임 수정을 하지 않았을 경우
-      if (editNickname === false && errors.nickname === undefined) {
+      if (
+        editNickname === false &&
+        errors.nickname === undefined &&
+        checkNickname === false
+      ) {
         dispatch(
           __editProfile({
             userValue: formData,
@@ -236,7 +241,11 @@ const EditProfileForm = () => {
           .then(navigate(`/mypage/${userId}`));
       }
       //닉네임 수정을 했을 경우 에러가 없을 때
-      if (editNickname === true && errors.nickname === undefined) {
+      if (
+        editNickname === true &&
+        errors.nickname === undefined &&
+        checkNickname === true
+      ) {
         dispatch(
           __editProfile({
             userValue: formData,
@@ -257,7 +266,7 @@ const EditProfileForm = () => {
           .then(navigate(`/mypage/${userId}`));
       }
       //닉네임 수정을 했을 경우 에러가 있을 때
-      if (editNickname === true && errors.nickname !== undefined) {
+      if (editNickname === true && checkNickname === false) {
         setError(
           "nickname",
           { message: "닉네임 중복확인을 해주세요." },
@@ -321,7 +330,7 @@ const EditProfileForm = () => {
   const onClickEditNickname = () => {
     Swal.fire({
       title: "닉네임을 변경하시겠습니까?",
-      text: `${users.nickname}님의 현재 닉네임을 사용하실 수 없습니다.`,
+      text: `${users.nickname}님의 현재 닉네임이 변경됩니다`,
       icon: "warning",
       showCancelButton: true,
       confirmButtonColor: "#3085d6",
@@ -347,7 +356,10 @@ const EditProfileForm = () => {
         </h5>
         {edit ? (
           <EditBox>
-            <ChangeProfile onClick={() => inputRef.click()}>
+            <ChangeProfile
+              style={{ cursor: "pointer" }}
+              onClick={() => inputRef.click()}
+            >
               <input
                 hidden
                 name="userValue"
@@ -359,7 +371,11 @@ const EditProfileForm = () => {
               />
               프로필 사진 변경하기
             </ChangeProfile>
-            <BasicBtn type="button" onClick={onClickBasicBtn}>
+            <BasicBtn
+              style={{ cursor: "pointer" }}
+              type="button"
+              onClick={onClickBasicBtn}
+            >
               기본 이미지로 변경하기
             </BasicBtn>
           </EditBox>
@@ -367,18 +383,27 @@ const EditProfileForm = () => {
       </Wrapper>
       <form onSubmit={handleSubmit(onSubmit)}>
         {editNickname ? (
-          <>
-            {errors.nickname && <p>{errors.nickname.message}</p>}
+
+          <StNicknameBox>
+             {errors.nickname !== undefined ? (
+              errors.nickname.message === "사용 가능한 닉네임입니다." ? (
+                <p style={{ color: "blue" }}>{errors.nickname.message}</p>
+              ) : (
+                <p>{errors.nickname.message}</p>
+              )
+            ) : null}
+
             <NicknameInput
               type="text"
               id="nickname"
-              placeholder={users.nickname}
+              placeholder={`${users.nickname}님의 새로운 닉네임을 입력해주세요`}
               name="nickname"
               aria-invalid={
                 !isDirty ? undefined : errors.nickname ? "true" : "false"
               }
               {...register("nickname", {
                 onChange: () => onChangeNickname(),
+                required: "변경하실 닉네임을 입력해주세요",
                 minLength: {
                   value: 2,
                   message: "닉네임을 2자 이상 작성해주세요",
@@ -394,13 +419,23 @@ const EditProfileForm = () => {
                 },
               })}
             />
-            <CheckBtn type="button" onClick={(e) => onClickCheckBtnHandler(e)}>
+            <CheckBtn
+              style={{ cursor: "pointer" }}
+              type="button"
+              onClick={(e) => onClickCheckBtnHandler(e)}
+            >
               중복 확인
             </CheckBtn>
-          </>
+          </StNicknameBox>
         ) : (
-          <EditNicknameBtn type="button" onClick={onClickEditNickname}>
+
+          <EditNicknameBtn
+            style={{ cursor: "pointer" }}
+            type="button"
+            onClick={onClickEditNickname}
+          >
             닉네임 변경
+
           </EditNicknameBtn>
         )}
         <GenderAgeBox>
@@ -451,40 +486,56 @@ const EditProfileForm = () => {
             </FormControl>
           </div>
         </GenderAgeBox>
-        <ChangeBtn type="submit" disabled={isSubmitting}>
+        <ChangeBtn
+          style={{ cursor: "pointer" }}
+          type="submit"
+          disabled={isSubmitting}
+        >
           완료
         </ChangeBtn>
       </form>
       <ProfileBox>
-        <h3>계정 설정</h3>
+        <h3 className="auth">계정 설정</h3>
       </ProfileBox>
       <LogOut>
-        <button onClick={() => navigate("/edit_password")}>
+        <button
+          style={{ cursor: "pointer" }}
+          onClick={() => navigate("/edit_password")}
+        >
           비밀번호 변경
         </button>
-        <button onClick={onClickLogOut}>로그아웃</button>
-        <button onClick={onClickDelBtn}>계정탈퇴</button>
+        <button style={{ cursor: "pointer" }} onClick={onClickLogOut}>
+          로그아웃
+        </button>
+        <button style={{ cursor: "pointer" }} onClick={onClickDelBtn}>
+          계정탈퇴
+        </button>
       </LogOut>
     </Container>
   );
 };
 
 const Container = styled.div`
-  width: 412px;
-  height: 926px;
+  /* width: 412px; */
+  /* height: 926px; */
+  width: 100%;
+  margin: 0 auto;
   text-align: center;
   form {
-    margin-top: 30px;
+    margin-top: 10px;
   }
 
   input {
     background-color: #fff;
-    border: 0px;
+    border: 2px solid grey;
     border-radius: 7px;
     height: 50px;
-    width: 150px;
-    margin-left: 20px;
-    margin-bottom: 40px;
+
+    //width: 250px;
+
+    box-sizing: border-box;
+    width: 175px;
+    margin: 20px auto 40px;
     padding-left: 5px;
     :focus {
       outline: none;
@@ -494,7 +545,7 @@ const Container = styled.div`
     color: #c60000;
     font-size: 10px;
     margin-top: -20px;
-    margin-left: 0px;
+    margin-left: -150px;
   }
 `;
 const Wrapper = styled.div`
@@ -502,26 +553,70 @@ const Wrapper = styled.div`
   align-items: center;
   justify-content: center;
   flex-direction: column;
+  h4 {
+    font-family: "Noto Sans KR", sans-serif;
+    /* font-family: "Roboto"; */
+    font-style: normal;
+    font-weight: 700;
+    font-size: 20px;
+  }
 `;
+// const ProfileBox = styled.div`
+//   width: 380px;
+//   height: 40px;
+//   border-bottom: 3px solid rgb(148, 144, 160);
+//   margin-left: 20px;
+//   text-align: left;
+// `;
+
+const StNicknameBox = styled.div`
+  width: 375px;
+  display: flex;
+  margin: 0 auto;
+`;
+
 const ProfileBox = styled.div`
-  width: 380px;
-  height: 40px;
-  border-bottom: 3px solid rgb(148, 144, 160);
-  margin-left: 20px;
-  text-align: left;
+  display: flex;
+  flex-direction: row;
+  align-items: baseline;
+
+  h3 {
+    margin: 20px 0px 0px 20px;
+    color: #2d273f;
+    font-family: "Noto Sans KR", sans-serif;
+    /* font-family: "Roboto"; */
+    font-style: normal;
+    font-weight: 700;
+    font-size: 20px;
+  }
+  h3.auth {
+    margin: 50px 0px 0px 20px;
+    color: #2d273f;
+    font-family: "Noto Sans KR", sans-serif;
+    /* font-family: "Roboto"; */
+    font-style: normal;
+    font-weight: 700;
+    font-size: 20px;
+  }
+  p {
+    color: #c60000;
+    font-size: 10px;
+    margin-left: 20px;
+    margin-bottom: 0px;
+  }
 `;
 
 const Img = styled.div`
   width: 107px;
   height: 107px;
   border-radius: 50%;
-  margin: 10px auto;
+  margin: 20px auto;
   background-position: center;
   background-size: cover;
   background-image: url(${(props) => props.url});
 `;
 const EditBox = styled.div`
-  margin-top: -15px;
+  margin-top: 7px;
   display: flex;
   background-color: #fff;
   align-items: center;
@@ -554,10 +649,10 @@ const BasicBtn = styled.button`
   border: 0px;
 `;
 const NicknameInput = styled.input`
-  box-shadow: 5px 5px 4px rgba(0, 0, 0, 0.25);
+  /* box-shadow: 5px 5px 4px rgba(0, 0, 0, 0.25); */
 `;
 const EditNicknameBtn = styled.button`
-  background: linear-gradient(78.32deg, #7b758b 41.41%, #ffffff 169.58%);
+  /* background: linear-gradient(78.32deg, #7b758b 41.41%, #ffffff 169.58%);
   border: 0px;
   border-radius: 10px;
   width: 200px;
@@ -569,14 +664,33 @@ const EditNicknameBtn = styled.button`
   font-style: normal;
   font-weight: 700;
   font-size: 16px;
-  box-shadow: 5px 5px 4px rgba(0, 0, 0, 0.25);
+  box-shadow: 5px 5px 4px rgba(0, 0, 0, 0.25); */
+  background: #a8a6af;
+  border: 0px;
+  width: 375px;
+  height: 50px;
+  border-radius: 5px;
+  color: white;
+  font-family: "Noto Sans KR", sans-serif;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 16px;
+  margin: 10px auto 10px;
+  cursor: default;
+  p {
+    color: white;
+    /* font-family: "Roboto"; */
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 15px;
+  }
 `;
 const GenderAgeBox = styled.div`
-  width: 380px;
-  padding: 15px;
+  width: 375px;
+  margin: 0 auto 10px;
+  /* padding: 15px; */
   display: flex;
   justify-content: space-between;
-  margin-bottom: 20px;
   .gender {
     width: 180px;
   }
@@ -585,7 +699,7 @@ const GenderAgeBox = styled.div`
   }
 `;
 const CheckBtn = styled.button`
-  background: linear-gradient(78.32deg, #7b758b 41.41%, #ffffff 169.58%);
+  /* background: linear-gradient(78.32deg, #7b758b 41.41%, #ffffff 169.58%);
   color: white;
   border: 0px;
   border-radius: 10px;
@@ -596,13 +710,33 @@ const CheckBtn = styled.button`
   font-style: normal;
   font-weight: 700;
   font-size: 16px;
-  box-shadow: 5px 5px 4px rgba(0, 0, 0, 0.25);
+  box-shadow: 5px 5px 4px rgba(0, 0, 0, 0.25); */
+  background: #a8a6af;
+  border: 0px;
+  width: 175px;
+  height: 50px;
+  margin: 0 auto;
+  border-radius: 5px;
+  color: white;
+  font-family: "Noto Sans KR", sans-serif;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 16px;
+  margin-top: 20px;
+  cursor: default;
+  p {
+    color: white;
+    /* font-family: "Roboto"; */
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 15px;
+  }
 `;
 
 const LogOut = styled.div`
   flex-direction: row;
   button {
-    background: linear-gradient(78.32deg, #7b758b 41.41%, #ffffff 169.58%);
+    /* background: linear-gradient(78.32deg, #7b758b 41.41%, #ffffff 169.58%);
     border: 0px;
     border-radius: 10px;
     width: 200px;
@@ -614,12 +748,31 @@ const LogOut = styled.div`
     font-style: normal;
     font-weight: 700;
     font-size: 16px;
-    box-shadow: 5px 5px 4px rgba(0, 0, 0, 0.25);
+    box-shadow: 5px 5px 4px rgba(0, 0, 0, 0.25); */
+    background: #a8a6af;
+    border: 0px;
+    width: 300px;
+    height: 50px;
+    border-radius: 5px;
+    color: white;
+    font-family: "Noto Sans KR", sans-serif;
+    font-style: normal;
+    font-weight: 700;
+    font-size: 16px;
+    margin-top: 20px;
+    cursor: default;
+    p {
+      color: white;
+      /* font-family: "Roboto"; */
+      text-decoration: none;
+      font-weight: bold;
+      font-size: 15px;
+    }
   }
 `;
 
 const ChangeBtn = styled.button`
-  background: linear-gradient(78.32deg, #7b758b 41.41%, #ffffff 169.58%);
+  /* background: linear-gradient(78.32deg, #7b758b 41.41%, #ffffff 169.58%);
   border: 0px;
   border-radius: 10px;
   width: 90px;
@@ -631,6 +784,25 @@ const ChangeBtn = styled.button`
   font-style: normal;
   font-weight: 700;
   font-size: 16px;
-  box-shadow: 5px 5px 4px rgba(0, 0, 0, 0.25);
+  box-shadow: 5px 5px 4px rgba(0, 0, 0, 0.25); */
+  background: #a8a6af;
+  border: 0px;
+  width: 375px;
+  height: 50px;
+  border-radius: 5px;
+  color: white;
+  font-family: "Noto Sans KR", sans-serif;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 16px;
+  margin: 10px auto 10px;
+  cursor: default;
+  p {
+    color: white;
+    /* font-family: "Roboto"; */
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 15px;
+  }
 `;
 export default EditProfileForm;
