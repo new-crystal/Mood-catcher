@@ -28,14 +28,16 @@ const BestItem = (item) => {
   }, [mood, likeStatus]);
 
   //무드 등록
-  const onClickMoodBtn = () => {
+  const onClickMoodBtn = (e) => {
+    e.stopPropagation();
     setLikeStatus(true);
     setMoodNum(moodNum + 1);
     dispatch(__patchMood(item.item.postId));
   };
 
   //무드 취소
-  const onClickMoodCancelBtn = () => {
+  const onClickMoodCancelBtn = (e) => {
+    e.stopPropagation();
     setLikeStatus(false);
     setMoodNum(moodNum - 1);
     dispatch(__patchMood(item.item.postId));
@@ -48,13 +50,15 @@ const BestItem = (item) => {
   };
 
   return (
-    <OtherClosetBox key={item.item.postId}>
+    <OtherClosetBox
+      key={item.item.postId}
+      onClick={() =>
+        navigate(`/item_detail/${item.item.postId}/${item.item.userId}`)
+      }
+    >
       <ImgBox
         src={item.item.imgUrl}
         alt="best_image"
-        onClick={() =>
-          navigate(`/item_detail/${item.item.postId}/${item.item.userId}`)
-        }
         onError={onErrorHandler}
       ></ImgBox>
       <TextBox>
@@ -68,10 +72,13 @@ const BestItem = (item) => {
             {likeStatus ? (
               <Heart
                 url={`${heartTrue}`}
-                onClick={onClickMoodCancelBtn}
+                onClick={(e) => onClickMoodCancelBtn(e)}
               ></Heart>
             ) : (
-              <Heart url={`${heart}`} onClick={onClickMoodBtn}></Heart>
+              <Heart
+                url={`${heart}`}
+                onClick={(e) => onClickMoodBtn(e)}
+              ></Heart>
             )}
 
             <p>{moodNum}</p>
@@ -92,6 +99,7 @@ const OtherClosetBox = styled.div`
   align-items: center;
   justify-content: center;
   flex-direction: row;
+  cursor: pointer;
 `;
 
 const ImgBox = styled.img`

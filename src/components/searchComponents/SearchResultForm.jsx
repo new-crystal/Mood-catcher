@@ -329,6 +329,7 @@ const Img = styled.img`
   width: 180px;
   height: 240px;
   border-radius: 20px;
+  cursor: pointer;
   /* position: relative;
   overflow: hidden; */
 `;

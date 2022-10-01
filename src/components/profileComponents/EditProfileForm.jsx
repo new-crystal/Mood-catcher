@@ -356,7 +356,10 @@ const EditProfileForm = () => {
         </h5>
         {edit ? (
           <EditBox>
-            <ChangeProfile onClick={() => inputRef.click()}>
+            <ChangeProfile
+              style={{ cursor: "pointer" }}
+              onClick={() => inputRef.click()}
+            >
               <input
                 hidden
                 name="userValue"
@@ -368,7 +371,11 @@ const EditProfileForm = () => {
               />
               프로필 사진 변경하기
             </ChangeProfile>
-            <BasicBtn type="button" onClick={onClickBasicBtn}>
+            <BasicBtn
+              style={{ cursor: "pointer" }}
+              type="button"
+              onClick={onClickBasicBtn}
+            >
               기본 이미지로 변경하기
             </BasicBtn>
           </EditBox>
@@ -410,12 +417,20 @@ const EditProfileForm = () => {
                 },
               })}
             />
-            <CheckBtn type="button" onClick={(e) => onClickCheckBtnHandler(e)}>
+            <CheckBtn
+              style={{ cursor: "pointer" }}
+              type="button"
+              onClick={(e) => onClickCheckBtnHandler(e)}
+            >
               중복 확인
             </CheckBtn>
           </>
         ) : (
-          <EditNicknameBtn type="button" onClick={onClickEditNickname}>
+          <EditNicknameBtn
+            style={{ cursor: "pointer" }}
+            type="button"
+            onClick={onClickEditNickname}
+          >
             닉네임 변경
           </EditNicknameBtn>
         )}
@@ -467,7 +482,11 @@ const EditProfileForm = () => {
             </FormControl>
           </div>
         </GenderAgeBox>
-        <ChangeBtn type="submit" disabled={isSubmitting}>
+        <ChangeBtn
+          style={{ cursor: "pointer" }}
+          type="submit"
+          disabled={isSubmitting}
+        >
           완료
         </ChangeBtn>
       </form>
@@ -475,11 +494,18 @@ const EditProfileForm = () => {
         <h3>계정 설정</h3>
       </ProfileBox>
       <LogOut>
-        <button onClick={() => navigate("/edit_password")}>
+        <button
+          style={{ cursor: "pointer" }}
+          onClick={() => navigate("/edit_password")}
+        >
           비밀번호 변경
         </button>
-        <button onClick={onClickLogOut}>로그아웃</button>
-        <button onClick={onClickDelBtn}>계정탈퇴</button>
+        <button style={{ cursor: "pointer" }} onClick={onClickLogOut}>
+          로그아웃
+        </button>
+        <button style={{ cursor: "pointer" }} onClick={onClickDelBtn}>
+          계정탈퇴
+        </button>
       </LogOut>
     </Container>
   );

@@ -1,6 +1,9 @@
 import styled from "styled-components";
+import moody from "../../image/냥5.png";
 
 const HotList = ({ setHot }) => {
+  const text =
+    "매일 밤 무드캐처의 마스코트 고양이 무디는 \n하루동안 가장 많은 사랑를 받은 게시물을 \n메인 화면에 모아두는 습관이 있답니다!";
   return (
     <>
       <Shadow onClick={() => setHot(false)}></Shadow>
@@ -15,15 +18,19 @@ const HotList = ({ setHot }) => {
         <Grade>
           <TextBox>
             <h4>Hot Post</h4>
-            <h6>하루 동안 좋아요를 가장 많이 받은 게시물</h6>
+            <h6>하루 동안 무드를 가장 많이 받은 게시물</h6>
           </TextBox>
         </Grade>
         <Grade>
           <TextBox>
             <h4>명예의 전당</h4>
-            <h6>전 날 Hot Post였던 게시물</h6>
+            <h6>Hot Post 등극한 게시물</h6>
           </TextBox>
         </Grade>
+        <MoodyBox>
+          <MoodyImg></MoodyImg>
+          <h6>{text}</h6>
+        </MoodyBox>
       </ListBox>
     </>
   );
@@ -49,6 +56,7 @@ const ListBox = styled.div`
   }
   h6 {
     margin: 0px;
+    white-space: pre-wrap;
   }
 `;
 const TitleBox = styled.div`
@@ -101,4 +109,19 @@ const Shadow = styled.div`
   z-index: 22;
 `;
 
+const MoodyBox = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: left;
+  flex-direction: row;
+  margin-bottom: 7px;
+`;
+const MoodyImg = styled.div`
+  margin-left: -40px;
+  width: 50px;
+  height: 50px;
+  background-position: center;
+  background-size: cover;
+  background-image: url(${moody});
+`;
 export default HotList;

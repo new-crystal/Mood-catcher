@@ -48,7 +48,7 @@ const EditPasswordForm = () => {
     if (checkEmail) {
       setError("email", { message: "이메일 인증번호 발송에 성공했습니다" });
     }
-  }, [checkEmail]);
+  }, [checkEmail, authNum]);
 
   //이메일이 바뀐 값 디스패치하기
   const onChangeEmail = () => {
