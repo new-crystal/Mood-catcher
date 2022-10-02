@@ -336,7 +336,6 @@ const ProfileBox = styled.div`
   flex-direction: row;
   margin-top: 0px;
   h4 {
-    /* font-family: "Roboto"; */
     font-family: "Noto Sans KR", sans-serif;
     font-style: normal;
     font-weight: 800;
