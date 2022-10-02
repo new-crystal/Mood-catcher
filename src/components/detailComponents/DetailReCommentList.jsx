@@ -90,7 +90,7 @@ const DetailReCommentList = (props) => {
         >
           <span>{item.createdAt}</span>
           <span>작성자 : {item.nickname}</span>
-          <pre>{item.content}</pre>
+          <textarea>{item.content}</textarea>
         </WrapComment>
         {payload.userId == item.userId ? (
           <DropdownContainer>
@@ -148,6 +148,7 @@ const DetailReCommentList = (props) => {
 export default DetailReCommentList;
 
 const WrapComment = styled.div`
+  width: 245px;
   /* display: flex; */
   justify-content: space-between;
   /* padding: 0 20px; */
@@ -160,12 +161,27 @@ const WrapComment = styled.div`
     font-size: 0.313rem;
     margin-left: 5px;
   }
-  pre {
-    width: 240px;
+  textarea {
+    /* width: 240px;
     margin-top: 5px;
     height: 20px;
     background-color: royalblue;
+    //padding-top: 7px;
+    margin-left: 3px;
+    border: none;
+    outline: none;
+    overflow: hidden;
+    font-size: 16px;
+    font-family: "Noto Sans KR", sans-serif;
+    //border: 1px solid black;
+    border-radius: 5px;
+    background-color: transparent; */
+    width: 240px;
+    resize: none;
+    height: 70px;
+    /* background-color: royalblue; */
     /* padding-top: 7px; */
+    /* margin-top: 20px; */
     margin-left: 3px;
     border: none;
     outline: none;
@@ -184,7 +200,7 @@ const CommentBox = styled.div`
 `;
 
 const CommentImg = styled.div`
-  margin: 8px 6px 4px 8px;
+  margin: 8px 6px 4px 0px;
   width: 45px;
   height: 45px;
   border-radius: 50%;

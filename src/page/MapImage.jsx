@@ -7,7 +7,9 @@ import { useNavigate } from "react-router-dom";
 import "../shared/style/MapImageStyle.css";
 import { getCookie, deleteCookie } from "../shared/cookie";
 import { useDispatch, useSelector } from "react-redux";
-import { __patchMap, __getUsersMap } from "../redux/async/kakao";
+import HeartButton from "../elem/MapButton";
+
+import { __patchMap, __getUsersMap, __patchOnoff } from "../redux/async/kakao";
 
 const MapImage = (props) => {
   let map;
@@ -21,12 +23,35 @@ const MapImage = (props) => {
 
   const checkPatch = useSelector((state) => state.kakao.checkPatch);
   const checkUsersMap = useSelector((state) => state.kakao.checkUsersMap);
+  const checkExist = useSelector((state) => state.kakao.checkExist);
   const aroundUser = useSelector((state) => state.kakao.aroundUser);
   const latitude = useSelector((state) => state.kakao.myLatitude);
   const longitude = useSelector((state) => state.kakao.myLongitude);
+  const isExistsMap = useSelector((state) => state.kakao.isExistsMap);
+  const [toggle, setToggle] = useState(false); //map Exists 상태
+
+  //like_array에 userId있으면 true 없으면 false
+  //   useEffect(() => {
+  //     if(item.like_array.includes(userId)){
+  //         setToggle(true);
+  //     }else{
+  //         setToggle(false);
+  //     }
+  // }, [item, userId]);
+
+  console.log(isExistsMap);
+  useEffect(() => {
+    setMapState(true);
+  }, [isExistsMap]);
+
+  useEffect(() => {
+    if (isExistsMap) setToggle(true);
+    else setToggle(false);
+  }, []);
 
   useEffect(() => {
     // 카카오 맵 실행
+
     if (kakao?.maps !== undefined) {
       setMapState(true);
     }
@@ -124,12 +149,36 @@ const MapImage = (props) => {
     arr[idx].setMap(null);
   };
 
+  const clickLike = () => {
+    //좋아요 토글 함수
+
+    // if (isExistsMap === false) {
+    // if (window.confirm(`지도기능을 키시겠어요?`)) {
+    dispatch(__patchOnoff());
+    setToggle((togle) => !togle);
+    window.location.reload();
+    return;
+    // }
+    // } else {
+    //   dispatch(__patchOnoff());
+    //   setToggle((togle) => !togle);
+    //   window.location.reload();
+    // }
+  };
+
   return (
     <Fragment>
       <Container>
         <Grid>
           <Header />
-
+          <HeartButton
+            _onClick={(e) => {
+              clickLike();
+              e.preventDefault();
+              e.stopPropagation();
+            }}
+            is_like={toggle}
+          />
           <div
             id="map"
             ref={mapContainer}

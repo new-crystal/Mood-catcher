@@ -7,8 +7,9 @@ const initialState = {
   searchResult: [],
   postLast: null,
   resultPostLast: null,
-  isFetching: false,
+  isFetching: true,
   errorMessage: null,
+  isSearchResult: true,
 };
 
 const searchSlice = createSlice({
@@ -32,18 +33,21 @@ const searchSlice = createSlice({
         state.errorMessage = action.errorMessage;
       })
       //검색 게시물 조회하기 (검색 결과창)
-      .addCase(__getSearchResult.fulfilled, (state, action) => {
-        state.searchResult = [...action.payload];
-        state.isFetching = false;
-        state.errorMessage = null;
-      })
       .addCase(__getSearchResult.pending, (state, action) => {
         state.isFetching = true;
+        state.isSearchResult = true;
+      })
+      .addCase(__getSearchResult.fulfilled, (state, action) => {
+        state.searchResult = action.payload;
+        state.isFetching = false;
+        state.errorMessage = null;
+        state.isSearchResult = false;
       })
       .addCase(__getSearchResult.rejected, (state, action) => {
         state.resultPostLast = "lastPage";
         state.isFetching = false;
         state.errorMessage = action.errorMessage;
+        state.isSearchResult = false;
       }),
 });
 

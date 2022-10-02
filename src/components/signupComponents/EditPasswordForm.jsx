@@ -118,7 +118,7 @@ const EditPasswordForm = () => {
           <h1>Edit PW</h1>
         </SignUpBox>
         <FormCantainer>
-          {newPw && (
+          {!newPw && (
             <>
               <div>
                 <TextBox>
@@ -186,7 +186,7 @@ const EditPasswordForm = () => {
               </OkBtn>
             </>
           )}
-          {!newPw && (
+          {newPw && (
             <>
               <div>
                 <TextBox>

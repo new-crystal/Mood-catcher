@@ -22,6 +22,9 @@ const Edit_post = (props) => {
   });
 
   const { postId } = useParams();
+  const { imgUrl } = useParams();
+  console.log(postId);
+  console.log(imgUrl);
 
   const selectImg = (e) => {
     const reader = new FileReader();
@@ -95,7 +98,11 @@ const Edit_post = (props) => {
               />
               <div className="ImgDiv">
                 <img
-                  src={attachment ? attachment : preview_URL}
+                  src={
+                    attachment
+                      ? attachment
+                      : `https://gwonyeong.s3.ap-northeast-2.amazonaws.com/post/${imgUrl}`
+                  }
                   alt=""
                   className="default"
                 />

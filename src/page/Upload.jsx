@@ -16,10 +16,12 @@ const Upload = (props) => {
   const fileInput = useRef(null);
 
   const [attachment, setAttachment] = useState("");
-  const [post, setPost] = useState({
-    title: "",
-    content: "",
-  });
+  // const [post, setPost] = useState({
+  //   title: "",
+  //   content: "",
+  // });
+  const title_ref = React.useRef(null);
+  const text_ref = React.useRef(null);
 
   // 선택된 사진을 미리볼 수 있게 해줍니다.
   const selectImg = (e) => {
@@ -35,10 +37,10 @@ const Upload = (props) => {
   };
 
   // input 데이터 저장하기
-  const changeInput = (e) => {
-    const { value, id } = e.target;
-    setPost({ ...post, [id]: value });
-  };
+  // const changeInput = (e) => {
+  //   const { value, id } = e.target;
+  //   setPost({ ...post, [id]: value });
+  // };
 
   // 서버에 사진을 전송하는 함수
   const writePost = () => {
@@ -51,7 +53,7 @@ const Upload = (props) => {
       });
       navigate("/upload");
     }
-    if (post.title === "") {
+    if (title_ref.current.value === "") {
       Swal.fire({
         icon: "info",
         title: "캐처님의 옷장 제목을 넣어주세요!",
@@ -59,12 +61,20 @@ const Upload = (props) => {
         timer: 1500,
       });
     }
-    if (fileInput.current.files[0] !== undefined && post.title !== "") {
+    if (
+      fileInput.current.files[0] !== undefined &&
+      title_ref.current.value !== ""
+    ) {
       const formdata = new FormData();
       formdata.append("postImage", fileInput.current.files[0]);
 
       dispatch(regFormdata(formdata));
-      dispatch(regPost(post));
+      dispatch(
+        regPost({
+          title: title_ref.current.value,
+          content: text_ref.current.value,
+        })
+      );
       navigate("/upload_select");
     }
   };
@@ -103,21 +113,17 @@ const Upload = (props) => {
             </StImageBox>
             <StText>제목</StText>
             <StTitleInput>
-              <input
-                id="title"
-                maxLength={17}
-                required
-                onChange={changeInput}
-              />
+              <textarea ref={title_ref} maxLength={16} />
             </StTitleInput>
             <StText>내용</StText>
             <StContentInput>
-              <input
+              {/* <input
                 id="content"
-                maxLength={25}
+                maxLength={40}
                 required
                 onChange={changeInput}
-              />
+              /> */}
+              <textarea ref={text_ref} className="textIpt" maxLength={44} />
             </StContentInput>
             <StNextBtnBox>
               <NextButton onClick={writePost}>
@@ -280,12 +286,15 @@ const StTitleInput = styled.div`
   background: #e6e5ea;
   border-radius: 15px;
   outline: none;
-  & > input {
-    width: 300px;
+  & > textarea {
+    width: 320px;
     height: 50px;
+    line-height: 50px;
     border: none;
+    resize: none;
     outline: none;
     margin-left: 20px;
+    font-family: "Noto Sans KR", sans-serif;
     background: #e6e5ea;
     font-size: 20px;
   }
@@ -297,12 +306,16 @@ const StContentInput = styled.div`
   background: #e6e5ea;
   border-radius: 15px;
   outline: none;
-  & > input {
-    width: 300px;
+  & > textarea {
+    width: 320px;
     height: 90px;
     border: none;
     outline: none;
+    resize: none;
+    box-sizing: border-box;
+    padding: 10px 0 0 0;
     margin-left: 20px;
+    font-family: "Noto Sans KR", sans-serif;
     background: #e6e5ea;
     font-size: 20px;
   }

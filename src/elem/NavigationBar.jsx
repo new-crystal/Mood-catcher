@@ -102,7 +102,7 @@ export default NavigationBar;
 const NavBox = styled.div`
   display: flex;
   position: fixed;
-  margin: 0 auto;
+  margin: 0px auto -1px;
   bottom: 0;
   left: 0;
   right: 0;

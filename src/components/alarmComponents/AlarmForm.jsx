@@ -134,7 +134,7 @@ const AlarmForm = () => {
                         </TextBox>
                         <TimeText>{alarm.createdAt}</TimeText>
                         <ArrowBtn></ArrowBtn>
-                        <DelAlarm
+                        <DelAlarm2
                           style={{ cursor: "pointer" }}
                           onClick={(e) => {
                             e.stopPropagation();
@@ -160,7 +160,7 @@ const AlarmForm = () => {
                           }}
                         >
                           ✕
-                        </DelAlarm>
+                        </DelAlarm2>
                       </AlarmBox>
                     </>
                   );
@@ -245,6 +245,12 @@ const AlarmList = styled.div`
   justify-content: center;
   flex-direction: column;
   padding-bottom: 60px;
+  overflow-x: hidden;
+  overflow-y: scroll;
+
+  ::-webkit-scrollbar {
+    display: none;
+  }
 
   h4 {
     font-family: "Roboto";
@@ -287,7 +293,7 @@ const ConfirmBtn = styled.button`
   color: #7b758b;
   border: 0px;
   margin: 0 -10px 0 0;
-  font-family: Roboto;
+  font-family: "Roboto";
   font-style: Bold;
   font-weight: 700;
   font-size: 11px;
@@ -319,13 +325,6 @@ const AlarmBox = styled.div`
   align-items: center;
   justify-content: baseline;
   flex-direction: row;
-  display: flex;
-  overflow-x: hidden;
-  overflow-y: scroll;
-
-  ::-webkit-scrollbar {
-    display: none;
-  }
 
   & p {
     /* margin-top: 5px; */
@@ -368,6 +367,7 @@ const TimeText = styled.div`
   left: 0px;
   text-align: center;
   margin-right: 0px;
+  flex-shrink: 0;
 `;
 
 const AlarmImg = styled.div`
@@ -378,6 +378,7 @@ const AlarmImg = styled.div`
   background-position: center;
   background-size: cover;
   background-image: url(${(props) => props.url});
+  flex-shrink: 0;
 `;
 
 const ArrowBtn = styled.div`
@@ -389,12 +390,18 @@ const ArrowBtn = styled.div`
   background-image: url("https://www.pngmart.com/files/16/Left-Arrow-Icon-PNG-Transparent-Image.png");
   position: relative;
   left: -30px;
-  top: 3px;
+  top: 10px;
   opacity: 70%;
+  flex-shrink: 0;
 `;
 const DelAlarm = styled.p`
-  margin-right: 5px;
-  margin-left: 0px;
+  position: relative;
+  left: -5px;
+`;
+
+const DelAlarm2 = styled.p`
+  position: relative;
+  left: -20px;
 `;
 
 export default AlarmForm;
