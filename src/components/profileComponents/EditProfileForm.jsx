@@ -31,7 +31,7 @@ const EditProfileForm = () => {
     preview_URL:
       "https://cdn.discordapp.com/attachments/1014169130045292625/1014194232250077264/Artboard_1.png",
   });
-  const token = getCookie("token");
+  const token = localStorage.getItem("token");
   const payload = jwt_decode(token);
   const userId = payload.userId;
   const [edit, setEdit] = useState(false);
@@ -289,13 +289,9 @@ const EditProfileForm = () => {
       cancelButtonText: "취소",
     }).then((result) => {
       if (result.isConfirmed) {
-        dispatch(__logout())
-          .then(
-            (document.cookie =
-              `token` +
-              "=; expires=Thu, 01 Jan 1970 00:00:01 GMT;max-age=-1;domain=.moodcatch.link;path=/;")
-          )
-          .then(navigate("/login"));
+        dispatch(__logout());
+        // .then(localStorage.removeItem("token"))
+        // .then(navigate("/login"));
       }
     });
   };
@@ -555,7 +551,7 @@ const ErrMsg = styled.p`
   font-size: 10px;
   margin-top: 20px;
   margin-bottom: -50px;
-  margin-left: -100px;
+  margin-left: 10px;
   text-align: left;
 `;
 const Wrapper = styled.div`

@@ -40,7 +40,7 @@ const Item_detail = (props) => {
   const preview_URL =
     "https://cdn.discordapp.com/attachments/1014169130045292625/1014194232250077264/Artboard_1.png";
 
-  const token = getCookie("token");
+  const token = localStorage.getItem("token");
   const payload = jwt(token);
 
   const dispatch = useDispatch();

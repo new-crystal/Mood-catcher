@@ -5,7 +5,6 @@ import { Routes, Route, useNavigate } from "react-router-dom";
 import Loader from "./shared/Loader";
 
 import "./App.css";
-import { getCookie } from "./shared/cookie";
 
 // 코드 스플리팅을 위한 loadable설정
 const Main = loadable(() => import("./page/Main"), {
@@ -75,12 +74,14 @@ const Start = loadable(() => import("./page/Start"), {
 });
 
 function App() {
-  const token = getCookie("token");
+  const token = localStorage.getItem("token");
   const navigate = useNavigate();
   useEffect(() => {
-    if (window.location.pathname !== "/") {
-      if (token === undefined) navigate("/login");
-    }
+    // alert(window.location.pathname.includes("detail"));
+    if (window.location.pathname.includes("detail")) console.log("test");
+    // if (window.location.pathname !== "/") {
+    else if (token === null) navigate("/login");
+    // }
     setScreenSize();
     window.addEventListener("resize", () => setScreenSize());
   }, []);
