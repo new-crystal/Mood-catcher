@@ -11,6 +11,7 @@ import {
 
 const initialState = {
   comments: [],
+  commentList: [],
   isFetching: false,
   errorMessage: null,
   editComment: true,
@@ -25,7 +26,7 @@ const commentSlice = createSlice({
     builder
       // 댓글 조회하기
       .addCase(__getComments.fulfilled, (state, action) => {
-        state.comments = action.payload.comments;
+        state.comments = [...action.payload.comments];
         state.isFetching = false;
         state.errorMessage = null;
       })
@@ -42,7 +43,8 @@ const commentSlice = createSlice({
         state.addComment = false;
       })
       .addCase(__addComment.fulfilled, (state, action) => {
-        state.comments = [action.payload, ...state.comments];
+        //state.comments = [action.payload, ...state.comments];
+        // state.comments.push(action.payload);
         state.isFetching = false;
         state.errorMessage = null;
         state.addComment = true;

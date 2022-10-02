@@ -69,8 +69,7 @@ const Item_detail = (props) => {
   const editStatus = useSelector((state) => state.comment.editComment);
   const addCommentStatus = useSelector((state) => state.comment.addComment);
   const [isComment, setIsComment] = useState(false);
-  console.log(commentList);
-  console.log(addCommentStatus);
+
   // 댓글 input
   let commentText = useRef("");
 
@@ -97,7 +96,7 @@ const Item_detail = (props) => {
       __addComment({ comment: commentText.current.value, postId: postId }) // , postId: postId
     );
     commentText.current.value = "";
-    //setIsComment(!isComment);
+    setIsComment(!isComment);
     //window.location.reload();
   };
 
@@ -161,10 +160,11 @@ const Item_detail = (props) => {
     setLikeStatus(like);
   }, [likeStatus, moodNum]);
 
+  //댓글
   useEffect(() => {
     console.log("댓글");
     dispatch(__getComments(postId));
-  }, [addCommentStatus]);
+  }, [isComment, addCommentStatus]);
 
   //새로고침시에도 무드 상태값 유지
   useEffect(() => {

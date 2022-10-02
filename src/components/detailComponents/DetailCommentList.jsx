@@ -45,7 +45,7 @@ const DetailCommentList = (props) => {
     if (item.imgUrl !== undefined) {
       setProfile({ image_file: `${item.imgUrl}` });
     }
-  }, []);
+  }, [item]);
 
   // 댓글 삭제 이벤트
   const deleteComment = () => {
@@ -93,7 +93,7 @@ const DetailCommentList = (props) => {
           <span>{item.createdAt}</span>
           <span>작성자 : {item.nickname}</span>
           {/* <pre>{item.content}</pre> */}
-          <textarea>{item.content}</textarea>
+          <textarea value={item.content}></textarea>
         </WrapComment>
         <R_Count
           onClick={() => {
