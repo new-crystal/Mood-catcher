@@ -16,6 +16,7 @@ const initialState = {
   errorMessage: null,
   editComment: true,
   addComment: true,
+  delComment: true,
 };
 
 const commentSlice = createSlice({
@@ -66,11 +67,19 @@ const commentSlice = createSlice({
         state.isFetching = false;
         state.errorMessage = action.errorMessage;
       })
+      //댓글 수정하기
       .addCase(__editComment.pending, (state, action) => {
         state.editComment = false;
       })
       .addCase(__editComment.fulfilled, (state, action) => {
         state.editComment = true;
+      })
+      //댓글 삭제하기
+      .addCase(__deleteComment.pending, (state, action) => {
+        state.delComment = false;
+      })
+      .addCase(__deleteComment.fulfilled, (state, action) => {
+        state.delComment = true;
       });
   },
 });

@@ -138,7 +138,6 @@ const DetailCommentList = (props) => {
                               "success"
                             );
                             deleteComment();
-                            window.location.reload();
                           }
                         });
                       }}

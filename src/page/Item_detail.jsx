@@ -68,6 +68,7 @@ const Item_detail = (props) => {
   const last = useSelector((state) => state.comment.commentLast);
   const editStatus = useSelector((state) => state.comment.editComment);
   const addCommentStatus = useSelector((state) => state.comment.addComment);
+  const delStatus = useSelector((state) => state.comment.delComment);
   const [isComment, setIsComment] = useState(false);
 
   // 댓글 input
@@ -97,7 +98,6 @@ const Item_detail = (props) => {
     );
     commentText.current.value = "";
     setIsComment(!isComment);
-    //window.location.reload();
   };
 
   // 대표 게시물 지정하기
@@ -161,10 +161,13 @@ const Item_detail = (props) => {
   }, [likeStatus, moodNum]);
 
   //댓글
-  useEffect(() => {
-    console.log("댓글");
-    dispatch(__getComments(postId));
-  }, [isComment, addCommentStatus]);
+  useEffect(
+    () => {
+      dispatch(__getComments(postId));
+    },
+    [isComment, addCommentStatus, editStatus, delStatus],
+    editStatus
+  );
 
   //새로고침시에도 무드 상태값 유지
   useEffect(() => {

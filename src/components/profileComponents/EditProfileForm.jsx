@@ -483,7 +483,6 @@ const EditProfileForm = () => {
                 label="Age"
                 className="age"
               >
-                <MenuItem value={"10대"}>10대 미만</MenuItem>
                 <MenuItem value={"10대"}>10대</MenuItem>
                 <MenuItem value={"20대"}>20대</MenuItem>
                 <MenuItem value={"30대"}>30대</MenuItem>
