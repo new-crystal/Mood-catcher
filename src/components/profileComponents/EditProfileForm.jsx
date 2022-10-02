@@ -293,7 +293,7 @@ const EditProfileForm = () => {
           .then(
             (document.cookie =
               `token` +
-              "=; expires=Thu, 01 Jan 1970 00:00:01 GMT;domain=moodcatch.link;path=/;")
+              "=; expires=Thu, 01 Jan 1970 00:00:01 GMT;max-age=-1;domain=.moodcatch.link;path=/;")
           )
           .then(navigate("/login"));
       }

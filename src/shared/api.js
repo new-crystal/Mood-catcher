@@ -46,7 +46,7 @@ instance.interceptors.response.use(
     ) {
       await (document.cookie =
         `token` +
-        "=; expires=Thu, 01 Jan 1970 00:00:01 GMT;domain=moodcatch.link;path=/;");
+        "=; expires=Thu, 01 Jan 1970 00:00:01 GMT;max-age=-1;domain=.moodcatch.link;path=/;");
       Swal.fire("로그인", "로그인 시간이 만료되었습니다.", "error");
     }
     return Promise.reject(error);

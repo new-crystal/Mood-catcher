@@ -69,7 +69,7 @@ const CardForm = (item) => {
             {year}년 {month}월 {day}일
           </RankText>
         ) : (
-          <RankText style={{ marginLeft: "0px", width: "240px" }}>
+          <RankText style={{ marginLeft: "0px", width: "131px" }}>
             {year}년 {month}월 {day}일 {item.item.rank}위👑
           </RankText>
         )}
@@ -168,7 +168,7 @@ const RankText = styled.h4`
   color: #7b758b;
   font-size: 12px;
   position: absolute;
-  left: 36%;
+  left: 33%;
   margin-top: -155px;
 `;
 const TextContainer = styled.div`
