@@ -409,7 +409,7 @@ const MoodBody = styled.div`
     font-family: "Unna";
     font-style: normal;
     font-weight: 700;
-    font-size: 50px;
+    font-size: 45px;
     text-align: center;
     color: #7b758b;
   }

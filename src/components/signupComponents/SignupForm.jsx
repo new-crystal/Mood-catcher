@@ -26,7 +26,7 @@ const SigupForm = () => {
   //로그인 한 경우
   useEffect(() => {
     const token = localStorage.getItem("token");
-    if (token !== undefined) {
+    if (token !== null) {
       navigate("/main");
     }
   }, []);

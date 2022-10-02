@@ -78,7 +78,6 @@ const LikePosts = () => {
       )}
       {allLikePosts?.map((item, idx) => (
         <CardForm key={idx} item={item} />
-        // <EachPost key={idx} item={item} />
       ))}
 
       {loading ? <InfinityScrollLoader /> : ""}
