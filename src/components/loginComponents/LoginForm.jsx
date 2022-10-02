@@ -330,6 +330,10 @@ const LogBtn = styled.div`
     font-weight: bold;
     font-size: 15px;
   }
+  :hover {
+    background-color: #a8a6af;
+    color: white;
+  }
 `;
 
 const PwText = styled.p`

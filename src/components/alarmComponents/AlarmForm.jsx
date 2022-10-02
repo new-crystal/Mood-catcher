@@ -134,7 +134,7 @@ const AlarmForm = () => {
                         </TextBox>
                         <TimeText>{alarm.createdAt}</TimeText>
                         <ArrowBtn></ArrowBtn>
-                        <DelAlarm
+                        <DelAlarm2
                           style={{ cursor: "pointer" }}
                           onClick={(e) => {
                             e.stopPropagation();
@@ -160,7 +160,7 @@ const AlarmForm = () => {
                           }}
                         >
                           ✕
-                        </DelAlarm>
+                        </DelAlarm2>
                       </AlarmBox>
                     </>
                   );
@@ -395,8 +395,13 @@ const ArrowBtn = styled.div`
   flex-shrink: 0;
 `;
 const DelAlarm = styled.p`
-  position: absolute;
-  left: 450px;
+  position: relative;
+  left: -5px;
+`;
+
+const DelAlarm2 = styled.p`
+  position: relative;
+  left: -20px;
 `;
 
 export default AlarmForm;

@@ -549,7 +549,8 @@ const ErrMsg = styled.p`
   font-size: 10px;
   margin-top: 20px;
   margin-bottom: -50px;
-  margin-left: -200px;
+  margin-left: -100px;
+  text-align: left;
 `;
 const Wrapper = styled.div`
   display: flex;
