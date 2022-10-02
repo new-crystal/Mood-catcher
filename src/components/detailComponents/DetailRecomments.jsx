@@ -4,6 +4,8 @@ import styled from "styled-components";
 import { __addRecomment } from "../../redux/async/comment";
 import DetailReCommentList from "./DetailReCommentList";
 
+const send = "/images/Send.png";
+
 const DetailRecomments = ({ commentData, btnState, postId }) => {
   const userStatus = useSelector((state) => state.signup.userStatus);
 
@@ -51,7 +53,7 @@ const DetailRecomments = ({ commentData, btnState, postId }) => {
             }
           ></CommentImg>
           <WrapCommentData>
-            <pre>{commentData.content}</pre>
+            <textarea>{commentData.content}</textarea>
           </WrapCommentData>
         </CommentDataBox>
         <CommentBox>
@@ -64,13 +66,13 @@ const DetailRecomments = ({ commentData, btnState, postId }) => {
             }
           ></CommentImg>
           <WrapComment>
-            <Textarea
-              placeholder="대댓글을 작성해주세요."
+            <textarea
+              placeholder="댓글을 작성해주세요."
               ref={recommentText}
-              maxLength={15}
+              maxLength={50}
             />
           </WrapComment>
-          <AddCommentButton onClick={addRecomment}>완료</AddCommentButton>
+          <AddCommentButton onClick={addRecomment}></AddCommentButton>
         </CommentBox>
         {/* <Line /> */}
         <ReCommentListBox>
@@ -140,7 +142,7 @@ const CommentChangeTextBox = styled.textarea`
 `;
 const WrapBtn = styled.div`
   display: flex;
-  margin-left: 135px;
+  width: 330px;
   gap: 20px;
   & > button {
     /* margin-top: 5px; */
@@ -150,6 +152,7 @@ const WrapBtn = styled.div`
     font-weight: bold;
     line-height: 20px;
     width: 80px;
+    margin: 0 auto;
     height: 30px;
     background-color: #7b758b;
     border-radius: 10px;
@@ -170,7 +173,7 @@ const CommentDataBox = styled.div`
 `;
 
 const CommentImg = styled.div`
-  margin: 4px 6px 8px 8px;
+  margin: 10px 6px 8px 0px;
   width: 45px;
   height: 45px;
   border-radius: 50%;
@@ -188,12 +191,14 @@ const WrapCommentData = styled.div`
   /* background-color: orange; */
   /* border: 1px solid black; */
   border-radius: 10px;
-  pre {
-    width: 220px;
-    height: 20px;
+  textarea {
+    margin-top: 20px;
+    width: 240px;
+    resize: none;
+    height: 70px;
     background-color: royalblue;
     /* padding-top: 7px; */
-    margin-top: 20px;
+    /* margin-top: 20px; */
     margin-left: 3px;
     border: none;
     outline: none;
@@ -206,48 +211,73 @@ const WrapCommentData = styled.div`
   }
 `;
 
+// const WrapComment = styled.div`
+//   display: flex;
+//   justify-content: space-between;
+//   /* padding: 0 20px; */
+//   margin-top: 7px;
+//   /* background-color: orange; */
+//   /* border: 1px solid black; */
+//   border-radius: 10px;
+// `;
+
+// const Textarea = styled.textarea`
+//   width: 190px;
+//   height: 25px;
+//   padding-top: 7px;
+//   margin-left: 3px;
+//   outline: none;
+//   font-size: 16px;
+//   font-family: "Noto Sans KR", sans-serif;
+//   border: 1px solid var(--grey);
+//   border-radius: 10px;
+//   background-color: transparent;
+//   ::placeholder {
+//   }
+//   resize: none;
+//   :focus {
+//     border: 2px solid var(--greyD);
+//   }
+// `;
+
 const WrapComment = styled.div`
-  display: flex;
-  justify-content: space-between;
-  /* padding: 0 20px; */
-  margin-top: 7px;
-  /* background-color: orange; */
-  /* border: 1px solid black; */
-  border-radius: 10px;
-`;
-
-const Textarea = styled.textarea`
-  width: 190px;
-  height: 25px;
-  padding-top: 7px;
-  margin-left: 3px;
+  width: 254px;
+  margin: 10px 5px 10px;
+  background: #e6e5ea;
+  border-radius: 15px;
   outline: none;
-  font-size: 16px;
-  font-family: "Noto Sans KR", sans-serif;
-  border: 1px solid var(--grey);
-  border-radius: 10px;
-  background-color: transparent;
-  ::placeholder {
-  }
-  resize: none;
-  :focus {
-    border: 2px solid var(--greyD);
+  & > textarea {
+    width: 225px;
+    height: 45px;
+    border: none;
+    outline: none;
+    resize: none;
+    box-sizing: border-box;
+    padding: 6px 0 0 0;
+    margin-left: 10px;
+    font-family: "Noto Sans KR", sans-serif;
+    background: #e6e5ea;
+    font-size: 20px;
   }
 `;
 
-const AddCommentButton = styled.button`
-  margin-top: 10px;
+const AddCommentButton = styled.div`
+  margin-top: 17px;
   text-align: center;
   color: white;
   font-size: 16px;
   font-weight: bold;
   line-height: 20px;
-  width: 70px;
+  width: 30px;
   height: 30px;
-  background-color: #7b758b;
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-image: url(${send});
+  /* background-color: #7b758b; */
   border-radius: 10px;
   border: none;
-  box-shadow: 5px 5px 4px #877f92;
+  /* box-shadow: 5px 5px 4px #877f92; */
 `;
 
 // const Line = styled.div`

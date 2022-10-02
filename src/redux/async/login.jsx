@@ -31,8 +31,8 @@ export const __logout = createAsyncThunk(
         return response.data;
       }
     } catch (err) {
-      Swal.fire("에러", err.response.data, "error");
-      return thunkAPI.rejectWithValue(err.response.data);
+      // Swal.fire("에러", err.response.data, "error");
+      // return thunkAPI.rejectWithValue(err.response.data);
     }
   }
 );

@@ -28,7 +28,7 @@ const DetailChangeReComment = ({ commentData, btnState, postId }) => {
       <Wrapdiv>
         <h3>대댓글 수정하기</h3>
         <WrapTextarea>
-          <CommentChangeTextBox ref={commentText} />
+          <CommentChangeTextBox ref={commentText} maxLength={50} />
         </WrapTextarea>
         <WrapBtn>
           <button onClick={changeComment}>수정하기</button>
@@ -54,6 +54,7 @@ const BackgroundDiv = styled.div`
   width: 100%;
   height: 100%;
   background-color: rgba(0, 0, 0, 0.2);
+  z-index: 9;
 `;
 
 const Wrapdiv = styled.div`
@@ -91,7 +92,7 @@ const CommentChangeTextBox = styled.textarea`
 `;
 const WrapBtn = styled.div`
   display: flex;
-  margin-left: 10px;
+  margin: 0 auto;
   gap: 20px;
   & > button {
     /* margin-top: 5px; */

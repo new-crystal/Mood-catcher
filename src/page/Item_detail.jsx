@@ -34,6 +34,7 @@ import InfinityScrollLoader from "../elem/InfinityScrollLoader";
 
 const more = "/images/more.png";
 const upButton = "/images/upArrow.png";
+const send = "/images/Send.png";
 
 const Item_detail = (props) => {
   const preview_URL =
@@ -54,7 +55,6 @@ const Item_detail = (props) => {
   const userStatusMe = useSelector((state) => state.signup.userStatus);
   const comments = useSelector((state) => state.comment.comments);
   const [click, setClick] = useState(false);
-  console.log(detailItems);
 
   const [mood, setMood] = useState(`${heartFalse}`);
   const like = useSelector((state) => state.upload.detailPost.likeStatus);
@@ -119,7 +119,7 @@ const Item_detail = (props) => {
   };
   // 게시물 수정하기
   const putPost = () => {
-    navigate(`/edit_post/${postId}`);
+    navigate(`/edit_post/${postId}/${detailPost.imgUrl.slice(-18)}`);
   };
   // 게시물 삭제하기
   const deletePost = () => {
@@ -368,13 +368,13 @@ const Item_detail = (props) => {
               }
             ></CommentImg>
             <WrapComment>
-              <Textarea
+              <textarea
                 placeholder="댓글을 작성해주세요."
                 ref={commentText}
-                maxLength={15}
+                maxLength={50}
               />
             </WrapComment>
-            <AddCommentButton onClick={addComment}>완료</AddCommentButton>
+            <AddCommentButton onClick={addComment}></AddCommentButton>
           </CommentBox>
           <Line />
           {commentList?.map((item, idx) => (
@@ -462,21 +462,24 @@ const Grid = styled.div`
   margin-bottom: 57px;
   max-width: 428px;
   width: 100vw;
+  padding-bottom: 60px;
   //height: calc(var(--vh, 1vh) * 100 + 50px);
-  min-height: 926px;
+  /* min-height: 926px; */
 
   /* background: linear-gradient(#a396c9, #ffffff); */
 `;
 
 const ProfileBox = styled.div`
   display: flex;
-  justify-content: center;
+  /* justify-content: center; */
   align-items: center;
   flex-direction: row;
+  width: 330px;
+  margin: 0 auto;
 `;
 
 const ProfileImg = styled.div`
-  margin: 5px 6px 4px 5px;
+  margin: 5px 6px 4px 0px;
   width: 45px;
   height: 45px;
   border-radius: 50%;
@@ -487,9 +490,10 @@ const ProfileImg = styled.div`
 `;
 
 const NickTitle = styled.div`
-  width: 280px;
+  width: 250px;
   display: flex;
   flex-direction: column;
+  margin-left: 5px;
   & > span {
     font-size: 16px;
     color: black;
@@ -663,7 +667,7 @@ const CommentBox = styled.div`
 `;
 
 const CommentImg = styled.div`
-  margin: 8px 6px 4px 8px;
+  margin: 8px 6px 4px 0px;
   width: 45px;
   height: 45px;
   border-radius: 50%;
@@ -673,42 +677,84 @@ const CommentImg = styled.div`
   box-shadow: 5px 5px 4px #877f92;
 `;
 
+// const WrapComment = styled.div`
+//   padding: 10px;
+//   background-color: grey;
+// `;
+
+// const Textarea = styled.textarea`
+//   width: 200px;
+//   height: 25px;
+//   padding-top: 10px;
+//   border: none;
+//   outline: none;
+//   font-size: 16px;
+//   border: 1px solid var(--grey);
+//   border-radius: 10px;
+//   background-color: transparent;
+//   font-family: "Noto Sans KR", sans-serif;
+//   ::placeholder {
+//   }
+//   resize: none;
+//   :focus {
+//     border: 2px solid var(--greyD);
+//   }
+// `;
+
 const WrapComment = styled.div`
-  padding: 10px;
-`;
-
-const Textarea = styled.textarea`
-  width: 200px;
-  height: 25px;
-  padding-top: 10px;
-  border: none;
+  width: 254px;
+  margin: 10px 5px 10px;
+  background: #e6e5ea;
+  border-radius: 15px;
   outline: none;
-  font-size: 16px;
-  border: 1px solid var(--grey);
-  border-radius: 10px;
-  background-color: transparent;
-  font-family: "Noto Sans KR", sans-serif;
-  ::placeholder {
-  }
-  resize: none;
-  :focus {
-    border: 2px solid var(--greyD);
+  & > textarea {
+    width: 225px;
+    height: 45px;
+    border: none;
+    outline: none;
+    resize: none;
+    box-sizing: border-box;
+    padding: 6px 0 0 0;
+    margin-left: 10px;
+    font-family: "Noto Sans KR", sans-serif;
+    background: #e6e5ea;
+    font-size: 20px;
   }
 `;
 
-const AddCommentButton = styled.button`
-  margin-top: 15px;
+// const AddCommentButton = styled.button`
+//   margin-top: 15px;
+//   text-align: center;
+//   color: white;
+//   font-size: 16px;
+//   font-weight: bold;
+//   line-height: 20px;
+//   width: 70px;
+//   height: 30px;
+//   background-image: url();
+//   background-color: #7b758b;
+//   border-radius: 10px;
+//   border: none;
+//   box-shadow: 5px 5px 4px #877f92;
+// `;
+
+const AddCommentButton = styled.div`
+  margin-top: 17px;
   text-align: center;
   color: white;
   font-size: 16px;
   font-weight: bold;
   line-height: 20px;
-  width: 70px;
+  width: 30px;
   height: 30px;
-  background-color: #7b758b;
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-image: url(${send});
+  /* background-color: #7b758b; */
   border-radius: 10px;
   border: none;
-  box-shadow: 5px 5px 4px #877f92;
+  /* box-shadow: 5px 5px 4px #877f92; */
 `;
 
 const AddCommentButton2 = styled.button`

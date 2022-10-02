@@ -92,7 +92,8 @@ const DetailCommentList = (props) => {
         >
           <span>{item.createdAt}</span>
           <span>작성자 : {item.nickname}</span>
-          <pre>{item.content}</pre>
+          {/* <pre>{item.content}</pre> */}
+          <textarea>{item.content}</textarea>
         </WrapComment>
         <R_Count
           onClick={() => {
@@ -169,7 +170,7 @@ const R_Count = styled.div`
   position: relative;
   width: 30px;
   height: 30px;
-  margin-top: 16px;
+  margin-top: 20px;
   opacity: 70%;
   font-size: 15px;
   /* margin-left: -10px; */
@@ -184,6 +185,7 @@ const R_Count = styled.div`
 `;
 
 const WrapComment = styled.div`
+  width: 245px;
   /* display: flex; */
   justify-content: space-between;
   /* padding: 0 20px; */
@@ -195,12 +197,29 @@ const WrapComment = styled.div`
     font-size: 0.313rem;
     margin-left: 5px;
   }
-  pre {
+  /* pre {
     width: 240px;
     margin-top: 5px;
     height: 20px;
     background-color: royalblue;
+    //padding-top: 7px;
+    margin-left: 3px;
+    border: none;
+    outline: none;
+    overflow: hidden;
+    font-size: 16px;
+    font-family: "Noto Sans KR", sans-serif;
+    //border: 1px solid black;
+    border-radius: 5px;
+    background-color: transparent;
+  } */
+  textarea {
+    width: 230px;
+    resize: none;
+    height: 70px;
+    background-color: royalblue;
     /* padding-top: 7px; */
+    /* margin-top: 20px; */
     margin-left: 3px;
     border: none;
     outline: none;
@@ -220,7 +239,7 @@ const CommentBox = styled.div`
 `;
 
 const CommentImg = styled.div`
-  margin: 8px 6px 4px 16px;
+  margin: 8px 6px 4px 8px;
   width: 45px;
   height: 45px;
   border-radius: 50%;
@@ -260,6 +279,7 @@ const StLoginList = styled.div`
   width: 30px;
   height: 30px;
   /* margin-right: 50px; */
+  margin: 5px 0 0 0;
   background-position: center;
   background-size: cover;
   cursor: pointer;

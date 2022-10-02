@@ -46,7 +46,7 @@ const SigupForm = () => {
       setError("email", { message: "사용 가능한 이메일입니다." });
     }
     if (authNum == true) {
-      setError("sendEmail", { message: "인증번호가 일치하였습니다." });
+      setError("sendEmail", { message: "인증번호가 일치합니다." });
     }
   }, [checkEmail, authNum]);
 
@@ -217,7 +217,7 @@ const SigupForm = () => {
             <PwTextBox>
               <h4>인증번호</h4>
               {errors.sendEmail !== undefined ? (
-                errors.sendEmail.message === "인증번호가 일치하였습니다." ? (
+                errors.sendEmail.message === "인증번호가 일치합니다." ? (
                   <p style={{ color: "blue" }}>{errors.sendEmail.message}</p>
                 ) : (
                   <p>{errors.sendEmail.message}</p>

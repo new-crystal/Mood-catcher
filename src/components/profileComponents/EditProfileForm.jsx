@@ -289,7 +289,13 @@ const EditProfileForm = () => {
       cancelButtonText: "취소",
     }).then((result) => {
       if (result.isConfirmed) {
-        dispatch(__logout());
+        dispatch(__logout())
+          .then(
+            (document.cookie =
+              `token` +
+              "=; expires=Thu, 01 Jan 1970 00:00:01 GMT;domain=moodcatch.link;path=/;")
+          )
+          .then(navigate("/login"));
       }
     });
   };
@@ -383,59 +389,60 @@ const EditProfileForm = () => {
       </Wrapper>
       <form onSubmit={handleSubmit(onSubmit)}>
         {editNickname ? (
-
           <StNicknameBox>
-             {errors.nickname !== undefined ? (
+            {errors.nickname !== undefined ? (
               errors.nickname.message === "사용 가능한 닉네임입니다." ? (
-                <p style={{ color: "blue" }}>{errors.nickname.message}</p>
+                <ErrMsg style={{ color: "blue" }}>
+                  {errors.nickname.message}
+                </ErrMsg>
               ) : (
-                <p>{errors.nickname.message}</p>
+                <ErrMsg>{errors.nickname.message}</ErrMsg>
               )
             ) : null}
-
-            <NicknameInput
-              type="text"
-              id="nickname"
-              placeholder={`${users.nickname}님의 새로운 닉네임을 입력해주세요`}
-              name="nickname"
-              aria-invalid={
-                !isDirty ? undefined : errors.nickname ? "true" : "false"
-              }
-              {...register("nickname", {
-                onChange: () => onChangeNickname(),
-                required: "변경하실 닉네임을 입력해주세요",
-                minLength: {
-                  value: 2,
-                  message: "닉네임을 2자 이상 작성해주세요",
-                },
-                maxLength: {
-                  value: 16,
-                  message: "닉네임을 16자 이하로 작성해주세요",
-                },
-                pattern: {
-                  value: /^(?=.*[a-zA-Z0-9가-힣])[a-zA-Z0-9가-힣]{2,16}$/,
-                  message:
-                    "닉네임은 영문 대소문자, 글자 단위 한글, 숫자만 가능합니다.",
-                },
-              })}
-            />
-            <CheckBtn
-              style={{ cursor: "pointer" }}
-              type="button"
-              onClick={(e) => onClickCheckBtnHandler(e)}
-            >
-              중복 확인
-            </CheckBtn>
+            <NickBox>
+              <NicknameInput
+                style={{ marginTop: "60px" }}
+                type="text"
+                id="nickname"
+                placeholder={`${users.nickname}님의 새로운 닉네임을 입력해주세요`}
+                name="nickname"
+                aria-invalid={
+                  !isDirty ? undefined : errors.nickname ? "true" : "false"
+                }
+                {...register("nickname", {
+                  onChange: () => onChangeNickname(),
+                  required: "변경하실 닉네임을 입력해주세요",
+                  minLength: {
+                    value: 2,
+                    message: "닉네임을 2자 이상 작성해주세요",
+                  },
+                  maxLength: {
+                    value: 16,
+                    message: "닉네임을 16자 이하로 작성해주세요",
+                  },
+                  pattern: {
+                    value: /^(?=.*[a-zA-Z0-9가-힣])[a-zA-Z0-9가-힣]{2,16}$/,
+                    message:
+                      "닉네임은 영문 대소문자, 글자 단위 한글, 숫자만 가능합니다.",
+                  },
+                })}
+              />
+              <CheckBtn
+                style={{ cursor: "pointer" }}
+                type="button"
+                onClick={(e) => onClickCheckBtnHandler(e)}
+              >
+                중복 확인
+              </CheckBtn>
+            </NickBox>
           </StNicknameBox>
         ) : (
-
           <EditNicknameBtn
             style={{ cursor: "pointer" }}
             type="button"
             onClick={onClickEditNickname}
           >
             닉네임 변경
-
           </EditNicknameBtn>
         )}
         <GenderAgeBox>
@@ -521,6 +528,7 @@ const Container = styled.div`
   width: 100%;
   margin: 0 auto;
   text-align: center;
+
   form {
     margin-top: 10px;
   }
@@ -541,12 +549,13 @@ const Container = styled.div`
       outline: none;
     }
   }
-  p {
-    color: #c60000;
-    font-size: 10px;
-    margin-top: -20px;
-    margin-left: -150px;
-  }
+`;
+const ErrMsg = styled.p`
+  color: #c60000;
+  font-size: 10px;
+  margin-top: 20px;
+  margin-bottom: -50px;
+  margin-left: -200px;
 `;
 const Wrapper = styled.div`
   display: flex;
@@ -573,8 +582,14 @@ const StNicknameBox = styled.div`
   width: 375px;
   display: flex;
   margin: 0 auto;
+  flex-direction: column;
 `;
-
+const NickBox = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: row;
+`;
 const ProfileBox = styled.div`
   display: flex;
   flex-direction: row;
@@ -649,6 +664,7 @@ const BasicBtn = styled.button`
   border: 0px;
 `;
 const NicknameInput = styled.input`
+  margin-top: 10px;
   /* box-shadow: 5px 5px 4px rgba(0, 0, 0, 0.25); */
 `;
 const EditNicknameBtn = styled.button`
@@ -760,7 +776,7 @@ const LogOut = styled.div`
     font-weight: 700;
     font-size: 16px;
     margin-top: 20px;
-    cursor: default;
+
     p {
       color: white;
       /* font-family: "Roboto"; */
