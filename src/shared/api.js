@@ -44,42 +44,44 @@ instance.interceptors.response.use(
       status === 401 &&
       error.response.data.message !== "비밀번호가 틀렸습니다."
     ) {
-      await allDelCookies();
+      await (document.cookie =
+        `token` +
+        "=; expires=Thu, 01 Jan 1970 00:00:01 GMT;domain=moodcatch.link;path=/;");
       Swal.fire("로그인", "로그인 시간이 만료되었습니다.", "error");
     }
     return Promise.reject(error);
   }
 );
 
-const allDelCookies = (domain, path) => {
-  // const doc = document;
-  domain = domain || document.domain;
-  path = path || "/";
+// const allDelCookies = (domain, path) => {
+//   // const doc = document;
+//   domain = domain || document.domain;
+//   path = path || "/";
 
-  const cookies = document.cookie.split("; "); // 배열로 반환
-  console.log(cookies);
-  const expiration = "Sat, 01 Jan 1972 00:00:00 GMT";
+//   const cookies = document.cookie.split("; "); // 배열로 반환
+//   console.log(cookies);
+//   const expiration = "Sat, 01 Jan 1972 00:00:00 GMT";
 
-  // 반목문 순회하면서 쿠키 전체 삭제
-  if (!document.cookie) {
-    // alert("삭제할 쿠키가 없습니다.");
-  } else {
-    for (let i = 0; i < cookies.length; i++) {
-      // const uname = cookies[i].split('=')[0];
-      // document.cookie = `${uname}=; expires=${expiration}`;
-      document.cookie =
-        cookies[i].split("=")[0] +
-        "=; expires=" +
-        expiration +
-        "; domain =" +
-        domain +
-        "; path =" +
-        path;
-      // document.cookie = cookies[i].split('=')[0] + '=; expires=' + expiration + '; domain =' + domain;
-    }
-    // alert("쿠키 전부 삭제완료!!");
-  }
-};
+//   // 반목문 순회하면서 쿠키 전체 삭제
+//   if (!document.cookie) {
+//     // alert("삭제할 쿠키가 없습니다.");
+//   } else {
+//     for (let i = 0; i < cookies.length; i++) {
+//       // const uname = cookies[i].split('=')[0];
+//       // document.cookie = `${uname}=; expires=${expiration}`;
+//       document.cookie =
+//         cookies[i].split("=")[0] +
+//         "=; expires=" +
+//         expiration +
+//         "; domain =" +
+//         domain +
+//         "; path =" +
+//         path;
+//       // document.cookie = cookies[i].split('=')[0] + '=; expires=' + expiration + '; domain =' + domain;
+//     }
+//     // alert("쿠키 전부 삭제완료!!");
+//   }
+// };
 
 // 알람 관련 axios API 통신
 // alarmSlice
