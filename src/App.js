@@ -77,9 +77,11 @@ function App() {
   const token = localStorage.getItem("token");
   const navigate = useNavigate();
   useEffect(() => {
-    if (window.location.pathname !== "/") {
-      if (token === undefined) navigate("/login");
-    }
+    // alert(window.location.pathname.includes("detail"));
+    if (window.location.pathname.includes("detail")) console.log("test");
+    // if (window.location.pathname !== "/") {
+    else if (token === null) navigate("/login");
+    // }
     setScreenSize();
     window.addEventListener("resize", () => setScreenSize());
   }, []);
