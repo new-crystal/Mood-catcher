@@ -6,7 +6,6 @@ import EachPost from "./EachPost";
 import styled from "styled-components";
 import InfinityScrollLoader from "./InfinityScrollLoader";
 import _ from "lodash";
-import { getCookie } from "../../shared/cookie";
 import jwt from "jwt-decode"; // to get userId from loggedIn user's token
 import hanger from "../../image/옷걸이.png";
 import CardForm from "../cardComponents/CardForm";
@@ -22,7 +21,7 @@ const LikePosts = () => {
   const allLikePosts = useSelector((state) => state.like.allPosts);
 
   // 토큰 decode를 통해서 현재 로그인한 유저 id 가져오기
-  const token = getCookie("token");
+  const token = localStorage.getItem("token");
   const { userId } = jwt(token);
 
   const getLikeList = useCallback(() => {

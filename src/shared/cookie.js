@@ -14,7 +14,7 @@ export const deleteCookie = (name) => {
 };
 
 export const getToken = async () => {
-  const token = getCookie("token");
+  const token = localStorage.getItem("token");
   if (token) {
     return `Bearer ${token}`;
   } else {

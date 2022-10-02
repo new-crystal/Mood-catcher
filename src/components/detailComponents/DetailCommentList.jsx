@@ -4,7 +4,6 @@ import { useDispatch } from "react-redux/es/exports";
 import { __deleteComment } from "../../redux/async/comment";
 import DetailChangeComment from "./DetailChangeComments";
 import DetailRecomments from "./DetailRecomments";
-import { getCookie } from "../../shared/cookie";
 import jwt from "jwt-decode"; // to get userId from loggedIn user's token
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
@@ -24,7 +23,7 @@ const DetailCommentList = (props) => {
   const { postId } = props;
   const { userId } = props;
 
-  const token = getCookie("token");
+  const token = localStorage.getItem("token");
   const payload = jwt(token);
 
   const preview_URL =
@@ -154,11 +153,19 @@ const DetailCommentList = (props) => {
           <Dummy></Dummy>
         )}
       </CommentBox>
+      <StLine></StLine>
     </>
   );
 };
 
 export default DetailCommentList;
+
+const StLine = styled.div`
+  width: 360px;
+  height: 1px;
+  margin: 0 auto;
+  background-color: #d5d5d5;
+`;
 
 const Dummy = styled.div`
   width: 30px;

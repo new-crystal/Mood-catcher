@@ -5,7 +5,6 @@ import { __login } from "../../redux/async/login";
 import { useNavigate } from "react-router-dom";
 import { Fragment } from "react";
 import { useEffect, useState, useCallback } from "react";
-import { getCookie } from "../../shared/cookie";
 import bcrypt from "bcryptjs";
 import PwaButton from "../../elem/PwaButton";
 import LawForm from "./LawForm";
@@ -23,8 +22,9 @@ const LoginForm = () => {
 
   //로그인 한 경우
   useEffect(() => {
-    const token = getCookie("token");
-    if (token !== undefined) {
+    const token = localStorage.getItem("token");
+    console.log(token);
+    if (token !== null) {
       navigate("/main");
     }
   }, []);

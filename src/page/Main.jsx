@@ -21,7 +21,7 @@ const Main = (props) => {
   const navigate = useNavigate();
 
   // userId 조회 by token
-  const token = getCookie("token");
+  const token = localStorage.getItem("token");
   const { userId } = jwt(token);
 
   // 유저정보를 불러와서 토큰이 없다면 다시 로그인
