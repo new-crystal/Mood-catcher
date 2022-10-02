@@ -50,6 +50,7 @@ const CardForm = (item) => {
     const name = item.item.imgUrl.split("w560")[1];
     e.target.src = `${url}post${name}`;
   };
+
   return (
     <OtherClosetBox
       key={item.item.postId}
@@ -63,7 +64,7 @@ const CardForm = (item) => {
         onError={onErrorHandler}
       ></ImgBox>
       <TextBox>
-        {item.rank === undefined ? (
+        {item.item.rank === undefined ? (
           <RankText style={{ marginLeft: "25px" }}>
             {year}년 {month}월 {day}일
           </RankText>
@@ -72,6 +73,7 @@ const CardForm = (item) => {
             {year}년 {month}월 {day}일 {item.item.rank}위👑
           </RankText>
         )}
+
         <TextContainer>
           <Title>{item.item.title}</Title>
           <Content>{item.item.content}</Content>
