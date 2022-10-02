@@ -2,9 +2,11 @@ import React from "react";
 import styled from "styled-components";
 
 const heart_filled = "/images/Location_searching.png";
-const heart_black = "/images/Location_disabled.png";
+// const heart_black = "/images/Location_disabled.png";
+const heart_black = "/images/Location_searching.png";
 
 const HeartButton = ({ _onClick, is_like }) => {
+  console.log(is_like);
   const icon_url = is_like ? heart_filled : heart_black;
 
   return (
@@ -15,10 +17,14 @@ const HeartButton = ({ _onClick, is_like }) => {
 };
 
 const Heart = styled.img`
-  width: 16px;
-  height: 16px;
-  float: right;
+  width: 32px;
+  height: 32px;
+  left: 50%;
+  top: 77px;
+  position: fixed;
+  z-index: 999;
   cursor: pointer;
 `;
 
-export default React.memo(HeartButton);
+// export default React.memo(HeartButton);
+export default HeartButton;

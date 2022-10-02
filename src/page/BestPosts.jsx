@@ -38,6 +38,6 @@ const Grid = styled.div`
   width: 100vw;
   //height: calc(var(--vh, 1vh) * 100 + 50px);
   min-height: 926px;
-  background: linear-gradient(#a396c9, #ffffff);
+  /* background: linear-gradient(#a396c9, #ffffff); */
 `;
 export default BestPosts;

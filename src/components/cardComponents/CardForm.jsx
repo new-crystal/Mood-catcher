@@ -17,7 +17,7 @@ const CardForm = (item) => {
   const month = createdAt.split("-")[1];
   const day = createdAt.split("-")[2];
 
-  console.log(item.rank);
+  // console.log(item.rank);
 
   //새로고침시에도 무드 상태값 유지
   useEffect(() => {
@@ -111,7 +111,7 @@ const OtherClosetBox = styled.div`
 `;
 
 const ImgBox = styled.img`
-  margin-left: 10px;
+  margin-left: 15px;
   width: 130px;
   height: 170px;
   border-radius: 20px;
@@ -122,6 +122,7 @@ const TextBox = styled.div`
   height: 170px;
   width: 200px;
   display: flex;
+  position: relative;
   align-items: baseline;
   justify-content: center;
   flex-direction: column;
@@ -134,9 +135,11 @@ const TextBox = styled.div`
 
 const Title = styled.p`
   font-size: 18px;
+  line-height: 20px;
 `;
 const Content = styled.h5`
   font-size: 13px;
+  line-height: 15px;
   margin-top: 20px;
   margin-right: 5px;
 `;
@@ -157,28 +160,28 @@ const Heart = styled.div`
   cursor: pointer;
 `;
 const RankText = styled.h4`
-  font-family: "Roboto";
+  font-family: "Noto Sans KR", sans-serif;
   font-style: normal;
   font-weight: 800;
+  width: 100px;
   color: #7b758b;
   /* margin-left: 50px;
   margin-bottom: 0px;
   margin-top: 10px; */
   font-size: 12px;
   position: absolute;
-  left: 57%;
-  margin-top: -160px;
+  left: 36%;
+  margin-top: -155px;
 `;
 const TextContainer = styled.div`
-  margin-top: -20px;
-  margin-left: 10px;
+  margin: -20px 5px 0 5px;
   height: 170px;
-  width: 200px;
+  width: 190px;
   display: flex;
   align-items: baseline;
   justify-content: center;
   flex-direction: column;
-  font-family: "Roboto";
+  font-family: "Noto Sans KR", sans-serif;
   font-style: normal;
   font-weight: 800;
   color: #7b758b;

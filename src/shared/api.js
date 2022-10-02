@@ -130,7 +130,7 @@ export const commentApi = {
 // kakaoSlice
 export const kakaoApi = {
   // kakao맵 onoff
-  // patchOnoff: () => instance.patch("/map/on-off"),
+  patchOnoff: () => instance.patch("/map/on-off"),
   // kakao맵 유저 위치 보내기
   patchKakaoMap: (data) => instance.patch("/map", { data }),
   // kakao맵 유저들 위치 받기
@@ -143,7 +143,7 @@ export const likeApi = {
   // 게시물 조회하기 (좋아요페이지)
   getLikeAllPosts: (data) =>
     instance.get(
-      `/posts?userId=${data.userId}&type=like&page=${data.paging}&count=4`
+      `/posts?userId=${data.userId}&type=like&page=${data.paging}&count=6`
     ),
   // 무드(좋아요) 등록/취소
   patchMood: (postId) => instance.patch(`/like?postId=${postId}`),

@@ -2,22 +2,22 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import { kakaoApi } from "../../shared/api";
 import Swal from "sweetalert2";
 
-// // kakao맵 onoff
-// export const __patchOnoff = createAsyncThunk(
-//   "PATCH/ONOFF",
-//   async (data, thunkAPI) => {
-//     try {
-//       const response = await kakaoApi.patchOnoff();
-//       if (response.status === 201) {
-//         console.log(response);
-//         return response.data.data;
-//       }
-//     } catch (err) {
-//       Swal.fire("에러", "네트워크 연결 상태를 확인해주세요.!", "error");
-//       return thunkAPI.rejectWithValue(err.response.msg);
-//     }
-//   }
-// );
+// kakao맵 onoff
+export const __patchOnoff = createAsyncThunk(
+  "PATCH/ONOFF",
+  async (data, thunkAPI) => {
+    try {
+      const response = await kakaoApi.patchOnoff();
+      if (response.status === 201) {
+        console.log(response);
+        return response.data.data;
+      }
+    } catch (err) {
+      Swal.fire("에러", "네트워크 연결 상태를 확인해주세요.!", "error");
+      return thunkAPI.rejectWithValue(err.response.msg);
+    }
+  }
+);
 
 // kakao맵 유저 위치 보내기
 export const __patchMap = createAsyncThunk(

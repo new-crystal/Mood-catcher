@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { __patchMap, __getUsersMap } from "../async/kakao";
+import { __patchMap, __getUsersMap, __patchOnoff } from "../async/kakao";
 
 const initialState = {
   aroundUser: [],
@@ -7,8 +7,8 @@ const initialState = {
   myLongitude: "",
   checkPatch: false,
   checkUsersMap: false,
-  // checkExist: false,
-  // isExistsMap: false,
+  checkExist: false,
+  isExistsMap: false,
   isFetching: false,
   errorMessage: null,
 };
@@ -20,18 +20,19 @@ const kakaoSlice = createSlice({
   extraReducers: (builder) =>
     builder
       // kakao맵 유저 위치 보내기
-      // .addCase(__patchOnoff.fulfilled, (state, action) => {
-      //   state.checkExist = !state.checkExist;
-      //   state.isFetching = false;
-      //   state.errorMessage = null;
-      // })
-      // .addCase(__patchOnoff.pending, (state, action) => {
-      //   state.isFetching = true;
-      // })
-      // .addCase(__patchOnoff.rejected, (state, action) => {
-      //   state.isFetching = false;
-      //   state.errorMessage = action.errorMessage;
-      // })
+      .addCase(__patchOnoff.fulfilled, (state, action) => {
+        state.checkExist = !state.checkExist;
+        state.isExistsMap = action.payload.isExistsMap;
+        state.isFetching = false;
+        state.errorMessage = null;
+      })
+      .addCase(__patchOnoff.pending, (state, action) => {
+        state.isFetching = true;
+      })
+      .addCase(__patchOnoff.rejected, (state, action) => {
+        state.isFetching = false;
+        state.errorMessage = action.errorMessage;
+      })
       // kakao맵 유저 위치 보내기
       .addCase(__patchMap.fulfilled, (state, action) => {
         state.myLatitude = action.payload.latitude;
