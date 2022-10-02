@@ -290,7 +290,7 @@ const MyPageForm = () => {
                 )}
                 {myClosetList?.length >= 5 && (
                   <>
-                    {myClosetList.slice(0, 5).map((item) => (
+                    {myClosetList.slice(0, 4).map((item) => (
                       <EachMyCloset item={item} click={click} />
                     ))}
                     <GoCloset

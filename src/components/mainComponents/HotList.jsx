@@ -97,7 +97,7 @@ const TextBox = styled.div`
   height: 50px;
 
   h4 {
-    margin: 0px;
+    margin: 0 0 2px 0;
     font-size: small;
   }
   h6 {
@@ -120,7 +120,7 @@ const MoodyBox = styled.div`
   align-items: center;
   justify-content: left;
   flex-direction: row;
-  margin-bottom: 7px;
+  margin-top: 10px;
 `;
 const MoodyImg = styled.div`
   margin-left: -10px;
