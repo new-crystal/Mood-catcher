@@ -69,6 +69,9 @@ const Item_detail = (props) => {
   const editStatus = useSelector((state) => state.comment.editComment);
   const addCommentStatus = useSelector((state) => state.comment.addComment);
   const delStatus = useSelector((state) => state.comment.delComment);
+  const addReStatus = useSelector((state) => state.comment.addReComment);
+  const editReStatus = useSelector((state) => state.comment.editReComment);
+  const delReStatus = useSelector((state) => state.comment.delReComment);
   const [isComment, setIsComment] = useState(false);
 
   // 댓글 input
@@ -161,13 +164,17 @@ const Item_detail = (props) => {
   }, [likeStatus, moodNum]);
 
   //댓글
-  useEffect(
-    () => {
-      dispatch(__getComments(postId));
-    },
-    [isComment, addCommentStatus, editStatus, delStatus],
-    editStatus
-  );
+  useEffect(() => {
+    dispatch(__getComments(postId));
+  }, [
+    isComment,
+    addCommentStatus,
+    editStatus,
+    delStatus,
+    delReStatus,
+    addReStatus,
+    editReStatus,
+  ]);
 
   //새로고침시에도 무드 상태값 유지
   useEffect(() => {

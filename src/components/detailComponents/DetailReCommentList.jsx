@@ -90,7 +90,7 @@ const DetailReCommentList = (props) => {
         >
           <span>{item.createdAt}</span>
           <span>작성자 : {item.nickname}</span>
-          <textarea>{item.content}</textarea>
+          <textarea value={item.content}></textarea>
         </WrapComment>
         {payload.userId == item.userId ? (
           <DropdownContainer>
@@ -127,7 +127,6 @@ const DetailReCommentList = (props) => {
                               "success"
                             );
                             deleteComment();
-                            window.location.reload();
                           }
                         });
                       }}
