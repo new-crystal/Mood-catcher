@@ -27,8 +27,7 @@ const GradeList = ({ setGradeList }) => {
   const { userId } = useParams();
   const user = useSelector((state) => state.login.myPageUser);
   const grade = user?.grade?.split(" ")[0];
-  console.log(user);
-  console.log(grade);
+
   const moodyStatus = (grade) => {
     if (grade === "moody") {
       setMoody(true);
@@ -51,7 +50,8 @@ const GradeList = ({ setGradeList }) => {
   }, [grade]);
 
   //유저의 프로필 아이콘 변경하기
-  const onClickMoodyBtn = () => {
+  const onClickMoodyBtn = (e) => {
+    e.stopPropagation();
     setMoody(!moody);
     if (grade == "man") {
       dispatch(__patchUser({ profileIcon: "moody" }));
@@ -147,7 +147,7 @@ const GradeList = ({ setGradeList }) => {
           <MudiBtn
             style={{ cursor: "pointer" }}
             type="button"
-            onClick={onClickMoodyBtn}
+            onClick={(e) => onClickMoodyBtn(e)}
           >
             {moody === true ? "사람으로 바꾸기" : "무디로 바꾸기"}
           </MudiBtn>
