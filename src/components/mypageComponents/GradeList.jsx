@@ -27,8 +27,7 @@ const GradeList = ({ setGradeList }) => {
   const { userId } = useParams();
   const user = useSelector((state) => state.login.myPageUser);
   const grade = user?.grade?.split(" ")[0];
-  console.log(user);
-  console.log(grade);
+
   const moodyStatus = (grade) => {
     if (grade === "moody") {
       setMoody(true);
@@ -51,7 +50,8 @@ const GradeList = ({ setGradeList }) => {
   }, [grade]);
 
   //유저의 프로필 아이콘 변경하기
-  const onClickMoodyBtn = () => {
+  const onClickMoodyBtn = (e) => {
+    e.stopPropagation();
     setMoody(!moody);
     if (grade == "man") {
       dispatch(__patchUser({ profileIcon: "moody" }));
@@ -68,91 +68,97 @@ const GradeList = ({ setGradeList }) => {
   };
   return (
     <>
-      <Shadow onClick={() => setGradeList(false)}>
-        <ListBox>
-          <TitleBox>
-            <h3>mood grade</h3>
-            <ConfirmBtn
-              style={{ cursor: "pointer" }}
-              type="button"
-              onClick={() => setGradeList(false)}
-            >
-              ✖️
-            </ConfirmBtn>
-          </TitleBox>
-          <Grade>
-            {moody === false && gender === "man" && (
-              <GradeImg url={`${man1}`}></GradeImg>
-            )}
-            {moody === false && gender === "woman" && (
-              <GradeImg url={`${woman1}`}></GradeImg>
-            )}
-            {moody === true && <GradeImg url={`${cat1}`}></GradeImg>}
-            <TextBox>
-              <h4>티셔츠</h4>
-            </TextBox>
-          </Grade>
-          <Grade>
-            {moody === false && gender === "man" && (
-              <GradeImg url={`${man2}`}></GradeImg>
-            )}
-            {moody === false && gender === "woman" && (
-              <GradeImg url={`${woman2}`}></GradeImg>
-            )}
-            {moody === true && <GradeImg url={`${cat2}`}></GradeImg>}
-            <TextBox>
-              <h4>와이셔츠</h4>
-              <h6>(1000 무드 이상) </h6>
-            </TextBox>
-          </Grade>
-          <Grade>
-            {moody === false && gender === "man" && (
-              <GradeImg url={`${man3}`}></GradeImg>
-            )}
-            {moody === false && gender === "woman" && (
-              <GradeImg url={`${woman3}`}></GradeImg>
-            )}
-            {moody === true && <GradeImg url={`${cat3}`}></GradeImg>}
-            <TextBox>
-              <h4>넥타이</h4>
-              <h6>(3000 무드 이상) </h6>
-            </TextBox>
-          </Grade>
-          <Grade>
-            {moody === false && gender === "man" && (
-              <GradeImg url={`${man4}`}></GradeImg>
-            )}
-            {moody === false && gender === "woman" && (
-              <GradeImg url={`${woman4}`}></GradeImg>
-            )}
-            {moody === true && <GradeImg url={`${cat4}`}></GradeImg>}
-            <TextBox>
-              <h4>조끼</h4>
-              <h6>(6000 무드 이상)</h6>
-            </TextBox>
-          </Grade>
-          <Grade>
-            {moody === false && gender === "man" && (
-              <GradeImg url={`${man5}`}></GradeImg>
-            )}
-            {moody === false && gender === "woman" && (
-              <GradeImg url={`${woman5}`}></GradeImg>
-            )}
-            {moody === true && <GradeImg url={`${cat5}`}></GradeImg>}
-            <TextBox>
-              <h4>자켓</h4>
-              <h6>(10000 무드 이상)</h6>
-            </TextBox>
-          </Grade>
-          <MudiBtn
+      <Shadow
+        onClick={(e) => {
+          e.stopPropagation();
+          setGradeList(false);
+        }}
+      >
+        {" "}
+      </Shadow>
+      <ListBox>
+        <TitleBox>
+          <h3>mood grade</h3>
+          <ConfirmBtn
             style={{ cursor: "pointer" }}
             type="button"
-            onClick={onClickMoodyBtn}
+            onClick={() => setGradeList(false)}
           >
-            {moody === true ? "사람으로 바꾸기" : "무디로 바꾸기"}
-          </MudiBtn>
-        </ListBox>
-      </Shadow>
+            ✖️
+          </ConfirmBtn>
+        </TitleBox>
+        <Grade>
+          {moody === false && gender === "man" && (
+            <GradeImg url={`${man1}`}></GradeImg>
+          )}
+          {moody === false && gender === "woman" && (
+            <GradeImg url={`${woman1}`}></GradeImg>
+          )}
+          {moody === true && <GradeImg url={`${cat1}`}></GradeImg>}
+          <TextBox>
+            <h4>티셔츠</h4>
+          </TextBox>
+        </Grade>
+        <Grade>
+          {moody === false && gender === "man" && (
+            <GradeImg url={`${man2}`}></GradeImg>
+          )}
+          {moody === false && gender === "woman" && (
+            <GradeImg url={`${woman2}`}></GradeImg>
+          )}
+          {moody === true && <GradeImg url={`${cat2}`}></GradeImg>}
+          <TextBox>
+            <h4>와이셔츠</h4>
+            <h6>(1000 무드 이상) </h6>
+          </TextBox>
+        </Grade>
+        <Grade>
+          {moody === false && gender === "man" && (
+            <GradeImg url={`${man3}`}></GradeImg>
+          )}
+          {moody === false && gender === "woman" && (
+            <GradeImg url={`${woman3}`}></GradeImg>
+          )}
+          {moody === true && <GradeImg url={`${cat3}`}></GradeImg>}
+          <TextBox>
+            <h4>넥타이</h4>
+            <h6>(3000 무드 이상) </h6>
+          </TextBox>
+        </Grade>
+        <Grade>
+          {moody === false && gender === "man" && (
+            <GradeImg url={`${man4}`}></GradeImg>
+          )}
+          {moody === false && gender === "woman" && (
+            <GradeImg url={`${woman4}`}></GradeImg>
+          )}
+          {moody === true && <GradeImg url={`${cat4}`}></GradeImg>}
+          <TextBox>
+            <h4>조끼</h4>
+            <h6>(6000 무드 이상)</h6>
+          </TextBox>
+        </Grade>
+        <Grade>
+          {moody === false && gender === "man" && (
+            <GradeImg url={`${man5}`}></GradeImg>
+          )}
+          {moody === false && gender === "woman" && (
+            <GradeImg url={`${woman5}`}></GradeImg>
+          )}
+          {moody === true && <GradeImg url={`${cat5}`}></GradeImg>}
+          <TextBox>
+            <h4>자켓</h4>
+            <h6>(10000 무드 이상)</h6>
+          </TextBox>
+        </Grade>
+        <MudiBtn
+          style={{ cursor: "pointer" }}
+          type="button"
+          onClick={(e) => onClickMoodyBtn(e)}
+        >
+          {moody === true ? "사람으로 바꾸기" : "무디로 바꾸기"}
+        </MudiBtn>
+      </ListBox>
     </>
   );
 };

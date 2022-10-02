@@ -2,7 +2,6 @@ import React, { Fragment, useState, useCallback, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { __getMyCloset } from "../../redux/async/upload";
 import { InfinityCloset } from "../../redux/modules/uploadSlice";
-import EachPost from "./EachPost";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
 import InfinityScrollLoader from "./InfinityScrollLoader";
@@ -73,7 +72,6 @@ const ClosetPosts = () => {
       )}
       {ranksIF?.map((item, idx) => (
         <CardForm key={idx} item={item} />
-        // <EachPost key={idx} item={item} />
       ))}
 
       {loading ? <InfinityScrollLoader /> : ""}

@@ -336,7 +336,6 @@ const ProfileBox = styled.div`
   flex-direction: row;
   margin-top: 0px;
   h4 {
-    /* font-family: "Roboto"; */
     font-family: "Noto Sans KR", sans-serif;
     font-style: normal;
     font-weight: 800;
@@ -409,7 +408,7 @@ const MoodBody = styled.div`
     font-family: "Unna";
     font-style: normal;
     font-weight: 700;
-    font-size: 50px;
+    font-size: 45px;
     text-align: center;
     color: #7b758b;
   }
