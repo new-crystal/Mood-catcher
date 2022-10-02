@@ -69,7 +69,7 @@ const CardForm = (item) => {
             {year}년 {month}월 {day}일
           </RankText>
         ) : (
-          <RankText>
+          <RankText style={{ marginLeft: "0px", width: "240px" }}>
             {year}년 {month}월 {day}일 {item.item.rank}위👑
           </RankText>
         )}
@@ -128,7 +128,6 @@ const TextBox = styled.div`
   align-items: baseline;
   justify-content: center;
   flex-direction: column;
-  //font-family: "Roboto";
   font-family: "Noto Sans KR", sans-serif;
   font-style: normal;
   font-weight: 800;
@@ -167,9 +166,6 @@ const RankText = styled.h4`
   font-weight: 800;
   width: 100px;
   color: #7b758b;
-  /* margin-left: 50px;
-  margin-bottom: 0px;
-  margin-top: 10px; */
   font-size: 12px;
   position: absolute;
   left: 36%;
