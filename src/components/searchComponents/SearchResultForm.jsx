@@ -67,7 +67,7 @@ const SearchResultForm = () => {
       setLoading(true);
     }
   }, 500);
-  console.log(page);
+
   //페이지 계산해서 get 요청 보내고 page 카운트 올리기
   useEffect(() => {
     if (
