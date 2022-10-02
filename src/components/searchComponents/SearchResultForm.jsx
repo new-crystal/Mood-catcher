@@ -18,10 +18,10 @@ const SearchResultForm = () => {
   const [title, setTitle] = useState(true);
   const [writer, setWriter] = useState(false);
   const last = useSelector((state) => state.search.resultPostLast);
+  const [isSearch, setIsSearch] = useState(false);
 
   //검색 결과 받아오기/유저 정보 불러오기
   const searchList = useSelector((state) => state.search.searchResult);
-  console.log(searchList);
 
   //react-hook-form 사용하기
   const {
@@ -35,13 +35,15 @@ const SearchResultForm = () => {
     await new Promise((r) => setTimeout(r, 300));
     if (title && !writer) {
       navigate(`/search/result/keyword=${data.search}?sort=title`);
+      setIsSearch(!isSearch);
     }
     if (!title && writer) {
       navigate(`/search/result/keyword=${data.search}?sort=writer`);
+      setIsSearch(!isSearch);
     }
     window.location.reload();
   };
-
+  console.log(isSearch);
   //검색글 불러오기
   const getSearchList = useCallback(() => {
     const getSearch = async () => {
@@ -49,7 +51,7 @@ const SearchResultForm = () => {
       setLoading(false);
     };
     return getSearch();
-  }, [page, searchList, key]);
+  }, [page, key, isSearch]);
 
   //스크롤 위치 계산하기
   const _scrollPosition = _.throttle(() => {
@@ -69,14 +71,18 @@ const SearchResultForm = () => {
 
   //페이지 계산해서 get 요청 보내고 page 카운트 올리기
   useEffect(() => {
-    if (page === 1 && searchList.length === 0) {
+    if (
+      (page === 1 && searchList.length === 0) ||
+      isSearch === true ||
+      isSearch === false
+    ) {
       dispatch(__getSearchResult({ key, sort, page }));
-      setPage((pre) => pre + 1);
+      //setPage((pre) => pre + 1);
     }
     if (searchList.length !== 0) {
       setPage(searchList.length);
     }
-  }, [key]);
+  }, [key, isSearch]);
 
   //윈도우 스크롤 위치 계산하기
   useEffect(() => {
@@ -133,7 +139,7 @@ const SearchResultForm = () => {
               },
             })}
           />
-          <SearchImg type="submit" disabled={isSubmitting}></SearchImg>
+          <SearchImg onClick={handleSubmit(onSubmit)}></SearchImg>
         </Form>
       </SearchBox1>
       <SearchBox>

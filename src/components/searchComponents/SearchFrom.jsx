@@ -123,7 +123,7 @@ const SearchForm = () => {
               },
             })}
           />
-          <SearchImg type="submit" disabled={isSubmitting}></SearchImg>
+          <SearchImg onClick={handleSubmit(onSubmit)}></SearchImg>
         </Form>
       </SearchBox1>
       <SearchBox>

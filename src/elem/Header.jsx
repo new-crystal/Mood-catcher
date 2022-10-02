@@ -254,6 +254,7 @@ const HeaderLogo = styled.div`
   margin-top: -3px;
   margin-left: 40px;
   font-size: 30px;
+  font-weight: 700;
   color: #7b758b;
   cursor: pointer;
 `;
