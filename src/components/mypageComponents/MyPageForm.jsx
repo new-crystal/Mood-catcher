@@ -67,7 +67,7 @@ const MyPageForm = () => {
   const changeUser = useSelector((state) => state.login.changeStatus);
 
   //토큰에서 userId 가져오기
-  const token = getCookie("token");
+  const token = localStorage.getItem("token");
   const payload = jwt_decode(token);
 
   //드래그와 클릭 구별하기

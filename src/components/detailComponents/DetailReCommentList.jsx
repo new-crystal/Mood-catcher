@@ -5,7 +5,6 @@ import { __deleteRecomment } from "../../redux/async/comment";
 import DetailChangeReComment from "./DetailChangeReComments";
 import DetailRecomments from "./DetailRecomments";
 import { useNavigate } from "react-router-dom";
-import { getCookie } from "../../shared/cookie";
 import jwt_decode from "jwt-decode";
 import Swal from "sweetalert2";
 import useDetectClose from "../../elem/useDetectClose";
@@ -20,7 +19,7 @@ const DetailReCommentList = (props) => {
   const dispatch = useDispatch();
   const { item } = props;
   const { postId } = props;
-  const token = getCookie("token");
+  const token = localStorage.getItem("token");
   const payload = jwt_decode(token);
 
   const preview_URL =

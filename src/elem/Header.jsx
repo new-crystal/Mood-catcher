@@ -35,8 +35,8 @@ const Header = () => {
 
   //토큰이 있을 경우 확인하기
   const checkLogin = () => {
-    const token = getCookie("token");
-    if (token !== undefined) {
+    const token = localStorage.getItem("token");
+    if (token !== null) {
       const payload = jwt_decode(token);
       setUserId(payload.userId);
       setIsLogin(true);

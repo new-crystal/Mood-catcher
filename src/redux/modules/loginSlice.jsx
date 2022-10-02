@@ -70,7 +70,7 @@ const loginSlice = createSlice({
       })
       // 로그아웃
       .addCase(__logout.fulfilled, (state, action) => {
-        deleteCookie("token");
+        localStorage.removeItem("token");
         window.location.href = "/login";
         state.isFetching = false;
         state.errorMessage = null;

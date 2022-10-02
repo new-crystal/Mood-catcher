@@ -14,7 +14,7 @@ const person = "/images/person.png";
 const heart = "/images/heart.png";
 
 const NavigationBar = (props) => {
-  const token = getCookie("token");
+  const token = localStorage.getItem("token");
   const { userId } = jwt(token);
   const navigate = useNavigate();
   const [main, setMain] = useState(false);

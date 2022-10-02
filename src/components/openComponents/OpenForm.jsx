@@ -21,11 +21,11 @@ const OpenForm = () => {
     if (window.location.search !== "") {
       const existList = window.location.href.split("=")[1];
       const exist = existList.split("&")[0];
-      const token = getCookie("token");
+      const token = localStorage.getItem("token");
 
       //카카오 로그인->토큰이 없는 경우
       if (token === undefined) {
-        setCookie("token", window.location.href.split("token=")[1]);
+        localStorage.setItem("token", window.location.href.split("token=")[1]);
       }
       if (exist === "true") {
         setTimeout(() => {
@@ -33,7 +33,7 @@ const OpenForm = () => {
         }, 3000);
       }
       if (exist === "false") {
-        setCookie("token", window.location.href.split("token=")[1]);
+        localStorage.setItem("token", window.location.href.split("token=")[1]);
         setTimeout(() => {
           navigate("/login/detail");
         }, 3000);
@@ -43,7 +43,7 @@ const OpenForm = () => {
 
   useEffect(() => {
     if (window.location.search === "") {
-      const token = getCookie("token");
+      const token = localStorage.getItem("token");
       if (token !== undefined) {
         setTimeout(() => {
           navigate("/main");

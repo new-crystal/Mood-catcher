@@ -5,7 +5,6 @@ import { Routes, Route, useNavigate } from "react-router-dom";
 import Loader from "./shared/Loader";
 
 import "./App.css";
-import { getCookie } from "./shared/cookie";
 
 // 코드 스플리팅을 위한 loadable설정
 const Main = loadable(() => import("./page/Main"), {
@@ -75,7 +74,7 @@ const Start = loadable(() => import("./page/Start"), {
 });
 
 function App() {
-  const token = getCookie("token");
+  const token = localStorage.getItem("token");
   const navigate = useNavigate();
   useEffect(() => {
     if (window.location.pathname !== "/") {

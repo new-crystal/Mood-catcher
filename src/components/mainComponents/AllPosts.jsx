@@ -5,14 +5,13 @@ import EachPost from "./EachPost";
 import styled from "styled-components";
 import InfinityScrollLoader from "./InfinityScrollLoader";
 import _ from "lodash";
-import { getCookie } from "../../shared/cookie";
 import jwt from "jwt-decode"; // to get userId from loggedIn user's token
 
 const AllPosts = () => {
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(false); //데이터 받아오는동안 로딩 true로 하고 api요청 그동안 한번만되게
   const [paging, setPaging] = useState(1); //페이지넘버
-  const token = getCookie("token");
+  const token = localStorage.getItem("token");
   const { userId } = jwt(token);
   const allMainPostList = useSelector((state) => state.rank.allPosts);
   const last = useSelector((state) => state.rank.postLast);

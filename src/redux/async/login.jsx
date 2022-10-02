@@ -10,7 +10,7 @@ export const __login = createAsyncThunk(
     try {
       const response = await loginApi.login(data);
       if (response.status === 200) {
-        setCookie("token", response.data.url.split("=")[2]);
+        localStorage.setItem("token", response.data.url.split("=")[2]);
         return (window.location.href = response.data.url);
       }
     } catch (err) {

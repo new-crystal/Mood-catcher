@@ -42,7 +42,7 @@ const SignupGenderAge = (location) => {
 
   //로그인을 안 한 경우
   useEffect(() => {
-    const token = getCookie("token");
+    const token = localStorage.getItem("token");
     if (token === undefined) {
       navigate("/login");
     }
@@ -60,7 +60,7 @@ const SignupGenderAge = (location) => {
   }, []);
 
   useEffect(() => {
-    const token = getCookie("token");
+    const token = localStorage.getItem("token");
     const payload = jwt_decode(token);
     dispatch(__getUser(payload.userId));
   }, []);
