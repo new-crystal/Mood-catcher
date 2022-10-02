@@ -13,6 +13,8 @@ const initialState = {
   comments: [],
   isFetching: false,
   errorMessage: null,
+  editComment: true,
+  addComment: true,
 };
 
 const commentSlice = createSlice({
@@ -35,13 +37,15 @@ const commentSlice = createSlice({
         state.errorMessage = action.errorMessage;
       })
       // 댓글 작성하기
+      .addCase(__addComment.pending, (state, action) => {
+        state.isFetching = true;
+        state.addComment = false;
+      })
       .addCase(__addComment.fulfilled, (state, action) => {
         state.comments = [action.payload, ...state.comments];
         state.isFetching = false;
         state.errorMessage = null;
-      })
-      .addCase(__addComment.pending, (state, action) => {
-        state.isFetching = true;
+        state.addComment = true;
       })
       .addCase(__addComment.rejected, (state, action) => {
         state.isFetching = false;
@@ -59,6 +63,12 @@ const commentSlice = createSlice({
       .addCase(__addRecomment.rejected, (state, action) => {
         state.isFetching = false;
         state.errorMessage = action.errorMessage;
+      })
+      .addCase(__editComment.pending, (state, action) => {
+        state.editComment = false;
+      })
+      .addCase(__editComment.fulfilled, (state, action) => {
+        state.editComment = true;
       });
   },
 });

@@ -53,7 +53,6 @@ const Item_detail = (props) => {
   const detailItems = useSelector((state) => state.upload.detailItems);
   const userStatus = useSelector((state) => state.login.userStatus);
   const userStatusMe = useSelector((state) => state.signup.userStatus);
-  const comments = useSelector((state) => state.comment.comments);
   const [click, setClick] = useState(false);
 
   const [mood, setMood] = useState(`${heartFalse}`);
@@ -67,7 +66,11 @@ const Item_detail = (props) => {
   const [paging, setPaging] = useState(1); //페이지넘버
   const [loading, setLoading] = useState(false); //데이터 받아오는동안 로딩 true로 하고 api요청 그동안 한번만되게
   const last = useSelector((state) => state.comment.commentLast);
-
+  const editStatus = useSelector((state) => state.comment.editComment);
+  const addCommentStatus = useSelector((state) => state.comment.addComment);
+  const [isComment, setIsComment] = useState(false);
+  console.log(commentList);
+  console.log(addCommentStatus);
   // 댓글 input
   let commentText = useRef("");
 
@@ -94,8 +97,10 @@ const Item_detail = (props) => {
       __addComment({ comment: commentText.current.value, postId: postId }) // , postId: postId
     );
     commentText.current.value = "";
-    window.location.reload();
+    //setIsComment(!isComment);
+    //window.location.reload();
   };
+
   // 대표 게시물 지정하기
   const patchRep = () => {
     Swal.fire({
@@ -148,12 +153,18 @@ const Item_detail = (props) => {
     dispatch(__getDetail(postId));
     dispatch(__getUser(userId));
     dispatch(__getUsers(payload.userId));
-    dispatch(__getComments(postId));
+
     if (userStatus.imgUrl !== undefined) {
       setProfile({ image_file: `${userStatus.imgUrl}` });
     }
+
     setLikeStatus(like);
   }, [likeStatus, moodNum]);
+
+  useEffect(() => {
+    console.log("댓글");
+    dispatch(__getComments(postId));
+  }, [addCommentStatus]);
 
   //새로고침시에도 무드 상태값 유지
   useEffect(() => {
