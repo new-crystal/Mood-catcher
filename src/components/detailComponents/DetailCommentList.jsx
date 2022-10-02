@@ -154,11 +154,19 @@ const DetailCommentList = (props) => {
           <Dummy></Dummy>
         )}
       </CommentBox>
+      <StLine></StLine>
     </>
   );
 };
 
 export default DetailCommentList;
+
+const StLine = styled.div`
+  width: 360px;
+  height: 1px;
+  margin: 0 auto;
+  background-color: #d5d5d5;
+`;
 
 const Dummy = styled.div`
   width: 30px;
