@@ -75,7 +75,6 @@ const SearchResultForm = () => {
       isSearch === true ||
       isSearch === false
     ) {
-      console.log("2");
       dispatch(__getSearchResult({ key, sort, page }));
       //setPage((pre) => pre + 1);
     }

@@ -24,6 +24,7 @@ const Header = () => {
   const [main, setMain] = useState(true);
   const [settings, setSettings] = useState(false);
   const [detail, setDetail] = useState(false);
+  const [editPw, setEditPw] = useState(false);
 
   const users = useSelector((state) => state.login.headerUser);
   const [userId, setUserId] = useState(users.userId);
@@ -74,6 +75,9 @@ const Header = () => {
     if (window.location.pathname.split("/")[2] === "detail") {
       setDetail(true);
     }
+    if (window.location.pathname.split("/")[1] === "edit_password") {
+      setEditPw(true);
+    }
   }, []);
 
   return (
@@ -115,12 +119,34 @@ const Header = () => {
             </>
           )}
           {/* 로그인 상태가 아닐 때 */}
-          {!isLogin && (
+          {!isLogin && !editPw && (
             <>
               <GoBack></GoBack>
               <HeaderLogo
                 margin="-11.563rem"
                 style={{ marginLeft: "-12.5rem", color: "#7B758B" }}
+              >
+                <span
+                  onClick={() => {
+                    navigate("/login");
+                  }}
+                  style={{ cursor: "pointer" }}
+                >
+                  {headerText}
+                </span>
+              </HeaderLogo>
+            </>
+          )}
+          {/* 로그인 상태가 아니면서 비밀번호 수정할 때 */}
+          {!isLogin && editPw && (
+            <>
+              <GoBack></GoBack>
+              <HeaderLogo
+                margin="-11.563rem"
+                style={{
+                  marginLeft: "0.9rem",
+                  color: "#7B758B",
+                }}
               >
                 <span
                   onClick={() => {

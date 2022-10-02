@@ -25,8 +25,6 @@ export default Edit_profile;
 
 const Container = styled.div`
   display: flex;
-  /* height: 984px; */
-  /* background-color: orange; */
   flex-direction: column;
   bottom: 110px;
   & > span {

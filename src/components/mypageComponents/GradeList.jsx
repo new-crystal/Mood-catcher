@@ -28,6 +28,7 @@ const GradeList = ({ setGradeList }) => {
   const user = useSelector((state) => state.login.myPageUser);
   const grade = user?.grade?.split(" ")[0];
 
+  //유저의 성별 파악하기
   const moodyStatus = (grade) => {
     if (grade === "moody") {
       setMoody(true);
