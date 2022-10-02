@@ -26,7 +26,7 @@ const SearchResultForm = () => {
   //react-hook-form 사용하기
   const {
     register,
-    formState: { errors, isDirty, isSubmitting },
+    formState: { errors, isDirty },
     handleSubmit,
   } = useForm({ criteriaMode: "all", mode: "onChange" });
 
@@ -41,9 +41,8 @@ const SearchResultForm = () => {
       navigate(`/search/result/keyword=${data.search}?sort=writer`);
       setIsSearch(!isSearch);
     }
-    window.location.reload();
   };
-  console.log(isSearch);
+
   //검색글 불러오기
   const getSearchList = useCallback(() => {
     const getSearch = async () => {
@@ -63,12 +62,12 @@ const SearchResultForm = () => {
       if (last) {
         return;
       }
-      setPage((pre) => pre + 1);
+      //setPage((pre) => pre + 1);
       getSearchList();
       setLoading(true);
     }
   }, 500);
-
+  console.log(page);
   //페이지 계산해서 get 요청 보내고 page 카운트 올리기
   useEffect(() => {
     if (
@@ -76,11 +75,12 @@ const SearchResultForm = () => {
       isSearch === true ||
       isSearch === false
     ) {
+      console.log("2");
       dispatch(__getSearchResult({ key, sort, page }));
       //setPage((pre) => pre + 1);
     }
     if (searchList.length !== 0) {
-      setPage(searchList.length);
+      //setPage(searchList.length);
     }
   }, [key, isSearch]);
 

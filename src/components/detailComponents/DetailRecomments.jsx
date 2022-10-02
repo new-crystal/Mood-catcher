@@ -37,7 +37,6 @@ const DetailRecomments = ({ commentData, btnState, postId }) => {
       }) // , postId: postId
     );
     recommentText.current.value = "";
-    window.location.reload();
   };
   return (
     <BackgroundDiv>
@@ -53,7 +52,7 @@ const DetailRecomments = ({ commentData, btnState, postId }) => {
             }
           ></CommentImg>
           <WrapCommentData>
-            <textarea>{commentData.content}</textarea>
+            <textarea value={commentData.content}></textarea>
           </WrapCommentData>
         </CommentDataBox>
         <CommentBox>
