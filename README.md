@@ -2,6 +2,7 @@
 
 - **무드 캐쳐를 꿈꾸는 모든 일반인들을 위한 커뮤니티 사이트.**
 - 패션 커뮤니티, 옷의 후기 및 리뷰 취합.
+- https://moodcatch.link/
 
 # 📆 프로젝트 기간
 
@@ -20,30 +21,29 @@
 
 - 개발언어 : JavaScript, React
 - 배포환경 : S3, Route 53 ,CloudFront
-- 패키지매니저 :
 - 협업 툴 : git / notion / figma
 
 # 3. 사용한 라이브러리(패키지)
 
 ```jsx
-
-    "@material-ui/core": "^4.12.4", //셀렉트 박스, 인풋, 버튼 css 관련
-    "@reduxjs/toolkit": "^1.8.5", // 데이터 전역상태관리, 미들웨어
-    "axios": "^0.27.2", // 서버통신
-    "cross-env": "^7.0.3", // 환경변수 관리
-    "react-hook-form": "^7.34.2", // formData 관리, input 유효성 검사, 리렌더링이 적어짐
-    "react-redux": "^8.0.2", // 데이터 전역 상태관리
-    "react-router-dom": "^6.3.0", // 페이지 관련
-    "react-slick": "^0.29.0", // 가로 슬라이드
-    "styled-components": "^5.3.5", // 컴포넌트 스타일링
-    "universal-cookie": "^4.0.4", // 쿠키 설정
-    "react-pwa-install": "^1.0.12",//PWA 구현
+    "axios": "^0.27.2", //서버와 통신
+    "bcryptjs": "^2.4.3", //회원가입, 로그인 비밀번호 암호화 전송
+    "cross-env": "^7.0.3", //환경변수 관리
+    "jwt-decode": "^3.1.2", //토큰 복호화
+    "lodash": "^4.17.21", //무한스크롤 
+    "react-hook-form": "^7.34.2", //폼 태그 유효성 검사
+    "react-pwa-install": "^1.0.12", // PWA
+    "react-redux": "^8.0.2", //데이터 전역상태관리
+    "react-router-dom": "^6.3.0", // 페이지 전환
+    "styled-components": "^5.3.5", //css 관리
+    "sweetalert2": "^11.4.33", // alert창 관리
 
 ```
 
 # 4. 기술 소개
 
 - 무한스크롤 기능
+- 카카오 맵
 - 검색 기능
 - PWA 구현
 - kakao 로그인 구현
