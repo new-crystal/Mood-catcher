@@ -21,7 +21,6 @@ import male from "../../image/5man.png";
 import female from "../../image/girl5.png";
 import { useNavigate } from "react-router-dom";
 import gender from "../../image/gender.png";
-import { getCookie } from "../../shared/cookie";
 import jwt_decode from "jwt-decode";
 
 const SignupGenderAge = (location) => {

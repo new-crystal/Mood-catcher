@@ -1,22 +1,18 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import {
-  __getAlarm,
-  __deleteAlarm,
-  __deleteAllAlarm,
-} from "../../redux/async/alarm";
+import { __getAlarm, __deleteAllAlarm } from "../../redux/async/alarm";
 import Swal from "sweetalert2";
 import { Fragment } from "react";
+import AlarmListForm from "./AlarmList";
 
 const AlarmForm = () => {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
   const alarms = useSelector((state) => state.alarm.notices);
   const alarmStatus = useSelector((state) => state.alarm.deleteAlarm);
   const alarmList = [...alarms].reverse();
 
+  //전체 알람 삭제
   const delAllAlarm = () => {
     Swal.fire({
       title: "알림을 전부 삭제하시겠습니까?",
@@ -39,6 +35,7 @@ const AlarmForm = () => {
     });
   };
 
+  //알람 조회
   useEffect(() => {
     dispatch(__getAlarm());
   }, [alarmStatus]);
@@ -64,7 +61,10 @@ const AlarmForm = () => {
               <TitleWrap>
                 <h4>나의 알림</h4>
                 <BtnWrap>
-                  <ConfirmBtn onClick={() => delAllAlarm()}>
+                  <ConfirmBtn
+                    style={{ cursor: "pointer" }}
+                    onClick={() => delAllAlarm()}
+                  >
                     전체알림삭제
                   </ConfirmBtn>
                 </BtnWrap>
@@ -74,96 +74,8 @@ const AlarmForm = () => {
                   <p>아직 새로운 알림이 없습니다!</p>
                 </AlarmBox>
               ) : (
-                alarmList?.map((alarm, idx) => {
-                  return alarm?.postId === -1 ? (
-                    <>
-                      <AlarmBox key={idx}>
-                        <AlarmImg url={alarm.imgUrl}> </AlarmImg>
-                        <TextBox>
-                          <p>{alarm.msg}</p>
-                        </TextBox>
-                        <TimeText>{alarm.createdAt}</TimeText>
-                        <DelAlarm
-                          style={{ cursor: "pointer" }}
-                          onClick={() =>
-                            Swal.fire({
-                              title: "알림을 삭제하시겠습니까?",
-                              text: "지우신 알림은 되돌릴 수 없습니다!",
-                              icon: "warning",
-                              showCancelButton: true,
-                              confirmButtonColor: "#3085d6",
-                              cancelButtonColor: "#d33",
-                              confirmButtonText: "삭제",
-                              cancelButtonText: "취소",
-                            }).then((result) => {
-                              if (result.isConfirmed) {
-                                Swal.fire(
-                                  "삭제되었습니다",
-                                  "캐처님의 알람이 삭제되었습니다",
-                                  "success"
-                                );
-                                dispatch(__deleteAlarm(alarm.noticeId));
-                              }
-                            })
-                          }
-                        >
-                          ✕
-                        </DelAlarm>
-                      </AlarmBox>
-                    </>
-                  ) : (
-                    <>
-                      <AlarmBox
-                        key={idx}
-                        style={{ cursor: "pointer" }}
-                        onClick={() => {
-                          navigate(
-                            `/item_detail/${alarm.postId}/${alarm.userId}`
-                          );
-                          window.location.reload();
-                        }}
-                      >
-                        <AlarmImg url={alarm.imgUrl}> </AlarmImg>
-                        <TextBox>
-                          {alarm.duplecation > 1 && (
-                            <p>
-                              {alarm.msg}({alarm.duplecation})
-                            </p>
-                          )}
-                          {alarm.duplecation === 1 && <p>{alarm.msg}</p>}
-                        </TextBox>
-                        <TimeText>{alarm.createdAt}</TimeText>
-                        <ArrowBtn></ArrowBtn>
-                        <DelAlarm2
-                          style={{ cursor: "pointer" }}
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            Swal.fire({
-                              title: "알림을 삭제하시겠습니까?",
-                              text: "지우신 알림은 되돌릴 수 없습니다!",
-                              icon: "warning",
-                              showCancelButton: true,
-                              confirmButtonColor: "#3085d6",
-                              cancelButtonColor: "#d33",
-                              confirmButtonText: "삭제",
-                              cancelButtonText: "취소",
-                            }).then((result) => {
-                              if (result.isConfirmed) {
-                                Swal.fire(
-                                  "삭제되었습니다",
-                                  "캐처님의 알람이 삭제되었습니다",
-                                  "success"
-                                );
-                                dispatch(__deleteAlarm(alarm.noticeId));
-                              }
-                            });
-                          }}
-                        >
-                          ✕
-                        </DelAlarm2>
-                      </AlarmBox>
-                    </>
-                  );
+                alarmList?.map((alarm) => {
+                  return <AlarmListForm alarm={alarm} key={alarm.noticeId} />;
                 })
               )}
             </AlarmList>
@@ -185,7 +97,6 @@ const Btn = styled.button`
   height: 50px;
   border-radius: 20px;
   border: 0px;
-  /* margin: 10px auto; */
   margin: 10px auto;
   background: ${(props) => (props.kakao ? "#F4E769" : "#C4C2CA")};
   cursor: default;
@@ -197,7 +108,6 @@ const Btn = styled.button`
   p {
     color: #2d273f;
     font-family: "Noto Sans KR", sans-serif;
-    /* font-family: "Roboto"; */
     text-decoration: none;
     font-weight: bold;
     font-size: 16px;
@@ -219,23 +129,13 @@ const Container = styled.div`
 
 const Grid = styled.div`
   margin: 0 auto;
-  /* margin-top: 60px; */
-  /* margin-bottom: 57px; */
   max-width: 428px;
   width: 100vw;
-  //height: calc(var(--vh, 1vh) * 100 + 50px);
-  /* background: linear-gradient(#a396c9, #ffffff); */
-  /* background: #a396c9; */
 `;
 
-const AlarmContainer = styled.div`
-  /* width: 100vw; */
-  /* height: 100vh; */
-`;
+const AlarmContainer = styled.div``;
 const AlarmList = styled.div`
   width: 370px;
-  /* margin-top: 50px;
-  margin-left: 25px; */
   margin: 10px auto 0;
   background-color: #e6e5ea;
   border-radius: 20px;
@@ -270,10 +170,8 @@ const TitleWrap = styled.div`
   justify-content: space-between;
   h4 {
     margin: 20px 0 7px 20px;
-    /* margin-bottom: 7px; */
     color: #2d273f;
     font-family: "Noto Sans KR", sans-serif;
-    /* font-family: "Roboto"; */
     font-style: normal;
     font-weight: 700;
     font-size: 20px;
@@ -287,8 +185,6 @@ const BtnWrap = styled.div`
   padding: 0px;
 `;
 const ConfirmBtn = styled.button`
-  /* width: 110px;
-  height: 20px; */
   background-color: rgba(0, 0, 0, 0);
   color: #7b758b;
   border: 0px;
@@ -301,19 +197,7 @@ const ConfirmBtn = styled.button`
   top: -4px;
   right: -37px;
 `;
-// const BackBtn = styled.button`
-//   /* width: 20px;
-//   height: 20px; */
-//   background-color: rgba(0, 0, 0, 0);
-//   color: #7b758b;
-//   border: 0px;
-//   margin-left: 20px;
-//   margin-top: -5px;
-//   font-family: Roboto;
-//   font-style: normal;
-//   font-weight: 100;
-//   font-size: 30px;
-// `;
+
 const AlarmBox = styled.div`
   width: 360px;
   height: 55px;
@@ -350,58 +234,6 @@ const AlarmBox = styled.div`
     left: 120px;
     cursor: pointer;
   }
-`;
-const TextBox = styled.div`
-  width: 255px;
-  margin: 0px;
-`;
-const TimeText = styled.div`
-  width: 45px;
-  /* font-family: "Roboto"; */
-  font-family: "Noto Sans KR", sans-serif;
-  font-style: normal;
-  font-weight: 500;
-  font-size: 0.188rem;
-  position: relative;
-  top: -19px;
-  left: 0px;
-  text-align: center;
-  margin-right: 0px;
-  flex-shrink: 0;
-`;
-
-const AlarmImg = styled.div`
-  width: 34px;
-  height: 34px;
-  border-radius: 50%;
-  margin-left: 5px;
-  background-position: center;
-  background-size: cover;
-  background-image: url(${(props) => props.url});
-  flex-shrink: 0;
-`;
-
-const ArrowBtn = styled.div`
-  transform: scaleX(-1);
-  width: 15px;
-  height: 15px;
-  background-position: center;
-  background-size: cover;
-  background-image: url("https://www.pngmart.com/files/16/Left-Arrow-Icon-PNG-Transparent-Image.png");
-  position: relative;
-  left: -30px;
-  top: 10px;
-  opacity: 70%;
-  flex-shrink: 0;
-`;
-const DelAlarm = styled.p`
-  position: relative;
-  left: -5px;
-`;
-
-const DelAlarm2 = styled.p`
-  position: relative;
-  left: -20px;
 `;
 
 export default AlarmForm;

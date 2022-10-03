@@ -262,7 +262,6 @@ const BtnBox = styled.div`
 `;
 
 const LogText = styled.p`
-  /* font-family: "Roboto"; */
   font-style: normal;
   font-weight: 400;
   font-size: 10px;
@@ -273,14 +272,12 @@ const LogText = styled.p`
 `;
 
 const LawText = styled.p`
-  /* font-family: "Roboto"; */
   font-style: normal;
   font-weight: 400;
   font-size: 10px;
   line-height: 12px;
   color: #2d273f;
   margin-top: 10px;
-  /* margin-left: 10px; */
   margin-bottom: 0px;
 
   cursor: default;
@@ -291,7 +288,6 @@ const KakaoLogBtn = styled.div`
   height: 50px;
   border-radius: 5px;
   border: 0px;
-  /* margin: 10px auto; */
   margin: 10px auto;
   background: ${(props) => (props.kakao ? "#F4E769" : "#C4C2CA")};
   cursor: default;
@@ -302,7 +298,6 @@ const KakaoLogBtn = styled.div`
   & > a,
   p {
     color: #2d273f;
-    /* font-family: "Roboto"; */
     text-decoration: none;
     font-weight: bold;
     font-size: 15px;
@@ -314,7 +309,6 @@ const LogBtn = styled.div`
   height: 50px;
   border-radius: 5px;
   border: 1px solid gray;
-  /* margin: 10px auto; */
   margin: 10px auto;
   background: ${(props) => (props.kakao ? "#F4E769" : "white")};
   cursor: default;
@@ -325,7 +319,6 @@ const LogBtn = styled.div`
   & > a,
   p {
     color: #2d273f;
-    /* font-family: "Roboto"; */
     text-decoration: none;
     font-weight: bold;
     font-size: 15px;
@@ -337,7 +330,6 @@ const LogBtn = styled.div`
 `;
 
 const PwText = styled.p`
-  /* font-family: "Roboto"; */
   font-style: normal;
   font-weight: 400;
   font-size: 10px;

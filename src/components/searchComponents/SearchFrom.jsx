@@ -20,7 +20,6 @@ const SearchForm = () => {
 
   //정보 불러오기
   const recommendedList = useSelector((state) => state.search.recommendedPosts);
-  const users = useSelector((state) => state.login.userStatus);
   const last = useSelector((state) => state.search.postLast);
   const recommended = [...new Set(recommendedList.map(JSON.stringify))].map(
     JSON.parse
@@ -29,7 +28,7 @@ const SearchForm = () => {
   //react-hook-form에서 불러오기
   const {
     register,
-    formState: { errors, isDirty, isSubmitting },
+    formState: { errors, isDirty },
     handleSubmit,
   } = useForm({ criteriaMode: "all", mode: "onChange" });
 
@@ -148,12 +147,8 @@ const SearchForm = () => {
           </>
         )}
       </SearchBox>
-      {/* <ClosetBox>
-        <h1>Other Closet</h1>
-      </ClosetBox> */}
       {recommended?.map((item) => (
         <CardForm key={item.postId} item={item} />
-        // <SearchItem key={item.postId} item={item} />
       ))}
     </Fragment>
   );
@@ -174,13 +169,6 @@ const Form = styled.div`
   flex-direction: row;
 `;
 
-const ErrorMsg = styled.p`
-  color: #c60000;
-  font-size: 10px;
-  /* margin-left: 40px; */
-  margin-bottom: -20px;
-  display: none;
-`;
 const SearchBox = styled.div`
   flex-grow: 2;
   width: 350px;

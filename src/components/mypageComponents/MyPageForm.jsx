@@ -6,7 +6,6 @@ import { __getMyPage, __getRepresentative } from "../../redux/async/upload";
 import GradeList from "./GradeList";
 import { Fragment } from "react";
 import { __getMyPageUser } from "../../redux/async/login";
-import { getCookie } from "../../shared/cookie";
 import jwt_decode from "jwt-decode";
 import ScrollX from "../../elem/ScrollX";
 import Swal from "sweetalert2";
@@ -29,7 +28,6 @@ import woman4 from "../../image/girl4.png";
 import woman5 from "../../image/girl5.png";
 import question from "../../image/question.png";
 import empty from "../../image/옷걸이.png";
-//import hanger from "../../image/hanger.png";
 import hanger from "../../image/three-hangers-on-clothes-rail_1262-6966.webp";
 import MoodPoint from "./MoodPoint";
 import closet from "../../image/empty-walkin-closet-modern-wardrobe-room-interior_107791-6726.jpeg";
@@ -505,13 +503,9 @@ const PostImg = styled.div`
   background-image: url(${(props) => props.url});
 `;
 const ClosetList = styled.div`
-  /* width: 350px; */
-  /* width: 100%; */
   height: 230px;
   background-color: #fff;
   border-radius: 10px;
-  /* margin-left: 30px; */
-  /* margin-left: 25px; */
   margin: 0px auto 0;
   align-items: center;
   display: flex;
@@ -570,7 +564,6 @@ const EmptyCloset = styled.div`
 const OpenText = styled.h5`
   margin-top: 80px;
   display: block;
-  /* font-family: "Unna"; */
   font-family: "Noto Sans KR", sans-serif;
   font-style: normal;
   font-weight: 700;

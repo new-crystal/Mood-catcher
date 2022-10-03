@@ -35,11 +35,12 @@ const HotPosts = ({ hotPosts }) => {
           onClick={() => setHot(true)}
         ></Question>
         {hot ? <HotList setHot={setHot} /> : null}
-        <p onClick={() => navigate("/best")}>명예의 전당 ►</p>
+        <p onClick={() => navigate("/best")}>명예의 전당 ➡</p>
       </Wrap>
       <WritedHotInfo>
         <HotImage1>
           <img
+            alt="hot-post-1"
             src={hotPosts[0]?.imgUrl}
             onClick={() => {
               onClickHandler(hotPosts[0]);
@@ -50,6 +51,7 @@ const HotPosts = ({ hotPosts }) => {
           <GridHorizonHot>
             <HotImage2>
               <img
+                alt="hot-post-2"
                 src={hotPosts[1]?.imgUrl}
                 onClick={() => {
                   onClickHandler(hotPosts[1]);
@@ -60,6 +62,7 @@ const HotPosts = ({ hotPosts }) => {
           <GridHorizonHot>
             <HotImage3>
               <img
+                alt="hot-post-3"
                 src={hotPosts[2]?.imgUrl}
                 onClick={() => {
                   onClickHandler(hotPosts[2]);
@@ -82,7 +85,6 @@ const Wrap = styled.div`
 
   & p {
     flex-direction: row;
-    /* font-family: "Unna"; */
     font-family: "Noto Sans KR", sans-serif;
     font-style: normal;
     font-weight: 700;
@@ -99,7 +101,6 @@ const StTag = styled.div`
   width: 200px;
   height: 40px;
   border-radius: 17px;
-  //background: linear-gradient(to right, #7b758b 50%, #c8c6d0);
   text-align: center;
   line-height: 40px;
   font-size: 30px;
@@ -108,7 +109,6 @@ const StTag = styled.div`
   color: #2d273f;
   margin-left: -60px;
   font-style: normal;
-  //box-shadow: 5px 5px 4px #877f92;
 `;
 
 const WritedHotInfo = styled.div`
@@ -116,10 +116,8 @@ const WritedHotInfo = styled.div`
   margin: 0px auto 20px;
   width: 350px;
   height: 288px;
-  /* background-color: #e5e5e5; */
   background-color: #e4ddef;
   border-radius: 20px;
-  /* box-shadow: 5px 5px 4px #877f92; */
 `;
 
 const HotImage1 = styled.div`
@@ -133,7 +131,6 @@ const HotImage1 = styled.div`
     width: 200px;
     height: 266px;
     border-radius: 20px;
-    //box-shadow: 5px 5px 4px #877f92;
   }
 `;
 
@@ -157,7 +154,6 @@ const HotImage2 = styled.div`
     width: 110px;
     height: 130px;
     border-radius: 20px;
-    //box-shadow: 5px 5px 4px #877f92;
   }
 `;
 
@@ -172,15 +168,14 @@ const HotImage3 = styled.div`
     width: 110px;
     height: 130px;
     border-radius: 10px;
-    //box-shadow: 5px 5px 4px #877f92;
   }
 `;
 
 const Question = styled.div`
-  width: 10px;
-  height: 10px;
+  width: 15px;
+  height: 15px;
   margin-left: -250px;
-  margin-top: 22px;
+  margin-top: 19px;
   background-position: center;
   background-size: cover;
   background-image: url(${question});

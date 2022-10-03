@@ -139,11 +139,19 @@ const DetailReCommentList = (props) => {
           </DropdownContainer>
         ) : null}
       </CommentBox>
+      <StLine></StLine>
     </>
   );
 };
 
 export default DetailReCommentList;
+
+const StLine = styled.div`
+  width: 360px;
+  height: 1px;
+  margin: 0 auto;
+  background-color: #b3b3b3;
+`;
 
 const WrapComment = styled.div`
   width: 245px;

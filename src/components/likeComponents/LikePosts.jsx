@@ -2,7 +2,6 @@ import React, { Fragment, useState, useCallback, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import heart from "../../image/heart.png";
 import { __getLikeAllPosts } from "../../redux/async/like";
-import EachPost from "./EachPost";
 import styled from "styled-components";
 import InfinityScrollLoader from "./InfinityScrollLoader";
 import _ from "lodash";

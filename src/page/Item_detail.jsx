@@ -1,10 +1,4 @@
-import React, {
-  useEffect,
-  useState,
-  Fragment,
-  useRef,
-  useCallback,
-} from "react";
+import React, { useEffect, useState, Fragment, useRef } from "react";
 import styled, { css } from "styled-components";
 import Header from "../elem/Header";
 import NavigationBar from "../elem/NavigationBar";
@@ -21,7 +15,6 @@ import { __getUsers } from "../redux/async/signup";
 
 import DetailCommentList from "../components/detailComponents/DetailCommentList";
 import { useParams } from "react-router-dom";
-import { getCookie } from "../shared/cookie";
 import jwt from "jwt-decode"; // to get userId from loggedIn user's token
 import useDetectClose from "../elem/useDetectClose";
 import ScrollX from "../elem/ScrollX";
@@ -141,12 +134,12 @@ const Item_detail = (props) => {
       cancelButtonText: "취소",
     }).then((result) => {
       if (result.isConfirmed) {
+        dispatch(__deletePost(postId)).then(navigate("/main"));
         Swal.fire(
           "삭제 완료",
           "캐처님의 게시물 삭제에 성공했습니다.",
           "success"
         );
-        dispatch(__deletePost(postId));
       }
     });
   };
