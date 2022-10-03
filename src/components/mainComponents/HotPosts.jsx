@@ -21,7 +21,7 @@ const HotPosts = ({ hotPosts }) => {
         }).then(navigate(`/main`).then(window.location.reload()));
       }
       navigate(`/item_detail/${hotPosts.postId}/${hotPosts.userId}`);
-      window.location.reload();
+      //window.location.reload();
     },
     [navigate]
   );

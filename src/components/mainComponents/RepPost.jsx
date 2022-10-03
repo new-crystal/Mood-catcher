@@ -45,7 +45,7 @@ const RepPost = ({ myRepPost }) => {
         <WritedClosetInfo
           onClick={() => {
             navigate(`/closet/${myRepPost?.userId}`);
-            window.location.reload();
+            //window.location.reload();
           }}
         >
           <ClosetImage>

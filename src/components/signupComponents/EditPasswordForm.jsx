@@ -59,7 +59,14 @@ const EditPasswordForm = () => {
   const onClickOKBtn = () => {
     const key = getValues("sendEmail");
     const email = getValues("email");
-    dispatch(__postAuthNum({ email, authNum: key }));
+    if (
+      errors.email === undefined &&
+      errors.sendEmail === undefined &&
+      authNum
+    ) {
+      dispatch(__postAuthNum({ email, authNum: key }));
+    }
+
     if (!authNum) {
       setError(
         "sendEmail",
