@@ -17,7 +17,10 @@ const LikePosts = () => {
   const [paging, setPaging] = useState(1); //페이지넘버
   const last = useSelector((state) => state.like.postLast);
 
-  const allLikePosts = useSelector((state) => state.like.allPosts);
+  const allLikePostList = useSelector((state) => state.like.allPosts);
+  const allLikePosts = [...new Set(allLikePostList.map(JSON.stringify))].map(
+    JSON.parse
+  );
 
   // 토큰 decode를 통해서 현재 로그인한 유저 id 가져오기
   const token = localStorage.getItem("token");

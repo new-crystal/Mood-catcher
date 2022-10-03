@@ -22,8 +22,8 @@ const Edit_post = (props) => {
 
   const [attachment, setAttachment] = useState("");
   const [post, setPost] = useState({
-    title: "",
-    content: "",
+    title: detailPost.title,
+    content: detailPost.content,
   });
 
   const { postId } = useParams();
@@ -45,6 +45,7 @@ const Edit_post = (props) => {
     detailContent();
   }, []);
 
+  //이미지 미리보기
   const selectImg = (e) => {
     const reader = new FileReader();
     const theFile = fileInput.current.files[0];
@@ -71,7 +72,7 @@ const Edit_post = (props) => {
         showConfirmButton: false,
         timer: 1500,
       });
-      navigate("/upload");
+      //navigate("/upload");
     }
     if (post.title === "") {
       Swal.fire({

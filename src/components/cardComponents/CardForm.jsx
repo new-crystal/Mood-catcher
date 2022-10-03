@@ -45,9 +45,16 @@ const CardForm = (item) => {
 
   //리사이징 에러 났을 경우
   const onErrorHandler = (e) => {
-    const url = item.item.imgUrl.split("w560")[0];
-    const name = item.item.imgUrl.split("w560")[1];
-    e.target.src = `${url}post${name}`;
+    if (item.item.imgUrl.split("/")[3] === "w280") {
+      const url = item.item.imgUrl.split("w280")[0];
+      const name = item.item.imgUrl.split("w280")[1];
+      e.target.src = `${url}post${name}`;
+    }
+    if (item.item.imgUrl.split("/")[3] === "w560") {
+      const url = item.item.imgUrl.split("w560")[0];
+      const name = item.item.imgUrl.split("w560")[1];
+      e.target.src = `${url}post${name}`;
+    }
   };
 
   return (

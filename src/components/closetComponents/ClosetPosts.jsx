@@ -13,8 +13,9 @@ const ClosetPosts = () => {
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(false); //데이터 받아오는동안 로딩 true로 하고 api요청 그동안 한번만되게
   const [paging, setPaging] = useState(1); //페이지넘버
-  const ranksIF = useSelector(InfinityCloset); //redux store값 받아오는부기
+  const ranksIFList = useSelector(InfinityCloset); //redux store값 받아오는부기
   const last = useSelector((state) => state.upload.postLast);
+  const ranksIF = [...new Set(ranksIFList.map(JSON.stringify))].map(JSON.parse);
 
   const { userId } = useParams();
 
