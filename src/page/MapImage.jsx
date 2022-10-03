@@ -5,9 +5,8 @@ import Header from "../elem/Header";
 import NavigationBar from "../elem/NavigationBar";
 import { useNavigate } from "react-router-dom";
 import "../shared/style/MapImageStyle.css";
-import { getCookie, deleteCookie } from "../shared/cookie";
 import { useDispatch, useSelector } from "react-redux";
-import HeartButton from "../elem/MapButton";
+import MapButton from "../elem/MapButton";
 
 import { __patchMap, __getUsersMap, __patchOnoff } from "../redux/async/kakao";
 
@@ -17,9 +16,6 @@ const MapImage = (props) => {
   const dispatch = useDispatch();
   //카카오객체 불러오기
   const kakao = window.kakao;
-  //맵 컨테이너 Ref로 받아오기
-  const mapContainer = useRef(null);
-  const [mapState, setMapState] = useState(true);
 
   const checkPatch = useSelector((state) => state.kakao.checkPatch);
   const checkUsersMap = useSelector((state) => state.kakao.checkUsersMap);
@@ -28,7 +24,11 @@ const MapImage = (props) => {
   const latitude = useSelector((state) => state.kakao.myLatitude);
   const longitude = useSelector((state) => state.kakao.myLongitude);
   const isExistsMap = useSelector((state) => state.kakao.isExistsMap);
-  const [toggle, setToggle] = useState(false); //map Exists 상태
+
+  //맵 컨테이너 Ref로 받아오기
+  const mapContainer = useRef(null);
+  const [mapState, setMapState] = useState(true);
+  // const [toggle, setToggle] = useState(false); //map Exists 상태
 
   //like_array에 userId있으면 true 없으면 false
   //   useEffect(() => {
@@ -39,15 +39,9 @@ const MapImage = (props) => {
   //     }
   // }, [item, userId]);
 
-  console.log(isExistsMap);
   useEffect(() => {
     setMapState(true);
   }, [isExistsMap]);
-
-  useEffect(() => {
-    if (isExistsMap) setToggle(true);
-    else setToggle(false);
-  }, []);
 
   useEffect(() => {
     // 카카오 맵 실행
@@ -93,7 +87,7 @@ const MapImage = (props) => {
   const kakaoMap = (latitude, longitude, dataArray) => {
     const mapOption = {
       center: new kakao.maps.LatLng(latitude, longitude), // 지도의 중심좌표
-      level: 3, // 지도의 확대 레벨
+      level: 6, // 지도의 확대 레벨
     };
 
     map = new kakao.maps.Map(mapContainer.current, mapOption); // 지도를 생성합니다
@@ -151,19 +145,9 @@ const MapImage = (props) => {
 
   const clickLike = () => {
     //좋아요 토글 함수
-
-    // if (isExistsMap === false) {
-    // if (window.confirm(`지도기능을 키시겠어요?`)) {
     dispatch(__patchOnoff());
-    setToggle((togle) => !togle);
     window.location.reload();
     return;
-    // }
-    // } else {
-    //   dispatch(__patchOnoff());
-    //   setToggle((togle) => !togle);
-    //   window.location.reload();
-    // }
   };
 
   return (
@@ -171,14 +155,19 @@ const MapImage = (props) => {
       <Container>
         <Grid>
           <Header />
-          <HeartButton
+          <MapButton
             _onClick={(e) => {
               clickLike();
               e.preventDefault();
               e.stopPropagation();
             }}
-            is_like={toggle}
           />
+          {isExistsMap ? null : (
+            <StMessageBox>
+              <StMessage>현재 다른 유저에게 안보이는 상태입니다.</StMessage>
+            </StMessageBox>
+          )}
+
           <div
             id="map"
             ref={mapContainer}
@@ -193,6 +182,27 @@ const MapImage = (props) => {
     </Fragment>
   );
 };
+
+const StMessageBox = styled.div`
+  width: 428px;
+  height: 18px;
+  top: 43px;
+  margin: 18px auto;
+  display: flex;
+  position: fixed;
+  text-align: center;
+  justify-content: center;
+  background-color: transparent;
+  z-index: 999;
+`;
+
+const StMessage = styled.p`
+  width: 300px;
+  height: 18px;
+  font-family: "Noto Sans KR", sans-serif;
+  font-style: normal;
+  font-weight: 700;
+`;
 
 const Container = styled.div`
   display: flex;

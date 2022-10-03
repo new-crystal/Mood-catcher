@@ -37,6 +37,7 @@ const kakaoSlice = createSlice({
       .addCase(__patchMap.fulfilled, (state, action) => {
         state.myLatitude = action.payload.latitude;
         state.myLongitude = action.payload.longitude;
+        state.isExistsMap = action.payload.isExistsMap;
         state.checkPatch = !state.checkPatch;
         state.isFetching = false;
         state.errorMessage = null;
