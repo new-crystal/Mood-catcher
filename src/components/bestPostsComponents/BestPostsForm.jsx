@@ -46,7 +46,7 @@ const BestPostsForm = () => {
       setPage(page + 1);
     }
     if (bestPosts.length !== 0) {
-      setPage(bestPosts.length);
+      setPage(bestPosts.length / 4 + 1);
     }
   }, [mood]);
 

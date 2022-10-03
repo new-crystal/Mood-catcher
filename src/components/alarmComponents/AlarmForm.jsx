@@ -197,7 +197,7 @@ const ConfirmBtn = styled.button`
   font-size: 11px;
   position: relative;
   top: -4px;
-  right: -37px;
+  right: -20px;
 `;
 
 const AlarmBox = styled.div`
