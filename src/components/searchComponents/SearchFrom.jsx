@@ -75,7 +75,7 @@ const SearchForm = () => {
       setPage(page + 1);
     }
     if (recommended.length !== 0) {
-      setPage(recommended.length);
+      setPage(recommended.length / 4 + 1);
     }
   }, [mood]);
 

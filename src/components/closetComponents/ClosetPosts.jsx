@@ -48,7 +48,7 @@ const ClosetPosts = () => {
       setPaging(paging + 1);
     } //첫렌더링시 0페이지 받아오기
     if (ranksIF.length !== 0) {
-      setPaging(ranksIF.length / 8 + 1);
+      setPaging(ranksIF.length / 4 + 1);
     } //다른컴포넌트 갔다 올때 렌더링시 페이지넘버 계산
   }, []);
 

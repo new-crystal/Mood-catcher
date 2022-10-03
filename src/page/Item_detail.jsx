@@ -231,6 +231,12 @@ const Item_detail = (props) => {
     });
   };
 
+  useEffect(() => {
+    window.scrollTo({
+      top: 0,
+    });
+  }, []); //첫 렌더링시 맨위로 스크롤 이동
+
   return (
     <Fragment>
       <Container>

@@ -53,7 +53,7 @@ const LikePosts = () => {
       setPaging(paging + 1);
     } //첫렌더링시 0페이지 받아오기
     if (allLikePosts.length !== 0) {
-      setPaging(allLikePosts.length);
+      setPaging(allLikePosts.length / 6 + 1);
     } //다른컴포넌트 갔다 올때 렌더링시 페이지넘버 계산
   }, [mood]);
 
