@@ -2,14 +2,12 @@ import React, { useState, Fragment, useEffect } from "react";
 import styled from "styled-components";
 import Header from "../elem/Header";
 import NavigationBar from "../elem/NavigationBar";
-import RepPost from "../components/mainComponents/RepPost";
 import HotPosts from "../components/mainComponents/HotPosts";
 import AllPosts from "../components/mainComponents/AllPosts";
 import { useDispatch, useSelector } from "react-redux";
 import { __getUsers } from "../redux/async/signup";
 import { __getRepresentative } from "../redux/async/upload";
 import { __getHotPosts } from "../redux/async/rank";
-import { getCookie, deleteCookie } from "../shared/cookie";
 import jwt from "jwt-decode"; // to get userId from loggedIn user's token
 import { useNavigate } from "react-router-dom";
 import _ from "lodash";

@@ -72,7 +72,6 @@ const Edit_post = (props) => {
         showConfirmButton: false,
         timer: 1500,
       });
-      //navigate("/upload");
     }
     if (post.title === "") {
       Swal.fire({

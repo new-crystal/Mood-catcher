@@ -7,7 +7,7 @@ import styled from "styled-components";
 import InfinityScrollLoader from "./InfinityScrollLoader";
 import _ from "lodash";
 import hanger from "../../image/옷걸이.png";
-import CardForm from "../cardComponents/CardForm";
+import CardForm from "../../elem/CardForm";
 
 const ClosetPosts = () => {
   const dispatch = useDispatch();

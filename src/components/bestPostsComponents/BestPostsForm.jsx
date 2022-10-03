@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { __getBestPosts } from "../../redux/async/rank";
 import _ from "lodash";
 import heart from "../../image/heart.png";
-import CardForm from "../cardComponents/CardForm";
+import CardForm from "../../elem/CardForm";
 
 const BestPostsForm = () => {
   const dispatch = useDispatch();

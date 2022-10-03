@@ -7,7 +7,7 @@ import InfinityScrollLoader from "./InfinityScrollLoader";
 import _ from "lodash";
 import jwt from "jwt-decode"; // to get userId from loggedIn user's token
 import hanger from "../../image/옷걸이.png";
-import CardForm from "../cardComponents/CardForm";
+import CardForm from "../../elem/CardForm";
 
 const LikePosts = () => {
   const dispatch = useDispatch();

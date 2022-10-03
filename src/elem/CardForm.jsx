@@ -1,10 +1,10 @@
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import heart from "../../image/heart.png";
-import heartTrue from "../../image/heartTrue.png";
+import heart from "../image/heart.png";
+import heartTrue from "../image/heartTrue.png";
 import { useState, useEffect } from "react";
-import { __patchMood } from "../../redux/async/like";
+import { __patchMood } from "../redux/async/like";
 
 const CardForm = (item) => {
   const navigate = useNavigate();
