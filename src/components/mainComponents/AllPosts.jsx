@@ -18,6 +18,7 @@ const AllPosts = () => {
   const allMainPosts = [...new Set(allMainPostList.map(JSON.stringify))].map(
     JSON.parse
   );
+  const isPosting = useSelector((state) => state.upload.addPosting);
 
   const getMainList = useCallback(() => {
     async function getMainData() {
@@ -25,7 +26,7 @@ const AllPosts = () => {
       setLoading(false); //요청하고나면 loading false로
     }
     return getMainData();
-  }, [paging, allMainPosts]);
+  }, [paging, allMainPosts, isPosting]);
 
   // 스크롤위치 계산
   const _handleScroll = _.throttle(() => {
@@ -52,7 +53,7 @@ const AllPosts = () => {
     if (allMainPosts.length !== 0) {
       setPaging(allMainPosts.length / 8 + 1);
     } //다른컴포넌트 갔다 올때 렌더링시 페이지넘버 계산
-  }, []);
+  }, [isPosting]);
 
   useEffect(() => {
     if (loading) {
