@@ -1,13 +1,13 @@
 import React from "react";
 import styled from "styled-components";
+import { useSelector } from "react-redux";
 
 const heart_filled = "/images/Location_searching.png";
-// const heart_black = "/images/Location_disabled.png";
-const heart_black = "/images/Location_searching.png";
+const heart_black = "/images/Location_disabled.png";
 
-const HeartButton = ({ _onClick, is_like }) => {
-  console.log(is_like);
-  const icon_url = is_like ? heart_filled : heart_black;
+const MapButton = ({ _onClick }) => {
+  const isExistsMap = useSelector((state) => state.kakao.isExistsMap);
+  const icon_url = isExistsMap ? heart_filled : heart_black;
 
   return (
     <React.Fragment>
@@ -26,5 +26,4 @@ const Heart = styled.img`
   cursor: pointer;
 `;
 
-// export default React.memo(HeartButton);
-export default HeartButton;
+export default React.memo(MapButton);
