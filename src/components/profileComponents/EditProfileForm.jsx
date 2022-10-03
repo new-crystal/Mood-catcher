@@ -290,23 +290,9 @@ const EditProfileForm = () => {
     }).then((result) => {
       if (result.isConfirmed) {
         dispatch(__logout());
-        // .then(localStorage.removeItem("token"))
-        // .then(navigate("/login"));
       }
     });
   };
-
-  // //쿠키 삭제 함수
-  // function deleteAllCookies() {
-  //   const cookies = document.cookie.split(";");
-  //   for (let i = 0; i < cookies.length; i++) {
-  //     const cookie = cookies[i];
-  //     const eqPos = cookie.indexOf("=");
-  //     const name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
-  //     document.cookie = name + "=;max-age=-1";
-  //   }
-  //   deleteCookie("token");
-  // }
 
   //회원탍퇴
   const onClickDelBtn = () => {
@@ -518,8 +504,6 @@ const EditProfileForm = () => {
 };
 
 const Container = styled.div`
-  /* width: 412px; */
-  /* height: 926px; */
   width: 100%;
   margin: 0 auto;
   text-align: center;
@@ -534,9 +518,6 @@ const Container = styled.div`
     border: 2px solid grey;
     border-radius: 7px;
     height: 50px;
-
-    //width: 250px;
-
     box-sizing: border-box;
     width: 175px;
     margin: 20px auto 40px;
@@ -561,19 +542,11 @@ const Wrapper = styled.div`
   flex-direction: column;
   h4 {
     font-family: "Noto Sans KR", sans-serif;
-    /* font-family: "Roboto"; */
     font-style: normal;
     font-weight: 700;
     font-size: 20px;
   }
 `;
-// const ProfileBox = styled.div`
-//   width: 380px;
-//   height: 40px;
-//   border-bottom: 3px solid rgb(148, 144, 160);
-//   margin-left: 20px;
-//   text-align: left;
-// `;
 
 const StNicknameBox = styled.div`
   width: 375px;
@@ -596,7 +569,6 @@ const ProfileBox = styled.div`
     margin: 20px 0px 0px 20px;
     color: #2d273f;
     font-family: "Noto Sans KR", sans-serif;
-    /* font-family: "Roboto"; */
     font-style: normal;
     font-weight: 700;
     font-size: 20px;
@@ -605,7 +577,6 @@ const ProfileBox = styled.div`
     margin: 50px 0px 0px 20px;
     color: #2d273f;
     font-family: "Noto Sans KR", sans-serif;
-    /* font-family: "Roboto"; */
     font-style: normal;
     font-weight: 700;
     font-size: 20px;
@@ -662,22 +633,8 @@ const BasicBtn = styled.button`
 `;
 const NicknameInput = styled.input`
   margin-top: 10px;
-  /* box-shadow: 5px 5px 4px rgba(0, 0, 0, 0.25); */
 `;
 const EditNicknameBtn = styled.button`
-  /* background: linear-gradient(78.32deg, #7b758b 41.41%, #ffffff 169.58%);
-  border: 0px;
-  border-radius: 10px;
-  width: 200px;
-  height: 40px;
-  margin: 20px auto;
-  color: white;
-  display: block;
-  font-family: "Roboto";
-  font-style: normal;
-  font-weight: 700;
-  font-size: 16px;
-  box-shadow: 5px 5px 4px rgba(0, 0, 0, 0.25); */
   background: #a8a6af;
   border: 0px;
   width: 375px;
@@ -692,7 +649,6 @@ const EditNicknameBtn = styled.button`
   cursor: default;
   p {
     color: white;
-    /* font-family: "Roboto"; */
     text-decoration: none;
     font-weight: bold;
     font-size: 15px;
@@ -712,18 +668,6 @@ const GenderAgeBox = styled.div`
   }
 `;
 const CheckBtn = styled.button`
-  /* background: linear-gradient(78.32deg, #7b758b 41.41%, #ffffff 169.58%);
-  color: white;
-  border: 0px;
-  border-radius: 10px;
-  height: 50px;
-  width: 80px;
-  margin-left: 20px;
-  font-family: "Roboto";
-  font-style: normal;
-  font-weight: 700;
-  font-size: 16px;
-  box-shadow: 5px 5px 4px rgba(0, 0, 0, 0.25); */
   background: #a8a6af;
   border: 0px;
   width: 175px;
@@ -739,7 +683,6 @@ const CheckBtn = styled.button`
   cursor: default;
   p {
     color: white;
-    /* font-family: "Roboto"; */
     text-decoration: none;
     font-weight: bold;
     font-size: 15px;
@@ -749,19 +692,6 @@ const CheckBtn = styled.button`
 const LogOut = styled.div`
   flex-direction: row;
   button {
-    /* background: linear-gradient(78.32deg, #7b758b 41.41%, #ffffff 169.58%);
-    border: 0px;
-    border-radius: 10px;
-    width: 200px;
-    height: 40px;
-    margin: 20px auto;
-    color: white;
-    display: block;
-    font-family: "Roboto";
-    font-style: normal;
-    font-weight: 700;
-    font-size: 16px;
-    box-shadow: 5px 5px 4px rgba(0, 0, 0, 0.25); */
     background: #a8a6af;
     border: 0px;
     width: 300px;
@@ -776,7 +706,6 @@ const LogOut = styled.div`
 
     p {
       color: white;
-      /* font-family: "Roboto"; */
       text-decoration: none;
       font-weight: bold;
       font-size: 15px;
@@ -785,19 +714,6 @@ const LogOut = styled.div`
 `;
 
 const ChangeBtn = styled.button`
-  /* background: linear-gradient(78.32deg, #7b758b 41.41%, #ffffff 169.58%);
-  border: 0px;
-  border-radius: 10px;
-  width: 90px;
-  height: 40px;
-  margin: 20px auto;
-  color: white;
-  display: block;
-  font-family: "Roboto";
-  font-style: normal;
-  font-weight: 700;
-  font-size: 16px;
-  box-shadow: 5px 5px 4px rgba(0, 0, 0, 0.25); */
   background: #a8a6af;
   border: 0px;
   width: 375px;
@@ -812,7 +728,6 @@ const ChangeBtn = styled.button`
   cursor: default;
   p {
     color: white;
-    /* font-family: "Roboto"; */
     text-decoration: none;
     font-weight: bold;
     font-size: 15px;

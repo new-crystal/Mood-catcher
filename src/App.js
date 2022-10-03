@@ -82,7 +82,6 @@ function App() {
     // if (window.location.pathname !== "/") {
     else if (token === null) navigate("/login");
     // }
-    setScreenSize();
     window.addEventListener("resize", () => setScreenSize());
   }, []);
 

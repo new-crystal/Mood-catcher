@@ -17,8 +17,6 @@ const CardForm = (item) => {
   const month = createdAt.split("-")[1];
   const day = createdAt.split("-")[2];
 
-  // console.log(item.rank);
-
   //새로고침시에도 무드 상태값 유지
   useEffect(() => {
     if (likeStatus === true) {
@@ -44,6 +42,7 @@ const CardForm = (item) => {
     setMoodNum(moodNum - 1);
     dispatch(__patchMood(item.item.postId));
   };
+
   //리사이징 에러 났을 경우
   const onErrorHandler = (e) => {
     const url = item.item.imgUrl.split("w560")[0];

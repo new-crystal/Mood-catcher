@@ -58,7 +58,6 @@ const StModal = styled(StModalGlobal)`
     height: 90%;
 
     .InfoContainer {
-      /* align-items: center */
       ${flex({
         direction: "column",
         justify: "flex-start",
@@ -67,7 +66,6 @@ const StModal = styled(StModalGlobal)`
       height: 100%;
       .missionTitle {
         font-weight: 700;
-        /* font-family: Pretendard_Bold; */
         font-size: 18px;
         color: white;
         margin: 30px 0 6px 0;

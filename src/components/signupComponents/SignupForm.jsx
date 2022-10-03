@@ -11,7 +11,6 @@ import { changeEmail, changeAuthNum } from "../../redux/modules/signUpSlice";
 
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { getCookie } from "../../shared/cookie";
 import Swal from "sweetalert2";
 import bcrypt from "bcryptjs";
 
