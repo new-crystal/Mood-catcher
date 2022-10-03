@@ -12,7 +12,6 @@ import {
   __getMyPageUser,
 } from "../../redux/async/login";
 import { changeNickname } from "../../redux/modules/loginSlice";
-import { deleteCookie, getCookie } from "../../shared/cookie";
 import { useNavigate } from "react-router-dom";
 import jwt_decode from "jwt-decode";
 import Swal from "sweetalert2";

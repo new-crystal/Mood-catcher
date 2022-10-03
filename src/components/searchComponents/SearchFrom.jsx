@@ -7,7 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { __getSearch } from "../../redux/async/search";
 import { useNavigate } from "react-router-dom";
 import _ from "lodash";
-import CardForm from "../cardComponents/CardForm";
+import CardForm from "../../elem/CardForm";
 
 const SearchForm = () => {
   const dispatch = useDispatch();
