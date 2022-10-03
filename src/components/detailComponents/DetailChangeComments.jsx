@@ -22,6 +22,7 @@ const DetailChangeComment = ({ commentData, btnState, postId }) => {
   useEffect(() => {
     commentText.current.value = commentData.content;
   }, [commentData]);
+
   return (
     <BackgroundDiv>
       <Wrapdiv>

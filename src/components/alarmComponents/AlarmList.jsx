@@ -50,7 +50,6 @@ const AlarmListForm = ({ alarm }) => {
           style={{ cursor: "pointer" }}
           onClick={() => {
             navigate(`/item_detail/${alarm.postId}/${alarm.userId}`);
-            window.location.reload();
           }}
         >
           <AlarmImg url={alarm.imgUrl}> </AlarmImg>

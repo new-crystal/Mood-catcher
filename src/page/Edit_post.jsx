@@ -3,10 +3,12 @@ import styled from "styled-components";
 import Header from "../elem/Header";
 import NavigationBar from "../elem/NavigationBar";
 import { useNavigate, useParams } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { __getDetail } from "../redux/async/upload";
 
 import { regFormdata, regPost } from "../redux/modules/uploadSlice";
 import Swal from "sweetalert2";
+import { useEffect } from "react";
 
 const preview_URL = "/images/noimage.PNG";
 
@@ -14,6 +16,9 @@ const Edit_post = (props) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const fileInput = useRef(null);
+  const title_ref = useRef(null);
+  const content_ref = useRef(null);
+  const detailPost = useSelector((state) => state.upload.detailPost);
 
   const [attachment, setAttachment] = useState("");
   const [post, setPost] = useState({
@@ -23,8 +28,22 @@ const Edit_post = (props) => {
 
   const { postId } = useParams();
   const { imgUrl } = useParams();
-  console.log(postId);
-  console.log(imgUrl);
+
+  //제목 넣어주기
+  const detailTitle = async () => {
+    title_ref.current.value = await detailPost.title;
+  };
+
+  //내용 넣어주기
+  const detailContent = async () => {
+    content_ref.current.value = await detailPost.content;
+  };
+
+  useEffect(() => {
+    dispatch(__getDetail(postId));
+    detailTitle();
+    detailContent();
+  }, []);
 
   const selectImg = (e) => {
     const reader = new FileReader();
@@ -115,6 +134,7 @@ const Edit_post = (props) => {
                 maxLength={17}
                 required
                 onChange={changeInput}
+                ref={title_ref}
               />
             </StTitleInput>
             <StText>내용</StText>
@@ -124,6 +144,7 @@ const Edit_post = (props) => {
                 maxLength={25}
                 required
                 onChange={changeInput}
+                ref={content_ref}
               />
             </StContentInput>
             <StNextBtnBox>

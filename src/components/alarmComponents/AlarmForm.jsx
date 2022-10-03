@@ -1,19 +1,13 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import {
-  __getAlarm,
-  __deleteAlarm,
-  __deleteAllAlarm,
-} from "../../redux/async/alarm";
+import { __getAlarm, __deleteAllAlarm } from "../../redux/async/alarm";
 import Swal from "sweetalert2";
 import { Fragment } from "react";
 import AlarmListForm from "./AlarmList";
 
 const AlarmForm = () => {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
   const alarms = useSelector((state) => state.alarm.notices);
   const alarmStatus = useSelector((state) => state.alarm.deleteAlarm);
   const alarmList = [...alarms].reverse();
@@ -67,7 +61,10 @@ const AlarmForm = () => {
               <TitleWrap>
                 <h4>나의 알림</h4>
                 <BtnWrap>
-                  <ConfirmBtn onClick={() => delAllAlarm()}>
+                  <ConfirmBtn
+                    style={{ cursor: "pointer" }}
+                    onClick={() => delAllAlarm()}
+                  >
                     전체알림삭제
                   </ConfirmBtn>
                 </BtnWrap>

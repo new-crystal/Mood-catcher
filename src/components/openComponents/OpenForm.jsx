@@ -55,9 +55,7 @@ const OpenBox = styled.div`
 
   h4 {
     margin-top: 0px;
-    /* margin-bottom: 7px; */
     color: #dfd9e3;
-    /* font-family: "Roboto"; */
     font-style: normal;
     font-weight: 700;
     font-size: 20px;

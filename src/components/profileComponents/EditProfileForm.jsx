@@ -290,23 +290,9 @@ const EditProfileForm = () => {
     }).then((result) => {
       if (result.isConfirmed) {
         dispatch(__logout());
-        // .then(localStorage.removeItem("token"))
-        // .then(navigate("/login"));
       }
     });
   };
-
-  // //쿠키 삭제 함수
-  // function deleteAllCookies() {
-  //   const cookies = document.cookie.split(";");
-  //   for (let i = 0; i < cookies.length; i++) {
-  //     const cookie = cookies[i];
-  //     const eqPos = cookie.indexOf("=");
-  //     const name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
-  //     document.cookie = name + "=;max-age=-1";
-  //   }
-  //   deleteCookie("token");
-  // }
 
   //회원탍퇴
   const onClickDelBtn = () => {

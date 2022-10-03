@@ -62,7 +62,7 @@ const SearchResultForm = () => {
       if (last) {
         return;
       }
-      //setPage((pre) => pre + 1);
+
       getSearchList();
       setLoading(true);
     }
@@ -76,10 +76,8 @@ const SearchResultForm = () => {
       isSearch === false
     ) {
       dispatch(__getSearchResult({ key, sort, page }));
-      //setPage((pre) => pre + 1);
     }
     if (searchList.length !== 0) {
-      //setPage(searchList.length);
     }
   }, [key, isSearch]);
 
