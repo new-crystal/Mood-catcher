@@ -163,9 +163,7 @@ const MapImage = (props) => {
             }}
           />
           {isExistsMap ? null : (
-            <StMessageBox>
-              <StMessage>현재 다른 유저에게 안보이는 상태입니다.</StMessage>
-            </StMessageBox>
+            <StMessageBox>현재 다른 유저에게 안보이는 상태입니다.</StMessageBox>
           )}
 
           <div
@@ -186,22 +184,18 @@ const MapImage = (props) => {
 const StMessageBox = styled.div`
   width: 428px;
   height: 18px;
-  top: 43px;
-  margin: 18px auto;
+  top: 61px;
+  left: 50%;
+  margin-left: -134px;
   display: flex;
   position: fixed;
   text-align: center;
-  justify-content: center;
+  /* justify-content: center; */
   background-color: transparent;
-  z-index: 999;
-`;
-
-const StMessage = styled.p`
-  width: 300px;
-  height: 18px;
   font-family: "Noto Sans KR", sans-serif;
   font-style: normal;
   font-weight: 700;
+  z-index: 999;
 `;
 
 const Container = styled.div`

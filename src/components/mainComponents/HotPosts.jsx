@@ -42,6 +42,7 @@ const HotPosts = ({ hotPosts }) => {
           <img
             alt="hot-post-1"
             src={hotPosts[0]?.imgUrl}
+            style={{ cursor: "pointer" }}
             onClick={() => {
               onClickHandler(hotPosts[0]);
             }}
@@ -53,6 +54,7 @@ const HotPosts = ({ hotPosts }) => {
               <img
                 alt="hot-post-2"
                 src={hotPosts[1]?.imgUrl}
+                style={{ cursor: "pointer" }}
                 onClick={() => {
                   onClickHandler(hotPosts[1]);
                 }}
@@ -64,6 +66,7 @@ const HotPosts = ({ hotPosts }) => {
               <img
                 alt="hot-post-3"
                 src={hotPosts[2]?.imgUrl}
+                style={{ cursor: "pointer" }}
                 onClick={() => {
                   onClickHandler(hotPosts[2]);
                 }}

@@ -8,6 +8,29 @@ const AlarmListForm = ({ alarm }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
+  //알림 개별삭제
+  const delAlarm = () => {
+    Swal.fire({
+      title: "알림을 삭제하시겠습니까?",
+      text: "지우신 알림은 되돌릴 수 없습니다!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "삭제",
+      cancelButtonText: "취소",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        Swal.fire(
+          "삭제되었습니다",
+          "캐처님의 알람이 삭제되었습니다",
+          "success"
+        );
+        dispatch(__deleteAlarm(alarm.noticeId));
+      }
+    });
+  };
+
   return (
     <>
       {alarm.postId === -1 ? (
@@ -17,30 +40,7 @@ const AlarmListForm = ({ alarm }) => {
             <p>{alarm.msg}</p>
           </TextBox>
           <TimeText>{alarm.createdAt}</TimeText>
-          <DelAlarm
-            style={{ cursor: "pointer" }}
-            onClick={() =>
-              Swal.fire({
-                title: "알림을 삭제하시겠습니까?",
-                text: "지우신 알림은 되돌릴 수 없습니다!",
-                icon: "warning",
-                showCancelButton: true,
-                confirmButtonColor: "#3085d6",
-                cancelButtonColor: "#d33",
-                confirmButtonText: "삭제",
-                cancelButtonText: "취소",
-              }).then((result) => {
-                if (result.isConfirmed) {
-                  Swal.fire(
-                    "삭제되었습니다",
-                    "캐처님의 알람이 삭제되었습니다",
-                    "success"
-                  );
-                  dispatch(__deleteAlarm(alarm.noticeId));
-                }
-              })
-            }
-          >
+          <DelAlarm style={{ cursor: "pointer" }} onClick={delAlarm}>
             ✕
           </DelAlarm>
         </AlarmBox>
@@ -109,10 +109,8 @@ const AlarmBox = styled.div`
   flex-direction: row;
 
   & p {
-    /* margin-top: 5px; */
     width: 260px;
     margin-left: 5px;
-    /* font-family: "Roboto"; */
     font-family: "Noto Sans KR", sans-serif;
     font-style: Bold;
     font-weight: 700;
@@ -139,7 +137,6 @@ const TextBox = styled.div`
 `;
 const TimeText = styled.div`
   width: 45px;
-  /* font-family: "Roboto"; */
   font-family: "Noto Sans KR", sans-serif;
   font-style: normal;
   font-weight: 500;

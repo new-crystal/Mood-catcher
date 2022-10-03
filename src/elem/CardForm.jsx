@@ -1,10 +1,10 @@
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import heart from "../../image/heart.png";
-import heartTrue from "../../image/heartTrue.png";
+import heart from "../image/heart.png";
+import heartTrue from "../image/heartTrue.png";
 import { useState, useEffect } from "react";
-import { __patchMood } from "../../redux/async/like";
+import { __patchMood } from "../redux/async/like";
 
 const CardForm = (item) => {
   const navigate = useNavigate();
@@ -45,9 +45,16 @@ const CardForm = (item) => {
 
   //리사이징 에러 났을 경우
   const onErrorHandler = (e) => {
-    const url = item.item.imgUrl.split("w560")[0];
-    const name = item.item.imgUrl.split("w560")[1];
-    e.target.src = `${url}post${name}`;
+    if (item.item.imgUrl.split("/")[3] === "w280") {
+      const url = item.item.imgUrl.split("w280")[0];
+      const name = item.item.imgUrl.split("w280")[1];
+      e.target.src = `${url}post${name}`;
+    }
+    if (item.item.imgUrl.split("/")[3] === "w560") {
+      const url = item.item.imgUrl.split("w560")[0];
+      const name = item.item.imgUrl.split("w560")[1];
+      e.target.src = `${url}post${name}`;
+    }
   };
 
   return (

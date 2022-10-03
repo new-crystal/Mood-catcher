@@ -5,9 +5,11 @@ import { __getAlarm, __deleteAllAlarm } from "../../redux/async/alarm";
 import Swal from "sweetalert2";
 import { Fragment } from "react";
 import AlarmListForm from "./AlarmList";
+import { useNavigate } from "react-router-dom";
 
 const AlarmForm = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const alarms = useSelector((state) => state.alarm.notices);
   const alarmStatus = useSelector((state) => state.alarm.deleteAlarm);
   const alarmList = [...alarms].reverse();
@@ -31,6 +33,7 @@ const AlarmForm = () => {
           "success"
         );
         dispatch(__deleteAllAlarm());
+        navigate("/main");
       }
     });
   };
@@ -117,7 +120,6 @@ const Btn = styled.button`
 const Container = styled.div`
   display: flex;
   flex-direction: column;
-  /* height: 926px; */
   & > span {
     display: -webkit-box;
     -webkit-box-orient: vertical;
@@ -195,7 +197,7 @@ const ConfirmBtn = styled.button`
   font-size: 11px;
   position: relative;
   top: -4px;
-  right: -37px;
+  right: -20px;
 `;
 
 const AlarmBox = styled.div`
@@ -211,10 +213,8 @@ const AlarmBox = styled.div`
   flex-direction: row;
 
   & p {
-    /* margin-top: 5px; */
     width: 260px;
     margin-left: 5px;
-    /* font-family: "Roboto"; */
     font-family: "Noto Sans KR", sans-serif;
     font-style: Bold;
     font-weight: 700;
