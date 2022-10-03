@@ -240,7 +240,7 @@ const Item_detail = (props) => {
             <ProfileImg
               onClick={() => {
                 navigate(`/mypage/${userId}`);
-                window.location.reload();
+                //window.location.reload();
               }}
               url={
                 userStatus.imgUrl === undefined ||
@@ -253,7 +253,7 @@ const Item_detail = (props) => {
               style={{ cursor: "pointer" }}
               onClick={() => {
                 navigate(`/mypage/${userId}`);
-                window.location.reload();
+                //window.location.reload();
               }}
             >
               <span>{detailPost.title}</span>

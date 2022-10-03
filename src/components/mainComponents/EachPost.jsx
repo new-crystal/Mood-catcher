@@ -18,7 +18,7 @@ const EachPost = (props) => {
       <PostWrap
         onClick={() => {
           navigate(`/item_detail/${item.postId}/${item.userId}`);
-          window.location.reload();
+          //window.location.reload();
         }}
       >
         <PostImage>

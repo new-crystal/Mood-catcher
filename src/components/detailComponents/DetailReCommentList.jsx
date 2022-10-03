@@ -72,7 +72,7 @@ const DetailReCommentList = (props) => {
         <CommentImg
           onClick={() => {
             navigate(`/mypage/${item.userId}`);
-            window.location.reload();
+            //window.location.reload();
           }}
           url={
             item.imgUrl === undefined || item.imgUrl.slice(-4) === "null"
@@ -84,7 +84,7 @@ const DetailReCommentList = (props) => {
           onClick={() => {
             setRecommentState(true);
             navigate(`/mypage/${item.userId}`);
-            window.location.reload();
+            //window.location.reload();
           }}
         >
           <span>{item.createdAt}</span>
