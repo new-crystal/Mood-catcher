@@ -26,6 +26,7 @@ const initialState = {
   isFetching: false,
   errorMessage: null,
   postLast: null,
+  addPosting: true,
 };
 
 const uploadSlice = createSlice({
@@ -62,9 +63,11 @@ const uploadSlice = createSlice({
         state.checkPostId = true;
         state.isFetching = false;
         state.errorMessage = null;
+        state.addPosting = true;
       })
       .addCase(__addPost.pending, (state, action) => {
         state.isFetching = true;
+        state.addPosting = false;
       })
       .addCase(__addPost.rejected, (state, action) => {
         state.isFetching = false;
