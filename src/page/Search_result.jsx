@@ -39,7 +39,8 @@ const Container = styled.div`
   //height: calc(var(--vh, 1vh) * 100 + 50px);
   margin: 0 auto;
   margin-top: 60px;
-  min-height: 928px;
+  /* min-height: 928px; */
+  padding-bottom: 70px;
   /* background: linear-gradient(#a396c9, #ffffff); */
 `;
 
