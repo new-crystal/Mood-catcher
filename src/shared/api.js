@@ -1,5 +1,4 @@
 import axios from "axios";
-// import { getToken, setCookie, deleteCookie } from "./cookie";
 import { getToken } from "./utils";
 import Swal from "sweetalert2";
 
