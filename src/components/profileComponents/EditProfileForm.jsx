@@ -523,6 +523,7 @@ const Container = styled.div`
   width: 100%;
   margin: 0 auto;
   text-align: center;
+  padding-bottom: 60px;
 
   form {
     margin-top: 10px;

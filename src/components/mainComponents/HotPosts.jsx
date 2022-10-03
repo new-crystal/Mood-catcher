@@ -35,7 +35,7 @@ const HotPosts = ({ hotPosts }) => {
           onClick={() => setHot(true)}
         ></Question>
         {hot ? <HotList setHot={setHot} /> : null}
-        <p onClick={() => navigate("/best")}>명예의 전당 ►</p>
+        <p onClick={() => navigate("/best")}>명예의 전당 ➡</p>
       </Wrap>
       <WritedHotInfo>
         <HotImage1>
