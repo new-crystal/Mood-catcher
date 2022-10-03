@@ -1,7 +1,6 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { loginApi } from "../../shared/api";
 import Swal from "sweetalert2";
-import { setCookie } from "../../shared/cookie";
 
 // 로그인
 export const __login = createAsyncThunk(
