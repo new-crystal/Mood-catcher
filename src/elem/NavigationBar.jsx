@@ -53,7 +53,7 @@ const NavigationBar = (props) => {
         <SearchWrap
           onClick={() => {
             navigate("/main");
-            window.location.reload();
+            //window.location.reload();
           }}
         >
           {main ? <Navigate></Navigate> : null}
@@ -78,7 +78,7 @@ const NavigationBar = (props) => {
         <SearchWrap
           onClick={() => {
             navigate(`/like/${userId}`);
-            window.location.reload();
+            //window.location.reload();
           }}
         >
           {like ? <Navigate></Navigate> : null}
