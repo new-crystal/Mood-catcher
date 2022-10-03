@@ -14,7 +14,6 @@ import {
   __getMyPageUser,
 } from "../async/login";
 import Swal from "sweetalert2";
-import { deleteCookie } from "../../shared/cookie";
 
 const initialState = {
   user: {
@@ -161,7 +160,6 @@ const loginSlice = createSlice({
       // 회원 탈퇴
       .addCase(__delUser.fulfilled, (state, action) => {
         if (action.payload === true) {
-          deleteCookie("token");
         }
       })
       .addCase(__delUser.pending, (state, action) => {

@@ -8,7 +8,6 @@ import NotificationTrue from "../image/notificationTrue.png";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { __getHeaderUser } from "../redux/async/login";
-import { getCookie } from "../shared/cookie";
 import jwt_decode from "jwt-decode";
 import Setting from "../image/settings.png";
 
