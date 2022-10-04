@@ -17,7 +17,14 @@ const initialState = {
 const rankSlice = createSlice({
   name: "rank",
   initialState: initialState,
-  reducers: {},
+  reducers: {
+    deleteAllPosts: (state, action) => {
+      const delete_list = state.allPosts.filter((v) => {
+        return Number(v.postId) === Number(action.payload) ? false : true;
+      });
+      state.allPosts = delete_list;
+    },
+  },
   extraReducers: (builder) =>
     builder
       // 인기 게시물 조회하기
@@ -63,5 +70,5 @@ const rankSlice = createSlice({
       }),
 });
 
-export const {} = rankSlice.actions;
+export const { deleteAllPosts } = rankSlice.actions;
 export default rankSlice.reducer;

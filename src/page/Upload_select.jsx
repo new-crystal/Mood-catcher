@@ -7,7 +7,7 @@ import { useSelector, useDispatch } from "react-redux";
 import "../shared/style/myBeer.css";
 import EachMusinsa from "../components/uploadCompnents/EachMusinsa";
 import ScrollX from "../elem/ScrollX";
-import { deleteItem } from "../redux/modules/uploadSlice";
+import { deleteItem, deleteMusinsa } from "../redux/modules/uploadSlice";
 
 import { __getMusinsa, __addPost, __uploadImage } from "../redux/async/upload";
 import { changeCheckPostId } from "../redux/modules/uploadSlice";
@@ -75,6 +75,13 @@ const Upload_select = (props) => {
   const writeTotalPost = () => {
     dispatch(__addPost(totalPost));
   };
+
+  useEffect(() => {
+    return () => {
+      dispatch(deleteMusinsa());
+    };
+  }, []);
+
   React.useEffect(() => {
     if (checkPostId === true) {
       dispatch(__uploadImage({ postId: post.postId, postImage: formdata }));
