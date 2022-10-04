@@ -18,8 +18,6 @@ const ClosetPosts = () => {
   const ranksIF = [...new Set(ranksIFList.map(JSON.stringify))].map(JSON.parse);
 
   const { userId } = useParams();
-  console.log(userId);
-  console.log(ranksIF);
 
   const getInfinityList = useCallback(() => {
     async function getData() {
