@@ -51,6 +51,9 @@ const uploadSlice = createSlice({
     deleteMusinsa: (state, action) => {
       state.selectedItems = [];
     },
+    deleteMyCloset: (state, action) => {
+      state.myCloset = [];
+    },
     changeCheckPostId: (state, action) => {
       state.checkPostId = action.payload;
     },
@@ -192,6 +195,7 @@ export const {
   changeCheckPostId,
   deleteItem,
   deleteMusinsa,
+  deleteMyCloset,
 } = uploadSlice.actions;
 export default uploadSlice.reducer;
 
