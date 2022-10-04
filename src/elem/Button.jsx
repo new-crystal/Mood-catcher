@@ -18,15 +18,9 @@ const Btn = styled.button`
   border: 0px;
   font-size: 15px;
   font-family: "Noto Sans KR", sans-serif;
-
-  /* margin-top: -100px; */
-  /* font-family: "Roboto"; */
   line-height: 130%;
   font-weight: bold;
   background-color: ${(props) =>
     props.theme === "dark" ? "#a8a6af" : "#a8a6af"};
   color: white;
-  /* @media screen and (max-width: 350px) {
-    width: 250px;
-  } */
 `;

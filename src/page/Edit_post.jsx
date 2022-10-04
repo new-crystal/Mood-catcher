@@ -15,21 +15,23 @@ import NavigationBar from "../elem/NavigationBar";
 const Edit_post = (props) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const { postId } = useParams();
+  const { imgUrl } = useParams();
   // 상세 게시물 구독
   const detailPost = useSelector((state) => state.upload.detailPost);
 
+  // 파일, 제목, 내용
   const fileInput = useRef(null);
   const title_ref = useRef(null);
   const content_ref = useRef(null);
 
+  // 파일 이미지 관련 상태
   const [attachment, setAttachment] = useState("");
+  // 서버에 보낼 제목과 내용 상태
   const [post, setPost] = useState({
     title: detailPost.title,
     content: detailPost.content,
   });
-
-  const { postId } = useParams();
-  const { imgUrl } = useParams();
 
   //제목 넣어주기
   const detailTitle = async () => {
@@ -40,12 +42,6 @@ const Edit_post = (props) => {
   const detailContent = async () => {
     content_ref.current.value = await detailPost.content;
   };
-
-  useEffect(() => {
-    dispatch(__getDetail(postId));
-    detailTitle();
-    detailContent();
-  }, []);
 
   //이미지 미리보기
   const selectImg = (e) => {
@@ -66,6 +62,7 @@ const Edit_post = (props) => {
     setPost({ ...post, [id]: value });
   };
 
+  // 서버에 이미지,제목,내용 보내는 함수
   const writePost = () => {
     if (fileInput.current.files[0] === undefined) {
       Swal.fire({
@@ -92,6 +89,13 @@ const Edit_post = (props) => {
       navigate(`/edit_post_select/${postId}`);
     }
   };
+
+  // 초기 렌더링시 값들 변경
+  useEffect(() => {
+    dispatch(__getDetail(postId));
+    detailTitle();
+    detailContent();
+  }, []);
 
   return (
     <Fragment>
@@ -164,19 +168,9 @@ const Edit_post = (props) => {
 
 export default Edit_post;
 
-const LoaderWrap = styled.div`
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  margin-top: -100px;
-  margin-left: -100px;
-`;
-
 const Container = styled.div`
   display: flex;
   flex-direction: column;
-  /* height: 970px; */
-  /* background-color: orange; */
   & > span {
     display: -webkit-box;
     -webkit-box-orient: vertical;
@@ -192,10 +186,6 @@ const Grid = styled.div`
   margin-bottom: 57px;
   max-width: 428px;
   width: 100vw;
-  //height: calc(var(--vh, 1vh) * 100 + 50px);
-  /* background: linear-gradient(#a396c9, #ffffff); */
-
-  /* background-color: royalblue; */
 `;
 
 const JustifyAlign = styled.div`
@@ -204,51 +194,23 @@ const JustifyAlign = styled.div`
   width: 366px;
   justify-content: space-between;
   align-items: center;
-  /* background-color: yellowgreen; */
 `;
 
 const UploadText = styled.span`
-  /* margin: 0 76px 0 146px; */
   margin: 0 30px 0 146px;
   font-size: 20px;
   font-weight: bold;
   color: #7b758b;
 `;
 
-const NextButton = styled.button`
-  /* background: linear-gradient(78.32deg, #7b758b 41.41%, #ffffff 169.58%); */
-  background: #a8a6af;
-  border: 0px;
-  width: 350px;
-  height: 50px;
-  border-radius: 15px;
-  color: white;
-  margin-bottom: 20px;
-  font-family: "Noto Sans KR", sans-serif;
-  font-style: normal;
-  font-weight: 700;
-  font-size: 16px;
-  margin-top: 20px;
-  cursor: default;
-  p {
-    color: white;
-    /* font-family: "Roboto"; */
-    text-decoration: none;
-    font-weight: bold;
-    font-size: 16px;
-  }
-`;
-
 const StUploadBox = styled.div`
   display: flex;
-  margin: 12px auto;
   flex-direction: column;
-  width: 370px;
-  /* height: 700px; */
   border: 3px solid #c4c2ca;
   border-radius: 20px;
+  margin: 12px auto;
+  width: 370px;
   background-color: #ffffff;
-  /* box-shadow: 5px 5px 4px #877f92; */
 `;
 
 const StFileButton = styled.div`
@@ -340,4 +302,26 @@ const StContentInput = styled.div`
 
 const StNextBtnBox = styled.div`
   margin: 0 auto;
+`;
+
+const NextButton = styled.button`
+  background: #a8a6af;
+  border: 0px;
+  width: 350px;
+  height: 50px;
+  border-radius: 15px;
+  color: white;
+  margin-bottom: 20px;
+  font-family: "Noto Sans KR", sans-serif;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 16px;
+  margin-top: 20px;
+  cursor: default;
+  p {
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 16px;
+  }
 `;

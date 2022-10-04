@@ -1,27 +1,33 @@
 @font-face {
   font-family: "GmarketSansB";
   src: url("shared/font/GmarketSansOTF 2/GmarketSansBold.otf");
+  font-display: swap;
 }
 @font-face {
   font-family: "GmarketSansL";
   src: url("shared/font/GmarketSansOTF 2/GmarketSansLight.otf");
+  font-display: swap;
 }
 
 @font-face {
   font-family: "GmarketSansM";
   src: url("shared/font/GmarketSansOTF 2/GmarketSansMedium.otf");
+  font-display: swap;
 }
 @font-face {
   font-family: "Noto Sans KR";
   src: url("shared/font/Noto_Sans_KR/NotoSansKR-Regular.otf");
+  font-display: swap;
 }
 @font-face {
   font-family: "Roboto";
   src: url("shared/font/Roboto/Roboto-Black.ttf");
+  font-display: swap;
 }
 @font-face {
   font-family: "Unna";
   src: url("shared/font/Unna/Unna-Regular.ttf");
+  font-display: swap;
 }
 
 /* http://meyerweb.com/eric/tools/css/reset/ 
