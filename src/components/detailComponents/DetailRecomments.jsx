@@ -52,19 +52,19 @@ const DetailRecomments = ({ commentData, btnState, postId }) => {
             // }
             style={{
               backgroundImage: `url(${
-                userStatus.imgUrl === undefined ||
-                userStatus.imgUrl.slice(-4) === "null"
+                commentData.imgUrl === undefined ||
+                commentData.imgUrl.slice(-4) === "null"
                   ? preview_URL
-                  : userStatus?.imgUrl
+                  : commentData?.imgUrl
               })`,
             }}
           >
             <img
               src={`${
-                userStatus.imgUrl === undefined ||
-                userStatus.imgUrl.slice(-4) === "null"
+                commentData.imgUrl === undefined ||
+                commentData.imgUrl.slice(-4) === "null"
                   ? preview_URL
-                  : userStatus?.imgUrl
+                  : commentData?.imgUrl
               }`}
               alt=""
               width="0"
