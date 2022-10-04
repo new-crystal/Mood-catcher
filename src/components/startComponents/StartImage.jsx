@@ -37,13 +37,37 @@ const StartImage = () => {
         <Wrap id="1">
           <Text1>{text1}</Text1>
           <Content>캐처님들의 개성을 뽐내주세요!</Content>
-          <ImageBox1 url={`${one}`}></ImageBox1>
+          <ImageBox1 style={{ backgroundImage: `url(${one})` }}>
+            <img
+              src={`${one}`}
+              alt=""
+              width="0"
+              height="0"
+              style={{ display: "none !important" }}
+            />
+          </ImageBox1>
         </Wrap>
         <Wrap id="2">
           <Text1>{text2}</Text1>
           <Content>{text5}</Content>
-          <Image22></Image22>
-          <ImageBox2 url={`${two}`}></ImageBox2>
+          <Image22 style={{ backgroundImage: `url(${twotwo})` }}>
+            <img
+              src={`${twotwo}`}
+              alt=""
+              width="0"
+              height="0"
+              style={{ display: "none !important" }}
+            />
+          </Image22>
+          <ImageBox2 style={{ backgroundImage: `url(${two})` }}>
+            <img
+              src={`${two}`}
+              alt=""
+              width="0"
+              height="0"
+              style={{ display: "none !important" }}
+            />
+          </ImageBox2>
         </Wrap>
         <Wrap id="3">
           <Text1>{text3}</Text1>
@@ -53,7 +77,14 @@ const StartImage = () => {
         <Wrap id="4">
           <Text1>{text4}</Text1>
           <Content>캐처님들의 패션을 뽐내주세요</Content>
-          <ImageBox4 url={`${four}`}>
+          <ImageBox4 style={{ backgroundImage: `url(${four})` }}>
+            <img
+              src={`${four}`}
+              alt=""
+              width="0"
+              height="0"
+              style={{ display: "none !important" }}
+            />
             <Button
               style={{ background: "#7b758b" }}
               onClick={() => navigate("/")}
@@ -105,7 +136,7 @@ const ImageBox1 = styled.div`
   height: 410px;
   background-position: center;
   background-size: cover;
-  background-image: url(${(props) => props.url});
+  /* background-image: url(${(props) => props.url}); */
   position: relative;
   top: 150px;
   flex-shrink: 0;
@@ -129,7 +160,7 @@ const ImageBox2 = styled.div`
   height: 560px;
   background-position: center;
   background-size: cover;
-  background-image: url(${(props) => props.url});
+  /* background-image: url(${(props) => props.url}); */
   position: relative;
   top: 30px;
 `;
@@ -140,7 +171,7 @@ const Image22 = styled.div`
   height: 105px;
   background-position: center;
   background-size: cover;
-  background-image: url(${twotwo});
+  /* background-image: url(${twotwo}); */
   position: relative;
   top: 30px;
   left: 170px;
@@ -162,7 +193,7 @@ const ImageBox4 = styled.div`
   height: 420px;
   background-position: center;
   background-size: cover;
-  background-image: url(${(props) => props.url});
+  /* background-image: url(${(props) => props.url}); */
   position: relative;
   top: 70px;
   flex-shrink: 0;

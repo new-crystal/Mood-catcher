@@ -116,7 +116,20 @@ const Edit_post_select = (props) => {
   const showTopButton = () => {
     if (scrollHeightInfo > 2000) {
       //2000px밑으로 스크롤 내려갔을때 위로가는 Top 버튼 보이기
-      return <TopButton onClick={ScrollToTop}></TopButton>;
+      return (
+        <TopButton
+          style={{ backgroundImage: `url(${upButton})` }}
+          onClick={ScrollToTop}
+        >
+          <img
+            src={`${upButton}`}
+            alt=""
+            width="0"
+            height="0"
+            style={{ display: "none !important" }}
+          />
+        </TopButton>
+      );
     } else {
       return null;
     }
@@ -196,7 +209,15 @@ const Edit_post_select = (props) => {
                   >
                     <DeleteImageWrap
                       style={{ backgroundImage: `url(${Cancel})` }}
-                    />
+                    >
+                      <img
+                        src={`${Cancel}`}
+                        alt=""
+                        width="0"
+                        height="0"
+                        style={{ display: "none !important" }}
+                      />
+                    </DeleteImageWrap>
                   </Delete>
                 </StMusinsaItemBox>
               ))}
@@ -544,7 +565,7 @@ const TopButton = styled.div`
   margin-left: -20px;
   width: 40px;
   height: 40px;
-  background-image: url(${upButton});
+  /* background-image: url(${upButton}); */
   background-size: cover;
   cursor: pointer;
 `;

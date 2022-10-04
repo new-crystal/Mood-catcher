@@ -15,7 +15,6 @@ const heart = "/images/heart.png";
 const NavigationBar = (props) => {
   const token = localStorage.getItem("token");
   const { userId } = jwt(token);
-  console.log(userId);
   const navigate = useNavigate();
   const [main, setMain] = useState(false);
   const [searching, setSearching] = useState(false);

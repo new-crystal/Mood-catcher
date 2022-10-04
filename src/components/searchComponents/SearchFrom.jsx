@@ -121,7 +121,18 @@ const SearchForm = () => {
               },
             })}
           />
-          <SearchImg onClick={handleSubmit(onSubmit)}></SearchImg>
+          <SearchImg
+            onClick={handleSubmit(onSubmit)}
+            style={{ backgroundImage: `url(${search})` }}
+          >
+            <img
+              src={`${search}`}
+              alt=""
+              width="0"
+              height="0"
+              style={{ display: "none !important" }}
+            />
+          </SearchImg>
         </Form>
       </SearchBox1>
       <SearchBox>
@@ -248,7 +259,7 @@ const SearchImg = styled.div`
   background-color: rgba(0, 0, 0, 0);
   background-position: center;
   background-size: cover;
-  background-image: url(${search});
+  /* background-image: url(${search}); */
   margin-left: -45px;
   cursor: pointer;
 `;

@@ -35,7 +35,15 @@ const AlarmListForm = ({ alarm }) => {
     <>
       {alarm.postId === -1 ? (
         <AlarmBox key={alarm.noticeId}>
-          <AlarmImg url={alarm.imgUrl}> </AlarmImg>
+          <AlarmImg style={{ backgroundImage: `url(${alarm.imgUrl})` }}>
+            <img
+              src={`${alarm.imgUrl}`}
+              alt=""
+              width="0"
+              height="0"
+              style={{ display: "none !important" }}
+            />
+          </AlarmImg>
           <TextBox>
             <p>{alarm.msg}</p>
           </TextBox>
@@ -52,7 +60,16 @@ const AlarmListForm = ({ alarm }) => {
             navigate(`/item_detail/${alarm.postId}/${alarm.userId}`);
           }}
         >
-          <AlarmImg url={alarm.imgUrl}> </AlarmImg>
+          {/* <AlarmImg url={alarm.imgUrl}> </AlarmImg> */}
+          <AlarmImg style={{ backgroundImage: `url(${alarm.imgUrl})` }}>
+            <img
+              src={`${alarm.imgUrl}`}
+              alt=""
+              width="0"
+              height="0"
+              style={{ display: "none !important" }}
+            />
+          </AlarmImg>
           <TextBox>
             {alarm.duplecation > 1 && (
               <p>
@@ -62,7 +79,19 @@ const AlarmListForm = ({ alarm }) => {
             {alarm.duplecation === 1 && <p>{alarm.msg}</p>}
           </TextBox>
           <TimeText>{alarm.createdAt}</TimeText>
-          <ArrowBtn></ArrowBtn>
+          <ArrowBtn
+            style={{
+              backgroundImage: `url("https://www.pngmart.com/files/16/Left-Arrow-Icon-PNG-Transparent-Image.png")`,
+            }}
+          >
+            <img
+              src={`${"https://www.pngmart.com/files/16/Left-Arrow-Icon-PNG-Transparent-Image.png"}`}
+              alt=""
+              width="0"
+              height="0"
+              style={{ display: "none !important" }}
+            />
+          </ArrowBtn>
           <DelAlarm2
             style={{ cursor: "pointer" }}
             onClick={(e) => {
@@ -156,7 +185,7 @@ const AlarmImg = styled.div`
   margin-left: 5px;
   background-position: center;
   background-size: cover;
-  background-image: url(${(props) => props.url});
+  /* background-image: url(${(props) => props.url}); */
   flex-shrink: 0;
 `;
 
@@ -166,7 +195,7 @@ const ArrowBtn = styled.div`
   height: 15px;
   background-position: center;
   background-size: cover;
-  background-image: url("https://www.pngmart.com/files/16/Left-Arrow-Icon-PNG-Transparent-Image.png");
+  /* background-image: url("https://www.pngmart.com/files/16/Left-Arrow-Icon-PNG-Transparent-Image.png"); */
   position: relative;
   left: -30px;
   top: 10px;

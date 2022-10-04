@@ -212,7 +212,20 @@ const Item_detail = (props) => {
   const showTopButton = () => {
     if (scrollHeightInfo > 500) {
       //2000px밑으로 스크롤 내려갔을때 위로가는 Top 버튼 보이기
-      return <TopButton onClick={ScrollToTop}></TopButton>;
+      return (
+        <TopButton
+          style={{ backgroundImage: `url(${upButton})` }}
+          onClick={ScrollToTop}
+        >
+          <img
+            src={`${upButton}`}
+            alt=""
+            width="0"
+            height="0"
+            style={{ display: "none !important" }}
+          />
+        </TopButton>
+      );
     } else {
       return null;
     }
@@ -251,13 +264,28 @@ const Item_detail = (props) => {
                 navigate(`/mypage/${userId}`);
                 //window.location.reload();
               }}
-              url={
-                userStatus.imgUrl === undefined ||
-                userStatus.imgUrl.slice(-4) === "null"
-                  ? preview_URL
-                  : userStatus?.imgUrl
-              }
-            ></ProfileImg>
+              style={{
+                backgroundImage: `url(${
+                  userStatus.imgUrl === undefined ||
+                  userStatus.imgUrl.slice(-4) === "null"
+                    ? preview_URL
+                    : userStatus?.imgUrl
+                })`,
+              }}
+            >
+              <img
+                src={`${
+                  userStatus.imgUrl === undefined ||
+                  userStatus.imgUrl.slice(-4) === "null"
+                    ? preview_URL
+                    : userStatus?.imgUrl
+                }`}
+                alt=""
+                width="0"
+                height="0"
+                style={{ display: "none !important" }}
+              />
+            </ProfileImg>
             <NickTitle
               style={{ cursor: "pointer" }}
               onClick={() => {
@@ -272,7 +300,15 @@ const Item_detail = (props) => {
             {payload.userId == userId ? (
               <DropdownContainer>
                 <DropdownButton onClick={myPageHandler} ref={myPageRef}>
-                  <StLoginList />
+                  <StLoginList style={{ backgroundImage: `url(${more})` }}>
+                    <img
+                      src={`${more}`}
+                      alt=""
+                      width="0"
+                      height="0"
+                      style={{ display: "none !important" }}
+                    />
+                  </StLoginList>
                 </DropdownButton>
                 <Menu isDropped={myPageIsOpen}>
                   <Ul>
@@ -382,13 +418,28 @@ const Item_detail = (props) => {
           </SliderContainer>
           <CommentBox>
             <CommentImg
-              url={
-                userStatusMe.imgUrl === undefined ||
-                userStatusMe.imgUrl.slice(-4) === "null"
-                  ? preview_URL
-                  : userStatusMe?.imgUrl
-              }
-            ></CommentImg>
+              style={{
+                backgroundImage: `url(${
+                  userStatusMe.imgUrl === undefined ||
+                  userStatusMe.imgUrl.slice(-4) === "null"
+                    ? preview_URL
+                    : userStatusMe?.imgUrl
+                })`,
+              }}
+            >
+              <img
+                src={`${
+                  userStatusMe.imgUrl === undefined ||
+                  userStatusMe.imgUrl.slice(-4) === "null"
+                    ? preview_URL
+                    : userStatusMe?.imgUrl
+                }`}
+                alt=""
+                width="0"
+                height="0"
+                style={{ display: "none !important" }}
+              />
+            </CommentImg>
             <WrapComment>
               <textarea
                 placeholder="댓글을 작성해주세요."
@@ -396,7 +447,18 @@ const Item_detail = (props) => {
                 maxLength={50}
               />
             </WrapComment>
-            <AddCommentButton onClick={addComment}></AddCommentButton>
+            <AddCommentButton
+              style={{ backgroundImage: `url(${send})` }}
+              onClick={addComment}
+            >
+              <img
+                src={`${send}`}
+                alt=""
+                width="0"
+                height="0"
+                style={{ display: "none !important" }}
+              />
+            </AddCommentButton>
           </CommentBox>
           <Line />
           {commentList?.map((item, idx) => (
@@ -456,7 +518,7 @@ const ImgBox = styled.div`
 `;
 
 const StLoginList = styled.div`
-  background-image: url(${more});
+  /* background-image: url(${more}); */
   width: 30px;
   height: 30px;
   /* margin-right: 50px; */
@@ -507,7 +569,7 @@ const ProfileImg = styled.div`
   border-radius: 50%;
   background-position: center;
   background-size: cover;
-  background-image: url(${(props) => props.url});
+  /* background-image: url(${(props) => props.url}); */
   box-shadow: 5px 5px 4px #877f92;
 `;
 
@@ -695,7 +757,7 @@ const CommentImg = styled.div`
   border-radius: 50%;
   background-position: center;
   background-size: cover;
-  background-image: url(${(props) => props.url});
+  /* background-image: url(${(props) => props.url}); */
   box-shadow: 5px 5px 4px #877f92;
 `;
 
@@ -772,7 +834,7 @@ const AddCommentButton = styled.div`
   background-position: center;
   background-size: cover;
   background-repeat: no-repeat;
-  background-image: url(${send});
+  /* background-image: url(${send}); */
   /* background-color: #7b758b; */
   border-radius: 10px;
   border: none;
@@ -834,7 +896,7 @@ const TopButton = styled.div`
   margin-left: -20px;
   width: 40px;
   height: 40px;
-  background-image: url(${upButton});
+  /* background-image: url(${upButton}); */
   background-size: cover;
   cursor: pointer;
 `;
