@@ -50,6 +50,9 @@ const uploadSlice = createSlice({
       });
       state.selectedItems = delete_list;
     },
+    deleteMusinsa: (state, action) => {
+      state.selectedItems = [];
+    },
     changeCheckPostId: (state, action) => {
       state.checkPostId = action.payload;
     },
@@ -76,6 +79,7 @@ const uploadSlice = createSlice({
       // 게시물 수정하기
       .addCase(__editPost.fulfilled, (state, action) => {
         state.post = action.payload.post;
+        state.selectedItems = [];
         state.checkPostId = true;
         state.isFetching = false;
         state.errorMessage = null;
@@ -189,6 +193,7 @@ export const {
   selectItem,
   changeCheckPostId,
   deleteItem,
+  deleteMusinsa,
 } = uploadSlice.actions;
 export default uploadSlice.reducer;
 
