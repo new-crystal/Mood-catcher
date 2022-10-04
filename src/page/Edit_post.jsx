@@ -1,24 +1,26 @@
-import React, { useRef, useState, Fragment } from "react";
+import React, { useRef, useState, Fragment, useEffect } from "react";
 import styled from "styled-components";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate, useParams } from "react-router-dom";
+import Swal from "sweetalert2";
+
+// 통신
+import { __getDetail } from "../redux/async/upload";
+import { regFormdata, regPost } from "../redux/modules/uploadSlice";
+
+// 컴포넌트
 import Header from "../elem/Header";
 import NavigationBar from "../elem/NavigationBar";
-import { useNavigate, useParams } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import { __getDetail } from "../redux/async/upload";
-
-import { regFormdata, regPost } from "../redux/modules/uploadSlice";
-import Swal from "sweetalert2";
-import { useEffect } from "react";
-
-const preview_URL = "/images/noimage.PNG";
 
 const Edit_post = (props) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  // 상세 게시물 구독
+  const detailPost = useSelector((state) => state.upload.detailPost);
+
   const fileInput = useRef(null);
   const title_ref = useRef(null);
   const content_ref = useRef(null);
-  const detailPost = useSelector((state) => state.upload.detailPost);
 
   const [attachment, setAttachment] = useState("");
   const [post, setPost] = useState({

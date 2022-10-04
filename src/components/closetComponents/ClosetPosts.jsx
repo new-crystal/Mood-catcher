@@ -1,7 +1,10 @@
 import React, { Fragment, useState, useCallback, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { __getMyCloset } from "../../redux/async/upload";
-import { InfinityCloset } from "../../redux/modules/uploadSlice";
+import {
+  InfinityCloset,
+  deleteMyCloset,
+} from "../../redux/modules/uploadSlice";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
 import InfinityScrollLoader from "./InfinityScrollLoader";
@@ -18,8 +21,6 @@ const ClosetPosts = () => {
   const ranksIF = [...new Set(ranksIFList.map(JSON.stringify))].map(JSON.parse);
 
   const { userId } = useParams();
-  console.log(userId);
-  console.log(ranksIF);
 
   const getInfinityList = useCallback(() => {
     async function getData() {
@@ -64,6 +65,12 @@ const ClosetPosts = () => {
       window.removeEventListener("scroll", _handleScroll); // scroll event listener 해제
     };
   }, [paging, loading]);
+
+  useEffect(() => {
+    return () => {
+      dispatch(deleteMyCloset());
+    };
+  }, []);
 
   return (
     <Fragment>
