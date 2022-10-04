@@ -22,6 +22,7 @@ const SearchResultForm = () => {
 
   //검색 결과 받아오기/유저 정보 불러오기
   const searchList = useSelector((state) => state.search.searchResult);
+  console.log(searchList);
 
   //react-hook-form 사용하기
   const {
