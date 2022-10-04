@@ -100,7 +100,6 @@ export const __putPassword = createAsyncThunk(
       const response = await signupApi.putPW(data);
       return thunkAPI.fulfillWithValue(response.data);
     } catch (err) {
-      console.log(err);
       Swal.fire("", err.response.data, "error");
       return thunkAPI.rejectWithValue(err.response.data);
     }

@@ -26,7 +26,6 @@ export const __logout = createAsyncThunk(
     try {
       const response = await loginApi.logout();
       if (response.status === 200) {
-        console.log(response.data);
         return response.data;
       }
     } catch (err) {

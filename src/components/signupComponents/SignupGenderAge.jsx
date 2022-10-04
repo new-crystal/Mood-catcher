@@ -126,7 +126,6 @@ const SignupGenderAge = (location) => {
     }
   };
 
-  console.log(errors.nickname);
   //중복확인 이후 닉네임이 변할 때
   const onChangeNickname = () => {
     setError(

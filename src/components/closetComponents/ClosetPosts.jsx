@@ -18,6 +18,8 @@ const ClosetPosts = () => {
   const ranksIF = [...new Set(ranksIFList.map(JSON.stringify))].map(JSON.parse);
 
   const { userId } = useParams();
+  console.log(userId);
+  console.log(ranksIF);
 
   const getInfinityList = useCallback(() => {
     async function getData() {
@@ -25,7 +27,7 @@ const ClosetPosts = () => {
       setLoading(false); //요청하고나면 loading false로
     }
     return getData();
-  }, [paging, ranksIF]); //usecallback의 deps에 페이지랑 맥주목록 바뀔때마다 실행되게
+  }, [paging, ranksIF, userId]); //usecallback의 deps에 페이지랑 맥주목록 바뀔때마다 실행되게
 
   const _handleScroll = _.throttle(() => {
     const scrollHeight = document.documentElement.scrollHeight;
@@ -51,7 +53,7 @@ const ClosetPosts = () => {
     if (ranksIF.length !== 0) {
       setPaging(ranksIF.length / 4 + 1);
     } //다른컴포넌트 갔다 올때 렌더링시 페이지넘버 계산
-  }, []);
+  }, [userId]);
 
   useEffect(() => {
     if (loading) {
