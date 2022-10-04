@@ -1,13 +1,17 @@
 import React, { useRef, useState, Fragment } from "react";
 import styled from "styled-components";
-import Header from "../elem/Header";
-import NavigationBar from "../elem/NavigationBar";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-
-import { regFormdata, regPost } from "../redux/modules/uploadSlice";
 import Swal from "sweetalert2";
 
+// 통신
+import { regFormdata, regPost } from "../redux/modules/uploadSlice";
+
+// 컴포넌트
+import Header from "../elem/Header";
+import NavigationBar from "../elem/NavigationBar";
+
+// 아이콘
 const preview_URL = "/images/noimage.PNG";
 
 const Upload = (props) => {
@@ -16,10 +20,6 @@ const Upload = (props) => {
   const fileInput = useRef(null);
 
   const [attachment, setAttachment] = useState("");
-  // const [post, setPost] = useState({
-  //   title: "",
-  //   content: "",
-  // });
   const title_ref = React.useRef(null);
   const text_ref = React.useRef(null);
 
@@ -35,12 +35,6 @@ const Upload = (props) => {
       setAttachment(result);
     };
   };
-
-  // input 데이터 저장하기
-  // const changeInput = (e) => {
-  //   const { value, id } = e.target;
-  //   setPost({ ...post, [id]: value });
-  // };
 
   // 서버에 사진을 전송하는 함수
   const writePost = () => {
@@ -117,12 +111,6 @@ const Upload = (props) => {
             </StTitleInput>
             <StText>내용</StText>
             <StContentInput>
-              {/* <input
-                id="content"
-                maxLength={40}
-                required
-                onChange={changeInput}
-              /> */}
               <textarea ref={text_ref} className="textIpt" maxLength={44} />
             </StContentInput>
             <StNextBtnBox>
@@ -140,19 +128,9 @@ const Upload = (props) => {
 
 export default Upload;
 
-const LoaderWrap = styled.div`
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  margin-top: -100px;
-  margin-left: -100px;
-`;
-
 const Container = styled.div`
   display: flex;
   flex-direction: column;
-  /* height: 970px; */
-  /* background-color: orange; */
   & > span {
     display: -webkit-box;
     -webkit-box-orient: vertical;
@@ -168,10 +146,6 @@ const Grid = styled.div`
   margin-bottom: 57px;
   max-width: 428px;
   width: 100vw;
-  //height: calc(var(--vh, 1vh) * 100 + 50px);
-  /* background: linear-gradient(#a396c9, #ffffff); */
-
-  /* background-color: royalblue; */
 `;
 
 const JustifyAlign = styled.div`
@@ -180,39 +154,13 @@ const JustifyAlign = styled.div`
   width: 366px;
   justify-content: space-between;
   align-items: center;
-  /* background-color: yellowgreen; */
 `;
 
 const UploadText = styled.span`
-  /* margin: 0 76px 0 146px; */
   margin: 0 30px 0 146px;
   font-size: 20px;
   font-weight: bold;
   color: #7b758b;
-`;
-
-const NextButton = styled.button`
-  /* background: linear-gradient(78.32deg, #7b758b 41.41%, #ffffff 169.58%); */
-  background: #a8a6af;
-  border: 0px;
-  width: 350px;
-  height: 50px;
-  border-radius: 15px;
-  color: white;
-  margin-bottom: 20px;
-  font-family: "Noto Sans KR", sans-serif;
-  font-style: normal;
-  font-weight: 700;
-  font-size: 16px;
-  margin-top: 20px;
-  cursor: default;
-  p {
-    color: white;
-    /* font-family: "Roboto"; */
-    text-decoration: none;
-    font-weight: bold;
-    font-size: 16px;
-  }
 `;
 
 const StUploadBox = styled.div`
@@ -220,11 +168,9 @@ const StUploadBox = styled.div`
   margin: 12px auto;
   flex-direction: column;
   width: 370px;
-  /* height: 700px; */
   border: 3px solid #c4c2ca;
   border-radius: 20px;
   background-color: #ffffff;
-  /* box-shadow: 5px 5px 4px #877f92; */
 `;
 
 const StFileButton = styled.div`
@@ -323,4 +269,26 @@ const StContentInput = styled.div`
 
 const StNextBtnBox = styled.div`
   margin: 0 auto;
+`;
+
+const NextButton = styled.button`
+  background: #a8a6af;
+  border: 0px;
+  width: 350px;
+  height: 50px;
+  border-radius: 15px;
+  color: white;
+  margin-bottom: 20px;
+  font-family: "Noto Sans KR", sans-serif;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 16px;
+  margin-top: 20px;
+  cursor: default;
+  p {
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 16px;
+  }
 `;

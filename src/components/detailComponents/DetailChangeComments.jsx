@@ -1,6 +1,8 @@
 import React, { useEffect, useRef } from "react";
-import { useDispatch } from "react-redux";
 import styled from "styled-components";
+import { useDispatch } from "react-redux";
+
+// 통신
 import { __editComment } from "../../redux/async/comment";
 
 const DetailChangeComment = ({ commentData, btnState, postId }) => {
@@ -79,6 +81,7 @@ const WrapTextarea = styled.div`
   width: 100%;
   border-radius: 20px;
 `;
+
 const CommentChangeTextBox = styled.textarea`
   border: none;
   resize: none;
@@ -90,12 +93,12 @@ const CommentChangeTextBox = styled.textarea`
   font-size: 16px;
   border-radius: 10px;
 `;
+
 const WrapBtn = styled.div`
   display: flex;
   margin: 0 auto;
   gap: 20px;
   & > button {
-    /* margin-top: 5px; */
     text-align: center;
     color: white;
     font-size: 16px;
