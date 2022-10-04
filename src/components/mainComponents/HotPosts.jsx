@@ -31,9 +31,17 @@ const HotPosts = ({ hotPosts }) => {
       <Wrap>
         <StTag>Hot</StTag>
         <Question
-          style={{ cursor: "pointer" }}
+          style={{ cursor: "pointer", backgroundImage: `url(${question})` }}
           onClick={() => setHot(true)}
-        ></Question>
+        >
+          <img
+            src={`${question}`}
+            alt=""
+            width="0"
+            height="0"
+            style={{ display: "none !important" }}
+          />
+        </Question>
         {hot ? <HotList setHot={setHot} /> : null}
         <p onClick={() => navigate("/best")}>명예의 전당 ➡</p>
       </Wrap>
@@ -181,6 +189,6 @@ const Question = styled.div`
   margin-top: 19px;
   background-position: center;
   background-size: cover;
-  background-image: url(${question});
+  /* background-image: url(${question}); */
 `;
 export default HotPosts;

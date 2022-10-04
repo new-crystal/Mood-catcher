@@ -28,7 +28,15 @@ const HotList = ({ setHot }) => {
           </TextBox>
         </Grade>
         <MoodyBox>
-          <MoodyImg></MoodyImg>
+          <MoodyImg style={{ backgroundImage: `url(${moody})` }}>
+            <img
+              src={`${moody}`}
+              alt=""
+              width="0"
+              height="0"
+              style={{ display: "none !important" }}
+            />
+          </MoodyImg>
           <h6>{text}</h6>
         </MoodyBox>
       </ListBox>
@@ -128,6 +136,6 @@ const MoodyImg = styled.div`
   height: 50px;
   background-position: center;
   background-size: cover;
-  background-image: url(${moody});
+  /* background-image: url(${moody}); */
 `;
 export default HotList;

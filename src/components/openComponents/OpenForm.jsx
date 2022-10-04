@@ -33,7 +33,14 @@ const OpenForm = () => {
 
   return (
     <Fragment>
-      <OpenBox>
+      <OpenBox style={{ backgroundImage: `url(${openCloset})` }}>
+        <img
+          src={`${openCloset}`}
+          alt=""
+          width="0"
+          height="0"
+          style={{ display: "none !important" }}
+        />
         <TextBox>
           <h4>{startMsg}</h4>
         </TextBox>
@@ -47,7 +54,7 @@ const OpenBox = styled.div`
   height: 100vh;
   background-position: center;
   background-size: cover;
-  background-image: url(${openCloset});
+  /* background-image: url(${openCloset}); */
   text-align: center;
   align-items: center;
   justify-content: center;

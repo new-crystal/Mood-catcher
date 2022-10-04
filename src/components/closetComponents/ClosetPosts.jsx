@@ -75,7 +75,14 @@ const ClosetPosts = () => {
   return (
     <Fragment>
       {ranksIF?.length === 0 && (
-        <EmptyLike>
+        <EmptyLike style={{ backgroundImage: `url(${hanger})` }}>
+          <img
+            src={`${hanger}`}
+            alt=""
+            width="0"
+            height="0"
+            style={{ display: "none !important" }}
+          />
           <p>캐처님의</p>
           <p>옷장이 비어있습니다</p>
         </EmptyLike>
@@ -103,6 +110,6 @@ const EmptyLike = styled.div`
   font-size: 17px;
   background-position: center;
   background-size: cover;
-  background-image: url(${hanger});
+  /* background-image: url(${hanger}); */
 `;
 export default ClosetPosts;

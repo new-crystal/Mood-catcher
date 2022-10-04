@@ -115,12 +115,36 @@ const MyPageForm = () => {
     <Fragment>
       <Wrap>
         {img === "null" ? (
-          <Img url={profileImg}></Img>
+          <Img style={{ backgroundImage: `url(${profileImg})` }}>
+            <img
+              src={`${profileImg}`}
+              alt=""
+              width="0"
+              height="0"
+              style={{ display: "none !important" }}
+            />
+          </Img>
         ) : (
-          <Img url={users?.imgUrl}></Img>
+          <Img style={{ backgroundImage: `url(${users?.imgUrl})` }}>
+            <img
+              src={`${users?.imgUrl}`}
+              alt=""
+              width="0"
+              height="0"
+              style={{ display: "none !important" }}
+            />
+          </Img>
         )}
         <ProfileBox>
-          <GradeIcon url={gradeImg}></GradeIcon>
+          <GradeIcon style={{ backgroundImage: `url(${gradeImg})` }}>
+            <img
+              src={`${gradeImg}`}
+              alt=""
+              width="0"
+              height="0"
+              style={{ display: "none !important" }}
+            />
+          </GradeIcon>
           <h4>{users?.nickname}</h4>
         </ProfileBox>
         <MyPageBox>
@@ -137,9 +161,20 @@ const MyPageForm = () => {
               </h1>
               {payload.userId == userId ? (
                 <MoodQuestion
-                  style={{ cursor: "pointer" }}
+                  style={{
+                    cursor: "pointer",
+                    backgroundImage: `url(${question})`,
+                  }}
                   onClick={() => setMoodPoint(true)}
-                ></MoodQuestion>
+                >
+                  <img
+                    src={`${question}`}
+                    alt=""
+                    width="0"
+                    height="0"
+                    style={{ display: "none !important" }}
+                  />
+                </MoodQuestion>
               ) : null}
             </MoodBody>
             {moodPoint ? <MoodPoint setMoodPoint={setMoodPoint} /> : null}
@@ -147,7 +182,15 @@ const MyPageForm = () => {
               <p className="name">Catch Grade</p>
             </MoodHeader>
             <MoodBody>
-              <GradeImg url={gradeImg}></GradeImg>
+              <GradeImg style={{ backgroundImage: `url(${gradeImg})` }}>
+                <img
+                  src={`${gradeImg}`}
+                  alt=""
+                  width="0"
+                  height="0"
+                  style={{ display: "none !important" }}
+                />
+              </GradeImg>
               <GradeText>
                 <GradeQuestion>
                   {grade === "1" && <h6>티셔츠</h6>}
@@ -157,9 +200,20 @@ const MyPageForm = () => {
                   {grade === "5" && <h6>자켓</h6>}
                   {payload.userId == userId ? (
                     <Question
-                      style={{ cursor: "pointer" }}
+                      style={{
+                        cursor: "pointer",
+                        backgroundImage: `url(${question})`,
+                      }}
                       onClick={() => setGradeList(true)}
-                    ></Question>
+                    >
+                      <img
+                        src={`${question}`}
+                        alt=""
+                        width="0"
+                        height="0"
+                        style={{ display: "none !important" }}
+                      />
+                    </Question>
                   ) : null}
                   {gradeList ? <GradeList setGradeList={setGradeList} /> : null}
                 </GradeQuestion>
@@ -176,7 +230,7 @@ const MyPageForm = () => {
           </MoodBox>
           {rep?.imgUrl === undefined ? (
             <PostImg
-              style={{ cursor: "pointer" }}
+              style={{ cursor: "pointer", backgroundImage: `url(${hanger})` }}
               onClick={() => {
                 Swal.fire(
                   "대표게시물을 찾을 수 없습니다",
@@ -184,16 +238,33 @@ const MyPageForm = () => {
                   "question"
                 );
               }}
-              url={`${hanger}`}
-            ></PostImg>
+            >
+              <img
+                src={`${hanger}`}
+                alt=""
+                width="0"
+                height="0"
+                style={{ display: "none !important" }}
+              />
+            </PostImg>
           ) : (
             <PostImg
-              url={rep?.imgUrl}
-              style={{ cursor: "pointer" }}
+              style={{
+                cursor: "pointer",
+                backgroundImage: `url(${rep?.imgUrl})`,
+              }}
               onClick={() =>
                 navigate(`/item_detail/${users.repPostId}/${users.userId}`)
               }
-            ></PostImg>
+            >
+              <img
+                src={`${rep?.imgUrl}`}
+                alt=""
+                width="0"
+                height="0"
+                style={{ display: "none !important" }}
+              />
+            </PostImg>
           )}
         </MyPageBox>
         <MoodHeader>
@@ -210,16 +281,36 @@ const MyPageForm = () => {
             {myClosetList?.length === 0 ? (
               <>
                 <EmptyCloset
-                  style={{ cursor: "pointer" }}
+                  style={{
+                    cursor: "pointer",
+                    backgroundImage: `url(${empty})`,
+                  }}
                   onClick={() => navigate("/upload")}
                 >
+                  <img
+                    src={`${empty}`}
+                    alt=""
+                    width="0"
+                    height="0"
+                    style={{ display: "none !important" }}
+                  />
                   <p>{users.nickname}님의</p>
                   <p>옷장이 비어있습니다</p>
                 </EmptyCloset>
                 <EmptyCloset
-                  style={{ cursor: "pointer" }}
+                  style={{
+                    cursor: "pointer",
+                    backgroundImage: `url(${empty})`,
+                  }}
                   onClick={() => navigate("/upload")}
                 >
+                  <img
+                    src={`${empty}`}
+                    alt=""
+                    width="0"
+                    height="0"
+                    style={{ display: "none !important" }}
+                  />
                   <p>옷장도 꾸미고</p>
                   <p>무드도 캐치하세요</p>
                 </EmptyCloset>
@@ -232,9 +323,16 @@ const MyPageForm = () => {
                       <EachMyCloset item={item} click={click} />
                     ))}
                     <GoCloset
-                      url={`${closet}`}
+                      style={{ backgroundImage: `url(${closet})` }}
                       onClick={() => navigate(`/closet/${userId}`)}
                     >
+                      <img
+                        src={`${closet}`}
+                        alt=""
+                        width="0"
+                        height="0"
+                        style={{ display: "none !important" }}
+                      />
                       <OpenCloset>
                         <OpenText>{text}</OpenText>
                       </OpenCloset>
@@ -247,9 +345,16 @@ const MyPageForm = () => {
                       <EachMyCloset item={item} click={click} />
                     ))}
                     <GoCloset
-                      url={`${closet}`}
+                      style={{ backgroundImage: `url(${closet})` }}
                       onClick={() => navigate(`/closet/${userId}`)}
                     >
+                      <img
+                        src={`${closet}`}
+                        alt=""
+                        width="0"
+                        height="0"
+                        style={{ display: "none !important" }}
+                      />
                       <OpenCloset>
                         <OpenText>{text}</OpenText>
                       </OpenCloset>
@@ -262,9 +367,16 @@ const MyPageForm = () => {
                       <EachMyCloset item={item} click={click} />
                     ))}
                     <GoCloset
-                      url={`${closet}`}
+                      style={{ backgroundImage: `url(${closet})` }}
                       onClick={() => navigate(`/closet/${userId}`)}
                     >
+                      <img
+                        src={`${closet}`}
+                        alt=""
+                        width="0"
+                        height="0"
+                        style={{ display: "none !important" }}
+                      />
                       <OpenCloset>
                         <OpenText>{text}</OpenText>
                       </OpenCloset>
@@ -277,9 +389,16 @@ const MyPageForm = () => {
                       <EachMyCloset item={item} click={click} />
                     ))}
                     <GoCloset
-                      url={`${closet}`}
+                      style={{ backgroundImage: `url(${closet})` }}
                       onClick={() => navigate(`/closet/${userId}`)}
                     >
+                      <img
+                        src={`${closet}`}
+                        alt=""
+                        width="0"
+                        height="0"
+                        style={{ display: "none !important" }}
+                      />
                       <OpenCloset>
                         <OpenText>{text}</OpenText>
                       </OpenCloset>
@@ -292,9 +411,16 @@ const MyPageForm = () => {
                       <EachMyCloset item={item} click={click} />
                     ))}
                     <GoCloset
-                      url={`${closet}`}
+                      style={{ backgroundImage: `url(${closet})` }}
                       onClick={() => navigate(`/closet/${userId}`)}
                     >
+                      <img
+                        src={`${hanger}`}
+                        alt=""
+                        width="0"
+                        height="0"
+                        style={{ display: "none !important" }}
+                      />
                       <OpenCloset>
                         <OpenText>{text}</OpenText>
                       </OpenCloset>
@@ -323,7 +449,7 @@ const Img = styled.div`
   margin: 10px auto;
   background-position: center;
   background-size: cover;
-  background-image: url(${(props) => props.url});
+  /* background-image: url(${(props) => props.url}); */
 `;
 
 const ProfileBox = styled.div`
@@ -348,7 +474,7 @@ const GradeIcon = styled.div`
   height: 40px;
   background-position: center;
   background-size: cover;
-  background-image: url(${(props) => props.url});
+  /* background-image: url(${(props) => props.url}); */
 `;
 
 const MyPageBox = styled.div`
@@ -417,7 +543,7 @@ const GradeImg = styled.div`
   height: 60px;
   background-position: center;
   background-size: cover;
-  background-image: url(${(props) => props.url});
+  /* background-image: url(${(props) => props.url}); */
 `;
 const GradeText = styled.div`
   margin-top: 25px;
@@ -446,7 +572,7 @@ const Question = styled.div`
   margin-bottom: -5px;
   background-position: center;
   background-size: cover;
-  background-image: url(${question});
+  /* background-image: url(${question}); */
   z-index: 10;
 `;
 const MoodQuestion = styled.div`
@@ -458,7 +584,7 @@ const MoodQuestion = styled.div`
   opacity: 70%;
   background-position: center;
   background-size: cover;
-  background-image: url(${question});
+  /* background-image: url(${question}); */
 `;
 
 const Progress = styled.div`
@@ -500,7 +626,7 @@ const PostImg = styled.div`
   background-position: center;
   background-size: 180px 260px;
   background-repeat: no-repeat;
-  background-image: url(${(props) => props.url});
+  /* background-image: url(${(props) => props.url}); */
 `;
 const ClosetList = styled.div`
   height: 230px;
@@ -536,7 +662,7 @@ const GoCloset = styled.div`
   border-radius: 10px;
   background-position: center;
   background-size: cover;
-  background-image: url(${(props) => props.url});
+  /* background-image: url(${(props) => props.url}); */
   h4 {
     display: block;
     font-family: "Unna";
@@ -559,7 +685,7 @@ const EmptyCloset = styled.div`
   border-radius: 10px;
   background-position: center;
   background-size: cover;
-  background-image: url(${empty});
+  /* background-image: url(${empty}); */
 `;
 const OpenText = styled.h5`
   margin-top: 80px;
