@@ -50,7 +50,6 @@ const MyPageForm = () => {
   //유저의 닉네임, 프로필이미지, 등급, 무드 포인트 불러오기
   const users = useSelector((state) => state.login.myPageUser);
   const userGrade = useSelector((state) => state.login.myPageUser.grade);
-
   const profileIcon = useSelector((state) => state.login.userIcon.grade);
   const img = users?.imgUrl?.split(".com/")[1];
   const grade = userGrade?.split(" ")[1];
@@ -244,7 +243,11 @@ const MyPageForm = () => {
                 {myClosetList?.length === 2 && (
                   <>
                     {myClosetList.map((item) => (
-                      <EachMyCloset item={item} click={click} />
+                      <EachMyCloset
+                        key={item.postId}
+                        item={item}
+                        click={click}
+                      />
                     ))}
                     <GoCloset
                       url={`${closet}`}
@@ -259,7 +262,11 @@ const MyPageForm = () => {
                 {myClosetList?.length === 3 && (
                   <>
                     {myClosetList.map((item) => (
-                      <EachMyCloset item={item} click={click} />
+                      <EachMyCloset
+                        key={item.postId}
+                        item={item}
+                        click={click}
+                      />
                     ))}
                     <GoCloset
                       url={`${closet}`}
@@ -274,7 +281,11 @@ const MyPageForm = () => {
                 {myClosetList?.length === 4 && (
                   <>
                     {myClosetList.map((item) => (
-                      <EachMyCloset item={item} click={click} />
+                      <EachMyCloset
+                        key={item.postId}
+                        item={item}
+                        click={click}
+                      />
                     ))}
                     <GoCloset
                       url={`${closet}`}
@@ -289,7 +300,11 @@ const MyPageForm = () => {
                 {myClosetList?.length >= 5 && (
                   <>
                     {myClosetList.slice(0, 4).map((item) => (
-                      <EachMyCloset item={item} click={click} />
+                      <EachMyCloset
+                        key={item.postId}
+                        item={item}
+                        click={click}
+                      />
                     ))}
                     <GoCloset
                       url={`${closet}`}
