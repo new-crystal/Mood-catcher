@@ -1,26 +1,48 @@
 import React, { Fragment, useState, useCallback, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useParams } from "react-router-dom";
+import styled from "styled-components";
+import InfinityScrollLoader from "./InfinityScrollLoader";
+import _ from "lodash";
+
+//통신
 import { __getMyCloset } from "../../redux/async/upload";
 import {
   InfinityCloset,
   deleteMyCloset,
 } from "../../redux/modules/uploadSlice";
-import { useParams } from "react-router-dom";
-import styled from "styled-components";
-import InfinityScrollLoader from "./InfinityScrollLoader";
-import _ from "lodash";
-import hanger from "../../image/옷걸이.png";
+
+//컴포넌트
 import CardForm from "../../elem/CardForm";
+
+//이미지
+import hanger from "../../image/옷걸이.png";
 
 const ClosetPosts = () => {
   const dispatch = useDispatch();
+  const ranksIFList = useSelector(InfinityCloset); //redux store값 받아오는부분
+  const last = useSelector((state) => state.upload.postLast); //마지막 페이지 판단
+  const ranksIF = [...new Set(ranksIFList.map(JSON.stringify))].map(JSON.parse); //전체 리스트 중복제거
   const [loading, setLoading] = useState(false); //데이터 받아오는동안 로딩 true로 하고 api요청 그동안 한번만되게
   const [paging, setPaging] = useState(1); //페이지넘버
-  const ranksIFList = useSelector(InfinityCloset); //redux store값 받아오는부기
-  const last = useSelector((state) => state.upload.postLast);
-  const ranksIF = [...new Set(ranksIFList.map(JSON.stringify))].map(JSON.parse);
 
-  const { userId } = useParams();
+  const { userId } = useParams(); //주소창의 유저 아이디 받아오기
+
+  useEffect(() => {
+    if (loading) {
+      return;
+    } //로딩이 true일 경우 리턴
+    window.addEventListener("scroll", _handleScroll); // scroll event listener 등록
+    return () => {
+      window.removeEventListener("scroll", _handleScroll); // scroll event listener 해제
+    };
+  }, [paging, loading]);
+
+  useEffect(() => {
+    return () => {
+      dispatch(deleteMyCloset());
+    };
+  }, []);
 
   const getInfinityList = useCallback(() => {
     async function getData() {
@@ -56,36 +78,15 @@ const ClosetPosts = () => {
     } //다른컴포넌트 갔다 올때 렌더링시 페이지넘버 계산
   }, [userId]);
 
-  useEffect(() => {
-    if (loading) {
-      return;
-    } //로딩이 true일 경우 리턴
-    window.addEventListener("scroll", _handleScroll); // scroll event listener 등록
-    return () => {
-      window.removeEventListener("scroll", _handleScroll); // scroll event listener 해제
-    };
-  }, [paging, loading]);
-
-  useEffect(() => {
-    return () => {
-      dispatch(deleteMyCloset());
-    };
-  }, []);
-
   return (
     <Fragment>
       {ranksIF?.length === 0 && (
-        <EmptyLike style={{ backgroundImage: `url(${hanger})` }}>
-          <img
-            src={`${hanger}`}
-            alt=""
-            width="0"
-            height="0"
-            style={{ display: "none !important" }}
-          />
-          <p>캐처님의</p>
-          <p>옷장이 비어있습니다</p>
-        </EmptyLike>
+        <>
+          <EmptyLike src={`${hanger}`} alt="empty_closet" />
+          <EmptyText>
+            <p>옷장이 비어있습니다</p>
+          </EmptyText>
+        </>
       )}
       {ranksIF?.map((item, idx) => (
         <CardForm key={idx} item={item} />
@@ -95,21 +96,20 @@ const ClosetPosts = () => {
     </Fragment>
   );
 };
-const EmptyLike = styled.div`
-  margin: 200px auto auto auto;
+const EmptyLike = styled.img`
+  display: flex;
+  margin: 230px auto auto auto;
   width: 250px;
   height: 150px;
-  display: flex;
   align-items: center;
   justify-content: center;
   flex-direction: column;
-  margin-top: 230px;
-  font-family: Roboto;
   font-style: Bold;
   font-weight: 700;
   font-size: 17px;
-  background-position: center;
-  background-size: cover;
-  /* background-image: url(${hanger}); */
+`;
+const EmptyText = styled.div`
+  margin: -50px auto 0 auto;
+  width: 150px;
 `;
 export default ClosetPosts;

@@ -1,29 +1,55 @@
+import { Fragment, useEffect, useState, useCallback } from "react";
 import styled from "styled-components";
 import { useForm } from "react-hook-form";
-import { Fragment, useEffect, useState, useCallback } from "react";
-import search from "../../image/search.png";
-import heart from "../../image/heart.png";
 import { useDispatch, useSelector } from "react-redux";
-import { __getSearch } from "../../redux/async/search";
 import { useNavigate } from "react-router-dom";
 import _ from "lodash";
+
+//통신
+import { __getSearch } from "../../redux/async/search";
+
+//컴포넌트
 import CardForm from "../../elem/CardForm";
+
+//이미지
+import heart from "../../image/heart.png";
+import search from "../../image/search.png";
 
 const SearchForm = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const recommendedList = useSelector((state) => state.search.recommendedPosts); //추천리스트 불러오기
+  const last = useSelector((state) => state.search.postLast); //마지막 페이지
+  const recommended = [...new Set(recommendedList.map(JSON.stringify))].map(
+    JSON.parse
+  ); //추천 리스트에서 중복제거
   const [mood, setMood] = useState(`${heart}`);
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(false);
   const [title, setTitle] = useState(true);
   const [writer, setWriter] = useState(false);
 
-  //정보 불러오기
-  const recommendedList = useSelector((state) => state.search.recommendedPosts);
-  const last = useSelector((state) => state.search.postLast);
-  const recommended = [...new Set(recommendedList.map(JSON.stringify))].map(
-    JSON.parse
-  );
+  //페이지 계산해서 get 요청 보내고 page 카운트 올리기
+  useEffect(() => {
+    if (page === 1 && recommended.length === 0) {
+      dispatch(__getSearch(page));
+      setPage(page + 1);
+    }
+    if (recommended.length !== 0) {
+      setPage(recommended.length / 4 + 1);
+    }
+  }, [mood]);
+
+  //윈도우 스크롤 위치 계산하기
+  useEffect(() => {
+    if (loading) {
+      return;
+    }
+    window.addEventListener("scroll", _scrollPosition);
+    return () => {
+      window.removeEventListener("scroll", _scrollPosition);
+    };
+  }, [page, loading]);
 
   //react-hook-form에서 불러오기
   const {
@@ -68,28 +94,6 @@ const SearchForm = () => {
     }
   }, 500);
 
-  //페이지 계산해서 get 요청 보내고 page 카운트 올리기
-  useEffect(() => {
-    if (page === 1 && recommended.length === 0) {
-      dispatch(__getSearch(page));
-      setPage(page + 1);
-    }
-    if (recommended.length !== 0) {
-      setPage(recommended.length / 4 + 1);
-    }
-  }, [mood]);
-
-  //윈도우 스크롤 위치 계산하기
-  useEffect(() => {
-    if (loading) {
-      return;
-    }
-    window.addEventListener("scroll", _scrollPosition);
-    return () => {
-      window.removeEventListener("scroll", _scrollPosition);
-    };
-  }, [page, loading]);
-
   //제목으로 검색 눌렀을 때
   const onChangeTitle = () => {
     setTitle(true);
@@ -122,17 +126,10 @@ const SearchForm = () => {
             })}
           />
           <SearchImg
+            src={`${search}`}
+            alt="search"
             onClick={handleSubmit(onSubmit)}
-            style={{ backgroundImage: `url(${search})` }}
-          >
-            <img
-              src={`${search}`}
-              alt=""
-              width="0"
-              height="0"
-              style={{ display: "none !important" }}
-            />
-          </SearchImg>
+          />
         </Form>
       </SearchBox1>
       <SearchBox>
@@ -166,39 +163,36 @@ const SearchForm = () => {
 };
 
 const SearchBox1 = styled.form`
-  width: 350px;
   margin: 0 auto;
+  width: 350px;
 `;
 
 const Form = styled.div`
-  width: 100%;
-  margin: 0 auto;
-  height: 70px;
   display: flex;
+  margin: 0 auto;
+  width: 100%;
+  height: 70px;
   align-items: center;
   justify-content: baseline;
   flex-direction: row;
 `;
 
 const SearchBox = styled.div`
-  flex-grow: 2;
-  width: 350px;
-  margin: 0 auto;
-  border-top: 3px solid #fff;
-  padding-top: 7px;
-  margin-top: -20px;
   display: flex;
+  margin: -20px auto 0 auto;
+  padding-top: 7px;
+  border-top: 3px solid #fff;
+  width: 350px;
+  flex-grow: 2;
   align-items: left;
   justify-content: baseline;
   flex-direction: row;
   font-family: "Noto Sans KR", sans-serif;
-  font-style: normal;
   font-weight: 700;
   font-size: 15px;
   color: #2d273f;
 
   .check {
-    background-color: transparent;
     border: none;
     background-color: #2d273f;
     color: red;
@@ -209,39 +203,33 @@ const LabelTitle = styled.label`
   cursor: pointer;
 `;
 const LabelWriter = styled.label`
-  display: block;
   color: #2d273f;
   cursor: pointer;
 `;
 const CheckBox = styled.div`
+  padding: 5px 5px 10px 5px;
+  border-radius: 0 0 10px 10px;
   width: 100%;
   height: 15px;
-  padding: 5px 5px 10px 5px;
   text-align: center;
-  /* background-color: rgba(0, 0, 0, 0.3); */
   background-color: #e4ddef;
-
-  border-radius: 0 0 10px 10px;
 `;
 const NotCheckBox = styled.div`
+  padding: 5px 5px 10px 5px;
+  border-radius: 10px;
   width: 100%;
   height: 15px;
   text-align: center;
-  padding: 5px 5px 10px 5px;
-  border-radius: 10px;
 `;
 
 const SearchInput = styled.input`
-  /* background-color: rgba(0, 0, 0, 0.3); */
-  background-color: #e4ddef;
-
+  border: none;
+  border-radius: 10px 10px 0 0;
   width: 350px;
   height: 50px;
-  border: none;
   text-align: center;
-  border-radius: 10px 10px 0 0;
-  /* margin: 0 auto; */
-  /* margin-left: 40px; */
+  background-color: #e4ddef;
+
   :focus {
     outline: none;
   }
@@ -252,28 +240,13 @@ const SearchInput = styled.input`
     font-family: "Noto Sans KR", sans-serif;
   }
 `;
-const SearchImg = styled.div`
+const SearchImg = styled.img`
+  margin-left: -45px;
+  border: 0;
   width: 30px;
   height: 30px;
-  border: 0;
   background-color: rgba(0, 0, 0, 0);
-  background-position: center;
-  background-size: cover;
-  /* background-image: url(${search}); */
-  margin-left: -45px;
   cursor: pointer;
 `;
-const ClosetBox = styled.div`
-  width: 200px;
-  height: 40px;
-  border-radius: 10px;
-  background-color: #e4ddef;
-  color: white;
-  margin-top: -10px;
-  font-family: "Unna";
-  font-style: normal;
-  font-weight: 700;
-  font-size: 15px;
-  margin-left: 40px;
-`;
+
 export default SearchForm;

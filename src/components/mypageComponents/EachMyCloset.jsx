@@ -1,5 +1,5 @@
-import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
+import { useNavigate } from "react-router-dom";
 
 const EachMyCloset = ({ item, click }) => {
   const navigate = useNavigate();
@@ -23,10 +23,10 @@ const EachMyCloset = ({ item, click }) => {
 };
 
 const Closet = styled.img`
-  width: 160px;
-  height: 190px;
   margin: 10px;
   border-radius: 10px;
+  width: 160px;
+  height: 190px;
   flex-shrink: 0;
   cursor: pointer;
 `;

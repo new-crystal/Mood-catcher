@@ -1,21 +1,23 @@
+import { useEffect, useState, useCallback, Fragment } from "react";
 import styled from "styled-components";
 import { useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
-import { __login } from "../../redux/async/login";
 import { useNavigate } from "react-router-dom";
-import { Fragment } from "react";
-import { useEffect, useState, useCallback } from "react";
 import bcrypt from "bcryptjs";
+
+//통신
+import { __login } from "../../redux/async/login";
 import PwaButton from "../../elem/PwaButton";
+
+//컴포넌트
 import LawForm from "./LawForm";
 
 const LoginForm = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const salt = bcrypt.genSaltSync(10);
   const [law, setLaw] = useState(false);
-
   const [openAgree, setOpenAgree] = useState(false);
+  const salt = bcrypt.genSaltSync(10); //암호화
   const onOpenAgreeHandler = useCallback(() => {
     setOpenAgree((value) => !value);
   }, []);
@@ -23,7 +25,6 @@ const LoginForm = () => {
   //로그인 한 경우
   useEffect(() => {
     const token = localStorage.getItem("token");
-
     if (token !== null) {
       navigate("/main");
     }
@@ -127,6 +128,7 @@ const LoginForm = () => {
             <KakaoLogBtn
               type="button"
               kakao
+              style={{ cursor: "pointer" }}
               onClick={() => {
                 window.location.href =
                   "https://kauth.kakao.com/oauth/authorize?client_id=c1fcfdc01631a1e8f1f65dab8f0c5c6b&redirect_uri=http://moodcatchers.link/api/auth/kakao/callback&response_type=code";
@@ -140,21 +142,31 @@ const LoginForm = () => {
               <LogLawBox>
                 <LogText>무드캐쳐가 처음이신가요?</LogText>
               </LogLawBox>
-              <LogBtn type="button" onClick={() => navigate("/signup")}>
+              <LogBtn
+                type="button"
+                style={{ cursor: "pointer" }}
+                onClick={() => navigate("/signup")}
+              >
                 <p>이메일로 회원가입</p>
               </LogBtn>
             </BtnBox>
             <BtnBox>
               <PwText>비밀번호가 기억나지 않으신가요?</PwText>
-              <LogBtn type="button" onClick={() => navigate("/edit_password")}>
+              <LogBtn
+                type="button"
+                style={{ cursor: "pointer" }}
+                onClick={() => navigate("/edit_password")}
+              >
                 <p>비밀번호 찾기</p>
               </LogBtn>
             </BtnBox>
           </BtnWrap>
           <div>
-            <PwaButton />
+            <PwaButton style={{ cursor: "pointer" }} />
           </div>
-          <LawText onClick={onOpenAgreeHandler}>이용약관</LawText>
+          <LawText style={{ cursor: "pointer" }} onClick={onOpenAgreeHandler}>
+            이용약관
+          </LawText>
         </LoginBox>
       </BackGround>
     </Fragment>
@@ -166,12 +178,9 @@ const BtnWrap = styled.div`
 `;
 
 const BackGround = styled.div`
+  margin: 0px auto;
   width: 183px;
   height: 444px;
-  margin: 0px auto;
-  background-position: center;
-  background-size: cover;
-  /* background-image: url("https://cdn.discordapp.com/attachments/1014169130045292625/1015495006418653225/a81f043032c5c11a.png"); */
 `;
 const LoginBox = styled.div`
   display: flex;
@@ -197,10 +206,9 @@ const UploadText = styled.span`
 `;
 
 const ErrorMsg = styled.p`
+  margin-bottom: 0px;
   color: #c60000;
   font-size: 10px;
-  /* margin-left: -130px; */
-  margin-bottom: 0px;
 `;
 const LogLawBox = styled.div`
   display: flex;
@@ -209,46 +217,38 @@ const LogLawBox = styled.div`
   flex-direction: row;
 `;
 const LogInBtn = styled.button`
-  /* background: linear-gradient(78.32deg, #7b758b 41.41%, #ffffff 169.58%); */
-  /* background: #c4c2ca; */
+  margin-top: 15px;
+  border: 0px;
+  border-radius: 5px;
+  width: 300px;
+  height: 50px;
   background: #a8a6af;
-
-  /* font-family: "Roboto"; */
   font-family: "Noto Sans KR", sans-serif;
-
-  font-style: normal;
   font-weight: 700;
   font-size: 15px;
   line-height: 18px;
   text-align: center;
-  width: 300px;
-  height: 50px;
-  margin-top: 15px;
-  /* margin-right: 10px; */
-  border: 0px;
-  border-radius: 5px;
-  cursor: default;
+  cursor: pointer;
   color: white;
 `;
 
 const LogBox = styled.form`
   display: flex;
+  margin-top: 20px;
   align-items: center;
   justify-content: center;
   flex-direction: column;
-  margin-top: 20px;
   input {
+    margin: 10px;
+    padding-left: 10px;
     border-left-width: 0;
     border-right-width: 0;
     border-top-width: 0;
     border-bottom-width: 1;
-    background-color: #ffffff;
     border-bottom: 2px solid black;
-    /* border-radius: 15px; */
     height: 50px;
     width: 280px;
-    margin: 10px;
-    padding-left: 10px;
+    background-color: #ffffff;
     :focus {
       outline: none;
     }
@@ -262,36 +262,32 @@ const BtnBox = styled.div`
 `;
 
 const LogText = styled.p`
-  font-style: normal;
+  margin-top: 10px;
+  margin-bottom: 0px;
   font-weight: 400;
   font-size: 10px;
   line-height: 12px;
   color: #2d273f;
-  margin-top: 10px;
-  margin-bottom: 0px;
 `;
 
 const LawText = styled.p`
-  font-style: normal;
   font-weight: 400;
   font-size: 10px;
   line-height: 12px;
   color: #2d273f;
   margin-top: 10px;
   margin-bottom: 0px;
-
   cursor: default;
 `;
 
 const KakaoLogBtn = styled.div`
-  width: 300px;
-  height: 50px;
+  display: flex;
+  margin: 10px auto;
   border-radius: 5px;
   border: 0px;
-  margin: 10px auto;
-  background: ${(props) => (props.kakao ? "#F4E769" : "#C4C2CA")};
-  cursor: default;
-  display: flex;
+  width: 300px;
+  height: 50px;
+  background-color: #f4e769;
   align-items: center;
   justify-content: center;
   font-size: 15px;
@@ -305,14 +301,13 @@ const KakaoLogBtn = styled.div`
 `;
 
 const LogBtn = styled.div`
-  width: 140px;
-  height: 50px;
+  display: flex;
+  margin: 10px auto;
   border-radius: 5px;
   border: 1px solid gray;
-  margin: 10px auto;
-  background: ${(props) => (props.kakao ? "#F4E769" : "white")};
-  cursor: default;
-  display: flex;
+  width: 140px;
+  height: 50px;
+  background-color: #fff;
   align-items: center;
   justify-content: center;
   font-size: 15px;
@@ -330,13 +325,13 @@ const LogBtn = styled.div`
 `;
 
 const PwText = styled.p`
+  margin-top: 10px;
+  margin-bottom: 10px;
   font-style: normal;
   font-weight: 400;
   font-size: 10px;
   line-height: 12px;
   color: #2d273f;
-  margin-top: 10px;
-  margin-bottom: 10px;
 `;
 
 export default LoginForm;

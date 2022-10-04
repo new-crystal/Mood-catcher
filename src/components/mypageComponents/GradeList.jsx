@@ -1,8 +1,12 @@
-import { useEffect } from "react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
-import styled from "styled-components";
+
+//통신
+import { __getMyPageUser, __patchUser } from "../../redux/async/login";
+
+//이미지
 import man1 from "../../image/1man.png";
 import man2 from "../../image/2man.png";
 import man3 from "../../image/3man.png";
@@ -18,15 +22,20 @@ import woman2 from "../../image/girl2.png";
 import woman3 from "../../image/girl3.png";
 import woman4 from "../../image/girl4.png";
 import woman5 from "../../image/girl5.png";
-import { __getMyPageUser, __patchUser } from "../../redux/async/login";
 
 const GradeList = ({ setGradeList }) => {
   const dispatch = useDispatch();
-  const [moody, setMoody] = useState(false);
-  const [gender, setGender] = useState("moody");
   const { userId } = useParams();
   const user = useSelector((state) => state.login.myPageUser);
+  const [moody, setMoody] = useState(false);
+  const [gender, setGender] = useState("moody");
   const grade = user?.grade?.split(" ")[0];
+
+  //유저 정보 가져오기
+  useEffect(() => {
+    dispatch(__getMyPageUser(userId));
+    moodyStatus(grade);
+  }, [grade]);
 
   //유저의 성별 파악하기
   const moodyStatus = (grade) => {
@@ -43,12 +52,6 @@ const GradeList = ({ setGradeList }) => {
       setGender(grade);
     }
   };
-
-  //유저 정보 가져오기
-  useEffect(() => {
-    dispatch(__getMyPageUser(userId));
-    moodyStatus(grade);
-  }, [grade]);
 
   //유저의 프로필 아이콘 변경하기
   const onClickMoodyBtn = (e) => {
@@ -90,76 +93,24 @@ const GradeList = ({ setGradeList }) => {
         </TitleBox>
         <Grade>
           {moody === false && gender === "man" && (
-            <GradeImg style={{ backgroundImage: `url(${man1})` }}>
-              <img
-                src={`${man1}`}
-                alt=""
-                width="0"
-                height="0"
-                style={{ display: "none !important" }}
-              />
-            </GradeImg>
+            <GradeImg src={`${man1}`} alt="grade_img" />
           )}
           {moody === false && gender === "woman" && (
-            <GradeImg style={{ backgroundImage: `url(${woman1})` }}>
-              <img
-                src={`${woman1}`}
-                alt=""
-                width="0"
-                height="0"
-                style={{ display: "none !important" }}
-              />
-            </GradeImg>
+            <GradeImg src={`${woman1}`} alt="grade_img" />
           )}
-          {moody === true && (
-            <GradeImg style={{ backgroundImage: `url(${cat1})` }}>
-              <img
-                src={`${cat1}`}
-                alt=""
-                width="0"
-                height="0"
-                style={{ display: "none !important" }}
-              />
-            </GradeImg>
-          )}
+          {moody === true && <GradeImg src={`${cat1}`} alt="grade_img" />}
           <TextBox>
             <h4>티셔츠</h4>
           </TextBox>
         </Grade>
         <Grade>
           {moody === false && gender === "man" && (
-            <GradeImg style={{ backgroundImage: `url(${man2})` }}>
-              <img
-                src={`${man2}`}
-                alt=""
-                width="0"
-                height="0"
-                style={{ display: "none !important" }}
-              />
-            </GradeImg>
+            <GradeImg src={`${man2}`} alt="grade_img" />
           )}
           {moody === false && gender === "woman" && (
-            <GradeImg style={{ backgroundImage: `url(${woman2})` }}>
-              <img
-                src={`${woman2}`}
-                alt=""
-                width="0"
-                height="0"
-                style={{ display: "none !important" }}
-              />
-            </GradeImg>
+            <GradeImg src={`${woman2}`} alt="grade_img" />
           )}
-          {moody === true && (
-            <GradeImg style={{ backgroundImage: `url(${cat2})` }}>
-              <img
-                src={`${cat2}`}
-                alt=""
-                width="0"
-                height="0"
-                style={{ display: "none !important" }}
-              />
-            </GradeImg>
-          )}
+          {moody === true && <GradeImg src={`${cat2}`} alt="grade_img" />}
           <TextBox>
             <h4>와이셔츠</h4>
             <h6>(1000 무드 이상) </h6>
@@ -167,38 +118,12 @@ const GradeList = ({ setGradeList }) => {
         </Grade>
         <Grade>
           {moody === false && gender === "man" && (
-            <GradeImg style={{ backgroundImage: `url(${man3})` }}>
-              <img
-                src={`${man3}`}
-                alt=""
-                width="0"
-                height="0"
-                style={{ display: "none !important" }}
-              />
-            </GradeImg>
+            <GradeImg src={`${man3}`} alt="grade_img" />
           )}
           {moody === false && gender === "woman" && (
-            <GradeImg style={{ backgroundImage: `url(${woman3})` }}>
-              <img
-                src={`${woman3}`}
-                alt=""
-                width="0"
-                height="0"
-                style={{ display: "none !important" }}
-              />
-            </GradeImg>
+            <GradeImg src={`${woman3}`} alt="grade_img" />
           )}
-          {moody === true && (
-            <GradeImg style={{ backgroundImage: `url(${cat3})` }}>
-              <img
-                src={`${cat3}`}
-                alt=""
-                width="0"
-                height="0"
-                style={{ display: "none !important" }}
-              />
-            </GradeImg>
-          )}
+          {moody === true && <GradeImg src={`${cat3}`} alt="grade_img" />}
           <TextBox>
             <h4>넥타이</h4>
             <h6>(3000 무드 이상) </h6>
@@ -206,38 +131,12 @@ const GradeList = ({ setGradeList }) => {
         </Grade>
         <Grade>
           {moody === false && gender === "man" && (
-            <GradeImg style={{ backgroundImage: `url(${man4})` }}>
-              <img
-                src={`${man4}`}
-                alt=""
-                width="0"
-                height="0"
-                style={{ display: "none !important" }}
-              />
-            </GradeImg>
+            <GradeImg src={`${man4}`} alt="grade_img" />
           )}
           {moody === false && gender === "woman" && (
-            <GradeImg style={{ backgroundImage: `url(${woman4})` }}>
-              <img
-                src={`${woman4}`}
-                alt=""
-                width="0"
-                height="0"
-                style={{ display: "none !important" }}
-              />
-            </GradeImg>
+            <GradeImg src={`${woman4}`} alt="grade_img" />
           )}
-          {moody === true && (
-            <GradeImg style={{ backgroundImage: `url(${cat4})` }}>
-              <img
-                src={`${cat4}`}
-                alt=""
-                width="0"
-                height="0"
-                style={{ display: "none !important" }}
-              />
-            </GradeImg>
-          )}
+          {moody === true && <GradeImg src={`${cat4}`} alt="grade_img" />}
           <TextBox>
             <h4>조끼</h4>
             <h6>(6000 무드 이상)</h6>
@@ -245,38 +144,12 @@ const GradeList = ({ setGradeList }) => {
         </Grade>
         <Grade>
           {moody === false && gender === "man" && (
-            <GradeImg style={{ backgroundImage: `url(${man5})` }}>
-              <img
-                src={`${man5}`}
-                alt=""
-                width="0"
-                height="0"
-                style={{ display: "none !important" }}
-              />
-            </GradeImg>
+            <GradeImg src={`${man5}`} alt="grade_img" />
           )}
           {moody === false && gender === "woman" && (
-            <GradeImg style={{ backgroundImage: `url(${woman5})` }}>
-              <img
-                src={`${woman5}`}
-                alt=""
-                width="0"
-                height="0"
-                style={{ display: "none !important" }}
-              />
-            </GradeImg>
+            <GradeImg src={`${woman5}`} alt="grade_img" />
           )}
-          {moody === true && (
-            <GradeImg style={{ backgroundImage: `url(${cat5})` }}>
-              <img
-                src={`${cat5}`}
-                alt=""
-                width="0"
-                height="0"
-                style={{ display: "none !important" }}
-              />
-            </GradeImg>
-          )}
+          {moody === true && <GradeImg src={`${cat5}`} alt="grade_img" />}
           <TextBox>
             <h4>자켓</h4>
             <h6>(10000 무드 이상)</h6>
@@ -295,19 +168,19 @@ const GradeList = ({ setGradeList }) => {
 };
 
 const ListBox = styled.div`
+  position: fixed;
+  left: 50%;
+  top: 20%;
+  display: flex;
+  border: 10px solid #ddd;
+  border-radius: 20px;
   width: 300px;
   height: 350px;
   background-color: white;
-  border: 10px solid #ddd;
-  border-radius: 20px;
-  display: flex;
   align-items: center;
   justify-content: center;
   flex-direction: column;
   z-index: 222;
-  position: fixed;
-  left: 50%;
-  top: 20%;
   transform: translate(-50%, 0);
 
   h3 {
@@ -316,44 +189,44 @@ const ListBox = styled.div`
   }
 `;
 const TitleBox = styled.div`
-  width: 270px;
   display: flex;
+  width: 270px;
   align-items: baseline;
   justify-content: space-between;
   flex-direction: row;
 `;
 const MudiBtn = styled.button`
+  margin-left: 170px;
+  border: 0px;
   width: 170px;
   height: 20px;
   background-color: rgba(0, 0, 0, 0);
   font-weight: 700;
   font-size: 14px;
   color: #3f3c47;
-  border: 0px;
-  margin-left: 170px;
 `;
 const ConfirmBtn = styled.button`
+  border: 0px;
   width: 40px;
   height: 20px;
   background-color: white;
   color: #7b758b;
-  border: 0px;
 `;
 const Grade = styled.div`
+  display: flex;
+  margin: 5px;
+  border-radius: 10px;
   width: 280px;
   height: 50px;
   background-color: #ddd;
-  display: flex;
   align-items: center;
   justify-content: baseline;
   flex-direction: row;
-  margin: 5px;
-  border-radius: 10px;
 `;
 const TextBox = styled.div`
   display: flex;
-  flex-direction: column;
   margin-left: -20px;
+  flex-direction: column;
 
   h4 {
     margin: 0px;
@@ -365,14 +238,11 @@ const TextBox = styled.div`
     font-size: small;
   }
 `;
-const GradeImg = styled.div`
+const GradeImg = styled.img`
+  margin-left: 10px;
+  margin-right: 30px;
   width: 45px;
   height: 45px;
-  background-position: center;
-  background-size: cover;
-  /* background-image: url(${(props) => props.url}); */
-  margin-right: 30px;
-  margin-left: 10px;
 `;
 const Shadow = styled.div`
   position: fixed;

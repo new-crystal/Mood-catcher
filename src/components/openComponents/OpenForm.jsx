@@ -1,9 +1,13 @@
 import { Fragment, useEffect } from "react";
+import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import styled from "styled-components";
-import openCloset from "../../image/6565656.png";
+
+//통신
 import { __getOpen } from "../../redux/async/signup";
+
+//이미지
+import openCloset from "../../image/6565656.png";
 
 const OpenForm = () => {
   const dispatch = useDispatch();
@@ -15,32 +19,17 @@ const OpenForm = () => {
     dispatch(__getOpen());
   }, []);
 
+  //3초 뒤에 메인으로 보내기
   useEffect(() => {
-    if (window.location.search === "") {
-      const token = localStorage.getItem("token");
-      if (token !== undefined) {
-        setTimeout(() => {
-          navigate("/main");
-        }, 3000);
-      }
-      if (token === undefined) {
-        setTimeout(() => {
-          navigate("/login");
-        }, 3000);
-      }
-    }
+    setTimeout(() => {
+      navigate("/main");
+    }, 3000);
   }, []);
 
   return (
     <Fragment>
-      <OpenBox style={{ backgroundImage: `url(${openCloset})` }}>
-        <img
-          src={`${openCloset}`}
-          alt=""
-          width="0"
-          height="0"
-          style={{ display: "none !important" }}
-        />
+      <OpenBox>
+        <OpenImg src={`${openCloset}`} alt="open" />
         <TextBox>
           <h4>{startMsg}</h4>
         </TextBox>
@@ -50,33 +39,38 @@ const OpenForm = () => {
 };
 
 const OpenBox = styled.div`
+  position: relative;
+  width: auto;
+`;
+
+const OpenImg = styled.img`
   width: 100%;
   height: 100vh;
   background-position: center;
   background-size: cover;
-  /* background-image: url(${openCloset}); */
   text-align: center;
   align-items: center;
   justify-content: center;
   transition: none;
-
-  h4 {
-    margin-top: 0px;
-    color: #dfd9e3;
-    font-style: normal;
-    font-weight: 700;
-    font-size: 20px;
-    position: relative;
-    top: 190px;
-  }
 `;
 
 const TextBox = styled.div`
-  width: 370px;
+  position: absolute;
+  top: -3%;
+  left: 10%;
   display: flex;
+  margin: 0px auto;
+  width: 370px;
   align-items: center;
   justify-content: center;
-  margin: 0px auto;
+  h4 {
+    position: relative;
+    top: 190px;
+    margin-top: 0px;
+    color: #dfd9e3;
+    font-weight: 700;
+    font-size: 20px;
+  }
 `;
 
 export default OpenForm;

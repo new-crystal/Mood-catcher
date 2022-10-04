@@ -1,8 +1,13 @@
-import styled from "styled-components";
 import { useState, useEffect } from "react";
-import { useForm } from "react-hook-form";
+import styled from "styled-components";
 import { FormControl, InputLabel, Select, MenuItem } from "@material-ui/core";
+import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import jwt_decode from "jwt-decode";
+import Swal from "sweetalert2";
+
+//통신
 import {
   __delUser,
   __editProfile,
@@ -12,17 +17,14 @@ import {
   __getMyPageUser,
 } from "../../redux/async/login";
 import { changeNickname } from "../../redux/modules/loginSlice";
-import { useNavigate } from "react-router-dom";
-import jwt_decode from "jwt-decode";
-import Swal from "sweetalert2";
 
 const EditProfileForm = () => {
-  const navigate = useNavigate();
   const dispatch = useDispatch();
-  const [editNickname, setEditNickname] = useState(false);
-  const [original, setOriginal] = useState(false);
+  const navigate = useNavigate();
   const checkNickname = useSelector((state) => state.login.checkNickname);
   const users = useSelector((state) => state.login.myPageUser);
+  const [editNickname, setEditNickname] = useState(false);
+  const [original, setOriginal] = useState(false);
   const [gender, setGender] = useState(users?.gender);
   const [age, setAge] = useState(users?.age);
   const [image, setImage] = useState({
@@ -30,10 +32,10 @@ const EditProfileForm = () => {
     preview_URL:
       "https://cdn.discordapp.com/attachments/1014169130045292625/1014194232250077264/Artboard_1.png",
   });
+  const [edit, setEdit] = useState(false);
   const token = localStorage.getItem("token");
   const payload = jwt_decode(token);
   const userId = payload.userId;
-  const [edit, setEdit] = useState(false);
 
   //토큰이 없는 상태일 경우 로그인 페이지로 이동
   useEffect(() => {
@@ -50,6 +52,13 @@ const EditProfileForm = () => {
     }
   }, []);
 
+  //닉네임 중복확인을 눌렀을 때
+  useEffect(() => {
+    if (checkNickname === true) {
+      setError("nickname", { message: "사용 가능한 닉네임입니다." });
+    }
+  }, [checkNickname]);
+
   //react-hook-form사용
   const {
     register,
@@ -61,13 +70,6 @@ const EditProfileForm = () => {
   } = useForm({ criteriaMode: "all", mode: "onChange" });
 
   let inputRef;
-
-  //닉네임 중복확인을 눌렀을 때
-  useEffect(() => {
-    if (checkNickname === true) {
-      setError("nickname", { message: "사용 가능한 닉네임입니다." });
-    }
-  }, [checkNickname]);
 
   //수정된 성별 담기
   const handleChange = (event) => {
@@ -336,15 +338,7 @@ const EditProfileForm = () => {
       <ProfileBox>
         <h3>프로필 설정</h3>
       </ProfileBox>
-      <Img style={{ backgroundImage: `url(${image.preview_URL})` }}>
-        <img
-          src={`${image.preview_URL}`}
-          alt=""
-          width="0"
-          height="0"
-          style={{ display: "none !important" }}
-        />
-      </Img>
+      <Img src={image.preview_URL} alt="profile_img" />
       <Wrapper>
         <h5 style={{ cursor: "pointer" }} onClick={() => setEdit(!edit)}>
           프로필 사진 수정하기 ▼
@@ -511,35 +505,35 @@ const EditProfileForm = () => {
 };
 
 const Container = styled.div`
-  width: 100%;
   margin: 0 auto;
-  text-align: center;
   padding-bottom: 60px;
+  width: 100%;
+  text-align: center;
 
   form {
     margin-top: 10px;
   }
 
   input {
-    background-color: #fff;
-    border: 2px solid grey;
-    border-radius: 7px;
-    height: 50px;
-    box-sizing: border-box;
-    width: 175px;
     margin: 20px auto 40px;
     padding-left: 5px;
+    border: 2px solid grey;
+    border-radius: 7px;
+    width: 175px;
+    height: 50px;
+    background-color: #fff;
+    box-sizing: border-box;
     :focus {
       outline: none;
     }
   }
 `;
 const ErrMsg = styled.p`
+  margin-top: 20px;
+  margin-left: 10px;
+  margin-bottom: -50px;
   color: #c60000;
   font-size: 10px;
-  margin-top: 20px;
-  margin-bottom: -50px;
-  margin-left: 10px;
   text-align: left;
 `;
 const Wrapper = styled.div`
@@ -548,17 +542,15 @@ const Wrapper = styled.div`
   justify-content: center;
   flex-direction: column;
   h4 {
-    font-family: "Noto Sans KR", sans-serif;
-    font-style: normal;
     font-weight: 700;
     font-size: 20px;
   }
 `;
 
 const StNicknameBox = styled.div`
-  width: 375px;
   display: flex;
   margin: 0 auto;
+  width: 375px;
   flex-direction: column;
 `;
 const NickBox = styled.div`
@@ -575,8 +567,6 @@ const ProfileBox = styled.div`
   h3 {
     margin: 20px 0px 0px 20px;
     color: #2d273f;
-    font-family: "Noto Sans KR", sans-serif;
-    font-style: normal;
     font-weight: 700;
     font-size: 20px;
   }
@@ -589,67 +579,63 @@ const ProfileBox = styled.div`
     font-size: 20px;
   }
   p {
-    color: #c60000;
-    font-size: 10px;
     margin-left: 20px;
     margin-bottom: 0px;
+    color: #c60000;
+    font-size: 10px;
   }
 `;
 
-const Img = styled.div`
+const Img = styled.img`
+  margin: 20px auto;
+  border-radius: 50%;
   width: 107px;
   height: 107px;
-  border-radius: 50%;
-  margin: 20px auto;
-  background-position: center;
-  background-size: cover;
-  /* background-image: url(${(props) => props.url}); */
 `;
 const EditBox = styled.div`
-  margin-top: 7px;
   display: flex;
+  margin-top: 7px;
+  border: 2px solid #e6e5ea;
+  border-radius: 10px;
+  height: 67px;
   background-color: #fff;
   align-items: center;
   justify-content: center;
   flex-direction: column;
-  border: 2px solid #e6e5ea;
-  border-radius: 10px;
-  height: 67px;
 `;
 const ChangeProfile = styled.button`
+  margin-top: 10px;
+  border: 0px;
   background-color: rgba(0, 0, 0, 0);
   text-align: center;
-  border: 0px;
   color: #6a6578;
-  margin-top: 10px;
   font-family: "Roboto";
   font-style: normal;
   font-weight: 700;
   font-size: 12px;
-  margin-top: 0px;
 `;
+
 const BasicBtn = styled.button`
+  margin: 10px auto 0px auto;
+  border: 0px;
   background-color: transparent;
   font-family: "Roboto";
   font-style: normal;
   font-weight: 700;
-  color: #6a6578;
   font-size: 12px;
-  margin: 10px auto 0px auto;
-  border: 0px;
+  color: #6a6578;
 `;
 const NicknameInput = styled.input`
   margin-top: 10px;
 `;
 const EditNicknameBtn = styled.button`
-  background: #a8a6af;
   border: 0px;
+  border-radius: 5px;
   width: 375px;
   height: 50px;
-  border-radius: 5px;
+  background: #a8a6af;
   color: white;
   font-family: "Noto Sans KR", sans-serif;
-  font-style: normal;
   font-weight: 700;
   font-size: 16px;
   margin: 10px auto 10px;
@@ -662,10 +648,9 @@ const EditNicknameBtn = styled.button`
   }
 `;
 const GenderAgeBox = styled.div`
-  width: 375px;
-  margin: 0 auto 10px;
-  /* padding: 15px; */
   display: flex;
+  margin: 0 auto 10px;
+  width: 375px;
   justify-content: space-between;
   .gender {
     width: 180px;
@@ -675,18 +660,16 @@ const GenderAgeBox = styled.div`
   }
 `;
 const CheckBtn = styled.button`
-  background: #a8a6af;
+  margin: 20px auto 0 auto;
+  border-radius: 5px;
   border: 0px;
   width: 175px;
   height: 50px;
-  margin: 0 auto;
-  border-radius: 5px;
+  background: #a8a6af;
   color: white;
   font-family: "Noto Sans KR", sans-serif;
-  font-style: normal;
   font-weight: 700;
   font-size: 16px;
-  margin-top: 20px;
   cursor: default;
   p {
     color: white;
@@ -699,17 +682,16 @@ const CheckBtn = styled.button`
 const LogOut = styled.div`
   flex-direction: row;
   button {
-    background: #a8a6af;
+    margin-top: 20px;
     border: 0px;
     width: 300px;
     height: 50px;
     border-radius: 5px;
+    background: #a8a6af;
     color: white;
     font-family: "Noto Sans KR", sans-serif;
-    font-style: normal;
     font-weight: 700;
     font-size: 16px;
-    margin-top: 20px;
 
     p {
       color: white;
@@ -721,17 +703,16 @@ const LogOut = styled.div`
 `;
 
 const ChangeBtn = styled.button`
-  background: #a8a6af;
+  margin: 10px auto 10px;
   border: 0px;
+  border-radius: 5px;
   width: 375px;
   height: 50px;
-  border-radius: 5px;
+  background: #a8a6af;
   color: white;
   font-family: "Noto Sans KR", sans-serif;
-  font-style: normal;
   font-weight: 700;
   font-size: 16px;
-  margin: 10px auto 10px;
   cursor: default;
   p {
     color: white;

@@ -37,15 +37,13 @@ const Container = styled.div`
 `;
 
 const Grid = styled.div`
+  margin: 60px auto 70px auto;
   max-width: 428px;
   width: 100vw;
-  margin: 0 auto;
-  margin-top: 60px;
-  margin-bottom: 70px;
 `;
 
 const LoginWrap = styled.div`
-  width: 100%;
   display: flex;
+  width: 100%;
   flex-direction: column;
 `;

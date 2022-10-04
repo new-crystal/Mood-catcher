@@ -1,24 +1,32 @@
+import { useEffect, useState } from "react";
 import styled from "styled-components";
-import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
+import { useForm } from "react-hook-form";
+import bcrypt from "bcryptjs";
+
+//통신
 import {
   __postAuthNum,
   __postEmailNum,
   __putPassword,
 } from "../../redux/async/signup";
 import { changeEmail } from "../../redux/modules/signUpSlice";
-import { useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
-import bcrypt from "bcryptjs";
 
 const EditPasswordForm = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const checkEmail = useSelector((state) => state.signup.checkEmail); //이메일 중복체크/인증번호전송
+  const authNum = useSelector((state) => state.signup.checkAuthNum); //인증번호 확인
   const [newPw, setNewPw] = useState(false);
   const salt = bcrypt.genSaltSync(10);
 
-  const checkEmail = useSelector((state) => state.signup.checkEmail);
-  const authNum = useSelector((state) => state.signup.checkAuthNum);
+  //인증번호 발송 성공!
+  useEffect(() => {
+    if (checkEmail) {
+      setError("email", { message: "이메일 인증번호 발송에 성공했습니다" });
+    }
+  }, [checkEmail, authNum]);
 
   //react-hook-form에서 불러오기
   const {
@@ -42,13 +50,6 @@ const EditPasswordForm = () => {
       );
     }
   };
-
-  //인증번호 발송 성공!
-  useEffect(() => {
-    if (checkEmail) {
-      setError("email", { message: "이메일 인증번호 발송에 성공했습니다" });
-    }
-  }, [checkEmail, authNum]);
 
   //이메일이 바뀐 값 디스패치하기
   const onChangeEmail = () => {
@@ -92,7 +93,6 @@ const EditPasswordForm = () => {
     } else {
       ///비밀번호 암호화
       const key = getValues("password");
-
       const ciphertext = bcrypt.hashSync(key, "$2a$10$CwTycUXWue0Thq9StjUM0u");
 
       //비밀번호 값과 비밀번호 확인 값이 같을 때만
@@ -105,7 +105,7 @@ const EditPasswordForm = () => {
         const authNum = getValues("sendEmail");
 
         dispatch(__putPassword({ email, authNum, password, confirmPw })).then(
-          navigate("/")
+          navigate("/main")
         );
       }
       if (data.password !== data.confirmPw) {
@@ -251,66 +251,63 @@ const EditPasswordForm = () => {
 };
 
 const EditPwWrap = styled.div`
+  display: flex;
   width: 100%;
   background-color: #ffffff;
-  display: flex;
   flex-direction: column;
   text-align: center;
 `;
 
 const Container = styled.form`
-  margin: 0 auto;
-
   display: flex;
+  margin: 0 auto;
   align-items: baseline;
   justify-content: left;
   flex-direction: column;
 
   .email {
-    width: 183px;
     border-left-width: 0;
     border-right-width: 0;
     border-top-width: 0;
     border-bottom-width: 1;
-    background-color: #ffffff;
     border-bottom: 2px solid black;
+    width: 183px;
+    background-color: #ffffff;
   }
   input {
-    height: 24px;
-    width: 300px;
     padding-left: 5px;
     border-left-width: 0;
     border-right-width: 0;
     border-top-width: 0;
     border-bottom-width: 1;
-    background-color: #ffffff;
     border-bottom: 2px solid black;
+    width: 300px;
+    height: 24px;
+    background-color: #ffffff;
     :focus {
       outline: none;
     }
     ::placeholder {
-      /* color: black; */
       font-size: 0.6em;
       font-weight: 400;
       opacity: 1; /* Firefox */
     }
   }
   input.new {
-    height: 24px;
-    width: 300px;
+    margin-top: 10px;
     padding-left: 5px;
     border-left-width: 0;
     border-right-width: 0;
     border-top-width: 0;
     border-bottom-width: 1;
-    background-color: #ffffff;
     border-bottom: 2px solid black;
-    margin-top: 10px;
+    width: 300px;
+    height: 24px;
+    background-color: #ffffff;
     :focus {
       outline: none;
     }
     ::placeholder {
-      /* color: black; */
       font-size: 0.6em;
       font-weight: 400;
       opacity: 1; /* Firefox */
@@ -319,22 +316,22 @@ const Container = styled.form`
 `;
 
 const FormCantainer = styled.div`
-  width: 300px;
   display: flex;
+  margin: 50px auto 0px;
+  width: 300px;
   align-items: center;
   justify-content: left;
   align-items: baseline;
   flex-direction: column;
-  margin: 50px auto 0px;
 `;
 
 const SignUpBox = styled.div`
+  display: flex;
+  margin: 0 auto;
   border-bottom: 3px solid #fff;
   width: 211px;
-  margin: 0 auto;
   color: #2d273f;
   text-align: center;
-  display: flex;
   align-items: center;
   justify-content: center;
   flex-direction: column;
@@ -343,7 +340,6 @@ const SignUpBox = styled.div`
     margin: 70px auto 0;
     margin-bottom: 0px;
     font-family: "Unna";
-    font-style: normal;
     font-weight: 700;
     font-size: 60px;
     line-height: 69px;
@@ -358,8 +354,6 @@ const TextBox = styled.div`
   h4 {
     margin-bottom: 0px;
     color: #2d273f;
-    /* font-family: "Roboto"; */
-    font-style: normal;
     font-weight: 700;
     font-size: 20px;
   }
@@ -379,61 +373,51 @@ const PwTextBox = styled.div`
     margin-top: 20px;
     margin-bottom: 7px;
     color: #2d273f;
-    /* font-family: "Roboto"; */
     font-style: normal;
     font-weight: 700;
     font-size: 20px;
   }
   p {
-    color: #c60000;
-    font-size: 10px;
     margin-left: 20px;
     margin-bottom: 0px;
+    color: #c60000;
+    font-size: 10px;
   }
 `;
 
 const ConfirmBtn = styled.button`
-  /* background: linear-gradient(78.32deg, #7b758b 41.41%, #ffffff 169.58%); */
-  background: #a8a6af;
+  margin-left: 20px;
+  border-radius: 5px;
   border: 0px;
   width: 90px;
   height: 40px;
+  background: #a8a6af;
   color: white;
-  border-radius: 5px;
-  /* margin: 5px auto; */
-  margin-left: 20px;
-  /* font-family: "Roboto"; */
   font-family: "Noto Sans KR", sans-serif;
-  font-style: normal;
-  /* font-weight: 700; */
   cursor: default;
   p {
+    margin: 0 auto;
     color: white;
-    /* font-family: "Roboto"; */
     text-decoration: none;
     font-weight: bold;
     font-size: 15px;
-    margin: 0 auto;
   }
 `;
 
 const OkBtn = styled.button`
-  /* background: linear-gradient(78.32deg, #7b758b 41.41%, #ffffff 169.58%); */
-  background: #a8a6af;
+  margin-top: 20px;
   border: 0px;
+  border-radius: 5px;
   width: 300px;
   height: 50px;
-  border-radius: 5px;
   color: white;
+  background: #a8a6af;
   font-family: "Noto Sans KR", sans-serif;
-  font-style: normal;
   font-weight: 700;
   font-size: 16px;
-  margin-top: 20px;
   cursor: default;
   p {
     color: white;
-    /* font-family: "Roboto"; */
     text-decoration: none;
     font-weight: bold;
     font-size: 15px;

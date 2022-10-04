@@ -36,7 +36,6 @@ const MoodPoint = ({ setMoodPoint }) => {
               <h6>남기기 30무드/받기30무드 </h6>
             </TextBox>
           </Grade>
-
           <Grade>
             <TextBox>
               <h4>무드 보내기/받기</h4>
@@ -57,24 +56,24 @@ const MoodPoint = ({ setMoodPoint }) => {
 
 const Shadow = styled.div`
   position: fixed;
+  top: 0;
+  left: 0;
   width: 100vw;
   height: 100vh;
-  left: 0;
-  top: 0;
   background-color: rgba(0, 0, 0, 0.5);
   z-index: 22;
 `;
 
 const ListBox = styled.div`
   position: fixed;
-  left: 50%;
   top: 20%;
+  left: 50%;
+  display: flex;
+  border: 10px solid #ddd;
+  border-radius: 20px;
   width: 300px;
   height: 350px;
   background-color: white;
-  border: 10px solid #ddd;
-  border-radius: 20px;
-  display: flex;
   align-items: center;
   justify-content: center;
   flex-direction: column;
@@ -98,27 +97,27 @@ const TitleBox = styled.div`
 `;
 
 const ConfirmBtn = styled.button`
+  margin-right: -30px;
+  border: 0px;
   width: 40px;
   height: 20px;
   background-color: white;
   color: #7b758b;
-  border: 0px;
-  margin-right: -30px;
 `;
 const Grade = styled.div`
+  display: flex;
+  margin: 5px;
+  border-radius: 10px;
   width: 280px;
   height: 50px;
   background-color: #ddd;
-  display: flex;
   align-items: center;
   justify-content: baseline;
   flex-direction: row;
-  margin: 5px;
-  border-radius: 10px;
 `;
 const TextBox = styled.div`
-  margin-left: 20px;
   display: flex;
+  margin-left: 20px;
   flex-direction: column;
 
   h4 {
