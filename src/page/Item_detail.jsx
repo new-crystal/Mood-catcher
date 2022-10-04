@@ -5,6 +5,7 @@ import NavigationBar from "../elem/NavigationBar";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { __addComment, __getComments } from "../redux/async/comment";
+import { deleteAllPosts } from "../redux/modules/rankSlice";
 import {
   __getDetail,
   __editRepresentative,
@@ -134,7 +135,9 @@ const Item_detail = (props) => {
       cancelButtonText: "취소",
     }).then((result) => {
       if (result.isConfirmed) {
-        dispatch(__deletePost(postId)).then(navigate("/main"));
+        dispatch(__deletePost(postId))
+          .then(dispatch(deleteAllPosts(postId)))
+          .then(navigate("/main"));
         Swal.fire(
           "삭제 완료",
           "캐처님의 게시물 삭제에 성공했습니다.",
@@ -340,7 +343,6 @@ const Item_detail = (props) => {
                 key={idx}
                 click={click}
                 onClick={() => {
-                  console.log(item.url);
                   if (item.url === null) {
                     Swal.fire({
                       icon: "info",

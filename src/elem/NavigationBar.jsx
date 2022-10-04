@@ -15,6 +15,7 @@ const heart = "/images/heart.png";
 const NavigationBar = (props) => {
   const token = localStorage.getItem("token");
   const { userId } = jwt(token);
+  console.log(userId);
   const navigate = useNavigate();
   const [main, setMain] = useState(false);
   const [searching, setSearching] = useState(false);
@@ -41,7 +42,10 @@ const NavigationBar = (props) => {
     if (window.location.pathname.split("/")[1] === "like") {
       setLike(true);
     }
-    if (window.location.pathname.split("/")[1] === "mypage") {
+    if (
+      window.location.pathname.split("/")[1] === "mypage" &&
+      window.location.pathname.split("/")[2] * 1 === userId * 1
+    ) {
       setMyPage(true);
     }
   }, []);
@@ -52,7 +56,6 @@ const NavigationBar = (props) => {
         <SearchWrap
           onClick={() => {
             navigate("/main");
-            //window.location.reload();
           }}
         >
           {main ? <Navigate></Navigate> : null}
@@ -77,7 +80,6 @@ const NavigationBar = (props) => {
         <SearchWrap
           onClick={() => {
             navigate(`/like/${userId}`);
-            //window.location.reload();
           }}
         >
           {like ? <Navigate></Navigate> : null}

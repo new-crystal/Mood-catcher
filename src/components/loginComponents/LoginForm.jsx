@@ -23,7 +23,7 @@ const LoginForm = () => {
   //로그인 한 경우
   useEffect(() => {
     const token = localStorage.getItem("token");
-    console.log(token);
+
     if (token !== null) {
       navigate("/main");
     }

@@ -45,6 +45,7 @@ const searchSlice = createSlice({
       })
       .addCase(__getSearchResult.rejected, (state, action) => {
         state.resultPostLast = "lastPage";
+        state.searchResult = [];
         state.isFetching = false;
         state.errorMessage = action.errorMessage;
         state.isSearchResult = false;
