@@ -44,26 +44,68 @@ const DetailRecomments = ({ commentData, btnState, postId }) => {
         <h3>댓글</h3>
         <CommentDataBox>
           <CommentImg
-            url={
-              commentData.imgUrl === undefined ||
-              commentData.imgUrl.slice(-4) === "null"
-                ? preview_URL
-                : commentData?.imgUrl
-            }
-          ></CommentImg>
+            // url={
+            //   userStatus.imgUrl === undefined ||
+            //   userStatus.imgUrl.slice(-4) === "null"
+            //     ? preview_URL
+            //     : userStatus?.imgUrl
+            // }
+            style={{
+              backgroundImage: `url(${
+                userStatus.imgUrl === undefined ||
+                userStatus.imgUrl.slice(-4) === "null"
+                  ? preview_URL
+                  : userStatus?.imgUrl
+              })`,
+            }}
+          >
+            <img
+              src={`${
+                userStatus.imgUrl === undefined ||
+                userStatus.imgUrl.slice(-4) === "null"
+                  ? preview_URL
+                  : userStatus?.imgUrl
+              }`}
+              alt=""
+              width="0"
+              height="0"
+              style={{ display: "none !important" }}
+            />
+          </CommentImg>
           <WrapCommentData>
             <textarea value={commentData.content}></textarea>
           </WrapCommentData>
         </CommentDataBox>
         <CommentBox>
           <CommentImg
-            url={
-              userStatus.imgUrl === undefined ||
-              userStatus.imgUrl.slice(-4) === "null"
-                ? preview_URL
-                : userStatus?.imgUrl
-            }
-          ></CommentImg>
+            // url={
+            //   userStatus.imgUrl === undefined ||
+            //   userStatus.imgUrl.slice(-4) === "null"
+            //     ? preview_URL
+            //     : userStatus?.imgUrl
+            // }
+            style={{
+              backgroundImage: `url(${
+                userStatus.imgUrl === undefined ||
+                userStatus.imgUrl.slice(-4) === "null"
+                  ? preview_URL
+                  : userStatus?.imgUrl
+              })`,
+            }}
+          >
+            <img
+              src={`${
+                userStatus.imgUrl === undefined ||
+                userStatus.imgUrl.slice(-4) === "null"
+                  ? preview_URL
+                  : userStatus?.imgUrl
+              }`}
+              alt=""
+              width="0"
+              height="0"
+              style={{ display: "none !important" }}
+            />
+          </CommentImg>
           <WrapComment>
             <textarea
               placeholder="댓글을 작성해주세요."
@@ -71,7 +113,18 @@ const DetailRecomments = ({ commentData, btnState, postId }) => {
               maxLength={50}
             />
           </WrapComment>
-          <AddCommentButton onClick={addRecomment}></AddCommentButton>
+          <AddCommentButton
+            onClick={addRecomment}
+            style={{ backgroundImage: `url(${send})` }}
+          >
+            <img
+              src={`${send}`}
+              alt=""
+              width="0"
+              height="0"
+              style={{ display: "none !important" }}
+            />
+          </AddCommentButton>
         </CommentBox>
         {/* <Line /> */}
         <ReCommentListBox>
@@ -178,7 +231,7 @@ const CommentImg = styled.div`
   border-radius: 50%;
   background-position: center;
   background-size: cover;
-  background-image: url(${(props) => props.url});
+  /* background-image: url(${(props) => props.url}); */
   box-shadow: 5px 5px 4px #877f92;
 `;
 
@@ -272,7 +325,7 @@ const AddCommentButton = styled.div`
   background-position: center;
   background-size: cover;
   background-repeat: no-repeat;
-  background-image: url(${send});
+  /* background-image: url(${send}); */
   /* background-color: #7b758b; */
   border-radius: 10px;
   border: none;

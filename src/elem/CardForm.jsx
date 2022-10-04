@@ -86,14 +86,30 @@ const CardForm = (item) => {
           <HeartBox>
             {likeStatus ? (
               <Heart
-                url={`${heartTrue}`}
+                style={{ backgroundImage: `url(${heartTrue})` }}
                 onClick={(e) => onClickMoodCancelBtn(e)}
-              ></Heart>
+              >
+                <img
+                  src={`${heartTrue}`}
+                  alt=""
+                  width="0"
+                  height="0"
+                  style={{ display: "none !important" }}
+                />
+              </Heart>
             ) : (
               <Heart
-                url={`${heart}`}
+                style={{ backgroundImage: `url(${heart})` }}
                 onClick={(e) => onClickMoodBtn(e)}
-              ></Heart>
+              >
+                <img
+                  src={`${heart}`}
+                  alt=""
+                  width="0"
+                  height="0"
+                  style={{ display: "none !important" }}
+                />
+              </Heart>
             )}
 
             <p>{moodNum}</p>
@@ -163,7 +179,7 @@ const Heart = styled.div`
   height: 20px;
   background-position: center;
   background-size: cover;
-  background-image: url(${(props) => props.url});
+  /* background-image: url(${(props) => props.url}); */
   cursor: pointer;
 `;
 const RankText = styled.h4`

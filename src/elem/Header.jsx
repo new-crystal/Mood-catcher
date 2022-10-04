@@ -113,7 +113,15 @@ const Header = () => {
               <a href="/kakao">
                 <Star
                   style={{ backgroundImage: `url(${Map})`, cursor: "pointer" }}
-                />
+                >
+                  <img
+                    src={`${Map}`}
+                    alt=""
+                    width="0"
+                    height="0"
+                    style={{ display: "none !important" }}
+                  />
+                </Star>
               </a>
             </>
           )}
@@ -186,24 +194,53 @@ const Header = () => {
             !settings &&
             (users?.isExistsNotice === 0 ? (
               <Notifications
-                url={`${Notification}`}
-                style={{ opacity: "60%", cursor: "pointer" }}
+                style={{
+                  opacity: "60%",
+                  cursor: "pointer",
+                  backgroundImage: `url(${Notification})`,
+                }}
                 onClick={() => navigate(`/alarm/${users.userId}`)}
-              ></Notifications>
+              >
+                <img
+                  src={`${Notification}`}
+                  alt=""
+                  width="0"
+                  height="0"
+                  style={{ display: "none !important" }}
+                />
+              </Notifications>
             ) : (
               <Notifications
-                url={`${NotificationTrue}`}
-                style={{ opacity: "60%", cursor: "pointer" }}
+                style={{
+                  opacity: "60%",
+                  cursor: "pointer",
+                  backgroundImage: `url(${NotificationTrue})`,
+                }}
                 onClick={() => navigate(`/alarm/${users.userId}`)}
-              ></Notifications>
+              >
+                <img
+                  src={`${NotificationTrue}`}
+                  alt=""
+                  width="0"
+                  height="0"
+                  style={{ display: "none !important" }}
+                />
+              </Notifications>
             ))}
           {/* 알람표시가 아닌 프로필 설정이 필요할 때 */}
           {settings && (
             <Notifications
-              url={`${Setting}`}
-              style={{ cursor: "pointer" }}
+              style={{ cursor: "pointer", backgroundImage: `url(${Setting})` }}
               onClick={() => navigate("/edit_profile")}
-            ></Notifications>
+            >
+              <img
+                src={`${Setting}`}
+                alt=""
+                width="0"
+                height="0"
+                style={{ display: "none !important" }}
+              />
+            </Notifications>
           )}
 
           {/* <Star
@@ -226,7 +263,7 @@ const Star = styled.div`
   background-color: rgba(0, 0, 0, 0);
   background-position: center;
   background-size: cover;
-  background-image: url(${(props) => props.url});
+  /* background-image: url(${(props) => props.url}); */
   z-index: 20;
   opacity: 60%;
 `;
@@ -294,6 +331,6 @@ const Notifications = styled.div`
   background-color: rgba(0, 0, 0, 0);
   background-position: center;
   background-size: cover;
-  background-image: url(${(props) => props.url});
+  /* background-image: url(${(props) => props.url}); */
   z-index: 20;
 `;

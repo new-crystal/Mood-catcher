@@ -78,12 +78,31 @@ const DetailCommentList = (props) => {
             navigate(`/mypage/${item.userId}`);
             //window.location.reload();
           }}
-          url={
-            item.imgUrl === undefined || item.imgUrl.slice(-4) === "null"
-              ? preview_URL
-              : item?.imgUrl
-          }
-        ></CommentImg>
+          // url={
+          //   item.imgUrl === undefined || item.imgUrl.slice(-4) === "null"
+          //     ? preview_URL
+          //     : item?.imgUrl
+          // }
+          style={{
+            backgroundImage: `url(${
+              item.imgUrl === undefined || item.imgUrl.slice(-4) === "null"
+                ? preview_URL
+                : item?.imgUrl
+            })`,
+          }}
+        >
+          <img
+            src={`${
+              item.imgUrl === undefined || item.imgUrl.slice(-4) === "null"
+                ? preview_URL
+                : item?.imgUrl
+            }`}
+            alt=""
+            width="0"
+            height="0"
+            style={{ display: "none !important" }}
+          />
+        </CommentImg>
         <WrapComment
           onClick={() => {
             setRecommentState(true);
@@ -98,14 +117,30 @@ const DetailCommentList = (props) => {
           onClick={() => {
             setRecommentState(true);
           }}
+          style={{ backgroundImage: `url(${chat})` }}
         >
+          <img
+            src={`${chat}`}
+            alt=""
+            width="0"
+            height="0"
+            style={{ display: "none !important" }}
+          />
           <div>{item.recommentCount}</div>
         </R_Count>
 
         {payload.userId == item.userId ? (
           <DropdownContainer>
             <DropdownButton onClick={myPageHandler} ref={myPageRef}>
-              <StLoginList />
+              <StLoginList style={{ backgroundImage: `url(${more})` }}>
+                <img
+                  src={`${more}`}
+                  alt=""
+                  width="0"
+                  height="0"
+                  style={{ display: "none !important" }}
+                />
+              </StLoginList>
             </DropdownButton>
             <Menu isDropped={myPageIsOpen}>
               <Ul>
@@ -181,7 +216,7 @@ const R_Count = styled.div`
   font-size: 15px;
   /* margin-left: -10px; */
   /* align-items: center; */
-  background-image: url(${chat});
+  /* background-image: url(${chat}); */
   background-size: 30px;
   background-repeat: no-repeat;
   font-family: "Noto Sans KR", sans-serif;
@@ -251,7 +286,7 @@ const CommentImg = styled.div`
   border-radius: 50%;
   background-position: center;
   background-size: cover;
-  background-image: url(${(props) => props.url});
+  /* background-image: url(${(props) => props.url}); */
   box-shadow: 5px 5px 4px #877f92;
 `;
 
@@ -281,7 +316,7 @@ const DropdownButton = styled.div`
 `;
 
 const StLoginList = styled.div`
-  background-image: url(${more});
+  /* background-image: url(${more}); */
   width: 30px;
   height: 30px;
   /* margin-right: 50px; */

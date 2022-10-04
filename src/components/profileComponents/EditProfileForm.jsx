@@ -336,7 +336,15 @@ const EditProfileForm = () => {
       <ProfileBox>
         <h3>프로필 설정</h3>
       </ProfileBox>
-      <Img url={image.preview_URL}></Img>
+      <Img style={{ backgroundImage: `url(${image.preview_URL})` }}>
+        <img
+          src={`${image.preview_URL}`}
+          alt=""
+          width="0"
+          height="0"
+          style={{ display: "none !important" }}
+        />
+      </Img>
       <Wrapper>
         <h5 style={{ cursor: "pointer" }} onClick={() => setEdit(!edit)}>
           프로필 사진 수정하기 ▼
@@ -595,7 +603,7 @@ const Img = styled.div`
   margin: 20px auto;
   background-position: center;
   background-size: cover;
-  background-image: url(${(props) => props.url});
+  /* background-image: url(${(props) => props.url}); */
 `;
 const EditBox = styled.div`
   margin-top: 7px;
