@@ -340,7 +340,6 @@ const Item_detail = (props) => {
                 key={idx}
                 click={click}
                 onClick={() => {
-                  console.log(item.url);
                   if (item.url === null) {
                     Swal.fire({
                       icon: "info",

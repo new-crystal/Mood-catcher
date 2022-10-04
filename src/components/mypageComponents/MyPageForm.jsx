@@ -85,7 +85,7 @@ const MyPageForm = () => {
     if (userGrade !== undefined) {
       gradeIcon(userGrade);
     }
-  }, [profileIcon, gradeList, changeUser, grade, userGrade]);
+  }, [profileIcon, gradeList, changeUser, grade, userGrade, userId]);
 
   //성별과 등급별로 아이콘 이미지 보여주기
   const gradeIcon = useCallback(

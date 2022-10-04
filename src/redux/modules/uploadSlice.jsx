@@ -35,8 +35,6 @@ const uploadSlice = createSlice({
   reducers: {
     regPost: (state, action) => {
       state.post = action.payload;
-      console.log(action.payload);
-      console.log(state.post);
     },
     regFormdata: (state, action) => {
       state.formdata = action.payload;
