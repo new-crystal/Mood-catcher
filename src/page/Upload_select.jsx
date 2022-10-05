@@ -143,7 +143,7 @@ const Upload_select = (props) => {
     if (checkPostId === true) {
       dispatch(__uploadImage({ postId: post.postId, postImage: formdata }));
       dispatch(changeCheckPostId(false));
-      navigate("/main");
+      navigate("/");
     }
   }, [checkPostId]);
 

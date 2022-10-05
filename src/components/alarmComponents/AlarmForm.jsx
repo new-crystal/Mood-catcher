@@ -1,18 +1,21 @@
-import { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useEffect, Fragment } from "react";
 import styled from "styled-components";
-import { __getAlarm, __deleteAllAlarm } from "../../redux/async/alarm";
-import Swal from "sweetalert2";
-import { Fragment } from "react";
-import AlarmListForm from "./AlarmList";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
+
+//통신
+import { __getAlarm, __deleteAllAlarm } from "../../redux/async/alarm";
+
+//컴포넌트
+import AlarmListForm from "./AlarmList";
 
 const AlarmForm = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const alarms = useSelector((state) => state.alarm.notices);
-  const alarmStatus = useSelector((state) => state.alarm.deleteAlarm);
-  const alarmList = [...alarms].reverse();
+  const alarms = useSelector((state) => state.alarm.notices); //전체 알림 리스트
+  const alarmStatus = useSelector((state) => state.alarm.deleteAlarm); //알림 삭제 상태
+  const alarmList = [...alarms].reverse(); //알림 최신순으로 뒤집기
 
   //전체 알람 삭제
   const delAllAlarm = () => {
@@ -47,42 +50,42 @@ const AlarmForm = () => {
     <Fragment>
       <Container>
         <Grid>
-          <AlarmContainer>
-            <BtnBox>
-              <Btn>
-                <a
-                  href="https://forms.gle/Eg7LN2yS1J5LeUwE9"
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  설문조사하러가기
-                </a>
-              </Btn>
-            </BtnBox>
+          <BtnBox>
+            <Btn>
+              <a
+                href="https://forms.gle/Eg7LN2yS1J5LeUwE9"
+                target="_blank"
+                rel="noreferrer"
+              >
+                설문조사하러가기
+              </a>
+            </Btn>
+          </BtnBox>
 
-            <AlarmList>
-              <TitleWrap>
-                <h4>나의 알림</h4>
-                <BtnWrap>
-                  <ConfirmBtn
-                    style={{ cursor: "pointer" }}
-                    onClick={() => delAllAlarm()}
-                  >
-                    전체알림삭제
-                  </ConfirmBtn>
-                </BtnWrap>
-              </TitleWrap>
-              {alarms.length === 0 ? (
-                <AlarmBox>
-                  <p>아직 새로운 알림이 없습니다!</p>
-                </AlarmBox>
-              ) : (
-                alarmList?.map((alarm) => {
-                  return <AlarmListForm alarm={alarm} key={alarm.noticeId} />;
-                })
-              )}
-            </AlarmList>
-          </AlarmContainer>
+          <AlarmList>
+            <TitleWrap>
+              <h4>나의 알림</h4>
+              <BtnWrap>
+                <ConfirmBtn
+                  style={{ cursor: "pointer" }}
+                  onClick={() => delAllAlarm()}
+                >
+                  전체알림삭제
+                </ConfirmBtn>
+              </BtnWrap>
+            </TitleWrap>
+            {/* 알림이 없을 경우 */}
+            {alarms.length === 0 ? (
+              <AlarmBox>
+                <p>아직 새로운 알림이 없습니다!</p>
+              </AlarmBox>
+            ) : (
+              // 알림이 있을 경우
+              alarmList?.map((alarm) => {
+                return <AlarmListForm alarm={alarm} key={alarm.noticeId} />;
+              })
+            )}
+          </AlarmList>
         </Grid>
       </Container>
     </Fragment>
@@ -90,23 +93,22 @@ const AlarmForm = () => {
 };
 
 const BtnBox = styled.div`
-  width: 370px;
-  margin: 10px auto 0px;
   display: flex;
+  margin: 10px auto 0px;
+  width: 370px;
 `;
 
 const Btn = styled.button`
-  width: 370px;
-  height: 50px;
+  display: flex;
+  margin: 10px auto;
   border-radius: 20px;
   border: 0px;
-  margin: 10px auto;
-  background: ${(props) => (props.kakao ? "#F4E769" : "#C4C2CA")};
-  cursor: default;
-  display: flex;
+  width: 370px;
+  height: 50px;
   align-items: center;
   justify-content: center;
-  font-size: 15px;
+  background-color: #c4c2ca;
+  cursor: default;
   & > a,
   p {
     color: #2d273f;
@@ -135,33 +137,22 @@ const Grid = styled.div`
   width: 100vw;
 `;
 
-const AlarmContainer = styled.div``;
 const AlarmList = styled.div`
-  width: 370px;
+  display: flex;
   margin: 10px auto 0;
   background-color: #e6e5ea;
   border-radius: 20px;
+  padding-bottom: 60px;
+  width: 370px;
   color: #7b758b;
-  display: flex;
   align-items: baseline;
   justify-content: center;
   flex-direction: column;
-  padding-bottom: 60px;
   overflow-x: hidden;
   overflow-y: scroll;
 
   ::-webkit-scrollbar {
     display: none;
-  }
-
-  h4 {
-    font-family: "Roboto";
-    font-style: Bold;
-    font-size: 18px;
-    font-weight: 700;
-    width: 80px;
-    margin: 15px;
-    margin-right: 0px;
   }
 `;
 
@@ -173,41 +164,35 @@ const TitleWrap = styled.div`
   h4 {
     margin: 20px 0 7px 20px;
     color: #2d273f;
-    font-family: "Noto Sans KR", sans-serif;
     font-style: normal;
     font-weight: 700;
     font-size: 20px;
   }
 `;
 const BtnWrap = styled.div`
-  width: 100px;
   display: flex;
-  flex-direction: row;
   margin: 0 0 0 160px;
   padding: 0px;
+  width: 100px;
+  flex-direction: row;
 `;
 const ConfirmBtn = styled.button`
-  background-color: rgba(0, 0, 0, 0);
-  color: #7b758b;
-  border: 0px;
-  margin: 0 -10px 0 0;
-  font-family: "Roboto";
-  font-style: Bold;
-  font-weight: 700;
-  font-size: 11px;
   position: relative;
-  top: -4px;
-  right: -20px;
+  top: 2px;
+  right: -10px;
+  margin: 0 -10px 0 0;
+  border: 0px;
+  background-color: rgba(0, 0, 0, 0);
 `;
 
 const AlarmBox = styled.div`
+  display: flex;
+  margin: 5px auto;
+  border-radius: 20px;
   width: 360px;
   height: 55px;
   background-color: white;
-  border-radius: 20px;
-  margin: 5px auto;
   text-align: left;
-  display: flex;
   align-items: center;
   justify-content: baseline;
   flex-direction: row;
@@ -215,7 +200,6 @@ const AlarmBox = styled.div`
   & p {
     width: 260px;
     margin-left: 5px;
-    font-family: "Noto Sans KR", sans-serif;
     font-style: Bold;
     font-weight: 700;
     font-size: 13px;

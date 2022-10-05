@@ -1,31 +1,30 @@
-import React, { Fragment, useState } from "react";
+import React, { Fragment, useState, useEffect } from "react";
 import styled from "styled-components";
-import { useNavigate } from "react-router-dom";
 // 따로 shared에 있는 스타일을 사용합니다.
 import "../shared/style/TestHeader.css";
-import Notification from "../image/notification.png";
-import NotificationTrue from "../image/notificationTrue.png";
-import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { __getHeaderUser } from "../redux/async/login";
 import jwt_decode from "jwt-decode";
-import Setting from "../image/settings.png";
 
-const Back = "/images/Back2.png";
+//통신
+import { __getHeaderUser } from "../redux/async/login";
+
+//이미지
+import NotificationTrue from "../image/notificationTrue.png";
+import Setting from "../image/settings.png";
+import Notification from "../image/notification.png";
 const arrow_back = "/images/arrow_back.png";
 const Map = "/images/Map.png";
 
 const Header = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const users = useSelector((state) => state.login.headerUser); //헤더에서 유저 정보 가져오기
   const [isLogin, setIsLogin] = useState(false);
   const [headerText, setHeaderText] = useState("Mood Catcher");
   const [main, setMain] = useState(true);
   const [settings, setSettings] = useState(false);
-  const [detail, setDetail] = useState(false);
   const [editPw, setEditPw] = useState(false);
-
-  const users = useSelector((state) => state.login.headerUser);
   const [userId, setUserId] = useState(users.userId);
 
   //토큰이 있을 경우 확인하기
@@ -46,6 +45,7 @@ const Header = () => {
 
   //url의 주소를 조건으로 헤더의 상세 부분 변경하기
   useEffect(() => {
+    //마이페이지일 때
     if (
       window.location.pathname.split("/")[1] === "mypage" &&
       window.location.pathname.split("/")[2] * 1 === userId * 1
@@ -53,27 +53,29 @@ const Header = () => {
       setHeaderText("My Page");
       setSettings(true);
     }
+    //좋아요 페이지일 때
     if (window.location.pathname.split("/")[1] === "like") {
       setHeaderText("Like");
     }
+    //검색, 검색 결과페이지일 때
     if (
       window.location.pathname === "/search" ||
       window.location.pathname.split("/")[1] === "search"
     ) {
       setHeaderText("Search");
     }
+    //옷장 페이지일 때
     if (
       window.location.pathname.split("/")[1] === "closet" &&
       window.location.pathname.split("/")[2] * 1 === userId * 1
     ) {
       setHeaderText("My Closet");
     }
+    //메인 페이지일 때
     if (window.location.pathname === "/main") {
       setMain(false);
     }
-    if (window.location.pathname.split("/")[2] === "detail") {
-      setDetail(true);
-    }
+    //비밀번호 변경페이지일 때
     if (window.location.pathname.split("/")[1] === "edit_password") {
       setEditPw(true);
     }
@@ -92,11 +94,12 @@ const Header = () => {
             <>
               {/* 뒤로가기 이미지와 뒤로가기 기능 */}
               <GoBack
-                style={{ backgroundImage: `url(${arrow_back})` }}
+                src={`${arrow_back}`}
+                alt="back"
                 onClick={() => {
                   navigate(-1);
                 }}
-              ></GoBack>
+              />
               <HeaderLogo
                 margin="-10.313rem"
                 style={{ marginLeft: "3.5rem", top: "0.7rem" }}
@@ -111,21 +114,11 @@ const Header = () => {
                 </span>
               </HeaderLogo>
               <a href="/kakao">
-                <Star
-                  style={{ backgroundImage: `url(${Map})`, cursor: "pointer" }}
-                >
-                  <img
-                    src={`${Map}`}
-                    alt=""
-                    width="0"
-                    height="0"
-                    style={{ display: "none !important" }}
-                  />
-                </Star>
+                <Star src={`${Map}`} alt="map" style={{ cursor: "pointer" }} />
               </a>
             </>
           )}
-          {/* 로그인 상태가 아닐 때 */}
+          {/* 로그인 상태가 아니면서 비밀번호 수정이 아닐 때 */}
           {!isLogin && !editPw && (
             <>
               <GoBack></GoBack>
@@ -181,9 +174,7 @@ const Header = () => {
                 </span>
               </HeaderLogo>
               <a href="/kakao">
-                <Star
-                  style={{ backgroundImage: `url(${Map})`, cursor: "pointer" }}
-                />
+                <Star src={`${Map}`} alt="map" style={{ cursor: "pointer" }} />
               </a>
             </>
           )}
@@ -194,59 +185,34 @@ const Header = () => {
             !settings &&
             (users?.isExistsNotice === 0 ? (
               <Notifications
+                src={`${Notification}`}
+                alt="notification"
                 style={{
                   opacity: "60%",
                   cursor: "pointer",
-                  backgroundImage: `url(${Notification})`,
                 }}
                 onClick={() => navigate(`/alarm/${users.userId}`)}
-              >
-                <img
-                  src={`${Notification}`}
-                  alt=""
-                  width="0"
-                  height="0"
-                  style={{ display: "none !important" }}
-                />
-              </Notifications>
+              />
             ) : (
               <Notifications
+                src={`${NotificationTrue}`}
+                alt="notification"
                 style={{
                   opacity: "60%",
                   cursor: "pointer",
-                  backgroundImage: `url(${NotificationTrue})`,
                 }}
                 onClick={() => navigate(`/alarm/${users.userId}`)}
-              >
-                <img
-                  src={`${NotificationTrue}`}
-                  alt=""
-                  width="0"
-                  height="0"
-                  style={{ display: "none !important" }}
-                />
-              </Notifications>
+              />
             ))}
           {/* 알람표시가 아닌 프로필 설정이 필요할 때 */}
           {settings && (
             <Notifications
-              style={{ cursor: "pointer", backgroundImage: `url(${Setting})` }}
+              src={`${Setting}`}
+              alt="setting"
+              style={{ cursor: "pointer" }}
               onClick={() => navigate("/edit_profile")}
-            >
-              <img
-                src={`${Setting}`}
-                alt=""
-                width="0"
-                height="0"
-                style={{ display: "none !important" }}
-              />
-            </Notifications>
+            />
           )}
-
-          {/* <Star
-            onClick={() => navigate("/kakao")}
-            style={{ backgroundImage: `url(${star})` }}
-          ></Star> */}
         </HeaderBox>
       </Headers>
     </Fragment>
@@ -254,32 +220,21 @@ const Header = () => {
 };
 
 export default Header;
-const Star = styled.div`
+const Star = styled.img`
+  margin-top: -32px;
+  margin-right: 70px;
   width: 25px;
   height: 25px;
-  margin-top: -32px;
   float: right;
-  margin-right: 70px;
   background-color: rgba(0, 0, 0, 0);
-  background-position: center;
-  background-size: cover;
-  /* background-image: url(${(props) => props.url}); */
   z-index: 20;
   opacity: 60%;
 `;
 
-const ImageWrap = styled.div`
-  margin: 0 auto;
-  margin-top: 13px;
-  width: 22px;
-  height: 22px;
-  background-size: cover;
-`;
-
 const Headers = styled.div`
+  display: flex;
   max-width: 428px;
   width: 100vw;
-  display: flex;
   align-items: center;
   justify-content: space-between;
   flex-direction: row;
@@ -287,50 +242,40 @@ const Headers = styled.div`
 `;
 
 const HeaderBox = styled.div`
-  /* max-width: 428px; */
-  width: 100vw;
-  z-index: 10;
   position: relative;
   top: -20px;
-  /* background: linear-gradient(#a396c9, white); */
+  width: 100vw;
+  z-index: 10;
 `;
 
-const GoBack = styled.div`
+const GoBack = styled.img`
+  position: relative;
+  top: 28px;
   display: inline-block;
+  margin: 20px 0 3px 25px;
   width: 20px;
   height: 20px;
   background-size: cover;
-  margin: 20px 0 3px 25px;
   cursor: pointer;
   opacity: 50%;
-  position: relative;
-  top: 28px;
 `;
 
 const HeaderLogo = styled.div`
-  font-family: "Unna";
-  /* position: absolute;
-  top: 12px;
-  left: 50%; */
-  //margin-left: ${(props) => props.margin};
   margin-top: -3px;
   margin-left: 40px;
+  font-family: "Unna";
   font-size: 30px;
   font-weight: 700;
   color: #7b758b;
   cursor: pointer;
 `;
 
-const Notifications = styled.div`
+const Notifications = styled.img`
+  margin-top: -35px;
+  margin-right: 25px;
   width: 30px;
   height: 30px;
-  margin-top: -35px;
   float: right;
-  margin-right: 25px;
-  /* margin-left: 22em; */
   background-color: rgba(0, 0, 0, 0);
-  background-position: center;
-  background-size: cover;
-  /* background-image: url(${(props) => props.url}); */
   z-index: 20;
 `;

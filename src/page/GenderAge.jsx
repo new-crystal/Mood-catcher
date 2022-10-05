@@ -1,6 +1,5 @@
 import React, { Fragment } from "react";
 import styled from "styled-components";
-import Header from "../elem/Header";
 import SignupGenderAge from "../components/signupComponents/SignupGenderAge";
 
 export default function GenderAge(props) {
@@ -9,7 +8,6 @@ export default function GenderAge(props) {
       <Container>
         <Grid>
           <LoginWrap>
-            {/* <Header /> */}
             <SignupGenderAge />
           </LoginWrap>
         </Grid>
@@ -21,7 +19,6 @@ export default function GenderAge(props) {
 const Container = styled.div`
   display: flex;
   height: 984px;
-  /* background-color: orange; */
   flex-direction: column;
   bottom: 110px;
   & > span {
@@ -34,18 +31,14 @@ const Container = styled.div`
 `;
 
 const Grid = styled.div`
+  margin: 60px auto 500px auto;
   max-width: 428px;
   width: 100vw;
-  //height: calc(var(--vh, 1vh) * 100 + 50px);
-  margin: 0 auto;
   background-color: royalblue;
-  margin-top: 60px;
-  margin-bottom: 500px;
 `;
 
 const LoginWrap = styled.div`
-  width: 100%;
   display: flex;
+  width: 100%;
   flex-direction: column;
-  /* text-align: center; */
 `;

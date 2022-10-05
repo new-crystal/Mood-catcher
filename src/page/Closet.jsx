@@ -23,7 +23,6 @@ export default Closet;
 const Container = styled.div`
   display: flex;
   flex-direction: column;
-  /* height: 926px; */
   & > span {
     display: -webkit-box;
     -webkit-box-orient: vertical;
@@ -34,12 +33,8 @@ const Container = styled.div`
 `;
 
 const Grid = styled.div`
-  margin: 0 auto;
-  margin-top: 60px;
-  margin-bottom: 57px;
+  margin: 60px auto 57px auto;
   max-width: 428px;
   width: 100vw;
-  //height: calc(var(--vh, 1vh) * 100);
   min-height: 926px;
-  /* background: linear-gradient(#a396c9, #ffffff); */
 `;

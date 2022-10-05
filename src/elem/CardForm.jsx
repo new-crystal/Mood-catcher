@@ -1,18 +1,22 @@
+import { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
+
+//통신
+import { __patchMood } from "../redux/async/like";
+
+//이미지
 import heart from "../image/heart.png";
 import heartTrue from "../image/heartTrue.png";
-import { useState, useEffect } from "react";
-import { __patchMood } from "../redux/async/like";
 
 const CardForm = (item) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const [mood, setMood] = useState(`${heart}`);
-  const [likeStatus, setLikeStatus] = useState(item.item.likeStatus);
-  const [moodNum, setMoodNum] = useState(item.item.likeCount);
-  const createdAt = item.item.createdAt.split(" ")[0];
+  const [mood, setMood] = useState(`${heart}`); //좋아요 state
+  const [likeStatus, setLikeStatus] = useState(item.item.likeStatus); //유저가 좋아요 누른 상태인지 판별
+  const [moodNum, setMoodNum] = useState(item.item.likeCount); //좋아요 갯수
+  const createdAt = item.item.createdAt.split(" ")[0]; //작성일자
   const year = createdAt.split("-")[0];
   const month = createdAt.split("-")[1];
   const day = createdAt.split("-")[2];
@@ -86,30 +90,16 @@ const CardForm = (item) => {
           <HeartBox>
             {likeStatus ? (
               <Heart
-                style={{ backgroundImage: `url(${heartTrue})` }}
+                src={`${heartTrue}`}
+                alt="heart_on"
                 onClick={(e) => onClickMoodCancelBtn(e)}
-              >
-                <img
-                  src={`${heartTrue}`}
-                  alt=""
-                  width="0"
-                  height="0"
-                  style={{ display: "none !important" }}
-                />
-              </Heart>
+              />
             ) : (
               <Heart
-                style={{ backgroundImage: `url(${heart})` }}
+                src={`${heart}`}
+                alt="heart_off"
                 onClick={(e) => onClickMoodBtn(e)}
-              >
-                <img
-                  src={`${heart}`}
-                  alt=""
-                  width="0"
-                  height="0"
-                  style={{ display: "none !important" }}
-                />
-              </Heart>
+              />
             )}
 
             <p>{moodNum}</p>
@@ -121,13 +111,13 @@ const CardForm = (item) => {
 };
 
 const OtherClosetBox = styled.div`
+  display: flex;
+  margin: 10px auto;
+  border: 3px solid #e6e5ea;
+  border-radius: 20px;
   width: 350px;
   height: 200px;
-  margin: 10px auto;
   background-color: #fff;
-  border-radius: 20px;
-  display: flex;
-  border: 3px solid #e6e5ea;
   align-items: center;
   justify-content: center;
   flex-direction: row;
@@ -136,22 +126,20 @@ const OtherClosetBox = styled.div`
 
 const ImgBox = styled.img`
   margin-left: 15px;
+  border-radius: 20px;
   width: 130px;
   height: 170px;
-  border-radius: 20px;
 `;
 const TextBox = styled.div`
+  display: flex;
+  position: relative;
   margin-left: 10px;
   margin-right: 10px;
   height: 170px;
   width: 200px;
-  display: flex;
-  position: relative;
   align-items: baseline;
   justify-content: center;
   flex-direction: column;
-  font-family: "Noto Sans KR", sans-serif;
-  font-style: normal;
   font-weight: 800;
   color: #7b758b;
 `;
@@ -161,48 +149,41 @@ const Title = styled.p`
   line-height: 20px;
 `;
 const Content = styled.h5`
-  font-size: 13px;
-  line-height: 15px;
   margin-top: 20px;
   margin-right: 5px;
+  font-size: 13px;
+  line-height: 15px;
 `;
 const HeartBox = styled.div`
   display: flex;
+  position: absolute;
+  margin-top: 166px;
   align-items: center;
   justify-content: center;
   flex-direction: row;
-  position: absolute;
-  margin-top: 166px;
 `;
-const Heart = styled.div`
+const Heart = styled.img`
   width: 20px;
   height: 20px;
-  background-position: center;
-  background-size: cover;
-  /* background-image: url(${(props) => props.url}); */
   cursor: pointer;
 `;
 const RankText = styled.h4`
-  font-family: "Noto Sans KR", sans-serif;
-  font-style: normal;
-  font-weight: 800;
-  width: 100px;
-  color: #7b758b;
-  font-size: 12px;
   position: absolute;
   left: 33%;
   margin-top: -155px;
+  width: 100px;
+  font-weight: 800;
+  font-size: 12px;
+  color: #7b758b;
 `;
 const TextContainer = styled.div`
+  display: flex;
   margin: -20px 5px 0 5px;
   height: 170px;
   width: 190px;
-  display: flex;
   align-items: baseline;
   justify-content: center;
   flex-direction: column;
-  font-family: "Noto Sans KR", sans-serif;
-  font-style: normal;
   font-weight: 800;
   color: #7b758b;
 `;

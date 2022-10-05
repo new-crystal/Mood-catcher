@@ -11,29 +11,26 @@ import {
   Select,
 } from "@material-ui/core";
 import { useDispatch, useSelector } from "react-redux";
-import { __detail } from "../../redux/async/login";
 import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
+import jwt_decode from "jwt-decode";
+
+//통신
+import { __detail } from "../../redux/async/login";
 import { __checkNickname } from "../../redux/async/login";
 import { changeNickname } from "../../redux/modules/loginSlice";
 import { __getUser } from "../../redux/async/login";
 
+//이미지
 import male from "../../image/5man.png";
 import female from "../../image/girl5.png";
-import { useNavigate } from "react-router-dom";
-import gender from "../../image/gender.png";
-import jwt_decode from "jwt-decode";
 
 const SignupGenderAge = (location) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const checkNickname = useSelector((state) => state.login.checkNickname); //닉네임 중복확인 성공 여부 값 받아오기
   const [show, setShow] = useState(false);
   const [age, setAge] = useState("");
-  const {
-    register,
-    setError,
-    getValues,
-    formState: { errors, isDirty },
-  } = useForm({ criteriaMode: "all", mode: "onChange" });
 
   //url에 있는 exist와 토큰 받아오기
   useEffect(() => {
@@ -48,31 +45,14 @@ const SignupGenderAge = (location) => {
         localStorage.setItem("token", window.location.href.split("token=")[1]);
       }
       if (exist === "true") {
-        // setTimeout(() => {
         navigate("/main");
-        // }, 3000);
       }
       if (exist === "false") {
         console.log("test");
         localStorage.setItem("token", window.location.href.split("token=")[1]);
-        // setTimeout(() => {
-        //   navigate("/login/detail");
-        // }, 3000);
       }
     }
   }, []);
-
-  //닉네임 중복확인 성공 여부 값 받아오기
-  const checkNickname = useSelector((state) => state.login.checkNickname);
-  const users = useSelector((state) => state.login.userStatus);
-
-  //로그인을 안 한 경우
-  // useEffect(() => {
-  //   const token = localStorage.getItem("token");
-  //   if (token === undefined) {
-  //     navigate("/login");
-  //   }
-  // }, []);
 
   //로컬로그인 exist 값 찾기
   useEffect(() => {
@@ -91,8 +71,13 @@ const SignupGenderAge = (location) => {
     dispatch(__getUser(payload.userId));
   }, []);
 
-  //닉네임 인풋 값 받아오기
-  const nickname = getValues("nickname");
+  //react-hook-form
+  const {
+    register,
+    setError,
+    getValues,
+    formState: { errors, isDirty },
+  } = useForm({ criteriaMode: "all", mode: "onChange" });
 
   //나이값 담기
   const onChangeHandler = (e) => {
@@ -106,6 +91,7 @@ const SignupGenderAge = (location) => {
     }
   }, [checkNickname]);
 
+  //닉네임 중복확인 버튼
   const onClickCheckBtnHandler = async () => {
     const nickname = await getValues("nickname");
     if (nickname !== "" && errors.nickname === undefined) {
@@ -319,7 +305,6 @@ const SignupGenderAge = (location) => {
                     )
                   ) : null}
                 </NicknameBox2>
-                {/* <InputBox> */}
                 <input
                   className="nickname"
                   type="text"
@@ -351,7 +336,6 @@ const SignupGenderAge = (location) => {
                 >
                   <p>중복확인</p>
                 </ConfirmBtn>
-                {/* </InputBox> */}
               </form>
               <NicknameBox3>
                 <h4>나이</h4>
@@ -393,193 +377,50 @@ const SignupGenderAge = (location) => {
   );
 };
 
-const UploadText = styleds.span`
-  margin: 70px auto 0;
-  font-size: 60px;
-  font-family: "Unna";
-  font-style: normal;
-  font-weight: 700;
-  font-size: 60px;
-  line-height: 69px;
-  color: #2d273f;
-`;
-
-const Container = styleds.div`
-  // display: flex;
-  // width: 100%;
-  // // height: 984px;
-  // text-align: left;
-  // flex-direction: column;
-  // align-items: left;
-  // bottom: 110px;
-  margin: 0 auto;
-  
-  .nickname {
-    width: 183px;
-    border-left-width: 0;
-    border-right-width: 0;
-    border-top-width: 0;
-    border-bottom-width: 1;
-    background-color: #ffffff;
-    border-bottom: 2px solid black;
-  }
-  .label {
-    margin: 20px 60px;
-  }
-  .age {
-    width: 280px;
-    height: 50px;
-    margin-top: 25px;
-    margin-left: 45px;
-    margin-bottom : 20px;
-  }
-  form {
-    width:300px;
-    display: flex;
-    align-items: left;
-    justify-content:center;
-    flex-direction: column;
-  }
-  input {
-    height: 24px;
-    width: 300px;
-    padding-left: 5px;
-    border-left-width: 0;
-    border-right-width: 0;
-    border-top-width: 0;
-    border-bottom-width: 1;
-    background-color: #ffffff;
-    border-bottom: 2px solid black;
-    :focus {
-      outline: none;
-    }
-    ::placeholder {
-      /* color: black; */
-      font-size: 0.6em;
-      font-weight: 400;
-      opacity: 1; /* Firefox */
-    }
-  }
-  h4 {
-    margin-left : 50px;
-    margin-bottom : 5px;
-    font-family: 'Roboto';
-  font-style: normal;
-  font-weight: 700;
-  font-size: 20px;
-  color: #2D273F;
-  }
-  p {
-    position : relative;
-    // top:20px;
-    // left: 10px;
-  }
-
-  .genderSelector{
-    width: 220px;
-    margin: 50px auto auto auto;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: row;
-  }
-`;
-
 const FormCantainer = styleds.div`
+display: flex;
+margin: 50px auto 0px;
   width: 300px;
-  display: flex;
   align-items: center;
   justify-content: left;
   align-items: baseline;
   flex-direction: column;
-  margin: 50px auto 0px;
 `;
-
-const Grid = styleds.div`
-  //width: 100%;
-  width: 100%;
-  margin: 0 auto;
-  // background: linear-gradient(#a396c9, #ffffff);
-  margin-top: 60px;
-  // margin-bottom: 500px;
-  // min-height: 928px;
-`;
-
-const GenderImg = styleds.div`
-  width: 300px;
-  height: 140px;
-  margin : 0px auto 50px;
-  background-position: center;
-  background-size: contain;
-  background-repeat: no-repeat;
-  background-image: url(${gender});
-  text-aligns : center;
-  align-items: center;
-  justify-content: center;
-  
-  h1{
-    font-family: 'Roboto';
-    font-style: normal;
-    font-weight: 700;
-    font-size: 40px;
-    text-align: center;
-    color: #2D273F;
-    position : relative;
-    top:75px;
-  }
-`;
-
-// const Img = styleds.div`
-//   // margin: 0px auto;
-//   margin: 0px;
-//   // width: 375px;
-//   width: 100%;
-//   height: 551px;
-//   display: flex;
-//   align-items: left;
-//   justify-content: center;
-//   flex-direction: column;
-//   background-position: center;
-//   background-size: cover;
-//   // background-image: url(${board});
-// `;
 
 const NicknameWrap = styleds.div`
+display: flex;
   width: 100%;
   background-color: #ffffff;
-  display: flex;
   flex-direction: column;
   text-align: center;
 `;
 
 const MiniContainer = styleds.form`
-  /* width: 100vw; */
   margin: 0 auto;
 
   .nickname {
-    width: 183px;
     border-left-width: 0;
     border-right-width: 0;
     border-top-width: 0;
     border-bottom-width: 1;
-    background-color: #ffffff;
     border-bottom: 2px solid black;
+    width: 183px;
+    background-color: #ffffff;
   }
   input {
-    height: 24px;
-    width: 300px;
     padding-left: 5px;
     border-left-width: 0;
     border-right-width: 0;
     border-top-width: 0;
     border-bottom-width: 1;
-    background-color: #ffffff;
     border-bottom: 2px solid black;
+    width: 300px;
+    height: 24px;
+    background-color: #ffffff;
     :focus {
       outline: none;
     }
     ::placeholder {
-      /* color: black; */
       font-size: 0.6em;
       font-weight: 400;
       opacity: 1; /* Firefox */
@@ -588,12 +429,12 @@ const MiniContainer = styleds.form`
 `;
 
 const NicknameBox = styleds.div`
+display: flex;
+margin: 0 auto;
   border-bottom: 3px solid #fff;
   width: 211px;
-  margin: 0 auto;
   color: #2d273f;
   text-align: center;
-  display: flex;
   align-items: center;
   justify-content: center;
   flex-direction: column;
@@ -608,10 +449,10 @@ const NicknameBox = styleds.div`
     line-height: 69px;
   }
   p {
+    margin-left: 20px;
+    margin-bottom: 0px;
   color: #c60000;
   font-size: 10px;
-  margin-left: 20px;
-  margin-bottom: 0px;
   }
 `;
 
@@ -620,20 +461,19 @@ const NicknameBox2 = styleds.div`
   flex-direction: row;
   align-items: baseline;
   h4 {
-    font-family: "Noto Sans KR", sans-serif;
     margin-top: 0px;
     margin-bottom: 0px;
+    font-family: "Noto Sans KR", sans-serif;
     color: #2d273f;
-    // font-family: "Roboto";
     font-style: normal;
     font-weight: 700;
     font-size: 20px;
   }
   p {
-    color: #c60000;
-    font-size: 10px;
     margin-left: 20px;
     margin-bottom: 0px;
+    color: #c60000;
+    font-size: 10px;
   }
 `;
 
@@ -646,7 +486,6 @@ h4 {
   margin-top: 20px;
   margin-bottom: 7px;
   color: #2d273f;
-  /* font-family: "Roboto"; */
   font-style: normal;
   font-weight: 700;
   font-size: 20px;
@@ -659,67 +498,41 @@ p {
 }
 `;
 
-const BottomImg = styleds.div`
-  transform: scaleY(-1);
-  width: 264px;
-  height: 93px;
-  margin-top : 50px;
-  margin-left : 46px;
-  background-position: center;
-  background-size: cover;
-  background-image: url(${gender});
-`;
-
-// const InputBox = styleds.div`
-//   width : 390px;
-//   margin: 0px auto;
-//   display: flex;
-//   align-items: center;
-//   justify-content: center;
-//   flex-direction: row;
-// `;
 const ConfirmBtn = styleds.button`
-/* background: linear-gradient(78.32deg, #7b758b 41.41%, #ffffff 169.58%); */
-background: #a8a6af;
+margin-left: 20px;
 border: 0px;
+border-radius: 5px;
 width: 90px;
 height: 40px;
+background: #a8a6af;
 color: white;
-border-radius: 5px;
-/* margin: 5px auto; */
-margin-left: 20px;
-/* font-family: "Roboto"; */
 font-family: "Noto Sans KR", sans-serif;
 font-style: normal;
-/* font-weight: 700; */
 cursor: default;
 p {
+  margin: 0 auto;
   color: white;
-  /* font-family: "Roboto"; */
   text-decoration: none;
   font-weight: bold;
   font-size: 15px;
-  margin: 0 auto;
 }
 `;
 
 const OkBtn = styleds.button`
-/* background: linear-gradient(78.32deg, #7b758b 41.41%, #ffffff 169.58%); */
-background: #a8a6af;
+margin-top: 20px;
 border: 0px;
+border-radius: 5px;
 width: 300px;
 height: 50px;
-border-radius: 5px;
 color: white;
+background: #a8a6af;
 font-family: "Noto Sans KR", sans-serif;
 font-style: normal;
 font-weight: 700;
 font-size: 16px;
-margin-top: 20px;
 cursor: default;
 p {
   color: white;
-  /* font-family: "Roboto"; */
   text-decoration: none;
   font-weight: bold;
   font-size: 15px;

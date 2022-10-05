@@ -26,7 +26,7 @@ const initialState = {
   isFetching: false,
   errorMessage: null,
   postLast: null,
-  addPosting: true,
+  addPosting: false,
 };
 
 const uploadSlice = createSlice({
@@ -61,21 +61,28 @@ const uploadSlice = createSlice({
   extraReducers: (builder) => {
     builder
       // 게시물 작성하기
+      .addCase(__addPost.pending, (state, action) => {
+        state.isFetching = true;
+        //state.addPosting = false;
+      })
       .addCase(__addPost.fulfilled, (state, action) => {
         state.post = action.payload.post;
         state.selectedItems = [];
         state.checkPostId = true;
         state.isFetching = false;
         state.errorMessage = null;
-        state.addPosting = true;
-      })
-      .addCase(__addPost.pending, (state, action) => {
-        state.isFetching = true;
-        state.addPosting = false;
+        //state.addPosting = true;
       })
       .addCase(__addPost.rejected, (state, action) => {
         state.isFetching = false;
         state.errorMessage = action.errorMessage;
+      })
+      //이미지업로드
+      .addCase(__uploadImage.pending, (state, action) => {
+        state.addPosting = true;
+      })
+      .addCase(__uploadImage.fulfilled, (state, action) => {
+        state.addPosting = true;
       })
       // 게시물 수정하기
       .addCase(__editPost.fulfilled, (state, action) => {

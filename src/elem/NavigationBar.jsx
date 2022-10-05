@@ -1,14 +1,13 @@
-import React, { Fragment, useState } from "react";
+import React, { Fragment, useState, useEffect } from "react";
 import styled from "styled-components";
-import { useNavigate } from "react-router-dom";
 import "../shared/style/TestHeader.css";
+import { useNavigate } from "react-router-dom";
 import jwt from "jwt-decode"; // to get userId from loggedIn user's token
-import { useEffect } from "react";
 
+//이미지
 const home = "/images/home.png";
 const search = "/images/search.png";
 const add_circle = "/images/add_circle.png";
-const star = "/images/star.png";
 const person = "/images/person.png";
 const heart = "/images/heart.png";
 
@@ -23,24 +22,29 @@ const NavigationBar = (props) => {
   const [myPage, setMyPage] = useState(false);
 
   useEffect(() => {
+    //메인페이지일 때
     if (window.location.pathname === "/main") {
       setMain(true);
     }
+    //검색, 검색 결과창일 때
     if (
       window.location.pathname === "/search" ||
       window.location.pathname.split("/")[1] === "search"
     ) {
       setSearching(true);
     }
+    //업로드 페이지일 때
     if (
       window.location.pathname === "/upload" ||
       window.location.pathname === "/upload_select"
     ) {
       setUpload(true);
     }
+    //좋아요 페이지일 때
     if (window.location.pathname.split("/")[1] === "like") {
       setLike(true);
     }
+    //마이페이지일 때
     if (
       window.location.pathname.split("/")[1] === "mypage" &&
       window.location.pathname.split("/")[2] * 1 === userId * 1
@@ -58,7 +62,7 @@ const NavigationBar = (props) => {
           }}
         >
           {main ? <Navigate></Navigate> : null}
-          <ImageWrap style={{ backgroundImage: `url(${home})` }} />
+          <ImageWrap src={`${home}`} alt="home" />
         </SearchWrap>
         <SearchWrap
           onClick={() => {
@@ -66,7 +70,7 @@ const NavigationBar = (props) => {
           }}
         >
           {searching ? <Navigate></Navigate> : null}
-          <ImageWrap style={{ backgroundImage: `url(${search})` }} />
+          <ImageWrap src={`${search}`} alt="search" />
         </SearchWrap>
         <SearchWrap
           onClick={() => {
@@ -74,7 +78,7 @@ const NavigationBar = (props) => {
           }}
         >
           {upload ? <Navigate></Navigate> : null}
-          <ImageWrap style={{ backgroundImage: `url(${add_circle})` }} />
+          <ImageWrap src={`${add_circle}`} alt="upload" />
         </SearchWrap>
         <SearchWrap
           onClick={() => {
@@ -82,7 +86,7 @@ const NavigationBar = (props) => {
           }}
         >
           {like ? <Navigate></Navigate> : null}
-          <ImageWrap style={{ backgroundImage: `url(${heart})` }} />
+          <ImageWrap src={`${heart}`} alt="like" />
         </SearchWrap>
         <SearchWrap
           onClick={() => {
@@ -90,7 +94,7 @@ const NavigationBar = (props) => {
           }}
         >
           {myPage ? <Navigate></Navigate> : null}
-          <ImageWrap style={{ backgroundImage: `url(${person})` }} />
+          <ImageWrap src={`${person}`} alt="person" />
         </SearchWrap>
       </NavBox>
     </Fragment>
@@ -100,34 +104,31 @@ const NavigationBar = (props) => {
 export default NavigationBar;
 
 const NavBox = styled.div`
-  display: flex;
   position: fixed;
-  margin: 0px auto -1px;
   bottom: 0;
   left: 0;
   right: 0;
-  height: 50px;
+  display: flex;
+  margin: 0px auto -1px;
   max-width: 428px;
   width: 100vw;
+  height: 50px;
   background-color: #ffffff;
-  font-family: "GmarketSansM";
   justify-content: space-around;
   z-index: 10;
   box-shadow: 0px -7px 7px #877f92;
 `;
 
 const SearchWrap = styled.div`
-  text-align: center;
   width: 100px;
+  text-align: center;
   cursor: pointer;
 `;
 
-const ImageWrap = styled.div`
-  margin: 0 auto;
-  margin-top: 13px;
+const ImageWrap = styled.img`
+  margin: 13px auto 0 auto;
   width: 22px;
   height: 22px;
-  background-size: cover;
 `;
 
 const Navigate = styled.div`

@@ -45,8 +45,11 @@ const AllPosts = () => {
     }
   }, 500);
 
+  console.log(isPosting);
+  console.log(allMainPostList);
+
   useEffect(() => {
-    if (paging === 1 && allMainPosts.length === 0) {
+    if ((paging === 1 && allMainPosts.length === 0) || isPosting === true) {
       dispatch(__getMainAllPosts({ paging: paging, userId: userId }));
       setPaging(paging + 1);
     } //첫렌더링시 0페이지 받아오기
@@ -68,9 +71,11 @@ const AllPosts = () => {
   return (
     <Fragment>
       <List>
-        {allMainPosts?.map((item, idx) => (
-          <EachPost key={idx} item={item} />
-        ))}
+        {allMainPosts
+          ?.sort((a, b) => b.postId - a.postId)
+          .map((item, idx) => (
+            <EachPost key={idx} item={item} />
+          ))}
       </List>
       {loading ? <InfinityScrollLoader /> : ""}
     </Fragment>
