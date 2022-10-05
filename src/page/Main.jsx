@@ -77,7 +77,7 @@ const Main = (props) => {
   // 유저정보 조회해서 프로필 사진 확보
   useEffect(() => {
     dispatch(__getUsers(userId));
-    dispatch(__getRepresentative(userId));
+    // dispatch(__getRepresentative(userId));
     dispatch(__getHotPosts());
   }, [dispatch]);
 
