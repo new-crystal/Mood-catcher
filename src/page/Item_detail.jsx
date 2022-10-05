@@ -1,9 +1,13 @@
 import React, { useEffect, useState, Fragment, useRef } from "react";
 import styled, { css } from "styled-components";
-import Header from "../elem/Header";
-import NavigationBar from "../elem/NavigationBar";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { useParams } from "react-router-dom";
+import jwt from "jwt-decode"; // to get userId from loggedIn user's token
+import Swal from "sweetalert2";
+import _ from "lodash";
+
+// 통신
 import { __addComment, __getComments } from "../redux/async/comment";
 import { deleteAllPosts } from "../redux/modules/rankSlice";
 import {
@@ -13,64 +17,59 @@ import {
 } from "../redux/async/upload";
 import { __getUser } from "../redux/async/login";
 import { __getUsers } from "../redux/async/signup";
+import { __patchMood } from "../redux/async/like";
 
+// 컴포넌트
+import Header from "../elem/Header";
+import NavigationBar from "../elem/NavigationBar";
 import DetailCommentList from "../components/detailComponents/DetailCommentList";
-import { useParams } from "react-router-dom";
-import jwt from "jwt-decode"; // to get userId from loggedIn user's token
 import useDetectClose from "../elem/useDetectClose";
 import ScrollX from "../elem/ScrollX";
+import InfinityScrollLoader from "../elem/InfinityScrollLoader";
+
+// 아이콘
 import heartFalse from "../image/heart.png";
 import heartTrue from "../image/heartTrue.png";
-import { __patchMood } from "../redux/async/like";
-import Swal from "sweetalert2";
-import _ from "lodash";
-import InfinityScrollLoader from "../elem/InfinityScrollLoader";
 
 const more = "/images/more.png";
 const upButton = "/images/upArrow.png";
 const send = "/images/Send.png";
 
 const Item_detail = (props) => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const { postId } = useParams();
+  const { userId } = useParams();
+
   const preview_URL =
     "https://cdn.discordapp.com/attachments/1014169130045292625/1014194232250077264/Artboard_1.png";
 
   const token = localStorage.getItem("token");
   const payload = jwt(token);
 
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
-  const commentList = useSelector((state) => state.comment.comments);
-  const { postId } = useParams();
-  const { userId } = useParams();
+  let commentText = useRef("");
 
+  const commentList = useSelector((state) => state.comment.comments);
   const detailPost = useSelector((state) => state.upload.detailPost);
   const detailItems = useSelector((state) => state.upload.detailItems);
   const userStatus = useSelector((state) => state.login.userStatus);
   const userStatusMe = useSelector((state) => state.signup.userStatus);
-  const [click, setClick] = useState(false);
-
-  const [mood, setMood] = useState(`${heartFalse}`);
-  const like = useSelector((state) => state.upload.detailPost.likeStatus);
-  const [likeStatus, setLikeStatus] = useState(like);
   const moodNum = useSelector((state) => state.upload.detailPost.likeCount);
-  const [myPageIsOpen, myPageRef, myPageHandler] = useDetectClose(false);
-  const [scrollRef, isDrag, onDragStart, onDragEnd, onThrottleDragMove] =
-    ScrollX();
-
-  const [paging, setPaging] = useState(1); //페이지넘버
-  const [loading, setLoading] = useState(false); //데이터 받아오는동안 로딩 true로 하고 api요청 그동안 한번만되게
-  const last = useSelector((state) => state.comment.commentLast);
+  const like = useSelector((state) => state.upload.detailPost.likeStatus);
   const editStatus = useSelector((state) => state.comment.editComment);
   const addCommentStatus = useSelector((state) => state.comment.addComment);
   const delStatus = useSelector((state) => state.comment.delComment);
   const addReStatus = useSelector((state) => state.comment.addReComment);
   const editReStatus = useSelector((state) => state.comment.editReComment);
   const delReStatus = useSelector((state) => state.comment.delReComment);
+  const last = useSelector((state) => state.comment.commentLast);
+
+  const [click, setClick] = useState(false);
+  const [mood, setMood] = useState(`${heartFalse}`);
+  const [likeStatus, setLikeStatus] = useState(like);
+  const [paging, setPaging] = useState(1); //페이지넘버
+  const [loading, setLoading] = useState(false); //데이터 받아오는동안 로딩 true로 하고 api요청 그동안 한번만되게
   const [isComment, setIsComment] = useState(false);
-
-  // 댓글 input
-  let commentText = useRef("");
-
   // profile_pic를 정하는 부분
   const [profile, setProfile] = useState({
     image_file: "",
@@ -78,20 +77,17 @@ const Item_detail = (props) => {
       "https://cdn.discordapp.com/attachments/1014169130045292625/1014194232250077264/Artboard_1.png",
   });
 
-  //드래그와 클릭 구별하기
-  useEffect(() => {
-    let drag = false;
-    document.addEventListener("mousedown", () => (drag = false));
-    document.addEventListener("mousemove", () => (drag = true));
-    document.addEventListener("mouseup", () => {
-      drag ? setClick(false) : setClick(true);
-    });
-  }, []);
+  const [myPageIsOpen, myPageRef, myPageHandler] = useDetectClose(false);
+  const [scrollRef, isDrag, onDragStart, onDragEnd, onThrottleDragMove] =
+    ScrollX();
 
   // 댓글 작성하기
   const addComment = () => {
     dispatch(
-      __addComment({ comment: commentText.current.value, postId: postId }) // , postId: postId
+      __addComment({
+        comment: commentText.current.value,
+        postId: postId,
+      }) // , postId: postId
     );
     commentText.current.value = "";
     setIsComment(!isComment);
@@ -118,10 +114,12 @@ const Item_detail = (props) => {
       }
     });
   };
+
   // 게시물 수정하기
   const putPost = () => {
     navigate(`/edit_post/${postId}/${detailPost.imgUrl.slice(-18)}`);
   };
+
   // 게시물 삭제하기
   const deletePost = () => {
     Swal.fire({
@@ -147,54 +145,19 @@ const Item_detail = (props) => {
     });
   };
 
-  useEffect(() => {
-    dispatch(__getDetail(postId));
-    dispatch(__getUser(userId));
-    dispatch(__getUsers(payload.userId));
-
-    if (userStatus.imgUrl !== undefined) {
-      setProfile({ image_file: `${userStatus.imgUrl}` });
-    }
-
-    setLikeStatus(like);
-  }, [likeStatus, moodNum]);
-
-  //댓글
-  useEffect(() => {
-    dispatch(__getComments(postId));
-  }, [
-    isComment,
-    addCommentStatus,
-    editStatus,
-    delStatus,
-    delReStatus,
-    addReStatus,
-    editReStatus,
-  ]);
-
-  //새로고침시에도 무드 상태값 유지
-  useEffect(() => {
-    if (like === true && likeStatus === true) {
-      setMood(`${heartTrue}`);
-    }
-    if (like === false && likeStatus === false) {
-      setMood(`${heartFalse}`);
-    }
-  }, [mood, like, likeStatus]);
-
-  //무드 버튼 누르기
+  // 무드 버튼 누르기
   const onClickMoodBtn = () => {
     setLikeStatus(true);
     dispatch(__patchMood(detailPost.postId));
   };
 
-  //무드버튼 취소하기
+  // 무드버튼 취소하기
   const onClickMoodCancelBtn = () => {
     setLikeStatus(false);
     dispatch(__patchMood(detailPost.postId));
   };
 
-  //리사이징 에러 났을 경우
+  // 리사이징 에러 났을 경우
   const onErrorHandler = (e) => {
     const url = detailPost.imgUrl.split("w560")[0];
     const name = detailPost.imgUrl.split("w560")[1];
@@ -231,14 +194,6 @@ const Item_detail = (props) => {
     }
   };
 
-  // toTop버튼
-  useEffect(() => {
-    window.addEventListener("scroll", _scrollPosition); // scroll event listener 등록
-    return () => {
-      window.removeEventListener("scroll", _scrollPosition); // scroll event listener 해제(스크롤이벤트 클린업)
-    };
-  }, [scrollHeightInfo]);
-
   // 실행시 맨위로 올라옴
   const ScrollToTop = () => {
     window.scrollTo({
@@ -246,6 +201,58 @@ const Item_detail = (props) => {
       behavior: "smooth",
     });
   };
+
+  // 드래그와 클릭 구별하기
+  useEffect(() => {
+    let drag = false;
+    document.addEventListener("mousedown", () => (drag = false));
+    document.addEventListener("mousemove", () => (drag = true));
+    document.addEventListener("mouseup", () => {
+      drag ? setClick(false) : setClick(true);
+    });
+  }, []);
+
+  // 렌더링시 데이터들 가져옴
+  useEffect(() => {
+    dispatch(__getDetail(postId));
+    dispatch(__getUser(userId));
+    dispatch(__getUsers(payload.userId));
+    if (userStatus.imgUrl !== undefined) {
+      setProfile({ image_file: `${userStatus.imgUrl}` });
+    }
+    setLikeStatus(like);
+  }, [likeStatus, moodNum]);
+
+  // 댓글(새로고침 방지)
+  useEffect(() => {
+    dispatch(__getComments(postId));
+  }, [
+    isComment,
+    addCommentStatus,
+    editStatus,
+    delStatus,
+    delReStatus,
+    addReStatus,
+    editReStatus,
+  ]);
+
+  //새로고침시에도 무드 상태값 유지
+  useEffect(() => {
+    if (like === true && likeStatus === true) {
+      setMood(`${heartTrue}`);
+    }
+    if (like === false && likeStatus === false) {
+      setMood(`${heartFalse}`);
+    }
+  }, [mood, like, likeStatus]);
+
+  // toTop버튼
+  useEffect(() => {
+    window.addEventListener("scroll", _scrollPosition); // scroll event listener 등록
+    return () => {
+      window.removeEventListener("scroll", _scrollPosition); // scroll event listener 해제(스크롤이벤트 클린업)
+    };
+  }, [scrollHeightInfo]);
 
   useEffect(() => {
     window.scrollTo({
@@ -262,7 +269,6 @@ const Item_detail = (props) => {
             <ProfileImg
               onClick={() => {
                 navigate(`/mypage/${userId}`);
-                //window.location.reload();
               }}
               style={{
                 backgroundImage: `url(${
@@ -290,7 +296,6 @@ const Item_detail = (props) => {
               style={{ cursor: "pointer" }}
               onClick={() => {
                 navigate(`/mypage/${userId}`);
-                //window.location.reload();
               }}
             >
               <span>{detailPost.title}</span>
@@ -314,15 +319,11 @@ const Item_detail = (props) => {
                   <Ul>
                     <Li>
                       <LinkWrapper href="#1-1">
-                        <AddCommentButton2 onClick={patchRep}>
+                        <DropBtn onClick={patchRep}>
                           대표 게시물 지정하기
-                        </AddCommentButton2>
-                        <AddCommentButton2 onClick={putPost}>
-                          수정하기
-                        </AddCommentButton2>
-                        <AddCommentButton2 onClick={deletePost}>
-                          삭제하기
-                        </AddCommentButton2>
+                        </DropBtn>
+                        <DropBtn onClick={putPost}>수정하기</DropBtn>
+                        <DropBtn onClick={deletePost}>삭제하기</DropBtn>
                       </LinkWrapper>
                     </Li>
                   </Ul>
@@ -330,7 +331,6 @@ const Item_detail = (props) => {
               </DropdownContainer>
             ) : null}
           </ProfileBox>
-          {/* <TitleText>{detailPost.title}</TitleText> */}
 
           <DetailImage>
             <img
@@ -473,7 +473,6 @@ const Item_detail = (props) => {
           {showTopButton()}
         </Grid>
       </Container>
-
       <NavigationBar props={props} />
     </Fragment>
   );
@@ -481,56 +480,9 @@ const Item_detail = (props) => {
 
 export default Item_detail;
 
-const HeartBox = styled.div`
-  margin: -30px auto 0;
-  width: 336px;
-  display: flex;
-`;
-
-const ImgBox = styled.div`
-  /* margin: 0 20px 0 40px; */
-  display: flex;
-  opacity: 70%;
-
-  &.heart {
-    width: 35px;
-    height: 35px;
-    /* position: relative; */
-    /* top: 0px; */
-    /* left: 50px; */
-    margin-left: 5px;
-  }
-  & > span {
-    font-size: 18px;
-    width: 225px;
-    margin-top: 7px;
-    margin-left: 7px;
-    align-items: center;
-
-    /* position: relative;
-    top: -10px; */
-    /* left: 55px; */
-  }
-  & > div {
-    font-size: 12px;
-    /* margin-top: -10px; */
-  }
-`;
-
-const StLoginList = styled.div`
-  /* background-image: url(${more}); */
-  width: 30px;
-  height: 30px;
-  /* margin-right: 50px; */
-  background-position: center;
-  background-size: cover;
-  cursor: pointer;
-`;
-
 const Container = styled.div`
   display: flex;
   flex-direction: column;
-  /* height: 926px; */
   & > span {
     display: -webkit-box;
     -webkit-box-orient: vertical;
@@ -547,15 +499,10 @@ const Grid = styled.div`
   max-width: 428px;
   width: 100vw;
   padding-bottom: 60px;
-  //height: calc(var(--vh, 1vh) * 100 + 50px);
-  /* min-height: 926px; */
-
-  /* background: linear-gradient(#a396c9, #ffffff); */
 `;
 
 const ProfileBox = styled.div`
   display: flex;
-  /* justify-content: center; */
   align-items: center;
   flex-direction: row;
   width: 330px;
@@ -569,7 +516,6 @@ const ProfileImg = styled.div`
   border-radius: 50%;
   background-position: center;
   background-size: cover;
-  /* background-image: url(${(props) => props.url}); */
   box-shadow: 5px 5px 4px #877f92;
 `;
 
@@ -594,6 +540,14 @@ const DropdownContainer = styled.div`
 `;
 
 const DropdownButton = styled.div`
+  cursor: pointer;
+`;
+
+const StLoginList = styled.div`
+  width: 30px;
+  height: 30px;
+  background-position: center;
+  background-size: cover;
   cursor: pointer;
 `;
 
@@ -639,11 +593,9 @@ const Ul = styled.ul`
   & > li {
     margin-bottom: 10px;
   }
-
   & > li:first-of-type {
     margin-top: 10px;
   }
-
   list-style-type: none;
   padding: 0;
   margin: 0;
@@ -661,10 +613,20 @@ const LinkWrapper = styled.div`
   color: white;
 `;
 
-// const TitleText = styled.div`
-//   margin: 0 48px 10px 42px;
-//   font-size: 16px;
-// `;
+const DropBtn = styled.button`
+  margin-top: 15px;
+  text-align: center;
+  color: black;
+  font-size: 16px;
+  font-weight: bold;
+  line-height: 20px;
+  width: 180px;
+  height: 30px;
+  background-color: white;
+  border-radius: 10px;
+  border: none;
+  box-shadow: 5px 5px 4px #877f92;
+`;
 
 const DetailImage = styled.div`
   margin: 4px auto 40px;
@@ -677,7 +639,33 @@ const DetailImage = styled.div`
     width: 341px;
     height: 452px;
     border-radius: 20px;
-    //box-shadow: 5px 5px 4px #877f92;
+  }
+`;
+
+const HeartBox = styled.div`
+  margin: -30px auto 0;
+  width: 336px;
+  display: flex;
+`;
+
+const ImgBox = styled.div`
+  display: flex;
+  opacity: 70%;
+
+  &.heart {
+    width: 35px;
+    height: 35px;
+    margin-left: 5px;
+  }
+  & > span {
+    font-size: 18px;
+    width: 225px;
+    margin-top: 7px;
+    margin-left: 7px;
+    align-items: center;
+  }
+  & > div {
+    font-size: 12px;
   }
 `;
 
@@ -711,22 +699,6 @@ const SliderContainer = styled.div`
   transition: 0.5s;
 `;
 
-// const StMusinsaItemBox = styled.div`
-//   width: 150px;
-//   height: 100px;
-//   background-color: #e6e5ea;
-//   border-radius: 15px;
-//   margin-right: 15px;
-//   font-size: 20px;
-//   outline: none;
-//   text-align: center;
-//   cursor: pointer;
-//   &.true {
-//     height: 0;
-//   }
-//   transition: 0.5s;
-// `;
-
 const StMusinsaItemBox = styled.div`
   margin-right: 8px;
   display: flex;
@@ -744,125 +716,12 @@ const StMusinsaItemBox = styled.div`
   transition: 0.5s;
 `;
 
-const CommentBox = styled.div`
-  margin: 0 auto 0;
-  justify-content: center;
-  display: flex;
-`;
-
-const CommentImg = styled.div`
-  margin: 8px 6px 4px 0px;
-  width: 45px;
-  height: 45px;
-  border-radius: 50%;
-  background-position: center;
-  background-size: cover;
-  /* background-image: url(${(props) => props.url}); */
-  box-shadow: 5px 5px 4px #877f92;
-`;
-
-// const WrapComment = styled.div`
-//   padding: 10px;
-//   background-color: grey;
-// `;
-
-// const Textarea = styled.textarea`
-//   width: 200px;
-//   height: 25px;
-//   padding-top: 10px;
-//   border: none;
-//   outline: none;
-//   font-size: 16px;
-//   border: 1px solid var(--grey);
-//   border-radius: 10px;
-//   background-color: transparent;
-//   font-family: "Noto Sans KR", sans-serif;
-//   ::placeholder {
-//   }
-//   resize: none;
-//   :focus {
-//     border: 2px solid var(--greyD);
-//   }
-// `;
-
-const WrapComment = styled.div`
-  width: 254px;
-  margin: 10px 5px 10px;
-  background: #e6e5ea;
-  border-radius: 15px;
-  outline: none;
-  & > textarea {
-    width: 225px;
-    height: 45px;
-    border: none;
-    outline: none;
-    resize: none;
-    box-sizing: border-box;
-    padding: 6px 0 0 0;
-    margin-left: 10px;
-    font-family: "Noto Sans KR", sans-serif;
-    background: #e6e5ea;
-    font-size: 20px;
-  }
-`;
-
-// const AddCommentButton = styled.button`
-//   margin-top: 15px;
-//   text-align: center;
-//   color: white;
-//   font-size: 16px;
-//   font-weight: bold;
-//   line-height: 20px;
-//   width: 70px;
-//   height: 30px;
-//   background-image: url();
-//   background-color: #7b758b;
-//   border-radius: 10px;
-//   border: none;
-//   box-shadow: 5px 5px 4px #877f92;
-// `;
-
-const AddCommentButton = styled.div`
-  margin-top: 17px;
-  text-align: center;
-  color: white;
-  font-size: 16px;
-  font-weight: bold;
-  line-height: 20px;
-  width: 30px;
-  height: 30px;
-  background-position: center;
-  background-size: cover;
-  background-repeat: no-repeat;
-  /* background-image: url(${send}); */
-  /* background-color: #7b758b; */
-  border-radius: 10px;
-  border: none;
-  /* box-shadow: 5px 5px 4px #877f92; */
-`;
-
-const AddCommentButton2 = styled.button`
-  margin-top: 15px;
-  text-align: center;
-  color: black;
-  font-size: 16px;
-  font-weight: bold;
-  line-height: 20px;
-  width: 180px;
-  height: 30px;
-  background-color: white;
-  border-radius: 10px;
-  border: none;
-  box-shadow: 5px 5px 4px #877f92;
-`;
-
 const StMusinsaImage = styled.div`
   margin: 13px 12px 12px;
   width: 75px;
   height: 75px;
   border-radius: 15px;
   .ImgDiv {
-    /* background-color: orange; */
     width: 100%;
     height: 75px;
     border-radius: 16px;
@@ -889,6 +748,59 @@ const StText = styled.span`
   font-weight: bold;
 `;
 
+const CommentBox = styled.div`
+  margin: 0 auto 0;
+  justify-content: center;
+  display: flex;
+`;
+
+const CommentImg = styled.div`
+  margin: 8px 6px 4px 0px;
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  background-position: center;
+  background-size: cover;
+  box-shadow: 5px 5px 4px #877f92;
+`;
+
+const WrapComment = styled.div`
+  width: 254px;
+  margin: 10px 5px 10px;
+  background: #e6e5ea;
+  border-radius: 15px;
+  outline: none;
+  & > textarea {
+    width: 225px;
+    height: 45px;
+    border: none;
+    outline: none;
+    resize: none;
+    box-sizing: border-box;
+    padding: 6px 0 0 0;
+    margin-left: 10px;
+    font-family: "Noto Sans KR", sans-serif;
+    background: #e6e5ea;
+    font-size: 20px;
+  }
+`;
+
+const AddCommentButton = styled.div`
+  margin-top: 17px;
+  text-align: center;
+  color: white;
+  font-size: 16px;
+  font-weight: bold;
+  line-height: 20px;
+  width: 30px;
+  height: 30px;
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  border-radius: 10px;
+  border: none;
+`;
+
 const TopButton = styled.div`
   position: fixed;
   bottom: 74px;
@@ -896,7 +808,6 @@ const TopButton = styled.div`
   margin-left: -20px;
   width: 40px;
   height: 40px;
-  /* background-image: url(${upButton}); */
   background-size: cover;
   cursor: pointer;
 `;

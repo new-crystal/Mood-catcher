@@ -1,14 +1,16 @@
 /*global kakao*/
 import React, { Fragment, useEffect, useRef, useState } from "react";
 import styled from "styled-components";
-import Header from "../elem/Header";
-import NavigationBar from "../elem/NavigationBar";
-import { useNavigate } from "react-router-dom";
 import "../shared/style/MapImageStyle.css";
 import { useDispatch, useSelector } from "react-redux";
-import MapButton from "../elem/MapButton";
 
+// 통신
 import { __patchMap, __getUsersMap, __patchOnoff } from "../redux/async/kakao";
+
+// 컴포넌트
+import Header from "../elem/Header";
+import NavigationBar from "../elem/NavigationBar";
+import MapButton from "../elem/MapButton";
 
 const MapImage = (props) => {
   let map;
@@ -19,7 +21,6 @@ const MapImage = (props) => {
 
   const checkPatch = useSelector((state) => state.kakao.checkPatch);
   const checkUsersMap = useSelector((state) => state.kakao.checkUsersMap);
-  const checkExist = useSelector((state) => state.kakao.checkExist);
   const aroundUser = useSelector((state) => state.kakao.aroundUser);
   const latitude = useSelector((state) => state.kakao.myLatitude);
   const longitude = useSelector((state) => state.kakao.myLongitude);
@@ -28,37 +29,6 @@ const MapImage = (props) => {
   //맵 컨테이너 Ref로 받아오기
   const mapContainer = useRef(null);
   const [mapState, setMapState] = useState(true);
-  // const [toggle, setToggle] = useState(false); //map Exists 상태
-
-  //like_array에 userId있으면 true 없으면 false
-  //   useEffect(() => {
-  //     if(item.like_array.includes(userId)){
-  //         setToggle(true);
-  //     }else{
-  //         setToggle(false);
-  //     }
-  // }, [item, userId]);
-
-  useEffect(() => {
-    setMapState(true);
-  }, [isExistsMap]);
-
-  useEffect(() => {
-    // 카카오 맵 실행
-
-    if (kakao?.maps !== undefined) {
-      setMapState(true);
-    }
-    placeView();
-  }, [mapState]);
-
-  useEffect(() => {
-    dispatch(__getUsersMap());
-  }, [checkPatch]);
-
-  useEffect(() => {
-    kakaoMap(latitude, longitude, aroundUser);
-  }, [checkUsersMap]);
 
   const placeView = async () => {
     await findLocation();
@@ -150,6 +120,27 @@ const MapImage = (props) => {
     return;
   };
 
+  useEffect(() => {
+    setMapState(true);
+  }, [isExistsMap]);
+
+  useEffect(() => {
+    // 카카오 맵 실행
+
+    if (kakao?.maps !== undefined) {
+      setMapState(true);
+    }
+    placeView();
+  }, [mapState]);
+
+  useEffect(() => {
+    dispatch(__getUsersMap());
+  }, [checkPatch]);
+
+  useEffect(() => {
+    kakaoMap(latitude, longitude, aroundUser);
+  }, [checkUsersMap]);
+
   return (
     <Fragment>
       <Container>
@@ -181,27 +172,9 @@ const MapImage = (props) => {
   );
 };
 
-const StMessageBox = styled.div`
-  width: 428px;
-  height: 18px;
-  top: 61px;
-  left: 50%;
-  margin-left: -134px;
-  display: flex;
-  position: fixed;
-  text-align: center;
-  /* justify-content: center; */
-  background-color: transparent;
-  font-family: "Noto Sans KR", sans-serif;
-  font-style: normal;
-  font-weight: 700;
-  z-index: 999;
-`;
-
 const Container = styled.div`
   display: flex;
   flex-direction: column;
-  /* height: 926px; */
   & > span {
     display: -webkit-box;
     -webkit-box-orient: vertical;
@@ -217,16 +190,23 @@ const Grid = styled.div`
   margin-bottom: 57px;
   max-width: 428px;
   width: 100vw;
-  //height: calc(var(--vh, 1vh) * 100 + 50px);
   background: linear-gradient(#a396c9, #ffffff);
-  /* background: #a396c9; */
 `;
 
-const LoaderWrap = styled.div`
-  position: absolute;
-  top: 200px;
+const StMessageBox = styled.div`
+  width: 428px;
+  height: 18px;
+  top: 61px;
   left: 50%;
-  margin-left: -100px;
+  margin-left: -134px;
+  display: flex;
+  position: fixed;
+  text-align: center;
+  background-color: transparent;
+  font-family: "Noto Sans KR", sans-serif;
+  font-style: normal;
+  font-weight: 700;
+  z-index: 999;
 `;
 
 export default React.memo(MapImage);
