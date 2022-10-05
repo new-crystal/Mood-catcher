@@ -82,18 +82,9 @@ const AlarmListForm = ({ alarm }) => {
           </TextBox>
           <TimeText>{alarm.createdAt}</TimeText>
           <ArrowBtn
-            style={{
-              backgroundImage: `url("https://www.pngmart.com/files/16/Left-Arrow-Icon-PNG-Transparent-Image.png")`,
-            }}
-          >
-            <img
-              src={`${"https://www.pngmart.com/files/16/Left-Arrow-Icon-PNG-Transparent-Image.png"}`}
-              alt="arrow_img"
-              width="0"
-              height="0"
-              style={{ display: "none !important" }}
-            />
-          </ArrowBtn>
+            src={`${"https://www.pngmart.com/files/16/Left-Arrow-Icon-PNG-Transparent-Image.png"}`}
+            alt="arrow_img"
+          />
           <DelAlarm2
             style={{ cursor: "pointer" }}
             onClick={(e) => {
@@ -188,14 +179,12 @@ const AlarmImg = styled.div`
   flex-shrink: 0;
 `;
 
-const ArrowBtn = styled.div`
+const ArrowBtn = styled.img`
   position: relative;
   left: -30px;
   top: 10px;
   width: 15px;
   height: 15px;
-  background-position: center;
-  background-size: cover;
   opacity: 70%;
   flex-shrink: 0;
   transform: scaleX(-1);

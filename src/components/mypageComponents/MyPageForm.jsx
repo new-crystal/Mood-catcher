@@ -43,16 +43,17 @@ const MyPageForm = () => {
   const navigate = useNavigate();
   const { userId } = useParams();
   //유저의 닉네임, 프로필이미지, 등급, 무드 포인트 불러오기
-  const users = useSelector((state) => state.login.myPageUser);
-  const userGrade = useSelector((state) => state.login.myPageUser.grade);
-  const profileIcon = useSelector((state) => state.login.userIcon.grade);
+  const users = useSelector((state) => state.login.myPageUser); //유저 정보 가져오기
+  const profileIcon = useSelector((state) => state.login.userIcon.grade); //유저 아이콘 변경 가져오기
+  const userGrade = useSelector((state) => state.login.myPageUser.grade); //유저 등급 가져오기
   const img = users?.imgUrl?.split(".com/")[1];
   const grade = userGrade?.split(" ")[1];
+
   //내 게시글 불러오기
   const myClosetList = useSelector((state) => state.upload.myList);
   //대표 게시물 불러오기
   const rep = useSelector((state) => state.upload.representative);
-  //유저의 프로필 수정  여부 가져오기
+  //유저의 프로필 수정 여부 가져오기
   const changeUser = useSelector((state) => state.login.changeStatus);
 
   const [click, setClick] = useState(false);
@@ -62,7 +63,6 @@ const MyPageForm = () => {
     "https://cdn.discordapp.com/attachments/1014169130045292625/1014194232250077264/Artboard_1.png"
   );
   const [gradeImg, setGradeImg] = useState(cat1);
-
   //토큰에서 userId 가져오기
   const token = localStorage.getItem("token");
   const payload = jwt_decode(token);
@@ -105,7 +105,7 @@ const MyPageForm = () => {
         setGradeImg(catIcon[parseInt(grade)]);
       }
     },
-    [users, profileIcon, gradeList]
+    [profileIcon, users, gradeList]
   );
 
   const text = `${users?.nickname}님의 \n옷장`;

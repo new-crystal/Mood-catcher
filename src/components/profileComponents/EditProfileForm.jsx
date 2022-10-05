@@ -21,8 +21,8 @@ import { changeNickname } from "../../redux/modules/loginSlice";
 const EditProfileForm = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const checkNickname = useSelector((state) => state.login.checkNickname);
-  const users = useSelector((state) => state.login.myPageUser);
+  const checkNickname = useSelector((state) => state.login.checkNickname); //닉네임 중복체크
+  const users = useSelector((state) => state.login.myPageUser); //유저 정보
   const [editNickname, setEditNickname] = useState(false);
   const [original, setOriginal] = useState(false);
   const [gender, setGender] = useState(users?.gender);
@@ -33,6 +33,7 @@ const EditProfileForm = () => {
       "https://cdn.discordapp.com/attachments/1014169130045292625/1014194232250077264/Artboard_1.png",
   });
   const [edit, setEdit] = useState(false);
+  //토큰에서 유저 정보 가져오기
   const token = localStorage.getItem("token");
   const payload = jwt_decode(token);
   const userId = payload.userId;

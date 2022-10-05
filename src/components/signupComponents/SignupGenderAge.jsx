@@ -24,7 +24,6 @@ import { __getUser } from "../../redux/async/login";
 //이미지
 import male from "../../image/5man.png";
 import female from "../../image/girl5.png";
-import gender from "../../image/gender.png";
 
 const SignupGenderAge = (location) => {
   const dispatch = useDispatch();

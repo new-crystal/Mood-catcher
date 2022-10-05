@@ -14,9 +14,9 @@ import search from "../../image/search.png";
 const SearchResultForm = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { keyword } = useParams();
+  const { keyword } = useParams(); //주소창에서 검색 키워드 가져오기
   const key = keyword.split("=")[1];
-  const sort = window.location.href.split("sort=")[1];
+  const sort = window.location.href.split("sort=")[1]; //검색창에서 검색 카테고리 가져오기
   const searchList = useSelector((state) => state.search.searchResult); //검색 결과 받아오기
   const last = useSelector((state) => state.search.resultPostLast); //마지막 페이지 불러오기
   const [page, setPage] = useState(1);
@@ -24,6 +24,19 @@ const SearchResultForm = () => {
   const [title, setTitle] = useState(true);
   const [writer, setWriter] = useState(false);
   const [isSearch, setIsSearch] = useState(false);
+
+  //페이지 계산해서 get 요청 보내고 page 카운트 올리기
+  useEffect(() => {
+    if (
+      (page === 1 && searchList.length === 0) ||
+      isSearch === true ||
+      isSearch === false
+    ) {
+      dispatch(__getSearchResult({ key, sort, page }));
+    }
+    if (searchList.length !== 0) {
+    }
+  }, [key, isSearch]);
 
   //윈도우 스크롤 위치 계산하기
   useEffect(() => {
@@ -91,19 +104,6 @@ const SearchResultForm = () => {
       setLoading(true);
     }
   }, 500);
-
-  //페이지 계산해서 get 요청 보내고 page 카운트 올리기
-  useEffect(() => {
-    if (
-      (page === 1 && searchList.length === 0) ||
-      isSearch === true ||
-      isSearch === false
-    ) {
-      dispatch(__getSearchResult({ key, sort, page }));
-    }
-    if (searchList.length !== 0) {
-    }
-  }, [key, isSearch]);
 
   //제목으로 검색 눌렀을 때
   const onChangeTitle = () => {
@@ -235,7 +235,7 @@ const SearchResultForm = () => {
                   search?.imgUrl.split("w280")[1]
                 }`)
               }
-            ></Img>
+            />
           ))}
         {sort === "writer" &&
           searchList?.map((search) => (
@@ -245,7 +245,7 @@ const SearchResultForm = () => {
                 src={search?.imgUrl}
                 onClick={() => navigate(`/mypage/${search?.userId}`)}
                 alt="search_result_image"
-              ></Img>
+              />
             </NickImgBox>
           ))}
       </ImgBox>

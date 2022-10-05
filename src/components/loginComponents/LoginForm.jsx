@@ -30,7 +30,7 @@ const LoginForm = () => {
     }
   }, []);
 
-  //react hook form
+  //react hook form을 이용한 유효성 검사
   const {
     register,
     formState: { errors, isDirty, isSubmitting },

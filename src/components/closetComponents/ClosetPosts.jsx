@@ -29,6 +29,16 @@ const ClosetPosts = () => {
   const { userId } = useParams(); //주소창의 유저 아이디 받아오기
 
   useEffect(() => {
+    if (paging === 1 && ranksIF.length === 0) {
+      dispatch(__getMyCloset({ userId: userId, paging: paging }));
+      setPaging(paging + 1);
+    } //첫렌더링시 0페이지 받아오기
+    if (ranksIF.length !== 0) {
+      setPaging(ranksIF.length / 4 + 1);
+    } //다른컴포넌트 갔다 올때 렌더링시 페이지넘버 계산
+  }, [userId]);
+
+  useEffect(() => {
     if (loading) {
       return;
     } //로딩이 true일 경우 리턴
@@ -67,16 +77,6 @@ const ClosetPosts = () => {
       setLoading(true); //실행동안 loading true로 바꾸고 요청 막기
     }
   }, 500);
-
-  useEffect(() => {
-    if (paging === 1 && ranksIF.length === 0) {
-      dispatch(__getMyCloset({ userId: userId, paging: paging }));
-      setPaging(paging + 1);
-    } //첫렌더링시 0페이지 받아오기
-    if (ranksIF.length !== 0) {
-      setPaging(ranksIF.length / 4 + 1);
-    } //다른컴포넌트 갔다 올때 렌더링시 페이지넘버 계산
-  }, [userId]);
 
   return (
     <Fragment>

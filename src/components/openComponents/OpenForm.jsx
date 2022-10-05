@@ -19,7 +19,7 @@ const OpenForm = () => {
     dispatch(__getOpen());
   }, []);
 
-  //3초 뒤에 메인으로 보내기
+  //2초 뒤에 메인으로 보내기
   useEffect(() => {
     setTimeout(() => {
       navigate("/main");

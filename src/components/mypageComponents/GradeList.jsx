@@ -31,6 +31,8 @@ const GradeList = ({ setGradeList }) => {
   const [gender, setGender] = useState("moody");
   const grade = user?.grade?.split(" ")[0];
 
+  console.log(grade);
+
   //유저 정보 가져오기
   useEffect(() => {
     dispatch(__getMyPageUser(userId));
