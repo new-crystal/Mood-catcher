@@ -16,7 +16,8 @@
 }
 @font-face {
   font-family: "Noto Sans KR";
-  src: url("shared/font/Noto_Sans_KR/NotoSansKR-Regular.otf");
+  src: local("Noto Sans KR"),
+    url("shared/font/Noto_Sans_KR/NotoSansKR-Regular.woff2") format("woff2");
   font-display: swap;
 }
 @font-face {
