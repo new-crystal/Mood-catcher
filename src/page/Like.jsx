@@ -2,13 +2,23 @@ import React, { useState, Fragment, useEffect } from "react";
 import styled from "styled-components";
 import Header from "../elem/Header";
 import NavigationBar from "../elem/NavigationBar";
-import LikePosts from "../components/likeComponents/LikePosts";
 import _ from "lodash";
 
+//컴포넌트
+import LikePosts from "../components/likeComponents/LikePosts";
+
+//이미지
 const upButton = "/images/upArrow.png";
 
 const Closet = (props) => {
   const [scrollHeightInfo, SetScrollHeightInfo] = useState(0);
+
+  useEffect(() => {
+    window.addEventListener("scroll", _scrollPosition); // scroll event listener 등록
+    return () => {
+      window.removeEventListener("scroll", _scrollPosition); // scroll event listener 해제(스크롤이벤트 클린업)
+    };
+  }, [scrollHeightInfo]);
 
   // toTop버튼
   const showTopButton = () => {
@@ -40,13 +50,6 @@ const Closet = (props) => {
     SetScrollHeightInfo(scrollHeight);
   }, 300);
 
-  useEffect(() => {
-    window.addEventListener("scroll", _scrollPosition); // scroll event listener 등록
-    return () => {
-      window.removeEventListener("scroll", _scrollPosition); // scroll event listener 해제(스크롤이벤트 클린업)
-    };
-  }, [scrollHeightInfo]);
-
   const ScrollToTop = () => {
     window.scrollTo({
       top: 0,
@@ -73,7 +76,6 @@ export default Closet;
 const Container = styled.div`
   display: flex;
   flex-direction: column;
-  /* height: 926px; */
   & > span {
     display: -webkit-box;
     -webkit-box-orient: vertical;
@@ -84,14 +86,10 @@ const Container = styled.div`
 `;
 
 const Grid = styled.div`
-  margin: 0 auto;
-  margin-top: 60px;
-  margin-bottom: 57px;
+  margin: 60px auto 57px auto;
   max-width: 428px;
   width: 100vw;
-  //height: calc(var(--vh, 1vh) * 100 + 50px);
   min-height: 926px;
-  /* background: linear-gradient(#a396c9, #ffffff); */
 `;
 
 const TopButton = styled.div`
@@ -101,7 +99,6 @@ const TopButton = styled.div`
   margin-left: -20px;
   width: 40px;
   height: 40px;
-  /* background-image: url(${upButton}); */
   background-size: cover;
   cursor: pointer;
 `;

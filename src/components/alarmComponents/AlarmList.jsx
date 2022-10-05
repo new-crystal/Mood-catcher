@@ -1,7 +1,9 @@
+import styled from "styled-components";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import styled from "styled-components";
 import Swal from "sweetalert2";
+
+//통신
 import { __deleteAlarm } from "../../redux/async/alarm";
 
 const AlarmListForm = ({ alarm }) => {
@@ -33,12 +35,13 @@ const AlarmListForm = ({ alarm }) => {
 
   return (
     <>
+      {/* 알림의 이동페이지가 없는 경우 */}
       {alarm.postId === -1 ? (
         <AlarmBox key={alarm.noticeId}>
           <AlarmImg style={{ backgroundImage: `url(${alarm.imgUrl})` }}>
             <img
               src={`${alarm.imgUrl}`}
-              alt=""
+              alt="alarm_img"
               width="0"
               height="0"
               style={{ display: "none !important" }}
@@ -60,11 +63,10 @@ const AlarmListForm = ({ alarm }) => {
             navigate(`/item_detail/${alarm.postId}/${alarm.userId}`);
           }}
         >
-          {/* <AlarmImg url={alarm.imgUrl}> </AlarmImg> */}
           <AlarmImg style={{ backgroundImage: `url(${alarm.imgUrl})` }}>
             <img
               src={`${alarm.imgUrl}`}
-              alt=""
+              alt="alarm_img"
               width="0"
               height="0"
               style={{ display: "none !important" }}
@@ -80,18 +82,9 @@ const AlarmListForm = ({ alarm }) => {
           </TextBox>
           <TimeText>{alarm.createdAt}</TimeText>
           <ArrowBtn
-            style={{
-              backgroundImage: `url("https://www.pngmart.com/files/16/Left-Arrow-Icon-PNG-Transparent-Image.png")`,
-            }}
-          >
-            <img
-              src={`${"https://www.pngmart.com/files/16/Left-Arrow-Icon-PNG-Transparent-Image.png"}`}
-              alt=""
-              width="0"
-              height="0"
-              style={{ display: "none !important" }}
-            />
-          </ArrowBtn>
+            src={`${"https://www.pngmart.com/files/16/Left-Arrow-Icon-PNG-Transparent-Image.png"}`}
+            alt="arrow_img"
+          />
           <DelAlarm2
             style={{ cursor: "pointer" }}
             onClick={(e) => {
@@ -126,21 +119,20 @@ const AlarmListForm = ({ alarm }) => {
 };
 
 const AlarmBox = styled.div`
+  display: flex;
+  margin: 5px auto;
+  border-radius: 20px;
   width: 360px;
   height: 55px;
   background-color: white;
-  border-radius: 20px;
-  margin: 5px auto;
   text-align: left;
-  display: flex;
   align-items: center;
   justify-content: baseline;
   flex-direction: row;
 
   & p {
-    width: 260px;
     margin-left: 5px;
-    font-family: "Noto Sans KR", sans-serif;
+    width: 260px;
     font-style: Bold;
     font-weight: 700;
     font-size: 13px;
@@ -161,47 +153,43 @@ const AlarmBox = styled.div`
   }
 `;
 const TextBox = styled.div`
-  width: 255px;
   margin: 0px;
+  width: 255px;
 `;
 const TimeText = styled.div`
-  width: 45px;
-  font-family: "Noto Sans KR", sans-serif;
-  font-style: normal;
-  font-weight: 500;
-  font-size: 0.188rem;
   position: relative;
   top: -19px;
   left: 0px;
-  text-align: center;
   margin-right: 0px;
+  width: 45px;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 0.188rem;
+  text-align: center;
   flex-shrink: 0;
 `;
 
 const AlarmImg = styled.div`
+  margin-left: 5px;
+  border-radius: 50%;
   width: 34px;
   height: 34px;
-  border-radius: 50%;
-  margin-left: 5px;
   background-position: center;
   background-size: cover;
-  /* background-image: url(${(props) => props.url}); */
   flex-shrink: 0;
 `;
 
-const ArrowBtn = styled.div`
-  transform: scaleX(-1);
-  width: 15px;
-  height: 15px;
-  background-position: center;
-  background-size: cover;
-  /* background-image: url("https://www.pngmart.com/files/16/Left-Arrow-Icon-PNG-Transparent-Image.png"); */
+const ArrowBtn = styled.img`
   position: relative;
   left: -30px;
   top: 10px;
+  width: 15px;
+  height: 15px;
   opacity: 70%;
   flex-shrink: 0;
+  transform: scaleX(-1);
 `;
+
 const DelAlarm = styled.p`
   position: relative;
   left: -5px;

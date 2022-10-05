@@ -1,12 +1,15 @@
+import { useState, useEffect } from "react";
 import styled from "styled-components";
+
+//컴포넌트
 import flex from "./flex";
 import { FlexRowDiv, StModalGlobal, StButton } from "./AgreementStyle";
 import { generateWordSet } from "./fetchAgreement";
-import { useState, useEffect } from "react";
 
 const Agreement = ({ confirm, title, confirmTitle }) => {
   const [wordSet, setWordSet] = useState();
   const [flagBottom, setFlagBottom] = useState(true);
+
   useEffect(() => {
     generateWordSet().then((word) => {
       setWordSet(word);
@@ -65,23 +68,23 @@ const StModal = styled(StModalGlobal)`
       })}
       height: 100%;
       .missionTitle {
+        margin: 30px 0 6px 0;
         font-weight: 700;
         font-size: 18px;
         color: white;
-        margin: 30px 0 6px 0;
       }
       span,
       p {
+        margin: 4px 0;
         font-size: 14px;
         color: white;
-        margin: 4px 0;
       }
     }
   }
 `;
 
 const StAgreementDiv = styled.div`
-  height: 85%;
   margin-bottom: 5px;
+  height: 85%;
   overflow: scroll;
 `;

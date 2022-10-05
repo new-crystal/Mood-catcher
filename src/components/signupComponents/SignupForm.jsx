@@ -1,6 +1,12 @@
+import { useEffect, useState } from "react";
 import styled from "styled-components";
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
+import bcrypt from "bcryptjs";
+
+//통신
 import {
   __checkEmail,
   __postAuthNum,
@@ -9,18 +15,12 @@ import {
 } from "../../redux/async/signup";
 import { changeEmail, changeAuthNum } from "../../redux/modules/signUpSlice";
 
-import { useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
-import Swal from "sweetalert2";
-import bcrypt from "bcryptjs";
-
 const SigupForm = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const checkEmail = useSelector((state) => state.signup.checkEmail); //이메일 중복확인
+  const authNum = useSelector((state) => state.signup.checkAuthNum); //인증번호 확인
   const [sendEmail, setSendEmail] = useState(false);
-
-  const checkEmail = useSelector((state) => state.signup.checkEmail);
-  const authNum = useSelector((state) => state.signup.checkAuthNum);
 
   //로그인 한 경우
   useEffect(() => {
@@ -29,15 +29,6 @@ const SigupForm = () => {
       navigate("/main");
     }
   }, []);
-
-  //react-hook-form에서 불러오기
-  const {
-    register,
-    setError,
-    getValues,
-    formState: { errors, isDirty, isSubmitting },
-    handleSubmit,
-  } = useForm({ criteriaMode: "all", mode: "onChange" });
 
   //email 중복확인 성공했을 때 메시지 띄워주기
   useEffect(() => {
@@ -49,11 +40,21 @@ const SigupForm = () => {
     }
   }, [checkEmail, authNum]);
 
+  //react-hook-form에서 불러오기
+  const {
+    register,
+    setError,
+    getValues,
+    formState: { errors, isDirty, isSubmitting },
+    handleSubmit,
+  } = useForm({ criteriaMode: "all", mode: "onChange" });
+
   //이메일이 바뀐 값 디스패치하기
   const onChangeEmail = () => {
     dispatch(changeEmail());
   };
 
+  //인증번호가 바뀐 값 디스패치하기
   const onChangeSendEmail = () => {
     dispatch(changeAuthNum());
   };
@@ -78,7 +79,27 @@ const SigupForm = () => {
       );
     }
   };
-  //인증번호 발송을 눌렀을 때
+
+  //이메일 인증번호 발송하기
+  const onClickSendEmail = () => {
+    const email = getValues("email");
+    if (!checkEmail) {
+      Swal.fire("에러", "이메일 중복확인을 해주세요!", "error");
+      setSendEmail(false);
+    }
+    if (checkEmail) {
+      Swal.fire({
+        icon: "success",
+        title: "이메일로 인증번호가 발송되었습니다!",
+        showConfirmButton: false,
+        timer: 1500,
+      });
+      setSendEmail(true);
+      dispatch(__postEmail({ email }));
+    }
+  };
+
+  //인증번호 확인하기
   const onClickSendAuthNum = async () => {
     const authEmailNum = await getValues("sendEmail");
     if (errors.sendEmail !== undefined) {
@@ -119,7 +140,6 @@ const SigupForm = () => {
       //비밀번호 값과 비밀번호 확인 값이 같을 때만
       if (data.password === data.confirmPw && authNum === true) {
         await new Promise((r) => setTimeout(r, 300));
-
         const password = ciphertext;
         const confirmPw = ciphertext;
         const email = getValues("email");
@@ -143,25 +163,6 @@ const SigupForm = () => {
           { shouldFocus: true }
         );
       }
-    }
-  };
-
-  //이메일 인증번호 발송하기
-  const onClickSendEmail = () => {
-    const email = getValues("email");
-    if (!checkEmail) {
-      Swal.fire("에러", "이메일 중복확인을 해주세요!", "error");
-      setSendEmail(false);
-    }
-    if (checkEmail) {
-      Swal.fire({
-        icon: "success",
-        title: "이메일로 인증번호가 발송되었습니다!",
-        showConfirmButton: false,
-        timer: 1500,
-      });
-      setSendEmail(true);
-      dispatch(__postEmail({ email }));
     }
   };
 
@@ -313,41 +314,39 @@ const SigupForm = () => {
 };
 
 const SignUpWrap = styled.div`
+  display: flex;
   width: 100%;
   background-color: #ffffff;
-  display: flex;
   flex-direction: column;
   text-align: center;
 `;
 
 const Container = styled.form`
-  /* width: 100vw; */
   margin: 0 auto;
 
   .email {
-    width: 183px;
     border-left-width: 0;
     border-right-width: 0;
     border-top-width: 0;
     border-bottom-width: 1;
-    background-color: #ffffff;
     border-bottom: 2px solid black;
+    width: 183px;
+    background-color: #ffffff;
   }
   input {
-    height: 24px;
-    width: 300px;
     padding-left: 5px;
     border-left-width: 0;
     border-right-width: 0;
     border-top-width: 0;
     border-bottom-width: 1;
-    background-color: #ffffff;
     border-bottom: 2px solid black;
+    width: 300px;
+    height: 24px;
+    background-color: #ffffff;
     :focus {
       outline: none;
     }
     ::placeholder {
-      /* color: black; */
       font-size: 0.6em;
       font-weight: 400;
       opacity: 1; /* Firefox */
@@ -356,81 +355,65 @@ const Container = styled.form`
 `;
 
 const FormCantainer = styled.div`
-  width: 300px;
   display: flex;
+  margin: 50px auto 0px;
+  width: 300px;
   align-items: center;
   justify-content: left;
   align-items: baseline;
   flex-direction: column;
-  margin: 50px auto 0px;
 `;
 
 const ConfirmBtn = styled.button`
-  /* background: linear-gradient(78.32deg, #7b758b 41.41%, #ffffff 169.58%); */
-  background: #a8a6af;
+  margin-left: 20px;
+  border-radius: 5px;
   border: 0px;
   width: 90px;
   height: 40px;
-  color: white;
-  border-radius: 5px;
-  /* margin: 5px auto; */
-  margin-left: 20px;
-  /* font-family: "Roboto"; */
+  background: #a8a6af;
   font-family: "Noto Sans KR", sans-serif;
-  font-style: normal;
-  /* font-weight: 700; */
+  color: white;
   cursor: default;
   p {
+    margin: 0 auto;
     color: white;
-    /* font-family: "Roboto"; */
     text-decoration: none;
     font-weight: bold;
     font-size: 15px;
-    margin: 0 auto;
   }
 `;
 
 const ConfirmNumBtn = styled.button`
-  /* background: linear-gradient(78.32deg, #7b758b 41.41%, #ffffff 169.58%); */
-  background: #a8a6af;
+  margin-left: 20px;
   border: 0px;
+  border-radius: 5px;
   width: 90px;
   height: 40px;
+  background: #a8a6af;
   color: white;
-  border-radius: 5px;
-  /* margin: 5px auto; */
-  margin-left: 20px;
-  /* font-family: "Roboto"; */
-  font-family: "Noto Sans KR", sans-serif;
-  font-style: normal;
-  /* font-weight: 700; */
   cursor: default;
   p {
+    margin: 0 auto;
     color: white;
-    /* font-family: "Roboto"; */
     text-decoration: none;
     font-weight: bold;
     font-size: 14px;
-    margin: 0 auto;
   }
 `;
 const SendEmailBtn = styled.button`
-  /* background: linear-gradient(78.32deg, #7b758b 41.41%, #ffffff 169.58%); */
-  background: #a8a6af;
+  margin-top: 10px;
   border: 0px;
+  border-radius: 5px;
   width: 300px;
   height: 50px;
-  border-radius: 5px;
   color: white;
   font-family: "Noto Sans KR", sans-serif;
-  font-style: normal;
   font-weight: 700;
   font-size: 16px;
-  margin-top: 10px;
+  background: #a8a6af;
   cursor: default;
   p {
     color: white;
-    /* font-family: "Roboto"; */
     text-decoration: none;
     font-weight: bold;
     font-size: 15px;
@@ -438,12 +421,12 @@ const SendEmailBtn = styled.button`
 `;
 
 const SignUpBox = styled.div`
+  display: flex;
+  margin: 0 auto;
   border-bottom: 3px solid #fff;
   width: 211px;
-  margin: 0 auto;
   color: #2d273f;
   text-align: center;
-  display: flex;
   align-items: center;
   justify-content: center;
   flex-direction: column;
@@ -468,16 +451,14 @@ const TextBox = styled.div`
     margin-top: 0px;
     margin-bottom: 0px;
     color: #2d273f;
-    /* font-family: "Roboto"; */
-    font-style: normal;
     font-weight: 700;
     font-size: 20px;
   }
   p {
-    color: #c60000;
-    font-size: 10px;
     margin-left: 20px;
     margin-bottom: 0px;
+    color: #c60000;
+    font-size: 10px;
   }
 `;
 
@@ -490,51 +471,31 @@ const PwTextBox = styled.div`
     margin-top: 20px;
     margin-bottom: 7px;
     color: #2d273f;
-    /* font-family: "Roboto"; */
-    font-style: normal;
     font-weight: 700;
     font-size: 20px;
   }
   p {
-    color: #c60000;
-    font-size: 10px;
     margin-left: 20px;
     margin-bottom: 0px;
+    color: #c60000;
+    font-size: 10px;
   }
 `;
 
-// const OkBtn = styled.button`
-//   background: linear-gradient(78.32deg, #7b758b 41.41%, #ffffff 169.58%);
-//   color: white;
-//   font-family: "Unna";
-//   font-style: normal;
-//   font-weight: 400;
-//   font-size: 30px;
-//   border: 0px;
-//   border-radius: 10px;
-//   width: 150px;
-//   height: 40px;
-//   margin: -10px auto 0 auto;
-//   cursor: pointer;
-// `;
-
 const OkBtn = styled.button`
-  /* background: linear-gradient(78.32deg, #7b758b 41.41%, #ffffff 169.58%); */
-  background: #a8a6af;
+  margin-top: 20px;
   border: 0px;
+  border-radius: 5px;
   width: 300px;
   height: 50px;
-  border-radius: 5px;
   color: white;
   font-family: "Noto Sans KR", sans-serif;
-  font-style: normal;
   font-weight: 700;
   font-size: 16px;
-  margin-top: 20px;
+  background: #a8a6af;
   cursor: default;
   p {
     color: white;
-    /* font-family: "Roboto"; */
     text-decoration: none;
     font-weight: bold;
     font-size: 15px;
@@ -542,23 +503,19 @@ const OkBtn = styled.button`
 `;
 
 const LoginBtn = styled.button`
-  /* background: linear-gradient(78.32deg, #7b758b 41.41%, #ffffff 169.58%); */
-  background: #a8a6af;
+  margin-bottom: 20px;
   border: 0px;
+  border-radius: 5px;
   width: 300px;
   height: 50px;
-  border-radius: 5px;
   color: white;
   font-family: "Noto Sans KR", sans-serif;
-  font-style: normal;
   font-weight: 700;
   font-size: 16px;
-  /* margin-top: 20px; */
-  margin-bottom: 20px;
+  background: #a8a6af;
   cursor: default;
   p {
     color: white;
-    /* font-family: "Roboto"; */
     text-decoration: none;
     font-weight: bold;
     font-size: 15px;
@@ -567,21 +524,17 @@ const LoginBtn = styled.button`
 
 const LoginBox = styled.div`
   padding: 0px;
-  font-family: "Roboto";
   font-style: normal;
   font-weight: 400;
   font-size: 10px;
   line-height: 12px;
   color: black;
-  /* margin-top: 30px; */
   p {
-    color: black;
-    /* font-family: "Roboto"; */
-    text-decoration: none;
-    font-weight: bold;
     margin-top: 20px;
     margin-bottom: 20px;
-    /* font-size: 15px; */
+    color: black;
+    text-decoration: none;
+    font-weight: bold;
   }
 `;
 export default SigupForm;

@@ -1,16 +1,16 @@
-import flex from "./flex";
 import styled from "styled-components";
+import flex from "./flex";
 
 export const FlexRowDiv = styled.div`
   ${flex({})}
 `;
 
 export const StButton = styled.button`
+  margin: 0 4.06px 0 4.06px;
+  border-radius: 8px;
+  border: 1px solid ${(props) => (props.color === "brown" ? "none" : "#CACDD3")};
   width: 132px;
   height: 48px;
-  border-radius: 8px;
-  margin: 0 4.06px 0 4.06px;
-  border: 1px solid ${(props) => (props.color === "brown" ? "none" : "#CACDD3")};
   background-color: ${(props) => (props.color === "brown" ? "none" : "black")};
   color: ${(props) => (props.color === "brown" ? "black" : "white")};
   @media screen and (max-width: 350px) {
@@ -29,10 +29,10 @@ export const StModalGlobal = styled.div`
   z-index: 901;
   .StInnerContainer {
     ${flex({})}
+    border-radius: 8px;
     width: 320px;
     height: 383px;
     background: var(--white);
-    border-radius: 8px;
     @media screen and (max-width: 350px) {
       width: 270px;
     }
@@ -57,11 +57,11 @@ export const StModalGlobal = styled.div`
       }
       label {
         ${flex({})}
-        width: 193px;
-        height: 193px;
+        margin-bottom: 24px;
         border: 1px solid var(--gray-3);
         border-radius: 100%;
-        margin-bottom: 24px;
+        width: 193px;
+        height: 193px;
       }
     }
   }

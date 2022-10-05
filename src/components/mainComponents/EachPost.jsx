@@ -2,6 +2,8 @@ import React, { Fragment } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
+import hanger from "../../image/hanger.png";
+
 const EachPost = (props) => {
   const navigate = useNavigate();
   const { item } = props;
@@ -10,9 +12,14 @@ const EachPost = (props) => {
   const onErrorHandler = (e) => {
     const url = item.imgUrl.split("w280")[0];
     const name = item.imgUrl.split("w280")[1];
-    e.target.src = `${url}post${name}`;
+    if (item.imgUrl.split("w280")[2] !== undefined) {
+      e.target.src = `${url}post${name}`;
+    }
+    if (item.imgUrl.split("w280")[2] === undefined) {
+      console.log("undefined");
+      e.target.src = hanger;
+    }
   };
-
   return (
     <Fragment>
       <PostWrap

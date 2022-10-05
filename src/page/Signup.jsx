@@ -21,12 +21,10 @@ const Signup = () => {
 export default Signup;
 
 const Container = styled.div`
+  display: flex;
   max-width: 26.75rem;
   width: 100vw;
-  display: flex;
-  /* height: 984px; */
   margin: 0 auto;
-  /* flex-direction: column; */
   bottom: 110px;
   & > span {
     display: -webkit-box;
@@ -38,21 +36,15 @@ const Container = styled.div`
 `;
 
 const Grid = styled.div`
-  /* max-width: 26.75rem; */
+  margin: 60px auto 0 auto;
   width: 100vw;
-  //height: calc(var(--vh, 1vh) * 100 + 50px);
-
-  margin: 0 auto;
   background-color: royalblue;
-  margin-top: 60px;
-  /* margin-bottom: 500px; */
 `;
 
 const LoginWrap = styled.div`
+  display: flex;
   width: 100%;
   background-color: #ffffff;
-  display: flex;
   flex-direction: column;
   text-align: center;
-  /* background: linear-gradient(#a396c9, #ffffff); */
 `;

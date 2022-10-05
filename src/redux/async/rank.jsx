@@ -12,7 +12,6 @@ export const __getHotPosts = createAsyncThunk(
         return response.data.data.hotPosts;
       }
     } catch (err) {
-      //Swal.fire("에러", "네트워크 연결 상태를 확인해주세요.!", "error");
       return thunkAPI.rejectWithValue(err.response.msg);
     }
   }
@@ -22,15 +21,14 @@ export const __getHotPosts = createAsyncThunk(
 export const __getMainAllPosts = createAsyncThunk(
   "GET/MAINALLPOSTS",
   async (data, thunkAPI) => {
-    // try {
-    const response = await rankApi.getMainAllPosts(data);
-    if (response.status === 200) {
-      return response.data;
+    try {
+      const response = await rankApi.getMainAllPosts(data);
+      if (response.status === 200) {
+        return response.data;
+      }
+    } catch (err) {
+      return thunkAPI.rejectWithValue(err.response.msg);
     }
-    // } catch (err) {
-    //   // Swal.fire("에러", "네트워크 연결 상태를 확인해주세요.!", "error");
-    //   return thunkAPI.rejectWithValue(err.response.msg);
-    // }
   }
 );
 
@@ -38,11 +36,7 @@ export const __getMainAllPosts = createAsyncThunk(
 export const __getBestPosts = createAsyncThunk(
   "GET/BESTPOSTS",
   async (data, thunkAPI) => {
-    // try {
     const response = await rankApi.getBestPosts(data);
     return thunkAPI.fulfillWithValue(response.data.data.honorPosts);
-    // } catch (err) {
-    //   thunkAPI.rejectWithValue(err.response.data);
-    // }
   }
 );

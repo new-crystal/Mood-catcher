@@ -1,16 +1,20 @@
-import React, { useEffect, useState, useCallback } from "react";
+import React, { useEffect, useState, useCallback, Fragment } from "react";
+import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
-import styled from "styled-components";
-import { __getMyPage, __getRepresentative } from "../../redux/async/upload";
-import GradeList from "./GradeList";
-import { Fragment } from "react";
-import { __getMyPageUser } from "../../redux/async/login";
 import jwt_decode from "jwt-decode";
-import ScrollX from "../../elem/ScrollX";
 import Swal from "sweetalert2";
 
-//이미지 불러오기
+//통신
+import { __getMyPage, __getRepresentative } from "../../redux/async/upload";
+import { __getMyPageUser } from "../../redux/async/login";
+
+//컴포넌트
+import EachMyCloset from "./EachMyCloset";
+import GradeList from "./GradeList";
+import ScrollX from "../../elem/ScrollX";
+
+//이미지
 import man1 from "../../image/1man.png";
 import man2 from "../../image/2man.png";
 import man3 from "../../image/3man.png";
@@ -31,7 +35,6 @@ import empty from "../../image/옷걸이.png";
 import hanger from "../../image/three-hangers-on-clothes-rail_1262-6966.webp";
 import MoodPoint from "./MoodPoint";
 import closet from "../../image/empty-walkin-closet-modern-wardrobe-room-interior_107791-6726.jpeg";
-import EachMyCloset from "./EachMyCloset";
 
 const MyPageForm = () => {
   const [scrollRef, isDrag, onDragStart, onDragEnd, onThrottleDragMove] =
@@ -39,6 +42,20 @@ const MyPageForm = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { userId } = useParams();
+  //유저의 닉네임, 프로필이미지, 등급, 무드 포인트 불러오기
+  const users = useSelector((state) => state.login.myPageUser); //유저 정보 가져오기
+  const profileIcon = useSelector((state) => state.login.userIcon.grade); //유저 아이콘 변경 가져오기
+  const userGrade = useSelector((state) => state.login.myPageUser.grade); //유저 등급 가져오기
+  const img = users?.imgUrl?.split(".com/")[1];
+  const grade = userGrade?.split(" ")[1];
+
+  //내 게시글 불러오기
+  const myClosetList = useSelector((state) => state.upload.myList);
+  //대표 게시물 불러오기
+  const rep = useSelector((state) => state.upload.representative);
+  //유저의 프로필 수정 여부 가져오기
+  const changeUser = useSelector((state) => state.login.changeStatus);
+
   const [click, setClick] = useState(false);
   const [gradeList, setGradeList] = useState(false);
   const [moodPoint, setMoodPoint] = useState(false);
@@ -46,23 +63,6 @@ const MyPageForm = () => {
     "https://cdn.discordapp.com/attachments/1014169130045292625/1014194232250077264/Artboard_1.png"
   );
   const [gradeImg, setGradeImg] = useState(cat1);
-
-  //유저의 닉네임, 프로필이미지, 등급, 무드 포인트 불러오기
-  const users = useSelector((state) => state.login.myPageUser);
-  const userGrade = useSelector((state) => state.login.myPageUser.grade);
-  const profileIcon = useSelector((state) => state.login.userIcon.grade);
-  const img = users?.imgUrl?.split(".com/")[1];
-  const grade = userGrade?.split(" ")[1];
-
-  //내 게시글 불러오기
-  const myClosetList = useSelector((state) => state.upload.myList);
-
-  //대표 게시물 불러오기
-  const rep = useSelector((state) => state.upload.representative);
-
-  //유저의 프로필 수정  여부 가져오기
-  const changeUser = useSelector((state) => state.login.changeStatus);
-
   //토큰에서 userId 가져오기
   const token = localStorage.getItem("token");
   const payload = jwt_decode(token);
@@ -105,7 +105,7 @@ const MyPageForm = () => {
         setGradeImg(catIcon[parseInt(grade)]);
       }
     },
-    [users, profileIcon, gradeList]
+    [profileIcon, users, gradeList]
   );
 
   const text = `${users?.nickname}님의 \n옷장`;
@@ -113,39 +113,17 @@ const MyPageForm = () => {
   return (
     <Fragment>
       <Wrap>
-        {img === "null" ? (
-          <Img style={{ backgroundImage: `url(${profileImg})` }}>
-            <img
-              src={`${profileImg}`}
-              alt=""
-              width="0"
-              height="0"
-              style={{ display: "none !important" }}
-            />
-          </Img>
-        ) : (
-          <Img style={{ backgroundImage: `url(${users?.imgUrl})` }}>
-            <img
-              src={`${users?.imgUrl}`}
-              alt=""
-              width="0"
-              height="0"
-              style={{ display: "none !important" }}
-            />
-          </Img>
-        )}
-        <ProfileBox>
-          <GradeIcon style={{ backgroundImage: `url(${gradeImg})` }}>
-            <img
-              src={`${gradeImg}`}
-              alt=""
-              width="0"
-              height="0"
-              style={{ display: "none !important" }}
-            />
-          </GradeIcon>
-          <h4>{users?.nickname}</h4>
-        </ProfileBox>
+        <ImgBox>
+          {img === "null" ? (
+            <Img src={`${profileIcon}`} alt="profile_icon" />
+          ) : (
+            <Img src={`${users?.imgUrl}`} alt="profile_icon" />
+          )}
+          <ProfileBox>
+            <GradeIcon src={`${gradeImg}`} alt="grade_img" />
+            <h4>{users?.nickname}</h4>
+          </ProfileBox>
+        </ImgBox>
         <MyPageBox>
           <MoodBox>
             <MoodHeader>
@@ -160,20 +138,13 @@ const MyPageForm = () => {
               </h1>
               {payload.userId == userId ? (
                 <MoodQuestion
+                  src={`${question}`}
+                  alt="question"
                   style={{
                     cursor: "pointer",
-                    backgroundImage: `url(${question})`,
                   }}
                   onClick={() => setMoodPoint(true)}
-                >
-                  <img
-                    src={`${question}`}
-                    alt=""
-                    width="0"
-                    height="0"
-                    style={{ display: "none !important" }}
-                  />
-                </MoodQuestion>
+                />
               ) : null}
             </MoodBody>
             {moodPoint ? <MoodPoint setMoodPoint={setMoodPoint} /> : null}
@@ -181,15 +152,7 @@ const MyPageForm = () => {
               <p className="name">Catch Grade</p>
             </MoodHeader>
             <MoodBody>
-              <GradeImg style={{ backgroundImage: `url(${gradeImg})` }}>
-                <img
-                  src={`${gradeImg}`}
-                  alt=""
-                  width="0"
-                  height="0"
-                  style={{ display: "none !important" }}
-                />
-              </GradeImg>
+              <GradeImg src={`${gradeImg}`} alt="grade_img" />
               <GradeText>
                 <GradeQuestion>
                   {grade === "1" && <h6>티셔츠</h6>}
@@ -199,20 +162,13 @@ const MyPageForm = () => {
                   {grade === "5" && <h6>자켓</h6>}
                   {payload.userId == userId ? (
                     <Question
+                      src={`${question}`}
+                      alt="question"
                       style={{
                         cursor: "pointer",
-                        backgroundImage: `url(${question})`,
                       }}
                       onClick={() => setGradeList(true)}
-                    >
-                      <img
-                        src={`${question}`}
-                        alt=""
-                        width="0"
-                        height="0"
-                        style={{ display: "none !important" }}
-                      />
-                    </Question>
+                    />
                   ) : null}
                   {gradeList ? <GradeList setGradeList={setGradeList} /> : null}
                 </GradeQuestion>
@@ -229,7 +185,9 @@ const MyPageForm = () => {
           </MoodBox>
           {rep?.imgUrl === undefined ? (
             <PostImg
-              style={{ cursor: "pointer", backgroundImage: `url(${hanger})` }}
+              src={`${hanger}`}
+              alt="post_img"
+              style={{ cursor: "pointer" }}
               onClick={() => {
                 Swal.fire(
                   "대표게시물을 찾을 수 없습니다",
@@ -237,33 +195,18 @@ const MyPageForm = () => {
                   "question"
                 );
               }}
-            >
-              <img
-                src={`${hanger}`}
-                alt=""
-                width="0"
-                height="0"
-                style={{ display: "none !important" }}
-              />
-            </PostImg>
+            />
           ) : (
             <PostImg
+              src={`${rep?.imgUrl}`}
+              alt="rep_img"
               style={{
                 cursor: "pointer",
-                backgroundImage: `url(${rep?.imgUrl})`,
               }}
               onClick={() =>
                 navigate(`/item_detail/${users.repPostId}/${users.userId}`)
               }
-            >
-              <img
-                src={`${rep?.imgUrl}`}
-                alt=""
-                width="0"
-                height="0"
-                style={{ display: "none !important" }}
-              />
-            </PostImg>
+            />
           )}
         </MyPageBox>
         <MoodHeader>
@@ -279,40 +222,34 @@ const MyPageForm = () => {
           >
             {myClosetList?.length === 0 ? (
               <>
-                <EmptyCloset
-                  style={{
-                    cursor: "pointer",
-                    backgroundImage: `url(${empty})`,
-                  }}
-                  onClick={() => navigate("/upload")}
-                >
-                  <img
+                <EmptyClosetBox>
+                  <EmptyCloset
                     src={`${empty}`}
-                    alt=""
-                    width="0"
-                    height="0"
-                    style={{ display: "none !important" }}
+                    alt="empty_closet"
+                    style={{
+                      cursor: "pointer",
+                    }}
+                    onClick={() => navigate("/upload")}
                   />
-                  <p>{users.nickname}님의</p>
-                  <p>옷장이 비어있습니다</p>
-                </EmptyCloset>
-                <EmptyCloset
-                  style={{
-                    cursor: "pointer",
-                    backgroundImage: `url(${empty})`,
-                  }}
-                  onClick={() => navigate("/upload")}
-                >
-                  <img
+                  <EmptyClosetTextBox>
+                    <p>{users.nickname}님의</p>
+                    <p>옷장이 비어있습니다</p>
+                  </EmptyClosetTextBox>
+                </EmptyClosetBox>
+                <EmptyClosetBox>
+                  <EmptyCloset
                     src={`${empty}`}
-                    alt=""
-                    width="0"
-                    height="0"
-                    style={{ display: "none !important" }}
+                    alt="empty_closet"
+                    style={{
+                      cursor: "pointer",
+                    }}
+                    onClick={() => navigate("/upload")}
                   />
-                  <p>옷장도 꾸미고</p>
-                  <p>무드도 캐치하세요</p>
-                </EmptyCloset>
+                  <EmptyClosetTextBox>
+                    <p>옷장도 꾸미고</p>
+                    <p>무드도 캐치하세요</p>
+                  </EmptyClosetTextBox>
+                </EmptyClosetBox>
               </>
             ) : (
               <>
@@ -321,21 +258,16 @@ const MyPageForm = () => {
                     {myClosetList.map((item) => (
                       <EachMyCloset item={item} click={click} />
                     ))}
-                    <GoCloset
-                      style={{ backgroundImage: `url(${closet})` }}
-                      onClick={() => navigate(`/closet/${userId}`)}
-                    >
-                      <img
+                    <OpenClosetBox>
+                      <GoCloset
                         src={`${closet}`}
-                        alt=""
-                        width="0"
-                        height="0"
-                        style={{ display: "none !important" }}
+                        alt="go_closet"
+                        onClick={() => navigate(`/closet/${userId}`)}
                       />
                       <OpenCloset>
                         <OpenText>{text}</OpenText>
                       </OpenCloset>
-                    </GoCloset>
+                    </OpenClosetBox>
                   </>
                 )}
                 {myClosetList?.length === 2 && (
@@ -347,21 +279,16 @@ const MyPageForm = () => {
                         click={click}
                       />
                     ))}
-                    <GoCloset
-                      style={{ backgroundImage: `url(${closet})` }}
-                      onClick={() => navigate(`/closet/${userId}`)}
-                    >
-                      <img
+                    <OpenClosetBox>
+                      <GoCloset
                         src={`${closet}`}
-                        alt=""
-                        width="0"
-                        height="0"
-                        style={{ display: "none !important" }}
+                        alt="go_closet"
+                        onClick={() => navigate(`/closet/${userId}`)}
                       />
                       <OpenCloset>
                         <OpenText>{text}</OpenText>
                       </OpenCloset>
-                    </GoCloset>
+                    </OpenClosetBox>
                   </>
                 )}
                 {myClosetList?.length === 3 && (
@@ -373,21 +300,16 @@ const MyPageForm = () => {
                         click={click}
                       />
                     ))}
-                    <GoCloset
-                      style={{ backgroundImage: `url(${closet})` }}
-                      onClick={() => navigate(`/closet/${userId}`)}
-                    >
-                      <img
+                    <OpenClosetBox>
+                      <GoCloset
                         src={`${closet}`}
-                        alt=""
-                        width="0"
-                        height="0"
-                        style={{ display: "none !important" }}
+                        alt="go_closet"
+                        onClick={() => navigate(`/closet/${userId}`)}
                       />
                       <OpenCloset>
                         <OpenText>{text}</OpenText>
                       </OpenCloset>
-                    </GoCloset>
+                    </OpenClosetBox>
                   </>
                 )}
                 {myClosetList?.length === 4 && (
@@ -399,21 +321,16 @@ const MyPageForm = () => {
                         click={click}
                       />
                     ))}
-                    <GoCloset
-                      style={{ backgroundImage: `url(${closet})` }}
-                      onClick={() => navigate(`/closet/${userId}`)}
-                    >
-                      <img
+                    <OpenClosetBox>
+                      <GoCloset
                         src={`${closet}`}
-                        alt=""
-                        width="0"
-                        height="0"
-                        style={{ display: "none !important" }}
+                        alt="go_closet"
+                        onClick={() => navigate(`/closet/${userId}`)}
                       />
                       <OpenCloset>
                         <OpenText>{text}</OpenText>
                       </OpenCloset>
-                    </GoCloset>
+                    </OpenClosetBox>
                   </>
                 )}
                 {myClosetList?.length >= 5 && (
@@ -425,21 +342,16 @@ const MyPageForm = () => {
                         click={click}
                       />
                     ))}
-                    <GoCloset
-                      style={{ backgroundImage: `url(${closet})` }}
-                      onClick={() => navigate(`/closet/${userId}`)}
-                    >
-                      <img
-                        src={`${hanger}`}
-                        alt=""
-                        width="0"
-                        height="0"
-                        style={{ display: "none !important" }}
+                    <OpenClosetBox>
+                      <GoCloset
+                        src={`${closet}`}
+                        alt="go_closet"
+                        onClick={() => navigate(`/closet/${userId}`)}
                       />
                       <OpenCloset>
                         <OpenText>{text}</OpenText>
                       </OpenCloset>
-                    </GoCloset>
+                    </OpenClosetBox>
                   </>
                 )}
               </>
@@ -456,27 +368,26 @@ const Wrap = styled.div`
   max-width: 428px;
   width: 100%;
 `;
-
-const Img = styled.div`
-  width: 107px;
-  height: 107px;
-  border-radius: 50%;
-  margin: 10px auto;
-  background-position: center;
-  background-size: cover;
-  /* background-image: url(${(props) => props.url}); */
-`;
-
-const ProfileBox = styled.div`
-  margin: 0 auto 10px;
+const ImgBox = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-direction: column;
+`;
+const Img = styled.img`
+  margin: 10px auto 10px auto;
+  border-radius: 50%;
+  width: 107px;
+  height: 107px;
+`;
+
+const ProfileBox = styled.div`
+  display: flex;
+  margin: 0 auto 10px auto;
+  align-items: center;
+  justify-content: center;
   flex-direction: row;
-  margin-top: 0px;
   h4 {
-    font-family: "Noto Sans KR", sans-serif;
-    font-style: normal;
     font-weight: 800;
     font-size: 16px;
     text-align: center;
@@ -484,12 +395,9 @@ const ProfileBox = styled.div`
   }
 `;
 
-const GradeIcon = styled.div`
+const GradeIcon = styled.img`
   width: 40px;
   height: 40px;
-  background-position: center;
-  background-size: cover;
-  /* background-image: url(${(props) => props.url}); */
 `;
 
 const MyPageBox = styled.div`
@@ -499,47 +407,47 @@ const MyPageBox = styled.div`
   flex-direction: row;
 `;
 const MoodBox = styled.div`
-  margin: 10px;
   display: flex;
+  margin: 10px;
   align-items: center;
   justify-content: center;
   flex-direction: column;
 `;
 
 const MoodHeader = styled.div`
+  margin: 10px auto 5px;
+  border-radius: 17px;
   width: 150px;
   height: 30px;
   background: linear-gradient(78.32deg, #7b758b 41.41%, #ffffff 169.58%);
-  text-align: center;
-  margin: 10px auto 5px;
   box-shadow: 5px 5px 4px rgba(0, 0, 0, 0.25);
-  border-radius: 17px;
+  text-align: center;
   & .name {
+    margin-top: 5px;
     font-family: "Unna";
     font-style: normal;
-    font-weight: lighter;
+    font-weight: 100;
     font-size: 18px;
     color: white;
-    margin-top: 5px;
   }
 `;
 const MyClosetText = styled.p`
-  font-family: "Unna";
-  font-style: normal;
-  font-weight: lighter;
-  font-size: 18px;
-  color: white;
   position: relative;
   top: 4px;
+  font-family: "Unna";
+  font-style: normal;
+  font-weight: 100;
+  font-size: 18px;
+  color: white;
 `;
 
 const MoodBody = styled.div`
+  display: flex;
+  border: 3px solid #e6e5ea;
+  border-radius: 10px;
   width: 150px;
   height: 80px;
   background-color: white;
-  border: 3px solid #e6e5ea;
-  border-radius: 10px;
-  display: flex;
   align-items: center;
   justify-content: center;
   flex-direction: row;
@@ -553,16 +461,13 @@ const MoodBody = styled.div`
   }
 `;
 
-const GradeImg = styled.div`
+const GradeImg = styled.img`
   width: 60px;
   height: 60px;
-  background-position: center;
-  background-size: cover;
-  /* background-image: url(${(props) => props.url}); */
 `;
 const GradeText = styled.div`
-  margin-top: 25px;
   display: flex;
+  margin-top: 25px;
   align-items: center;
   justify-content: center;
   flex-direction: column;
@@ -573,91 +478,79 @@ const GradeQuestion = styled.div`
   justify-content: baseline;
   flex-direction: row;
   h6 {
-    font-family: "Noto Sans KR", sans-serif;
-    font-style: normal;
     font-weight: 700;
   }
 `;
 
-const Question = styled.div`
-  width: 15px;
-  height: 15px;
+const Question = styled.img`
   margin-left: 7px;
   margin-top: 3px;
   margin-bottom: -5px;
-  background-position: center;
-  background-size: cover;
-  /* background-image: url(${question}); */
-  z-index: 10;
-`;
-const MoodQuestion = styled.div`
   width: 15px;
   height: 15px;
+  z-index: 10;
+`;
+const MoodQuestion = styled.img`
   position: relative;
   top: 7px;
   left: 5px;
+  width: 15px;
+  height: 15px;
   opacity: 70%;
-  background-position: center;
-  background-size: cover;
-  /* background-image: url(${question}); */
 `;
 
 const Progress = styled.div`
+  position: relative;
+  top: -23px;
+  display: flex;
+  margin-top: 30px;
+  border-radius: 10px;
   width: 73px;
   height: 15px;
-  border-radius: 10px;
   background-color: #7b758b;
-  margin-top: 30px;
-  display: flex;
   align-items: left;
   justify-content: baseline;
   flex-direction: column;
-  position: relative;
-  top: -23px;
 `;
 const HighLight = styled.div`
+  position: relative;
+  top: 0.5px;
   display: flex;
+  margin: 1px;
+  border-radius: 10px;
+  width: ${(props) => props.width};
+  height: 12px;
   align-items: center;
   justify-content: center;
   flex-direction: column;
   background-color: #fff;
-  border-radius: 10px;
-  height: 12px;
-  width: ${(props) => props.width};
-  margin: 1px;
-  position: relative;
-  top: 0.5px;
   h6 {
     font-size: 8px;
     font-style: normal;
     font-weight: 700;
   }
 `;
-const PostImg = styled.div`
+const PostImg = styled.img`
+  margin-left: 20px;
   width: 180px;
   height: 260px;
   border-radius: 12px;
-  margin-left: 20px;
-  background-position: center;
-  background-size: 180px 260px;
-  background-repeat: no-repeat;
-  /* background-image: url(${(props) => props.url}); */
 `;
 const ClosetList = styled.div`
-  height: 230px;
-  background-color: #fff;
-  border-radius: 10px;
-  margin: 0px auto 0;
-  align-items: center;
   display: flex;
+  margin: 0px auto 0;
+  height: 230px;
+  border-radius: 10px;
+  background-color: #fff;
+  align-items: center;
   overflow-x: scroll;
   overflow-y: hidden;
   ::-webkit-scrollbar {
     display: none;
   }
   p {
-    margin-top: 40px;
     display: block;
+    margin-top: 40px;
     font-family: "Unna";
     font-style: normal;
     font-weight: 700;
@@ -667,17 +560,14 @@ const ClosetList = styled.div`
   }
 `;
 
-const GoCloset = styled.div`
-  cursor: pointer;
-  flex-shrink: 0;
+const GoCloset = styled.img`
+  margin: 5px;
+  border-radius: 10px;
   width: 160px;
   height: 200px;
-  margin: 5px;
+  flex-shrink: 0;
   text-align: left;
-  border-radius: 10px;
-  background-position: center;
-  background-size: cover;
-  /* background-image: url(${(props) => props.url}); */
+  cursor: pointer;
   h4 {
     display: block;
     font-family: "Unna";
@@ -688,31 +578,43 @@ const GoCloset = styled.div`
     color: #8e5c92;
   }
 `;
+const OpenClosetBox = styled.div`
+  position: relative;
+  width: auto;
+`;
+
 const OpenCloset = styled.div`
-  margin-top: 50px;
+  position: absolute;
+  top: 45%;
+  left: 30%;
   cursor: pointer;
 `;
 
-const EmptyCloset = styled.div`
-  width: 160px;
-  height: 190px;
+const EmptyClosetBox = styled.div`
+  position: relative;
+  width: auto;
+`;
+const EmptyClosetTextBox = styled.div`
+  position: absolute;
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 150px;
+`;
+
+const EmptyCloset = styled.img`
   margin: 10px;
   border-radius: 10px;
-  background-position: center;
-  background-size: cover;
-  /* background-image: url(${empty}); */
+  width: 160px;
+  height: 190px;
+  vertical-align: middle;
 `;
 const OpenText = styled.h5`
-  margin-top: 80px;
   display: block;
-  font-family: "Noto Sans KR", sans-serif;
-  font-style: normal;
   font-weight: 700;
   font-size: 17px;
   text-align: center;
   color: #534b67;
-  position: relative;
-  top: 10px;
   white-space: pre-wrap;
   cursor: pointer;
 `;
