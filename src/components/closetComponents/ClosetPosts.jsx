@@ -2,7 +2,7 @@ import React, { Fragment, useState, useCallback, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
-import InfinityScrollLoader from "./InfinityScrollLoader";
+import InfinityScrollLoader from "../../elem/InfinityScrollLoader";
 import _ from "lodash";
 
 //통신

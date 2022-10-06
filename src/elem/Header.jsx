@@ -219,7 +219,9 @@ const Header = () => {
   );
 };
 
-export default Header;
+// export default Header;
+export default React.memo(Header);
+
 const Star = styled.img`
   margin-top: -32px;
   margin-right: 70px;
