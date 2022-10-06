@@ -37,8 +37,6 @@ import MoodPoint from "./MoodPoint";
 import closet from "../../image/empty-walkin-closet-modern-wardrobe-room-interior_107791-6726.jpeg";
 
 const MyPageForm = () => {
-  const [scrollRef, isDrag, onDragStart, onDragEnd, onThrottleDragMove] =
-    ScrollX();
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { userId } = useParams();
@@ -48,34 +46,20 @@ const MyPageForm = () => {
   const userGrade = useSelector((state) => state.login.myPageUser.grade); //유저 등급 가져오기
   const img = users?.imgUrl?.split(".com/")[1];
   const grade = userGrade?.split(" ")[1];
-
-  //내 게시글 불러오기
-  const myClosetList = useSelector((state) => state.upload.myList);
-  //대표 게시물 불러오기
-  const rep = useSelector((state) => state.upload.representative);
-  //유저의 프로필 수정 여부 가져오기
-  const changeUser = useSelector((state) => state.login.changeStatus);
-
-  const [click, setClick] = useState(false);
-  const [gradeList, setGradeList] = useState(false);
-  const [moodPoint, setMoodPoint] = useState(false);
-  const [profileImg, setProfileImg] = useState(
-    "https://cdn.discordapp.com/attachments/1014169130045292625/1014194232250077264/Artboard_1.png"
-  );
-  const [gradeImg, setGradeImg] = useState(cat1);
+  const myClosetList = useSelector((state) => state.upload.myList); //내 게시글 불러오기
+  const rep = useSelector((state) => state.upload.representative); //대표 게시물 불러오기
+  const changeUser = useSelector((state) => state.login.changeStatus); //유저의 프로필 수정 여부 가져오기
+  const [click, setClick] = useState(false); // 클릭과 드래그 구분
+  const [gradeList, setGradeList] = useState(false); //등급표 모달
+  const [moodPoint, setMoodPoint] = useState(false); //무드 포인트 설명 모달
+  const [gradeImg, setGradeImg] = useState(cat1); //등급 아이콘
+  const [gradeName, setGradeName] = useState("티셔츠");
+  const [hightLightText, setHightLightText] = useState("");
+  const [scrollRef, isDrag, onDragStart, onDragEnd, onThrottleDragMove] =
+    ScrollX(); //가로스크롤
   //토큰에서 userId 가져오기
   const token = localStorage.getItem("token");
   const payload = jwt_decode(token);
-
-  //드래그와 클릭 구별하기
-  useEffect(() => {
-    let drag = false;
-    document.addEventListener("mousedown", () => (drag = false));
-    document.addEventListener("mousemove", () => (drag = true));
-    document.addEventListener("mouseup", () => {
-      drag ? setClick(false) : setClick(true);
-    });
-  }, []);
 
   useEffect(() => {
     dispatch(__getMyPageUser(userId));
@@ -83,8 +67,19 @@ const MyPageForm = () => {
     dispatch(__getRepresentative(userId));
     if (userGrade !== undefined) {
       gradeIcon(userGrade);
+      gradeText(grade);
     }
   }, [profileIcon, gradeList, changeUser, grade, userGrade, userId]);
+
+  //드래그와 클릭 구별하기
+  useEffect(() => {
+    let drag = false;
+    document.addEventListener("mousedown", () => (drag = false)); //클릭
+    document.addEventListener("mousemove", () => (drag = true)); //드래그
+    document.addEventListener("mouseup", () => {
+      drag ? setClick(false) : setClick(true);
+    });
+  }, []);
 
   //성별과 등급별로 아이콘 이미지 보여주기
   const gradeIcon = useCallback(
@@ -96,17 +91,27 @@ const MyPageForm = () => {
       const catIcon = [0, cat1, cat2, cat3, cat4, cat5];
 
       if (icon === "man") {
-        setGradeImg(manIcon[parseInt(grade)]);
+        setGradeImg(manIcon[grade]);
       }
       if (icon === "woman") {
-        setGradeImg(womanIcon[parseInt(grade)]);
+        setGradeImg(womanIcon[grade]);
       }
       if (icon === "moody") {
-        setGradeImg(catIcon[parseInt(grade)]);
+        setGradeImg(catIcon[grade]);
       }
     },
     [profileIcon, users, gradeList]
   );
+
+  //등급별로 안내 문구
+  const gradeText = (grade) => {
+    const gradName = [0, "티셔츠", "와이셔츠", "넥타이", "조끼", "자켓"];
+    const hightLightText = [0, 0, "2단계", "3단계", "4단계", "5단계"];
+    setGradeName(gradName[grade]);
+    if (grade > 1) {
+      setHightLightText(hightLightText[grade]);
+    }
+  };
 
   const text = `${users?.nickname}님의 \n옷장`;
 
@@ -155,11 +160,7 @@ const MyPageForm = () => {
               <GradeImg src={`${gradeImg}`} alt="grade_img" />
               <GradeText>
                 <GradeQuestion>
-                  {grade === "1" && <h6>티셔츠</h6>}
-                  {grade === "2" && <h6>와이셔츠</h6>}
-                  {grade === "3" && <h6>넥타이</h6>}
-                  {grade === "4" && <h6>조끼</h6>}
-                  {grade === "5" && <h6>자켓</h6>}
+                  <h6>{gradeName}</h6>
                   {payload.userId == userId ? (
                     <Question
                       src={`${question}`}
@@ -174,10 +175,7 @@ const MyPageForm = () => {
                 </GradeQuestion>
                 <Progress>
                   <HighLight width={(grade / 5) * 100 - 3 + "%"}>
-                    {grade === "2" && <h6>2단계</h6>}
-                    {grade === "3" && <h6>3단계</h6>}
-                    {grade === "4" && <h6>4단계</h6>}
-                    {grade === "5" && <h6>5단계</h6>}
+                    <h6>{hightLightText}</h6>
                   </HighLight>
                 </Progress>
               </GradeText>
@@ -253,73 +251,10 @@ const MyPageForm = () => {
               </>
             ) : (
               <>
-                {myClosetList?.length === 1 && (
+                {myClosetList?.length < 5 && (
                   <>
                     {myClosetList.map((item) => (
                       <EachMyCloset item={item} click={click} />
-                    ))}
-                    <OpenClosetBox>
-                      <GoCloset
-                        src={`${closet}`}
-                        alt="go_closet"
-                        onClick={() => navigate(`/closet/${userId}`)}
-                      />
-                      <OpenCloset>
-                        <OpenText>{text}</OpenText>
-                      </OpenCloset>
-                    </OpenClosetBox>
-                  </>
-                )}
-                {myClosetList?.length === 2 && (
-                  <>
-                    {myClosetList.map((item) => (
-                      <EachMyCloset
-                        key={item.postId}
-                        item={item}
-                        click={click}
-                      />
-                    ))}
-                    <OpenClosetBox>
-                      <GoCloset
-                        src={`${closet}`}
-                        alt="go_closet"
-                        onClick={() => navigate(`/closet/${userId}`)}
-                      />
-                      <OpenCloset>
-                        <OpenText>{text}</OpenText>
-                      </OpenCloset>
-                    </OpenClosetBox>
-                  </>
-                )}
-                {myClosetList?.length === 3 && (
-                  <>
-                    {myClosetList.map((item) => (
-                      <EachMyCloset
-                        key={item.postId}
-                        item={item}
-                        click={click}
-                      />
-                    ))}
-                    <OpenClosetBox>
-                      <GoCloset
-                        src={`${closet}`}
-                        alt="go_closet"
-                        onClick={() => navigate(`/closet/${userId}`)}
-                      />
-                      <OpenCloset>
-                        <OpenText>{text}</OpenText>
-                      </OpenCloset>
-                    </OpenClosetBox>
-                  </>
-                )}
-                {myClosetList?.length === 4 && (
-                  <>
-                    {myClosetList.map((item) => (
-                      <EachMyCloset
-                        key={item.postId}
-                        item={item}
-                        click={click}
-                      />
                     ))}
                     <OpenClosetBox>
                       <GoCloset
@@ -552,7 +487,6 @@ const ClosetList = styled.div`
     display: block;
     margin-top: 40px;
     font-family: "Unna";
-    font-style: normal;
     font-weight: 700;
     font-size: 15px;
     text-align: center;
@@ -568,15 +502,6 @@ const GoCloset = styled.img`
   flex-shrink: 0;
   text-align: left;
   cursor: pointer;
-  h4 {
-    display: block;
-    font-family: "Unna";
-    font-style: normal;
-    font-weight: 700;
-    font-size: 20px;
-    text-align: center;
-    color: #8e5c92;
-  }
 `;
 const OpenClosetBox = styled.div`
   position: relative;
@@ -586,10 +511,18 @@ const OpenClosetBox = styled.div`
 const OpenCloset = styled.div`
   position: absolute;
   top: 45%;
-  left: 30%;
+  left: 15%;
   cursor: pointer;
 `;
-
+const OpenText = styled.h5`
+  display: block;
+  font-weight: 700;
+  font-size: 17px;
+  text-align: center;
+  color: #534b67;
+  white-space: pre-wrap;
+  cursor: pointer;
+`;
 const EmptyClosetBox = styled.div`
   position: relative;
   width: auto;
@@ -609,15 +542,7 @@ const EmptyCloset = styled.img`
   height: 190px;
   vertical-align: middle;
 `;
-const OpenText = styled.h5`
-  display: block;
-  font-weight: 700;
-  font-size: 17px;
-  text-align: center;
-  color: #534b67;
-  white-space: pre-wrap;
-  cursor: pointer;
-`;
+
 const Margin = styled.div`
   width: 32px;
 `;

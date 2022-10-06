@@ -23,7 +23,7 @@ const OpenForm = () => {
   useEffect(() => {
     setTimeout(() => {
       navigate("/main");
-    }, 2000);
+    }, 3000);
   }, []);
 
   return (
