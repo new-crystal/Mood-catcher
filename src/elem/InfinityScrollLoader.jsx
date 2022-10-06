@@ -19,5 +19,5 @@ const InfinityScrollLoader = (props) => {
   );
 };
 
-// export default InfinityScrollLoader;
-export default React.memo(InfinityScrollLoader);
+export default InfinityScrollLoader;
+// export default React.memo(InfinityScrollLoader);

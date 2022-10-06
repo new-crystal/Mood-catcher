@@ -73,4 +73,4 @@ const TextBox = styled.div`
   }
 `;
 
-export default React.memo(OpenForm);
+export default OpenForm;
