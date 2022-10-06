@@ -45,9 +45,6 @@ const AllPosts = () => {
     }
   }, 500);
 
-  console.log(isPosting);
-  console.log(allMainPostList);
-
   useEffect(() => {
     if ((paging === 1 && allMainPosts.length === 0) || isPosting === true) {
       dispatch(__getMainAllPosts({ paging: paging, userId: userId }));
