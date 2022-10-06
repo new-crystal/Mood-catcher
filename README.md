@@ -1,8 +1,8 @@
-# ✨무드캐쳐 (mood catcher)
+# ✨무드캐처 (mood catcher)
 
 - **무드 캐쳐를 꿈꾸는 모든 일반인들을 위한 커뮤니티 사이트.**
 - 패션 커뮤니티, 옷의 후기 및 리뷰 취합.
-- https://moodcatch.link/
+- 무드캐처 바로가기 : https://moodcatch.link/
 
 # 📆 프로젝트 기간
 
@@ -20,14 +20,15 @@
 # 2. 프로젝트 설명
 
 - 개발언어 : JavaScript, React
-- 배포환경 : S3, Route 53 ,CloudFront
+- 배포환경 : S3, Route 53, CloudFront
 - 협업 툴 : git / notion / figma
+- 상태관리 : Reduxjs/toolkit
 
 # 3. 사용한 라이브러리(패키지)
 
 ```jsx
     "axios": "^0.27.2", //서버와 통신
-    "bcryptjs": "^2.4.3", //회원가입, 로그인 비밀번호 암호화 전송
+    "bcryptjs": "^2.4.3", //회원가입, 로그인시 비밀번호 암호화 전송
     "cross-env": "^7.0.3", //환경변수 관리
     "jwt-decode": "^3.1.2", //토큰 복호화
     "lodash": "^4.17.21", //무한스크롤 
@@ -43,10 +44,11 @@
 # 4. 기술 소개
 
 - 무한스크롤 기능
-- 카카오 맵
-- 검색 기능
+- 카카오 맵 구현
+- 검색 구현
 - PWA 구현
 - kakao 로그인 구현
+- 회원가입, 로그인 시 비밀번호 암호화 구현
 - 상태관리(redux)
 - 코드분할(code-splitting)
 

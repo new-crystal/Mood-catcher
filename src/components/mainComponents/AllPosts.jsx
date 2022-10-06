@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { __getMainAllPosts } from "../../redux/async/rank";
 import EachPost from "./EachPost";
 import styled from "styled-components";
-import InfinityScrollLoader from "./InfinityScrollLoader";
+import InfinityScrollLoader from "../../elem/InfinityScrollLoader";
 import _ from "lodash";
 import jwt from "jwt-decode"; // to get userId from loggedIn user's token
 

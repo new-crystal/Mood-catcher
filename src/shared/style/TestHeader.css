@@ -1,4 +1,4 @@
-.black_header {
+/* .black_header {
   display: inline-block;
   font-size: 20px;
   line-height: 45px;
@@ -34,7 +34,7 @@
   position: fixed;
   top: 0;
   height: 85px;
-}
+} */
 
 .header {
   width: 100%;
@@ -46,7 +46,7 @@
   z-index: 900;
 }
 
-.iphoneHeader {
+/* .iphoneHeader {
   width: 100%;
   display: flex;
   justify-content: center;
@@ -55,4 +55,4 @@
   top: 0;
   height: 85px;
   z-index: 900;
-}
+} */
