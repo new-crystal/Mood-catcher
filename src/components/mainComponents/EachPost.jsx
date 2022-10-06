@@ -12,14 +12,14 @@ const EachPost = (props) => {
   const onErrorHandler = (e) => {
     const url = item.imgUrl.split("w280")[0];
     const name = item.imgUrl.split("w280")[1];
-    if (item.imgUrl.split("w280")[2] !== undefined) {
+    if (item.imgUrl.split("/w280/")[1] !== undefined) {
       e.target.src = `${url}post${name}`;
     }
-    if (item.imgUrl.split("w280")[2] === undefined) {
-      console.log("undefined");
+    if (item.imgUrl.split("/w280/")[1] === undefined) {
       e.target.src = hanger;
     }
   };
+
   return (
     <Fragment>
       <PostWrap

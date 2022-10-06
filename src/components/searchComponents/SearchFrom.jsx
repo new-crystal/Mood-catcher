@@ -18,11 +18,13 @@ import search from "../../image/search.png";
 const SearchForm = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
   const recommendedList = useSelector((state) => state.search.recommendedPosts); //추천리스트 불러오기
-  const last = useSelector((state) => state.search.postLast); //마지막 페이지
   const recommended = [...new Set(recommendedList.map(JSON.stringify))].map(
     JSON.parse
   ); //추천 리스트에서 중복제거
+
+  const last = useSelector((state) => state.search.postLast); //마지막 페이지
   const [mood, setMood] = useState(`${heart}`);
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(false);

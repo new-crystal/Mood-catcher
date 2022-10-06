@@ -174,14 +174,14 @@ export const rankApi = {
       `/posts?userId=${data.userId}&type=all&page=${data.paging}&count=8`
     ),
   //명예의 전당 게시물 조회하기
-  getBestPosts: (data) => instance.get(`/posts/honor?page=${data}&count=4`),
+  getBestPosts: (data) => instance.get(`/posts/honor?page=${data}&count=6`),
 };
 
 // 검색 관련 axios API 통신
 // searchSlice
 export const searchApi = {
   // 추천 게시물 조회하기 (검색페이지)
-  getSearch: (page) => instance.get(`/posts?type=alg&page=${page}&count=4`),
+  getSearch: (page) => instance.get(`/posts?type=alg&page=${page}&count=6`),
   // 추천 게시물 조회하기 (검색 결과창)
   getSearchResult: (data) =>
     instance.get(
@@ -244,7 +244,7 @@ export const uploadApi = {
   // 옷장 게시물 가져오기 (옷장페이지)
   getMyCloset: (data) =>
     instance.get(
-      `/posts?userId=${data.userId}&type=my&page=${data.paging}&count=4`
+      `/posts?userId=${data.userId}&type=my&page=${data.paging}&count=6`
     ),
   // 대표 게시물 조회하기
   getRepresentative: (userId) => instance.get(`/posts/rep?userId=${userId}`),

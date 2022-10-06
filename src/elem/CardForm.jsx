@@ -33,7 +33,7 @@ const CardForm = (item) => {
 
   //무드 등록
   const onClickMoodBtn = (e) => {
-    e.stopPropagation();
+    e.stopPropagation(); //클릭 이벤트 중복 방지
     setLikeStatus(true);
     setMoodNum(moodNum + 1);
     dispatch(__patchMood(item.item.postId));
