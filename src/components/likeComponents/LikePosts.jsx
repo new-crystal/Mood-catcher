@@ -2,7 +2,7 @@ import React, { Fragment, useState, useCallback, useEffect } from "react";
 import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
 import { __getLikeAllPosts } from "../../redux/async/like";
-import InfinityScrollLoader from "./InfinityScrollLoader";
+import InfinityScrollLoader from "../../elem/InfinityScrollLoader";
 import _ from "lodash";
 import jwt from "jwt-decode"; // to get userId from loggedIn user's token
 

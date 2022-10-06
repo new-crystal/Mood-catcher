@@ -1,4 +1,4 @@
-import { Fragment, useEffect } from "react";
+import React, { Fragment, useEffect } from "react";
 import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
@@ -73,4 +73,4 @@ const TextBox = styled.div`
   }
 `;
 
-export default OpenForm;
+export default React.memo(OpenForm);
