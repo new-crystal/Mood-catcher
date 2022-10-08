@@ -33,6 +33,7 @@
 <details>
 <summary>카카오 맵 구현</summary>
 <div markdown="1">       
+<img width="428" alt="스크린샷 2022-10-08 오후 1 03 05" src="https://user-images.githubusercontent.com/109053875/194687298-5e235fc6-0dda-427c-95b2-b22481865c79.png">
 
 😎😎
 
@@ -45,6 +46,7 @@
 <div markdown="1">       
 <img width="423" alt="스크린샷 2022-10-08 오후 12 49 50" src="https://user-images.githubusercontent.com/109053875/194686831-c3898fd8-1e18-4ab2-b066-138533e56c7d.png">
 <img width="511" alt="스크린샷 2022-10-08 오후 12 49 38" src="https://user-images.githubusercontent.com/109053875/194686845-43056546-0767-49a3-a491-03cf81035de5.png">
+ 
 -url로 keyword와 sort를 넘겨주어 검색하는 방식
 -검색 결과 페이지에서 재검색을 했을 경우 state를 변경시켜 재렌더링 함
 </div>
@@ -65,6 +67,7 @@
 <div markdown="1">       
 <img width="425" alt="카카오" src="https://user-images.githubusercontent.com/109053875/194687017-ec056e3a-b91e-4e9c-869c-cbcbe21de44f.png">
 <img width="1269" alt="스크린샷 2022-10-08 오후 12 56 10" src="https://user-images.githubusercontent.com/109053875/194687063-27ce6d13-3cc7-4055-9750-63f08fae3925.png">
+ 
 - 카카오 개발자 페이지에서 닉네임/성별 창으로 토큰을 url로 주어 리다리엑트 하는 방식
 
 </div>
@@ -74,6 +77,7 @@
 <div markdown="1">       
 <img width="589" alt="스크린샷 2022-10-08 오후 12 59 13" src="https://user-images.githubusercontent.com/109053875/194687181-dcffc72a-1fd9-454b-828e-3a54d2ee7981.png">
 <img width="566" alt="스크린샷 2022-10-08 오후 12 57 59" src="https://user-images.githubusercontent.com/109053875/194687185-cd7805ad-a6f0-4eb9-afc0-c14ec07c1392.png">
+ 
 - 백엔드에서 DB로 저장할 때 암호화를 하기는 하지만 회원가입과 로그인 때 네트워크 창에서 비밀번호가 공개되는 것을 방지하기 위해 암호화 해서 전송
 
 </div>
