@@ -8,7 +8,8 @@
 - 백엔드 GitHub : https://github.com/moodCatcherProject/Back-End
 - 시연 영상 보러가기 : https://youtu.be/YxuV_0BQvvY
 
-# [무드캐처 자세히 보러 가기](https://github.com/moodCatcherProject/Front-End/wiki)
+# [무드캐처 자세히 보러 가기](https://github.com/moodCatcherProject/Front-End/wiki/%F0%9F%93%8C-Project)
+# [무드캐처 트러블슈팅 보러 가기](https://github.com/moodCatcherProject/Front-End/wiki/%E2%9A%BD-Trouble-Shooting)
 
 
 # 📆 프로젝트 기간
