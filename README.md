@@ -1,3 +1,5 @@
+![192130770-c8eda380-621c-4d14-b3d0-bf489260ef65](https://user-images.githubusercontent.com/109053875/194685680-415a896c-197c-4c19-bf17-9c96970c2477.png)
+
 # ✨무드캐처 (mood catcher)
 
 - **무드 캐쳐를 꿈꾸는 모든 일반인들을 위한 커뮤니티 사이트.**
@@ -15,15 +17,77 @@
 
  
  # 기술 소개
+<img width="862" alt="스크린샷 2022-10-08 오후 12 23 35" src="https://user-images.githubusercontent.com/109053875/194685724-265a98a0-3364-4161-a80f-e0260f67a955.png">
 
-- 무한스크롤 기능
-- 카카오 맵 구현
-- 검색 기능
-- PWA 구현
-- kakao 로그인 구현
-- 회원가입, 로그인 시 비밀번호 암호화 구현
-- 상태관리(redux)
-- 코드분할(code-splitting)
+<details>
+<summary>무한스크롤 기능</summary>
+<div markdown="1">       
+ ![ezgif com-gif-maker (1)](https://user-images.githubusercontent.com/109053875/194686473-4b3779de-3c45-4d6c-8f60-5964f6079487.gif)
+
+
+</div>
+</details>
+
+<details>
+<summary>카카오 맵 구현</summary>
+<div markdown="1">       
+
+😎숨겨진 내용😎
+
+</div>
+</details>
+</details>
+
+<details>
+<summary>검색 기능</summary>
+<div markdown="1">       
+
+😎숨겨진 내용😎
+
+</div>
+</details>
+
+<details>
+<summary>PWA 구현</summary>
+<div markdown="1">      
+
+
+😎숨겨진 내용😎
+
+</div>
+</details>
+<details>
+<summary>kakao 로그인 구현</summary>
+<div markdown="1">       
+
+😎숨겨진 내용😎
+
+</div>
+</details>
+<details>
+<summary>회원가입, 로그인 시 비밀번호 암호화 구현</summary>
+<div markdown="1">       
+
+😎숨겨진 내용😎
+
+</div>
+</details>
+<details>
+<summary>상태관리(redux)</summary>
+<div markdown="1">       
+
+😎숨겨진 내용😎
+
+</div>
+</details>
+<details>
+<summary>코드분할(code-splitting)</summary>
+<div markdown="1">       
+
+😎숨겨진 내용😎
+
+</div>
+</details>
 
 # 1. 팀 소개
 
@@ -65,3 +129,6 @@
 # 5. 와이어 프레임
 
 [https://www.figma.com/file/jtjWzOYOVgJ5I4dtneHYwG/무드캐쳐?node-id=117%3A247](https://www.figma.com/file/jtjWzOYOVgJ5I4dtneHYwG/%EB%AC%B4%EB%93%9C%EC%BA%90%EC%B3%90?node-id=117%3A247)
+
+# 6. 주요 트러블 슈팅
+
