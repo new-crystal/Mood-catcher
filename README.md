@@ -128,7 +128,6 @@
     "react-redux": "^8.0.2", //데이터 전역상태관리
     "react-router-dom": "^6.3.0", // 페이지 전환
     "styled-components": "^5.3.5", //css 관리
-    "sweetalert2": "^11.4.33", // alert창 관리
 
 ```
 
