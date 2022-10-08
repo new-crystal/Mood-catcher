@@ -119,7 +119,7 @@
 <details>
 <summary>API 명세서</summary>
 <div markdown="1">       
-무드캐처의 API명세서 바로가기 : de77ba4d0fee4713b1f8db051119d555
+무드캐처의 API명세서 바로가기 : https://www.notion.so/API-de77ba4d0fee4713b1f8db051119d555
 </div>
 </details>
 
