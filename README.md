@@ -47,8 +47,8 @@
 <img width="423" alt="스크린샷 2022-10-08 오후 12 49 50" src="https://user-images.githubusercontent.com/109053875/194686831-c3898fd8-1e18-4ab2-b066-138533e56c7d.png">
 <img width="511" alt="스크린샷 2022-10-08 오후 12 49 38" src="https://user-images.githubusercontent.com/109053875/194686845-43056546-0767-49a3-a491-03cf81035de5.png">
  
--url로 keyword와 sort를 넘겨주어 검색하는 방식
--검색 결과 페이지에서 재검색을 했을 경우 state를 변경시켜 재렌더링 함
+- url로 keyword와 sort를 넘겨주어 검색하는 방식
+- 검색 결과 페이지에서 재검색을 했을 경우 state를 변경시켜 재렌더링 함
 </div>
 </details>
 
