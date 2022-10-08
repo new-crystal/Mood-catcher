@@ -8,6 +8,9 @@
 - 백엔드 GitHub : https://github.com/moodCatcherProject/Back-End
 - 시연 영상 보러가기 : https://youtu.be/YxuV_0BQvvY
 
+#[무드캐처 자세히 보러 가기](https://github.com/moodCatcherProject/Front-End/wiki)
+
+
 # 📆 프로젝트 기간
 
 - 2022/08/26 ~ 2022/10/07(6주)
